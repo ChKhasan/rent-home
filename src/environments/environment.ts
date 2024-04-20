@@ -1,5 +1,6 @@
 export const environment = {
   production: false,
+  CI: false,
   accessToken: 'access_token',
   refreshToken: 'refresh_token',
   storeLikes: 'likes',
