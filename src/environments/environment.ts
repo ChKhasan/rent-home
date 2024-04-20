@@ -4,7 +4,7 @@ export const environment = {
   accessToken: 'access_token',
   refreshToken: 'refresh_token',
   storeLikes: 'likes',
-  baseUrl: 'http://38.180.132.38',
+  baseUrl: 'https://api.rent-home.uz',
   urls: {
     GET_ANNONCEMENTS: '/api/announcement/',
     POST_REGISTER: '/register/',
