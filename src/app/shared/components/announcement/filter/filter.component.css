@@ -1,0 +1,19 @@
+.tab .active {
+  color: var(--green);
+}
+
+.count-block {
+  transition: all 0.4s linear;
+  /* margin-bottom: 0; */
+}
+.showBlock {
+  max-height: 100px;
+  /* margin-top: 12px; */
+}
+:host ::ng-deep .slider-input input {
+  border: 2px solid var(--input-stroke);
+  height: 45px;
+  border-radius: 8px;
+  width: 100%;
+}
+

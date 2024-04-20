@@ -1,0 +1,21 @@
+<div>
+  <app-banner></app-banner>
+  <div class="2xl:container mx-auto px-4">
+    <div
+      class="grid grid-cols-3 gap-[30px]"
+      *ngIf="loading, else announcementsList"
+    >
+      <p-skeleton *ngFor="let item of skeletonList" class="w-full" styleClass="ng_skeleton"></p-skeleton>
+    </div>
+    <ng-template #announcementsList>
+      <div class="grid grid-cols-3 gap-[30px]" >
+        <ng-container *ngFor="let announcement of announcements">
+          <app-announcements-card [announcement]="announcement"></app-announcements-card>
+        </ng-container>
+      </div>
+    </ng-template>
+    <div class="mx-auto max-w-[1200px] flex justify-center mt-6">
+      <app-pagination [getData]="__GET_ANNOUNCEMENTS" [totalPage]="totalPage"></app-pagination>
+    </div>
+  </div>
+</div>

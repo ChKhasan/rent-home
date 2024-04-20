@@ -1,0 +1,25 @@
+<div
+  class="comment-card px-6 py-6 rounded-xl border border-solid border-[--input-stroke] flex flex-col gap-[18px]"
+>
+  <div class="head flex justify-start gap-3">
+    <div class="image h-[60px] w-[60px] overflow-hidden rounded-full">
+      <img
+        class="w-full h-full object-cover"
+        src="./assets/images/Rectangle1.png"
+        alt=""
+      />
+    </div>
+    <div class="info flex flex-col gap-1 justify-center">
+      <h4 class="text-[--dark-5] font-600 text-[18px]">{{comment?.user?.name}} {{comment?.user?.last_name}}</h4>
+      <p class="font-400 text-[--gray-5] text-[14px]">
+        Sana:
+        <span class="font-500 text-[--green]">{{comment?.created | date:dateFormat}}</span>
+      </p>
+    </div>
+  </div>
+  <div class="body">
+    <p class="text-[--dark-3] text-base font-400">
+      {{comment?.comment}}
+    </p>
+  </div>
+</div>

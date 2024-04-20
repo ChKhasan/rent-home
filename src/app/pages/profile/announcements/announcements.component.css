@@ -1,0 +1,5 @@
+:host ::ng-deep .ng_skeleton {
+  width: 100% ;
+  border-radius: 18px;
+  height: 311px !important;
+}

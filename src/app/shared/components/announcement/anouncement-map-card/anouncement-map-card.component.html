@@ -1,0 +1,13 @@
+<div
+  class="rounded-[12px] w-full flex flex-col gap-[24px] bg-white px-[30px] py-[30px] border-[1px] border-[color:var(--input-stroke)] border-solid"
+>
+  <h1 class="font-600 text-[24px]">{{ announcement.title }}</h1>
+  <div class="flex justify-between w-full flex-col gap-4">
+    <h4 class="text-[18px] font-600">Qulayliklar</h4>
+    <div class="flex gap-4">
+      <p-tag [icon]="announcement.conditioner ? 'pi pi-check':'pi pi-times'" [severity]="announcement.conditioner ? 'success':'danger'" value="Konditsioner"></p-tag>
+      <p-tag icon="pi pi-check" severity="success" value="Kir yuvish mashinasi"></p-tag>
+      <p-tag [icon]="announcement.washing_machine ? 'pi pi-check':'pi pi-times'" [severity]="announcement.washing_machine ? 'success':'danger'" value="Konditsioner"></p-tag>
+    </div>
+  </div>
+</div>

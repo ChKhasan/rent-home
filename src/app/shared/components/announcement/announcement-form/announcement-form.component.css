@@ -1,0 +1,31 @@
+.form-input input {
+
+
+  height: 48px;
+}
+.form-input input,
+.form-input textarea,
+:host ::ng-deep input {
+  color: var(--dark-5);
+  font-family: var(--regular);
+  font-size: 16px;
+  font-weight: 400;
+  width: 100%;
+  border-radius: 8px;
+  border: 2px solid var(--input-stroke);
+  background: var(--input-color);
+  padding: 13px 18px;
+}
+textarea:focus {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: 0 0 0 0.2rem #b7e0b8;
+  border-color: #4CAF50;
+}
+:host ::ng-deep .p-inputnumber {
+  width: 100%;
+}
+:host ::ng-deep .file-upload {
+  width: 104px;
+  height: 104px;
+}

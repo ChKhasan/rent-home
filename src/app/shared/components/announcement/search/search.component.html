@@ -1,0 +1,47 @@
+<div
+  class="shadow rounded-[12px] bg-white px-[30px] py-[30px] border-[1px] border-[color:var(--input-stroke)] border-solid"
+>
+  <div>
+    <h5 class="font-600 text-[24px] flex gap-[5px]">
+      Qayerga
+      <span class="flex items-center text-[color:var(--green)]">ketmoqdasiz?</span>
+    </h5>
+  </div>
+  <div
+    class="shadow rounded-[8px] border-[1px] border-[color:var(--input-stroke)] border-solid mt-[18px]"
+  >
+    <div class="px-[18px] py-[18px]">
+      <p
+        class="font-400 flex items-center gap-[8px] text-[color:var(--gray-5)] text-[14px] mb-[12px]"
+      >
+        <i class="pi pi-car" style="font-size: 1rem"></i>Transport bo'yicha qidirish
+      </p>
+<!--        <p-autoComplete-->
+<!--          (onUnselect)="onChange($event)"-->
+<!--          class="search-select"-->
+<!--          [(ngModel)]="filteredTransports"-->
+<!--          [suggestions]="filteredList"-->
+<!--          [multiple]="true"-->
+<!--          styleClass="w-full"-->
+<!--          placeholder="Выберите транспорт"-->
+<!--          (completeMethod)="filterCountry($event)"-->
+<!--          field="name"-->
+<!--        ></p-autoComplete>-->
+      <p-multiSelect styleClass="w-full" (onClear)="onClear()" [showClear]="true" (onRemove)="onChange($event)" class="w-full"   placeholder="Выберите транспорт" inputId="float-label" [options]="transports" [(ngModel)]="selectedCities" optionLabel="name"></p-multiSelect>
+    </div>
+  </div>
+<!--  <span-->
+<!--    class="text-[color:var(&#45;&#45;dark-3)] text-[17px] mt-[24px] flex gap-[12px] items-center"-->
+<!--  >-->
+<!--     <p-checkbox  [binary]="true" inputId="binary"></p-checkbox>-->
+<!--      Men O’zbekiston fuqarosiman-->
+<!--    </span>-->
+  <p-button
+    [loading]="loading"
+    (click)="filterSend()"
+    styleClass="mt-[18px] w-full py-[14px] bg-[color:var(--green)] rounded-[8px] text-white font-600 flex justify-center"
+    class="px-0 py-0 rounded-[8px] bg-[transparent] border-0"
+  >
+    Qayta qidirish
+  </p-button>
+</div>

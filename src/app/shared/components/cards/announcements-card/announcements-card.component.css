@@ -1,0 +1,50 @@
+.card {
+  border-radius: 18px;
+  box-shadow: 0px 9px 18px 0px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+}
+
+.image {
+  margin-bottom: 24px;
+}
+
+.body h3 {
+  font-family: var(--semiBold);
+  font-size: 25px;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  transition: .3s
+
+}
+
+.body .location p {
+  -webkit-line-clamp: 1;
+  font-size: 16px;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  margin-top: 8px;
+  overflow: hidden;
+}
+
+.like {
+  position: absolute;
+  color: #000000cc;
+  background: #00a00080;
+}
+
+.title:hover h3 {
+  color: var(--green);
+
+}
+
+.card img {
+  transition: .3s linear;
+}
+
+.card:hover img {
+  transform: scale(1.1);
+}

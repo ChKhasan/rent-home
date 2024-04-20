@@ -1,0 +1,67 @@
+.map {
+  width: 100%;
+  height: 100vh;
+}
+.search ul li {
+  transition: 0.3s linear;
+}
+.search ul li:hover {
+  background-color: rgba(60, 64, 67, 0.04);
+}
+.search-results ul::-webkit-scrollbar {
+  display: none;
+}
+/*.search-results :deep(.el-skeleton) {*/
+/*  max-width: 100%;*/
+/*}*/
+.recButton {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  font-size: 0;
+  background-color: red;
+  border: 0;
+  border-radius: 35px;
+  position: relative;
+  outline: none;
+  cursor: pointer;
+}
+
+.notRec {
+  background-color: darkred;
+}
+
+.Rec {
+  animation-name: pulse;
+  animation-duration: 1.5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0px 0px 5px 0px rgba(173, 0, 0, 0.3);
+  }
+  65% {
+    box-shadow: 0px 0px 5px 13px rgba(173, 0, 0, 0.3);
+  }
+  90% {
+    box-shadow: 0px 0px 5px 13px rgba(173, 0, 0, 0);
+  }
+}
+.map {
+  height: 100vh;
+}
+.search {
+  box-shadow: 0 0 2px rgb(0 0 0/20%), 0 -1px 0 rgb(0 0 0/2%);
+}
+.buses {
+  transition: 0.2s;
+  box-shadow: 0 0 2px rgb(0 0 0/20%), 0 -1px 0 rgb(0 0 0/2%);
+}
+.buses:hover {
+  background-color: rgb(0 0 0/5%);
+}
+.bus-list .active {
+  background-color: rgb(0 0 0/5%);
+}

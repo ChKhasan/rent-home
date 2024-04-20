@@ -1,0 +1,13 @@
+.applications-container {
+  grid-template-columns: 393px 1fr;
+  grid-gap: 30px;
+}
+.tab .active {
+  color: #fff;
+  background-color: var(--green);
+}
+:host ::ng-deep .ng_skeleton {
+  width: 100%;
+  border-radius: 18px;
+  height: 311px !important;
+}

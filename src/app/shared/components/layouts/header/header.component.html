@@ -1,0 +1,263 @@
+<div class="header bg-[color:#fff]">
+  <app-register-dialog></app-register-dialog>
+  <app-auth-dialog></app-auth-dialog>
+  <p-toast></p-toast>
+  <div class="py-[20px] 2xl:container mx-auto flex justify-between px-4">
+    <div class="flex gap-[40px] items-center">
+      <a [routerLink]="'/'" class="logo text-[color:var(--green)]">logo</a>
+      <a href="tel:+998777077009" class="flex gap-[13px] items-center">
+        <span
+          class="flex items-center justify-center w-[43px] h-[43px] bg-[color:var(--gray-1)] rounded-full border-[color:var(--gray-2)] border-[1px] border-solid"
+        >
+          <svg
+            class=""
+            xmlns="http://www.w3.org/2000/svg"
+            width="25"
+            height="24"
+            viewBox="0 0 25 24"
+            fill="none"
+          >
+            <path
+              d="M5.50029 9.86053C7.41669 14.0344 10.8267 17.3529 15.0662 19.1519L15.7458 19.4547C17.3007 20.1475 19.1284 19.6212 20.0767 18.2077L20.9648 16.884C21.2536 16.4536 21.1657 15.8739 20.7623 15.5485L17.7504 13.1187C17.3081 12.7618 16.6576 12.845 16.3191 13.3016L15.3874 14.5589C12.9966 13.3795 11.0555 11.4385 9.87619 9.04768L11.1334 8.11596C11.5901 7.77754 11.6732 7.12702 11.3163 6.68464L8.88647 3.6727C8.56112 3.26942 7.98162 3.18145 7.55125 3.47002L6.21841 4.36372C4.79607 5.31742 4.27269 7.16027 4.98142 8.71922L5.49951 9.85884L5.50029 9.86053Z"
+              fill="#00A000"
+            /></svg
+        ></span>
+        <div class="flex gap-[5px] flex-col messanger">
+          <p class="font-400 text-[color:var(--gray-5)]">Murojaat uchun</p>
+          <h6 class="font-500 text-[black]">+998 77 707 70 09</h6>
+        </div>
+      </a>
+      <a
+        href="https://t.me/asherzod1"
+        target="_blank"
+        class="flex gap-[13px] items-center"
+      >
+        <span
+          class="flex items-center justify-center w-[43px] h-[43px] bg-[color:var(--gray-1)] rounded-full border-[color:var(--gray-2)] border-[1px] border-solid"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="22"
+            height="22"
+            viewBox="0 0 22 22"
+            fill="none"
+          >
+            <g clip-path="url(#clip0_716_38094)">
+              <path
+                d="M21.9936 0H0.00644531C0.00288567 0 0 0.00288567 0 0.00644531V21.9936C0 21.9971 0.00288567 22 0.00644531 22H21.9936C21.9971 22 22 21.9971 22 21.9936V0.00644531C22 0.00288567 21.9971 0 21.9936 0Z"
+                fill="#37AEE2"
+              />
+              <path
+                d="M8.55078 17.3594C8.07812 17.3594 8.12109 17.1875 7.99219 16.7578L6.61719 12.2461L17.1445 6.05859"
+                fill="#C8DAEA"
+              />
+              <path
+                d="M8.55078 17.3594C8.85156 17.3594 9.02344 17.1875 9.23828 17.0156L11.1719 15.168L8.76562 13.707"
+                fill="#A9C9DD"
+              />
+              <path
+                d="M8.76562 13.707L14.5664 17.9609C15.168 18.3477 15.6836 18.1328 15.8555 17.3594L18.2188 6.27344C18.4336 5.32812 17.832 4.89844 17.1875 5.19922L3.39453 10.5273C2.49219 10.8711 2.49219 11.4297 3.22266 11.6445L6.78906 12.7617L14.9531 7.5625C15.3398 7.34766 15.6836 7.43359 15.4258 7.73438"
+                fill="#F6FBFE"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0_716_38094">
+                <rect width="22" height="22" rx="11" fill="white" />
+              </clipPath>
+            </defs></svg
+        ></span>
+        <div class="flex gap-[5px] flex-col messanger">
+          <p class="font-400 text-[color:var(--gray-5)]">Murojaat uchun</p>
+          <h6 class="font-500 text-[black]">&#64;asherzod1</h6>
+        </div>
+      </a>
+    </div>
+    <div class="flex gap-[30px] items-center">
+      <a routerLink="/profile/create" class="font-600 text-[color:var(--green)] cursor-pointer">
+        E'lon qo’shish
+      </a>
+
+      <div class="relative flex justify-center dropdown">
+        <button
+          (click)="profileDrop = !profileDrop"
+          class="flex border-[1px] border-[color:var(--gray-2)] rounded-[8px] border-solid px-[16px] py-[8px] gap-[12px] items-center bg-transparent"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M19.75 12C19.75 11.5858 19.4142 11.25 19 11.25H5C4.58579 11.25 4.25 11.5858 4.25 12C4.25 12.4142 4.58579 12.75 5 12.75H19C19.4142 12.75 19.75 12.4142 19.75 12Z"
+              fill="black"
+            />
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M19.75 7C19.75 6.58579 19.4142 6.25 19 6.25H5C4.58579 6.25 4.25 6.58579 4.25 7C4.25 7.41421 4.58579 7.75 5 7.75H19C19.4142 7.75 19.75 7.41421 19.75 7Z"
+              fill="black"
+            />
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M19.75 17C19.75 16.5858 19.4142 16.25 19 16.25H5C4.58579 16.25 4.25 16.5858 4.25 17C4.25 17.4142 4.58579 17.75 5 17.75H19C19.4142 17.75 19.75 17.4142 19.75 17Z"
+              fill="black"
+            />
+          </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="28"
+            height="28"
+            viewBox="0 0 28 28"
+            fill="none"
+          >
+            <rect width="28" height="28" rx="14" fill="#F2F2F7" />
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M10.1613 9.75463C10.1613 7.681 11.8799 6 14 6C16.1201 6 17.8387 7.681 17.8387 9.75463C17.8387 11.8282 16.1201 13.5093 14 13.5093C11.8799 13.5093 10.1613 11.8282 10.1613 9.75463ZM14 7.32516C12.6282 7.32516 11.5161 8.41287 11.5161 9.75463C11.5161 11.0964 12.6282 12.1841 14 12.1841C15.3718 12.1841 16.4839 11.0964 16.4839 9.75463C16.4839 8.41287 15.3718 7.32516 14 7.32516Z"
+              fill="black"
+            />
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M10.3871 16.1596C9.26471 16.1596 8.35484 17.0496 8.35484 18.1473V19.1971C8.35484 19.2131 8.36668 19.2267 8.38281 19.2293C12.103 19.8234 15.897 19.8234 19.6172 19.2293C19.6333 19.2267 19.6452 19.2131 19.6452 19.1971V18.1473C19.6452 17.0496 18.7353 16.1596 17.6129 16.1596H17.305C17.2812 16.1596 17.2576 16.1633 17.2349 16.1704L16.4532 16.4202C14.8591 16.9292 13.1409 16.9292 11.5468 16.4202L10.7651 16.1704C10.7424 16.1633 10.7188 16.1596 10.695 16.1596H10.3871ZM7 18.1473C7 16.3176 8.51645 14.8344 10.3871 14.8344H10.695C10.8616 14.8344 11.0272 14.8602 11.1856 14.9107L11.9674 15.1605C13.2882 15.5822 14.7118 15.5822 16.0326 15.1605L16.8144 14.9107C16.9728 14.8602 17.1383 14.8344 17.305 14.8344H17.6129C19.4836 14.8344 21 16.3176 21 18.1473V19.1971C21 19.8625 20.5069 20.4299 19.8355 20.5371C15.9707 21.1543 12.0293 21.1543 8.1645 20.5371C7.49305 20.4299 7 19.8625 7 19.1971V18.1473Z"
+              fill="black"
+            />
+          </svg>
+        </button>
+        <div
+          [@errorAnimation]
+          *ngIf="profileDrop"
+
+          class="top-[100%] z-[10] absolute rounded-[12px] bg-white profile px-[24px] py-[24px] right-0 overflow-hidden"
+        >
+          <ul class="flex flex-col gap-[18px]">
+            <li
+              *ngIf="authService.auth"
+              (click)="router.navigate(['profile'])"
+              class="flex gap-[12px] cursor-pointer items-center whitespace-nowrap font-500 text-[16px] pb-[18px] border-[0] border-b border-solid border-[color:#E5E5EA]"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M12 3.75C9.92893 3.75 8.25 5.42893 8.25 7.5C8.25 9.57107 9.92893 11.25 12 11.25C14.0711 11.25 15.75 9.57107 15.75 7.5C15.75 5.42893 14.0711 3.75 12 3.75Z"
+                  fill="#AEAEB2"
+                />
+                <path
+                  d="M8 13.25C5.92893 13.25 4.25 14.9289 4.25 17V18.1883C4.25 18.9415 4.79588 19.5837 5.53927 19.7051C9.8181 20.4037 14.1819 20.4037 18.4607 19.7051C19.2041 19.5837 19.75 18.9415 19.75 18.1883V17C19.75 14.9289 18.0711 13.25 16 13.25H15.6591C15.4746 13.25 15.2913 13.2792 15.1159 13.3364L14.2504 13.6191C12.7881 14.0965 11.2119 14.0965 9.74959 13.6191L8.88407 13.3364C8.70869 13.2792 8.52536 13.25 8.34087 13.25H8Z"
+                  fill="#AEAEB2"
+                /></svg
+              >Profile
+            </li>
+            <li
+              *ngIf="!authService.auth"
+              (click)="openAuthDialog()"
+              class="flex gap-[12px] cursor-pointer items-center whitespace-nowrap font-500 text-[16px] pb-[18px] border-[0] border-b border-solid border-[color:#E5E5EA]"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M12 3.75C9.92893 3.75 8.25 5.42893 8.25 7.5C8.25 9.57107 9.92893 11.25 12 11.25C14.0711 11.25 15.75 9.57107 15.75 7.5C15.75 5.42893 14.0711 3.75 12 3.75Z"
+                  fill="#AEAEB2"
+                />
+                <path
+                  d="M8 13.25C5.92893 13.25 4.25 14.9289 4.25 17V18.1883C4.25 18.9415 4.79588 19.5837 5.53927 19.7051C9.8181 20.4037 14.1819 20.4037 18.4607 19.7051C19.2041 19.5837 19.75 18.9415 19.75 18.1883V17C19.75 14.9289 18.0711 13.25 16 13.25H15.6591C15.4746 13.25 15.2913 13.2792 15.1159 13.3364L14.2504 13.6191C12.7881 14.0965 11.2119 14.0965 9.74959 13.6191L8.88407 13.3364C8.70869 13.2792 8.52536 13.25 8.34087 13.25H8Z"
+                  fill="#AEAEB2"
+                /></svg
+              >Tizimga kirish
+            </li>
+            <li
+              *ngIf="!authService.auth"
+              (click)="openRegisterDialog()"
+              class="flex gap-[12px] cursor-pointer items-center whitespace-nowrap font-500 text-[16px]"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M11 3.75C8.92893 3.75 7.25 5.42893 7.25 7.5C7.25 9.57107 8.92893 11.25 11 11.25C13.0711 11.25 14.75 9.57107 14.75 7.5C14.75 5.42893 13.0711 3.75 11 3.75Z"
+                  fill="#AEAEB2"
+                />
+                <path
+                  d="M7 13.25C4.92893 13.25 3.25 14.9289 3.25 17V18.1883C3.25 18.9415 3.79588 19.5837 4.53927 19.7051C8.8181 20.4037 13.1819 20.4037 17.4607 19.7051C18.2041 19.5837 18.75 18.9415 18.75 18.1883V17C18.75 14.9289 17.0711 13.25 15 13.25H14.6591C14.4746 13.25 14.2913 13.2792 14.1159 13.3364L13.2504 13.6191C11.7881 14.0965 10.2119 14.0965 8.74959 13.6191L7.88407 13.3364C7.70869 13.2792 7.52536 13.25 7.34087 13.25H7Z"
+                  fill="#AEAEB2"
+                />
+                <path
+                  d="M19.5 6.25C19.9142 6.25 20.25 6.58579 20.25 7V8.75H22C22.4142 8.75 22.75 9.08579 22.75 9.5C22.75 9.91421 22.4142 10.25 22 10.25H20.25V12C20.25 12.4142 19.9142 12.75 19.5 12.75C19.0858 12.75 18.75 12.4142 18.75 12V10.25H17C16.5858 10.25 16.25 9.91421 16.25 9.5C16.25 9.08579 16.5858 8.75 17 8.75H18.75V7C18.75 6.58579 19.0858 6.25 19.5 6.25Z"
+                  fill="#AEAEB2"
+                /></svg
+              >Ro’yhatdan o’tish
+            </li>
+            <li
+              *ngIf="authService.auth"
+              (click)="router.navigate(['profile/create'])"
+              class="flex gap-[12px] cursor-pointer items-center whitespace-nowrap font-500 text-[16px] text-[color:var(--green)] pb-[18px] border-[0] border-b border-solid border-[color:#E5E5EA]"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M12 17V7"
+                  stroke="#00A000"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M7 12H17"
+                  stroke="#00A000"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                /></svg
+              >E'lon qo’shish
+            </li>
+            <li
+              *ngIf="authService.auth"
+              class="flex gap-[12px] cursor-pointer items-center whitespace-nowrap font-500 text-[16px]"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="svg-icon"
+                style="
+                  width: 24px;
+                  height: 24px;
+                  vertical-align: middle;
+                  fill: red;
+                  overflow: hidden;
+                "
+                viewBox="0 0 1024 1024"
+                version="1.1"
+              >
+                <path
+                  d="M170.666667 512a42.666667 42.666667 0 0 0 42.666666 42.666667h323.84l-98.133333 97.706666a42.666667 42.666667 0 0 0 0 60.586667 42.666667 42.666667 0 0 0 60.586667 0l170.666666-170.666667a42.666667 42.666667 0 0 0 8.96-14.08 42.666667 42.666667 0 0 0 0-32.426666 42.666667 42.666667 0 0 0-8.96-14.08l-170.666666-170.666667a42.666667 42.666667 0 1 0-60.586667 60.586667l98.133333 97.706666H213.333333a42.666667 42.666667 0 0 0-42.666666 42.666667zM725.333333 85.333333H298.666667a128 128 0 0 0-128 128v128a42.666667 42.666667 0 0 0 85.333333 0V213.333333a42.666667 42.666667 0 0 1 42.666667-42.666666h426.666666a42.666667 42.666667 0 0 1 42.666667 42.666666v597.333334a42.666667 42.666667 0 0 1-42.666667 42.666666H298.666667a42.666667 42.666667 0 0 1-42.666667-42.666666v-128a42.666667 42.666667 0 0 0-85.333333 0v128a128 128 0 0 0 128 128h426.666666a128 128 0 0 0 128-128V213.333333a128 128 0 0 0-128-128z"
+                /></svg
+              >Chiqish
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

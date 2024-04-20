@@ -1,0 +1,11 @@
+ul {
+  list-style: none;
+}
+.list li {
+  color: var(--dark-5);
+  font-family: var(--medium);
+  font-size: 16px;
+}
+button {
+  border: none;
+}

@@ -1,0 +1,142 @@
+<div
+  class="filter rounded-[12px] flex flex-col gap-[24px] bg-white px-[30px] py-[30px] border-[1px] border-[color:var(--input-stroke)] border-solid"
+>
+  <h5 class="font-600 text-[24px]">Filter</h5>
+  <div class="tab flex justify-between">
+    <button
+      class="font-500 text-[16px] text-[color:var(--gray-5)] bg-[transparent] px-0"
+      *ngFor="let option of tabOptions"
+      [class]="{ active: tab == option.id }"
+      (click)="tab = option.id"
+    >
+      {{ option.name }}
+    </button>
+  </div>
+  <div class="flex flex-col gap-[18px] rounded-lg">
+    <div class="price-filter">
+      <div class="grid grid-cols-2 gap-3">
+        <p-inputNumber class="slider-input" [(ngModel)]="sliderValue[0]" mode="decimal" inputId="withoutgrouping" [min]="1" [max]="10" [useGrouping]="false"> </p-inputNumber>
+        <p-inputNumber class="slider-input" [(ngModel)]="sliderValue[1]" mode="decimal" inputId="withoutgrouping" [min]="1" [max]="10" [useGrouping]="false"> </p-inputNumber>
+      </div>
+      <div class="range mt-4">
+        <p-slider [(ngModel)]="sliderValue" [step]="1000" [max]="4000000" [range]="true"></p-slider>
+      </div>
+    </div>
+    <div
+      class="border-b-[15px] border-[0] border-[color:var(--gray-1)] border-solid flex flex-col"
+    >
+      <div
+        class="card border-b border-[0] border-[color:#E9EDEE] border-solid pb-[12px] flex justify-between items-center"
+      >
+        <p class="flex text-[color:var(--dark-4)] text-[16px] gap-[8px] items-center">
+          Sheriklikga
+        </p>
+        <p-checkbox [(ngModel)]="filterForm.partnership"  [binary]="true" inputId="binary"></p-checkbox>
+      </div>
+      <div
+        class="max-h-0 overflow-hidden count-block"
+        :class="{ 'showBlock ': filterForm.partnership }"
+      >
+        <div class="flex justify-between items-center mt-[12px] pb-[12px]">
+          <p class="flex text-[color:var(--dark-4)] text-[16px] gap-[8px] items-center">
+            Sheriklar soni
+          </p>
+          <p-inputNumber [(ngModel)]="filterForm.need_people_count" mode="decimal" inputId="withoutgrouping" [min]="1" [max]="10" [useGrouping]="false"> </p-inputNumber>
+<!--          <el-input-number v-model="filterForm.need_people_count" :min="1" :max="10" />-->
+        </div>
+      </div>
+      <div></div>
+    </div>
+    <div class="border-b-[15px] border-[0] border-[color:var(--gray-1)] border-solid">
+      <h6 class="font-600 text-[16px] mb-[18px]">Qo'shimchalar</h6>
+      <div class="flex flex-col gap-[12px]">
+        <div
+          class="card pb-[12px] border-b border-[0] border-[color:#E9EDEE] border-solid flex justify-between items-center"
+        >
+          <p class="flex text-[color:var(--dark-4)] text-[16px] gap-[8px] items-center">
+            <svg
+              xmlns="http://www.w3.org/40000000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              height="18px"
+              width="18px"
+              version="1.1"
+              id="Layer_1"
+              viewBox="0 0 496 496"
+              xml:space="preserve"
+            >
+                <path
+                  style="fill: #b3dce0"
+                  d="M496,309.6c0,27.2-6.4,48.8-32.8,48.8H32.8C5.6,358.4,0,336.8,0,309.6V186.4  c0-27.2,21.6-48.8,48.8-48.8h398.4c27.2,0,48.8,21.6,48.8,48.8L496,309.6L496,309.6z"
+                />
+              <g>
+                  <path
+                    style="fill: #c1e3e5"
+                    d="M0,186.4c0-27.2,21.6-48.8,48.8-48.8h398.4c27.2,0,48.8,21.6,48.8,48.8"
+                  />
+                </g>
+              <path
+                style="fill: #9ecacc"
+                d="M464.8,308.8c0,5.6-4,9.6-9.6,9.6H40.8c-5.6,0-9.6-4-9.6-9.6l0,0c0-5.6,4-9.6,9.6-9.6h414.4  C460.8,299.2,464.8,303.2,464.8,308.8L464.8,308.8z"
+              />
+              <path
+                style="fill: #7eaaaa"
+                d="M31.2,308.8L31.2,308.8c0-5.6,4-9.6,9.6-9.6h414.4c5.6,0,9.6,4,9.6,9.6l0,0"
+              />
+              <path
+                style="fill: #9ecacc"
+                d="M464.8,336c0,5.6-4,9.6-9.6,9.6H40.8c-5.6,0-9.6-4-9.6-9.6l0,0c0-5.6,4-9.6,9.6-9.6h414.4  C460.8,326.4,464.8,330.4,464.8,336L464.8,336z"
+              />
+              <path
+                style="fill: #7eaaaa"
+                d="M31.2,336L31.2,336c0-5.6,4-9.6,9.6-9.6h414.4c5.6,0,9.6,4,9.6,9.6l0,0"
+              />
+              <path
+                style="fill: #46bc5c"
+                d="M145.6,267.2c0,2.4-2.4,4.8-4.8,4.8H39.2c-2.4,0-4.8-2.4-4.8-4.8v-33.6c0-2.4,2.4-4.8,4.8-4.8h102.4  c2.4,0,4.8,2.4,4.8,4.8v33.6H145.6z"
+              />
+              <path
+                style="fill: #2fa53f"
+                d="M140.8,229.6c2.4,0,4.8,2.4,4.8,4.8V268c0,2.4-2.4,4.8-4.8,4.8H39.2c-2.4,0-4.8-2.4-4.8-4.8"
+              /></svg
+            >Konditsioner
+          </p>
+          <p-checkbox [(ngModel)]="filterForm.conditioner"  [binary]="true" inputId="binary"></p-checkbox>
+        </div>
+        <div
+          class="card pb-[12px] border-b border-[0] border-[color:#E9EDEE] border-solid flex justify-between items-center"
+        >
+          <p class="flex text-[color:var(--dark-4)] text-[16px] gap-[8px] items-center">
+            Kir yuvish mashinasi
+          </p>
+          <p-checkbox [(ngModel)]="filterForm.washing_machine"  [binary]="true" inputId="binary"></p-checkbox>
+
+        </div>
+        <div>
+          <div class="card pb-[12px] flex justify-between items-center">
+            <p
+              class="flex text-[color:var(--dark-4)] text-[16px] gap-[8px] items-center"
+            >
+              Xonalar soni
+            </p>
+            <p-inputNumber [(ngModel)]="filterForm.room_count" mode="decimal" inputId="withoutgrouping" [min]="1" [max]="10" [useGrouping]="false"> </p-inputNumber>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+    <div class="btns flex justify-between">
+      <button class="text-[color:var(--red)] font-500 text-[17px] bg-[transparent]" (click)="clearFilter()">
+        Tozalash
+      </button>
+
+      <p-button
+        pButton
+        (click)="filterSend()"
+        styleClass="py-[14px] w-100 min-w-[240px]  bg-[color:var(--green)] rounded-[8px] text-white font-600 flex justify-center px-0"
+        class="px-0 py-0 rounded-[8px] bg-[transparent] border-0"
+      >
+        Qidirish
+      </p-button>
+    </div>
+  </div>
+</div>

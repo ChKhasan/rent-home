@@ -1,0 +1,16 @@
+:host ::ng-deep .ng_pagination .p-paginator-page {
+  height: 35px;
+  width: 35px;
+  border-radius: 8px;
+  background: var(--gray-1);
+  font-family: var(--medium);
+  font-size: 16px;
+  line-height: 19.41px;
+  text-align: left;
+
+
+}
+:host ::ng-deep .ng_pagination .p-highlight {
+ background: var(--green);
+  color: #fff;
+}

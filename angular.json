@@ -13,6 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            "externalDependencies":[""],
             "outputPath": "dist/ijara_angular",
             "index": "src/index.html",
             "browser": "src/main.ts",
@@ -22,7 +23,12 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/leaflet/dist/images",
+                "output": "assets/"
+              }
             ],
             "styles": [
               "src/styles.css"
@@ -96,5 +102,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "8d77119f-a0cf-4c5c-aa6d-a350505617a5"
   }
 }

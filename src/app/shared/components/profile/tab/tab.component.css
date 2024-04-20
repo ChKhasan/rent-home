@@ -1,0 +1,4 @@
+.tab .active {
+  color: #fff;
+  background-color: var(--green);
+}

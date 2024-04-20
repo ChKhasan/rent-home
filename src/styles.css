@@ -1,1 +1,178 @@
-/* You can add global styles to this file, and also import other style files */
+@import "primeng/resources/primeng.css";
+@import 'primeng/resources/themes/saga-green/theme.css';
+@import "primeicons/primeicons.css";
+
+@tailwind components;
+@tailwind utilities;
+@font-face {
+  font-family: "gilroy-100";
+  src: url(./assets/fonts/Gilroy-Thin.ttf);
+}
+
+@font-face {
+  font-family: "gilroy-200";
+  src: url(./assets/fonts/Gilroy-UltraLight.ttf);
+}
+
+@font-face {
+  font-family: "gilroy-300";
+  src: url(./assets/fonts/Gilroy-Light.ttf);
+}
+
+@font-face {
+  font-family: "gilroy-400";
+  src: url(./assets/fonts/Gilroy-Regular.ttf);
+}
+
+@font-face {
+  font-family: "gilroy-500";
+  src: url(./assets/fonts/Gilroy-Medium.ttf);
+}
+
+@font-face {
+  font-family: "gilroy-600";
+  src: url(./assets/fonts/Gilroy-SemiBold.ttf);
+}
+
+@font-face {
+  font-family: "gilroy-700";
+  src: url(./assets/fonts/Gilroy-Bold.ttf);
+}
+
+@font-face {
+  font-family: "gilroy-800";
+  src: url(./assets/fonts/Gilroy-ExtraBold.ttf);
+}
+
+:root {
+  /* fonts */
+  --thin: "gilroy-100";
+  --ultraLight: "gilroy-200";
+  --light: "gilroy-300";
+  --regular: "gilroy-400";
+  --medium: "gilroy-500";
+  --semiBold: "gilroy-600";
+  --bold: "gilroy-700";
+  --extraBold: "gilroy-800";
+
+  /* colors */
+  --primary-color: #ff0000; /* Change to your desired color */
+  --el-color-primary: #00a000 !important;
+  --green: #00a000;
+  --gray-5: #aeaeb2;
+  --gray-1: #fafafc;
+  --grey-1: #f2f2f7;
+  --gray-2: #e5e5ea;
+  --grey-3: #d1d1d6;
+  --gray-4: #c7c7cc;
+  --gray-6: #8e8e93;
+  --dark-1: #636366;
+  --dark-3: #3a3a3c;
+  --dark-4: #2c2c2e;
+  --dark-5: #1c1c1e;
+  --input-stroke: #d1ddd1;
+  --btn-blue: #3a75ce;
+  --red: #f50000;
+  --ant-primary-color: #00ff00; /* Change this to your desired primary color */
+  --input-color: #fafafc
+}
+
+.font-100 {
+  font-family: var(--thin);
+}
+
+.font-200 {
+  font-family: var(--ultraLight);
+}
+
+.font-300 {
+  font-family: var(--light);
+}
+
+.font-400 {
+  font-family: var(--regular);
+}
+
+.font-500 {
+  font-family: var(--medium);
+}
+
+.font-600 {
+  font-family: var(--semiBold);
+}
+
+.font-700 {
+  font-family: var(--bold);
+}
+
+.font-800 {
+  font-family: var(--extraBold);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--regular);
+  font-style: normal;
+  line-height: normal;
+}
+
+body {
+  margin: 0;
+  padding: 0
+}
+
+p {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+
+}
+
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  display: block;
+  vertical-align: middle;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  text-decoration: auto;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+}
+
+ul {
+  margin: 0;
+  padding: 0
+}
