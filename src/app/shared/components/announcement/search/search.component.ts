@@ -31,8 +31,8 @@ interface AutoCompleteCompleteEvent {
 export class SearchComponent implements OnInit {
   @Input() getData!: Function;
   @Input() loading!: boolean;
+  @Input() url: string | undefined;
   public transports: any[] | undefined = [];
-  public filteredList!: any[]
   public selectedCities: any = []
 
   constructor(
@@ -72,67 +72,20 @@ export class SearchComponent implements OnInit {
 
   }
   filterSend() {
-    console.log(this.selectedCities)
     let params = new HttpParams();
 
     let query = {...this.queryService.activeQueryList()};
     query['transports'] = this.selectedCities.map((elem: any) => elem.ri);
+ if(this.url) {
+   this.router.navigate([this.url], {
+     queryParams: query,
+   }).then(() => this.getData())
+ } else {
+   this.router.navigate([], {
+     queryParams: query,
+   }).then(() => this.getData())
+ }
 
-    this.router.navigate([], {
-      queryParams: query,
-    }).then(() => this.getData())
   }
 
-
-  // const formData = {
-  //   params: {
-  //     url: `https://uz.easyway.info/ajax/en/tashkent/routes`,
-  //   },
-  // };
-
-  // __GET_ALL_LOCATICONS (formBusData: any)  {
-  //    // loadingBus.value = true;
-  //   this.transportsService.getAll(formBusData).subscribe((res) => {
-  //      console.log(res);
-  //     const locations = Object.values(res?.routes);
-  //     let allLocations = locations;
-  //     let types: any = {
-  //       Bus: "BUS",
-  //       Marshrutka: "MARSHUTKA",
-  //       Subway: "METRO",
-  //     };
-  //     let formatTransports =  allLocations.map((elem: any) => {
-  //       return {
-  //         name: elem?.rn,
-  //         type: types[elem?.tn],
-  //         ri: elem.ri
-  //       };
-  //     });
-  //     console.log("all",formatTransports);
-  //     Promise.all([...formatTransports.map((trans) => this.__PORT_TRANSPORTS(trans))]);
-  //
-  //    });
-  // const locations = Object.values(busData?.data?.routes);
-  // allLocations = locations;
-  // let types = {
-  //   Bus: "BUS",
-  //   Marshrutka: "MARSHUTKA",
-  //   Subway: "METRO",
-  // };
-  // formatTransports = await allLocations.map((elem) => {
-  //   return {
-  //     name: elem.rn,
-  //     type: types[elem.tn],
-  //     ri: elem.ri
-  //   };
-  // });
-  // console.log(formatTransports);
-
-  // };
-  //  __PORT_TRANSPORTS  (formData: any)  {
-  // this.transportsService.postAll(formData).subscribe((res) => {
-  //   console.log(res)
-  // });
-
-// };
 }

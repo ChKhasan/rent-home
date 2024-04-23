@@ -60,4 +60,7 @@ export class ViewComponent implements OnInit {
   goBack(): void {
     window.history.back(); // Navigates back one step in the history
   }
+  afterSendFilter = () => {
+
+  }
 }
