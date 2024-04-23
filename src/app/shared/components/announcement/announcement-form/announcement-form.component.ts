@@ -141,7 +141,6 @@ export class AnnouncementFormComponent implements OnInit {
         this.ruleForm.patchValue({images: [...imagesControl.value,elem?.uuid]})
     }))
     this._formControl.onSubmit(this.isEdit, this.id)
-
   }
 
   onUpload(event: any) {

@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {NgClass, NgForOf, NgIf} from "@angular/common";
-import {ActivatedRoute, Router} from "@angular/router";
+import {Router} from "@angular/router";
 import {FilterComponent} from "../../shared/components/announcement/filter/filter.component";
-import {AngularYandexMapsModule} from "angular8-yandex-maps";
+import {AngularYandexMapsModule, YaReadyEvent} from "angular8-yandex-maps";
 import {
   AnouncementMapCardComponent
 } from "../../shared/components/announcement/anouncement-map-card/anouncement-map-card.component";
@@ -12,6 +12,10 @@ import {AnnouncementsService} from "../../core/services/announcements/announceme
 import {finalize} from "rxjs";
 import {ButtonModule} from "primeng/button";
 import {StyleClassModule} from "primeng/styleclass";
+import {SubwayIconComponent} from "../../shared/icons/subway-icon/subway-icon.component";
+import {BusIconComponent} from "../../shared/icons/bus-icon/bus-icon.component";
+import {MiniBusIconComponent} from "../../shared/icons/mini-bus-icon/mini-bus-icon.component";
+import {BadgeModule} from "primeng/badge";
 
 @Component({
   selector: 'app-map',
@@ -24,18 +28,32 @@ import {StyleClassModule} from "primeng/styleclass";
     NgIf,
     NgForOf,
     ButtonModule,
-    StyleClassModule
+    StyleClassModule,
+    SubwayIconComponent,
+    BusIconComponent,
+    MiniBusIconComponent,
+    BadgeModule
   ],
   templateUrl: './map.component.html',
   styleUrl: './map.component.css'
 })
 export class MapComponent implements OnInit {
   public showBus: boolean = false;
+  public selectedTransports: { bus: any, miniBus: any, subway: any } = {
+    bus: [],
+    miniBus: [],
+    subway: []
+  }
+  public showSubway: boolean = false;
+  public showMiniBus: boolean = false;
   public showInfo: boolean = false;
   public showToolbar: boolean = false;
   public loading: boolean = false;
   public coords: number[] = [41.31340266251607, 69.28703784942628];
   public mapCenter: number[] = [41.31340266251607, 69.28703784942628];
+  public marshutka: any = [];
+  public subways: any = [];
+  public buses: any = []
   public transports: any = [];
   public transportLoading: boolean = false
   public selectRoutes: any = []
@@ -64,89 +82,6 @@ export class MapComponent implements OnInit {
     "rgb(0, 255, 255)",
     "rgb(255, 0, 255)"
   ];
-  placemarks: any = [
-    {
-      geometry: [55.684758, 37.738521],
-      properties: {
-        balloonContent:
-          'the color of <strong>the water on Bondi Beach</strong>',
-      },
-      options: {
-        preset: 'islands#icon',
-        iconColor: '#0095b6',
-      },
-    },
-    {
-      geometry: [55.833436, 37.715175],
-      properties: {
-        balloonContent: '<strong>greyish-brownish-maroon</strong> color',
-      },
-      options: {
-        preset: 'islands#dotIcon',
-        iconColor: '#735184',
-      },
-    },
-    {
-      geometry: [55.687086, 37.529789],
-      properties: {
-        balloonContent: 'the color of <strong>enamored toads</strong>',
-      },
-      options: {
-        preset: 'islands#circleIcon',
-        iconColor: '#3caa3c',
-      },
-    },
-    {
-      geometry: [55.782392, 37.614924],
-      properties: {
-        balloonContent: 'the color of <strong>Surprise Dauphin</strong>',
-      },
-      options: {
-        preset: 'islands#circleDotIcon',
-        iconColor: 'yellow',
-      },
-    },
-    {
-      geometry: [55.642063, 37.656123],
-      properties: {
-        balloonContent: '<strong>red</strong> color',
-      },
-      options: {
-        preset: 'islands#redSportIcon',
-      },
-    },
-    {
-      geometry: [55.826479, 37.487208],
-      properties: {
-        balloonContent: '<strong>Facebook</strong> color',
-      },
-      options: {
-        preset: 'islands#governmentCircleIcon',
-        iconColor: '#3b5998',
-      },
-    },
-    {
-      geometry: [55.694843, 37.435023],
-      properties: {
-        balloonContent: "<strong>crocodile's nose</strong> color",
-        iconCaption: 'Really, really long but super interesting text',
-      },
-      options: {
-        preset: 'islands#greenDotIconWithCaption',
-      },
-    },
-    {
-      geometry: [55.694843, 37.435023],
-      properties: {
-        balloonContent: '<strong>blue</strong> color',
-        iconCaption: 'Really, really long but super interesting text',
-      },
-      options: {
-        preset: 'islands#blueCircleDotIconWithCaption',
-        iconCaptionMaxWidth: '50',
-      },
-    },
-  ];
 
   constructor(
     public router: Router,
@@ -160,7 +95,6 @@ export class MapComponent implements OnInit {
     this.__GET_TRANSPORTS();
     if (typeof window !== "undefined") {
       this.activeTransports()
-
     }
   }
 
@@ -174,34 +108,39 @@ export class MapComponent implements OnInit {
     })
   }
 
-  toggleBus() {
-    this.showBus = !this.showBus
+  toggleBus(showType: string) {
+    if (showType === 'showBus' || showType === 'showSubway' || showType === 'showMiniBus')
+      this[showType] = !this[showType]
+    if (showType === 'showBus') {
+      this.showSubway = false;
+      this.showMiniBus = false;
+    }
+    if (showType === 'showMiniBus') {
+      this.showSubway = false;
+      this.showBus = false;
+    }
+    if (showType === 'showSubway') {
+      this.showBus = false;
+      this.showMiniBus = false;
+    }
+
   }
 
   toggleToolbar() {
     this.showToolbar = !this.showToolbar;
-    if(this.showToolbar) {
+    if (this.showToolbar) {
       this.showInfo = false
     }
   }
+
   handleAnnounce(id: number) {
     this.showInfo = !this.showInfo;
-    if(this.showInfo) {
+    if (this.showInfo) {
       this.showToolbar = false
     }
     this.currentAnnouce = this.announcements.find((elem: any) => elem.id == id);
   }
-  handleLocation = (location: any) => {
-    this.coords = [location.lat, location.lon];
-    this.mapCenter = [location.lat, location.lon];
-    this.handleMapClick({
-      event: {
-        get: () => {
-          return [location.lat, location.lon]
-        }
-      }
-    });
-  };
+
 
   handleMapClick(event: any) {
     this.coords = event.event.get('coords');
@@ -218,6 +157,7 @@ export class MapComponent implements OnInit {
     if (this.routeTransports?.length > 0) {
       Promise.all([this.routeTransports.map((elem: any) => this.handleBusRoute(elem))]);
     }
+    this.selectedTransportsGenerateFirst()
   }
 
   checkTransports(transport: any) {
@@ -228,10 +168,12 @@ export class MapComponent implements OnInit {
     if (query.transports && query.transports.includes(transport.ri)) {
       query.transports = query.transports.filter((elem: any) => Number(elem) !== Number(transport.ri));
       this.selectRoutes = this.selectRoutes.filter((elem: any) => Number(elem.ri) !== Number(transport.ri));
+      this.selectedTransportsGenerateDelete(transport)
       this.deleteMapLine(transport)
     } else {
       if (!query.transports) query.transports = []
       query.transports.push(transport.ri)
+      this.selectedTransportsGenerateUpdate(transport)
     }
     if (query.transports.length == 0 && typeof query.transports === 'string') {
       delete query.transports
@@ -245,8 +187,9 @@ export class MapComponent implements OnInit {
   }
 
   filterTransport(obj: any) {
+
     let cQuery = this.checkTransports(obj);
-    if(cQuery?.transports.length === 0) {
+    if (cQuery?.transports.length === 0) {
       delete cQuery.transports
     }
     if (Object.keys(cQuery).length > 0) {
@@ -258,15 +201,61 @@ export class MapComponent implements OnInit {
         }
       })
     } else {
-        this.queryService.clearFilterWithOutDefault(() => {
-          if (typeof this.queryService.activeQueryList()['transports'] === 'string') {
-            this.routeTransports = [this.queryService.activeQueryList()['transports']] || []
-          } else {
-            this.routeTransports = this.queryService.activeQueryList()['transports'] || []
-          }
-          this.announcements = []
-        });
+      this.queryService.clearFilterWithOutDefault(() => {
+        if (typeof this.queryService.activeQueryList()['transports'] === 'string') {
+          this.routeTransports = [this.queryService.activeQueryList()['transports']] || []
+        } else {
+          this.routeTransports = this.queryService.activeQueryList()['transports'] || []
+        }
+
+        this.announcements = []
+      });
     }
+  }
+  selectedTransportsGenerateDelete(transport: any) {
+    this.selectedTransports.bus = this.selectedTransports.bus.filter((elem: any) => Number(elem.ri) !== Number(transport.ri));
+    this.selectedTransports.subway = this.selectedTransports.subway.filter((elem: any) => Number(elem.ri) !== Number(transport.ri));
+    this.selectedTransports.miniBus = this.selectedTransports.miniBus.filter((elem: any) => Number(elem.ri) !== Number(transport.ri));
+  }
+
+  selectedTransportsGenerateUpdate(transport: any) {
+    this.transports.forEach((elem: any) => {
+      if (transport.ri === elem.ri) {
+        switch (elem.type) {
+          case 'BUS':
+            this.selectedTransports.bus.push(elem);
+            break;
+          case 'METRO':
+            this.selectedTransports.subway.push(elem);
+            break;
+          case 'MARSHUTKA':
+            this.selectedTransports.miniBus.push(elem);
+            break;
+          default:
+            break;
+        }
+      }
+    });
+  }
+
+  async selectedTransportsGenerateFirst() {
+    this.transports.forEach((elem: any) => {
+      if (this.routeTransports.includes(elem.ri)) {
+        switch (elem.type) {
+          case 'BUS':
+            this.selectedTransports.bus.push(elem);
+            break;
+          case 'METRO':
+            this.selectedTransports.subway.push(elem);
+            break;
+          case 'MARSHUTKA':
+            this.selectedTransports.miniBus.push(elem);
+            break;
+          default:
+            break;
+        }
+      }
+    });
   }
 
   handleBusRoute(number: any) {
@@ -337,7 +326,12 @@ export class MapComponent implements OnInit {
         } else {
           this.routeTransports = this.queryService.activeQueryList()['transports'] || []
         }
-        this.announcements = response?.results.filter((elem: any) => Number(elem.location_x));
+        this.announcements = response?.results.filter((elem: any) => Number(elem.location_x)).map((item: any) => {
+          return {
+            ...item,
+            geometry: [item.location_x, item.location_y]
+          }
+        });
         if (this.announcements.length > 0)
           this.mapCenter = [
             this.announcements[0].location_x,
@@ -350,32 +344,15 @@ export class MapComponent implements OnInit {
 
   __GET_TRANSPORTS() {
     this.transportsService.get().subscribe((response) => {
-      this.transports = response.filter((item: any) => item.type == 'BUS').sort((a: any, b: any) => {
+      this.transports = response;
+      this.buses = response.filter((item: any) => item.type == 'BUS').sort((a: any, b: any) => {
         const nameA: number = parseInt(a.name);
         const nameB: number = parseInt(b.name);
         return nameA - nameB;
       });
+      this.subways = response.filter((item: any) => item.type == 'METRO');
+      this.marshutka = response.filter((item: any) => item.type == 'MARSHUTKA');
     })
   }
-  public onLoad(event: any) {
-    console.log(event)
-    /**
-     * Не лучшее решение доставать контрол по индексу
-     * Но не нашел метода для получения как-то иначе, например, по типу
-     *
-     * Лучше сделать через .each()
-     * https://tech.yandex.ru/maps/jsapi/doc/2.1/ref/reference/control.Manager-docpage/
-     */
 
-    const searchControl = event.instance.controls.get(1);
-
-    /**
-     * Список ивентов можно посмотреть тут:
-     * https://tech.yandex.ru/maps/jsapi/doc/2.1-dev/ref/reference/control.SearchControl-docpage/
-     */
-    searchControl.events.add(
-      ['submit'],
-      (e: any) => console.log(e.get('target').getRequestString())
-    );
-  }
 }

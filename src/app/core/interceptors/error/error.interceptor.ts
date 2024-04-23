@@ -11,14 +11,20 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   let toast: ToastService = inject(ToastService);
   let baseUrl: string = environment.baseUrl
   let router: Router = inject(Router);
+
   const modifiedRequest = req.clone({
     url: baseUrl + req.url
   });
   return next(modifiedRequest).pipe(
     catchError((error: HttpErrorResponse) => {
-      if (error.status == 401) router.navigate(['/']).then(r => {})
-      console.log(error)
-      toast.showMessage('error', 'Error', error.statusText);
+      if (error.status == 401 && router.url.includes('profile')) {
+        router.navigate(['/']).then(r => {
+        })
+        toast.showMessage('error', 'Error', error.statusText);
+      }
+      if(error.status != 401){
+        toast.showMessage('error', 'Error', error.statusText);
+      }
       return throwError(() => error);
     })
   );

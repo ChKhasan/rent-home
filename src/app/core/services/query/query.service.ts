@@ -63,7 +63,6 @@ export class QueryService {
       this.router.navigate([], {
         queryParams: this.generatorCustomQuery(e),
       }).then(() => {
-        console.log(func, e)
         if (func) {
           func();
         }

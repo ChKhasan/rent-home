@@ -1,25 +1,43 @@
-<div
-  class="comment-card px-6 py-6 rounded-xl border border-solid border-[--input-stroke] flex flex-col gap-[18px]"
->
-  <div class="head flex justify-start gap-3">
-    <div class="image h-[60px] w-[60px] overflow-hidden rounded-full">
-      <img
-        class="w-full h-full object-cover"
-        src="./assets/images/Rectangle1.png"
-        alt=""
-      />
-    </div>
-    <div class="info flex flex-col gap-1 justify-center">
-      <h4 class="text-[--dark-5] font-600 text-[18px]">{{comment?.user?.name}} {{comment?.user?.last_name}}</h4>
-      <p class="font-400 text-[--gray-5] text-[14px]">
-        Sana:
-        <span class="font-500 text-[--green]">{{comment?.created | date:dateFormat}}</span>
-      </p>
-    </div>
-  </div>
-  <div class="body">
-    <p class="text-[--dark-3] text-base font-400">
-      {{comment?.comment}}
+<!--<div-->
+<!--  class="comment-card"-->
+<!--&gt;-->
+  <p-fieldset  class="relative">
+    <ng-template pTemplate="header">
+      <div class="flex align-items-center gap-2 px-2">
+        <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" />
+        <span class="font-bold">{{comment.user.name}}</span>
+      </div>
+    </ng-template>
+    <p class="m-0">
+      {{comment.comment}}
+
     </p>
-  </div>
-</div>
+    <span class="font-500 text-[--green] text-[12px] absolute bottom-3 right-4">{{comment.created | date:dateFormat}}</span>
+  </p-fieldset>
+<!--  <div class="flex flex-col justify-end">-->
+<!--    <div class="image h-[45px] w-[45px] overflow-hidden rounded-full">-->
+<!--      <img-->
+<!--        class="w-full h-full object-cover"-->
+<!--        src="./assets/images/Rectangle1.png"-->
+<!--        alt=""-->
+<!--      />-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="flex flex-col comment-card-body  px-5 py-5 rounded-xl rounded-bl-[0] border border-solid border-[&#45;&#45;input-stroke]">-->
+<!--    <div class="head flex justify-start gap-4">-->
+<!--      <div class="info flex  gap-4 items-end">-->
+<!--        <h4 class="text-[&#45;&#45;dark-5] font-600 text-[18px]">{{comment?.user?.name}} {{comment?.user?.last_name}}</h4>-->
+<!--        <p class="font-400 text-[&#45;&#45;gray-5] text-[14px]">-->
+<!--          Sana:-->
+<!--          <span class="font-500 text-[&#45;&#45;green]">{{comment?.created | date:dateFormat}}</span>-->
+<!--        </p>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div class="body">-->
+<!--      <p class="text-[&#45;&#45;dark-3] text-base font-400">-->
+<!--        {{comment?.comment}}-->
+<!--      </p>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--</div>-->

@@ -31,10 +31,8 @@ interface AutoCompleteCompleteEvent {
 export class SearchComponent implements OnInit {
   @Input() getData!: Function;
   @Input() loading!: boolean;
-  public filteredTransports: any
   public transports: any[] | undefined = [];
   public filteredList!: any[]
-  public filteredDefault!: any[];
   public selectedCities: any = []
 
   constructor(
@@ -73,18 +71,6 @@ export class SearchComponent implements OnInit {
 
 
   }
-
-  filterCountry(event: AutoCompleteCompleteEvent) {
-    let filtered: any[] = [];
-    let query = event.query;
-    for (let i = 0; i < (this.transports as any[]).length; i++) {
-      let transport = (this.transports as any[])[i];
-      if (transport.name.toLowerCase().indexOf(query.toLowerCase()) == 0)
-        filtered.push(transport);
-    }
-    this.filteredList = filtered
-  }
-
   filterSend() {
     console.log(this.selectedCities)
     let params = new HttpParams();

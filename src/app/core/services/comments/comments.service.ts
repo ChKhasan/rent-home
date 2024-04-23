@@ -14,7 +14,7 @@ export class CommentsService {
 
   get(params: HttpParams): Observable<CommentResponse[]> {
     return this._httpsClient
-      .get<CommentResponse[]>(environment.authUrls.GET_COMMENTS, {params: params})
+      .get<CommentResponse[]>(environment.urls.GET_COMMENTS, {params: params})
       .pipe(
         debounceTime(300),
         distinctUntilChanged(),

@@ -28,8 +28,8 @@
   transform: translateX(0%);
   transition: 0.5s;
 }
-.navbar .active svg path {
-  fill: var(--green);
+.active svg path,.navbar .active path  {
+  fill: var(--green) !important;
 }
 ul {
   list-style: none;
@@ -39,4 +39,21 @@ ul button {
 }
 .rotate-180 {
   transform: rotate(180deg);
+}
+:host ::ng-deep   .p-button-loading-icon {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.open-transport-btn {
+  position: relative;
+}
+.open-transport-btn::after {
+  content: "";
+  position: absolute;
+  width: 7px;
+  height: 7px;
 }

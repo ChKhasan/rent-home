@@ -1,0 +1,6 @@
+.body-container {
+  display: grid;
+  grid-template-columns: 1fr 393px;
+  gap: 24px;
+
+}

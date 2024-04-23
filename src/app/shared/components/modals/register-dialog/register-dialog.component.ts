@@ -6,7 +6,7 @@ import {InputNumberModule} from "primeng/inputnumber";
 import {InputTextModule} from "primeng/inputtext";
 import {NgClass, NgIf} from "@angular/common";
 import {PaginatorModule} from "primeng/paginator";
-import {FormGroup, ReactiveFormsModule} from "@angular/forms";
+import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {nameControl, numberControl, passwordControl} from "../../../../core/common/form-control";
 import {ValidationErrorAnimation} from "../../../../core/common/animations";
 import {InvaidTextComponent} from "../../form/invaid-text/invaid-text.component";
@@ -36,7 +36,7 @@ export class RegisterDialogComponent {
   visible: boolean = false;
   loading: boolean = false;
   public ruleForm = new FormGroup({
-    password: passwordControl,
+    password: new FormControl(''),
     name: nameControl,
     phone_number: numberControl,
   })
@@ -45,6 +45,7 @@ export class RegisterDialogComponent {
 
   public onSubmit(): void {
     this.ruleForm.markAllAsTouched()
+    console.log(this.ruleForm)
     if (this.ruleForm.invalid)  return;
     this.postRegister()
   }

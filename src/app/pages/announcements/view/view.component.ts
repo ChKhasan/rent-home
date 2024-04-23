@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {GalleriaModule} from "primeng/galleria";
 import {TagModule} from "primeng/tag";
 import {InfoTabComponent} from "../../../shared/components/announcement/info-tab/info-tab.component";
+import {SearchComponent} from "../../../shared/components/announcement/search/search.component";
 
 @Component({
   selector: 'app-view',
@@ -11,7 +12,8 @@ import {InfoTabComponent} from "../../../shared/components/announcement/info-tab
   imports: [
     GalleriaModule,
     TagModule,
-    InfoTabComponent
+    InfoTabComponent,
+    SearchComponent
   ],
   templateUrl: './view.component.html',
   styleUrl: './view.component.css'

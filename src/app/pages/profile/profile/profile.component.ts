@@ -19,6 +19,9 @@ import {ToastService} from "../../../core/services/toast/toast.service";
 import {ActivatedRoute} from "@angular/router";
 import {UserInfo} from "../../../core/interfaces/common.interface";
 import {ButtonModule} from "primeng/button";
+import {FileUploadModule} from "primeng/fileupload";
+import {environment} from "../../../../environments/environment";
+import {HttpHeaders} from "@angular/common/http";
 
 @Component({
   selector: 'app-profile',
@@ -33,18 +36,23 @@ import {ButtonModule} from "primeng/button";
     PaginatorModule,
     ReactiveFormsModule,
     NgClass,
-    ButtonModule
+    ButtonModule,
+    FileUploadModule
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
 export class ProfileComponent implements OnInit{
   loading: boolean = false;
+  private token: any;
+  public headers: any;
+  uploadedFiles: any[] = [];
   public ruleForm = new FormGroup({
     name: nameControl,
     first_name: firstControl,
     last_name: lastControl,
     email: emailControl,
+    images: new FormControl<any>([])
   })
   constructor(
     private authService: AuthService,
@@ -54,6 +62,7 @@ export class ProfileComponent implements OnInit{
   }
   ngOnInit() {
     if(typeof window !== "undefined") {
+      this.fileUploaderHeaders()
       this.authService.getUser().subscribe((data: UserInfo) => {
         this.ruleForm.patchValue({
           name: data.name || '',
@@ -65,11 +74,19 @@ export class ProfileComponent implements OnInit{
 
     }
   }
-
-  public onSubmit(): void {
+  imagesPatcher() {
+    this.uploadedFiles.forEach((elem => {
+      const imagesControl = this.ruleForm.get('images');
+      if (imagesControl && imagesControl.value)
+        this.ruleForm.patchValue({images: [...imagesControl.value,elem?.uuid]})
+    }))
     this.ruleForm.markAllAsTouched()
     if (this.ruleForm.invalid)  return;
     this.putUser()
+  }
+  public onSubmit(): void {
+    this.imagesPatcher()
+
   }
   eventPipe(data: any) {
     this.ruleForm.reset();
@@ -83,6 +100,19 @@ export class ProfileComponent implements OnInit{
       this.eventPipe({message: "Успешно изменено",response:response});
     },)
 
+  }
+  fileUploaderHeaders() {
+    if (typeof localStorage !== 'undefined') {
+      this.token = localStorage.getItem(environment.accessToken);
+      this.headers = new HttpHeaders({
+        'Authorization': `Bearer ${this.token}`
+      });
+    }
+  }
+  onUpload(event: any) {
+    if (event.originalEvent['body']) this.uploadedFiles.push(event.originalEvent['body'])
+
+    // this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
   }
   dataTransform() {
     return {

@@ -7,7 +7,18 @@
     <div class="body mt-[30px] flex justify-between">
       <div class="image-block">
         <h5 class="image-title font-600 text-[31px]">Shaxsiy ma’lumotlar</h5>
-
+        <p-fileUpload styleClass="file-upload" mode="basic" name="image"
+                      url="https://api.rent-home.uz/api/images/"
+                      (onUpload)="onUpload($event)"
+                      [auto]="true"
+                      method="post"
+                      [multiple]="true"
+                      accept="image/*"
+                      [maxFileSize]="1000000"
+                      chooseLabel="Upload"
+                      [headers]="headers"
+        >
+        </p-fileUpload>
       </div>
       <div class="forma max-w-[556px] max-auto w-full">
         <div [formGroup]="ruleForm" class="flex flex-col gap-[18px]">

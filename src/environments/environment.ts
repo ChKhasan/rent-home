@@ -10,7 +10,9 @@ export const environment = {
     POST_REGISTER: '/register/',
     POST_LOGIN: '/api/token/',
     GET_TRANSPORTS: '/api/transport/',
+    GET_COMMENTS: '/api/comment/',
     GET_ALLTRANSPORTS: '/api/proxy/',
+
   },
   authUrls: {
     POST_ANNONCEMENTS: '/api/announcement/',
@@ -23,7 +25,6 @@ export const environment = {
     POST_ALLTRANSPORTS: '/api/transport/',
     POST_TRANSPORTS: '/api/proxy/',
     POST_COMMENTS: '/api/comment/',
-    GET_COMMENTS: '/api/comment/',
     DELETE_COMMENTS: '/api/comment/',
     PUT_USER: '/api/users/'
 
