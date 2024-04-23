@@ -46,11 +46,9 @@ export class CommentBlockComponent implements OnInit,OnDestroy{
 
   }
   ngOnInit(): void {
-
+    Promise.resolve().then(() => this.__GET_COMMETS())
     if (typeof window !== 'undefined') {
       this.webSocketConnection()
-      window.scrollTo(0, 0);
-      this.__GET_COMMETS();
     }
   }
   webSocketConnection() {
@@ -83,6 +81,9 @@ export class CommentBlockComponent implements OnInit,OnDestroy{
     this.commentsService.get(this.commentParams()).subscribe((response: CommentResponse[]) => {
       this.comments = response.reverse();
     })
+  }
+ get commentLength() {
+    return this.comments.length
   }
   commentParams() {
     let params = {

@@ -10,30 +10,16 @@
       >
         Ma’lumotlar
       </button>
-      <!-- <button
-      :class="{ 'text-[var(--green)]': tabHandle == 2 }"
-      @click="tabHandle == 2"
-      class="text-[var(--gray-6)] text-[18px] font-500"
-    >
-      Xonalari
-    </button> -->
       <button
         [class]="{ 'text-[var(--green)]': tabHandle == 3 }"
         (click)="tabHandle = 3"
         class="text-[var(--gray-6)] text-[18px] font-500 bg-[transparent]"
       >
-        Izohlar ({{ comments.length }})
+        Izohlar ({{ commentBlockComponent?.commentLength || 0 }})
       </button>
     </div>
-    <button
-      (click)="openCommentDialog()"
-      *ngIf="tabHandle == 3"
-      class="px-4 py-2 bg-[color:var(--green)] rounded-[8px] text-white font-400 flex justify-center "
-    >
-      Izoh qoldirish
-    </button>
   </div>
-  <div *ngIf="tabHandle == 1" class="mt-[30px]">
+  <div [ngClass]="tabHandle == 1 ? 'block':'hidden'" class="mt-[30px]">
     <h1 class="text-[18px] font-600">Batafsil ma’lumot</h1>
     <div class="mt-[18px]">
       <p>
@@ -55,14 +41,7 @@
       </ya-map>
     </div>
   </div>
-  <div class="comments mt-[30px] min-h-[300px]" *ngIf="tabHandle == 3">
-<!--    <div class="flex flex-col gap-[18px] h-full" *ngIf="comments.length > 0,else elseSvg">-->
-<!--      <div *ngFor="let comment of comments"-->
-<!--           class="flex"-->
-<!--           [class]="comment.user.id === authService.user.id ? 'justify-end':'justify-start'">-->
-<!--        <app-comment-card class="max-w-[70%] w-full"  [comment]="comment"></app-comment-card>-->
-<!--      </div>-->
-<!--    </div>-->
+  <div class="comments mt-[30px] min-h-[300px]" [ngClass]="tabHandle == 3 ? 'block':'hidden'">
     <app-comment-block></app-comment-block>
     <ng-template #elseSvg>
       <div class="flex justify-center items-center flex-col min-h-[250px]">
@@ -120,6 +99,5 @@
 
       </div>
     </ng-template>
-<app-comment-dialog [getData]="__GET_COMMETS"></app-comment-dialog>
   </div>
 </div>

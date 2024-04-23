@@ -15,6 +15,7 @@ import {ToastService} from "../../../../core/services/toast/toast.service";
 import {environment} from "../../../../../environments/environment";
 import {Router} from "@angular/router";
 import {finalize} from "rxjs";
+import {PasswordModule} from "primeng/password";
 @Component({
   selector: 'app-auth-dialog',
   standalone: true,
@@ -28,7 +29,8 @@ import {finalize} from "rxjs";
     PaginatorModule,
     ReactiveFormsModule,
     NgClass,
-    InvaidTextComponent
+    InvaidTextComponent,
+    PasswordModule
   ],
   animations: [ValidationErrorAnimation],
   templateUrl: './auth-dialog.component.html',
@@ -63,6 +65,7 @@ export class AuthDialogComponent {
 
   }
   public onSubmit(): void {
+    console.log(this.ruleForm)
     this.ruleForm.markAllAsTouched()
     if (this.ruleForm.invalid)  return;
     this.postLogin()

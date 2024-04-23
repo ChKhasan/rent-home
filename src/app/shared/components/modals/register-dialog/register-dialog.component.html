@@ -61,19 +61,26 @@
         </div>
         <div class="flex flex-col gap-2 text-base relative w-full">
           <label class="font-400 text-[gray-6]" for="password">Parol</label>
-          <p-inputNumber mode="decimal"
-                         [maxlength]="6"
-                         [useGrouping]="false"
-                         placeholder="******"
-                         class="password-input w-full h-12 rounded-[8px] border-[2px] border-solid border-[--input-stroke] bg-[--gray-1]"
-                         pInputText id="password"
-                         formControlName="password"
-          ></p-inputNumber>
+          <p-password
+            formControlName="password"
+            id="password"
+            class="password-input w-full h-12 rounded-[8px] border-[2px] border-solid border-[--input-stroke] bg-[--gray-1]"
+            [toggleMask]="true"
+          ></p-password>
+<!--          <p-inputNumber mode="decimal"-->
+<!--                         [maxlength]="6"-->
+<!--                         [useGrouping]="false"-->
+<!--                         placeholder="******"-->
+<!--                         class="password-input w-full h-12 rounded-[8px] border-[2px] border-solid border-[&#45;&#45;input-stroke] bg-[&#45;&#45;gray-1]"-->
+<!--                         pInputText id="password"-->
+<!--                         formControlName="password"-->
+<!--          ></p-inputNumber>-->
           <div
             *ngIf="ruleForm.controls.password.errors && ruleForm.controls.password.invalid && ruleForm.controls.password.touched"
           >
             <app-invaid-text [text]="'Password is required.'"  *ngIf="ruleForm.controls.password.errors['required']"></app-invaid-text>
-            <app-invaid-text [text]="'Password must be at least 6 characters long.'"  *ngIf="ruleForm.controls.password.errors['pattern']"></app-invaid-text>
+            <app-invaid-text [text]="'Password must be at least 8 characters long.'"  *ngIf="!ruleForm.controls.password.errors['pattern'] && ruleForm.controls.password.errors['minlength']"></app-invaid-text>
+            <app-invaid-text [text]="'Password must contain at least one letter and one number.'"  *ngIf="ruleForm.controls.password.errors['pattern']"></app-invaid-text>
           </div>
         </div>
       </div>

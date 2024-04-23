@@ -6,12 +6,18 @@ import {InputNumberModule} from "primeng/inputnumber";
 import {InputTextModule} from "primeng/inputtext";
 import {NgClass, NgIf} from "@angular/common";
 import {PaginatorModule} from "primeng/paginator";
-import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
-import {nameControl, numberControl, passwordControl} from "../../../../core/common/form-control";
+import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {
+  nameControl,
+  numberControl,
+  passwordControl,
+  passwordRegisterControl
+} from "../../../../core/common/form-control";
 import {ValidationErrorAnimation} from "../../../../core/common/animations";
 import {InvaidTextComponent} from "../../form/invaid-text/invaid-text.component";
 import {AuthService} from "../../../../core/services/auth/auth.service";
 import {ToastService} from "../../../../core/services/toast/toast.service";
+import {PasswordModule} from "primeng/password";
 @Component({
   selector: 'app-register-dialog',
   standalone: true,
@@ -25,7 +31,8 @@ import {ToastService} from "../../../../core/services/toast/toast.service";
     PaginatorModule,
     ReactiveFormsModule,
     NgClass,
-    InvaidTextComponent
+    InvaidTextComponent,
+    PasswordModule
   ],
   animations: [ValidationErrorAnimation],
   templateUrl: './register-dialog.component.html',
@@ -36,7 +43,7 @@ export class RegisterDialogComponent {
   visible: boolean = false;
   loading: boolean = false;
   public ruleForm = new FormGroup({
-    password: new FormControl(''),
+    password: passwordRegisterControl,
     name: nameControl,
     phone_number: numberControl,
   })
@@ -44,8 +51,8 @@ export class RegisterDialogComponent {
   }
 
   public onSubmit(): void {
-    this.ruleForm.markAllAsTouched()
     console.log(this.ruleForm)
+    this.ruleForm.markAllAsTouched()
     if (this.ruleForm.invalid)  return;
     this.postRegister()
   }

@@ -33,3 +33,6 @@
   padding: 0;
   width: 100%;
 }
+:host ::ng-deep .p-password {
+  width: 100%;
+}
