@@ -29,6 +29,12 @@ export class AuthService {
       this.auth = false;
   }
 
+  logout() {
+    localStorage.removeItem(environment.accessToken)
+    localStorage.removeItem(environment.refreshToken)
+    this.authHandler()
+  }
+
   postRegister(payload: any): Observable<Announcement[] | null> {
     return this._httpsClient
       .post<Announcement[]>(environment.urls.POST_REGISTER, payload, {observe: 'response'})
@@ -47,15 +53,17 @@ export class AuthService {
         distinctUntilChanged(),
       );
   }
-  put(payload: any,id: number): Observable<UserInfo | null> {
+
+  put(payload: any, id: number): Observable<UserInfo | null> {
     return this._httpsClient
-      .put<UserInfo>(environment.authUrls.PUT_USER + id + '/',payload,{ observe: 'response' })
+      .put<UserInfo>(environment.authUrls.PUT_USER + id + '/', payload, {observe: 'response'})
       .pipe(
         debounceTime(300),
         distinctUntilChanged(),
         map((response: HttpResponse<UserInfo>) => response.body)
       );
   }
+
   postLogin(payload: any): Observable<Announcement[] | null> {
     return this._httpsClient
       .post<Announcement[]>(environment.urls.POST_LOGIN, payload, {observe: 'response'})

@@ -45,11 +45,12 @@ constructor(
       if (event instanceof NavigationStart) {
         this.profileDrop = false
       }
-      // if (event instanceof NavigationEnd) {
-      //   console.log('Navigation ended');
-      // }
     });}
   openAuthDialog() {
     this.authDialogComponent.showDialog();
+  }
+  logout() {
+    this.authService.logout();
+    this.profileDrop = false
   }
 }

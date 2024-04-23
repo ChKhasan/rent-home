@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {ButtonModule} from "primeng/button";
 import {DialogModule} from "primeng/dialog";
 import {InputMaskModule} from "primeng/inputmask";
@@ -37,6 +37,7 @@ import {finalize} from "rxjs";
 export class AuthDialogComponent {
   visible: boolean = false;
   loading: boolean = false;
+  @Input() url: string | undefined
   public ruleForm = new FormGroup({
     password: passwordControl,
     phone_number: numberControl,
@@ -57,7 +58,9 @@ export class AuthDialogComponent {
   tokenHandle(data: any) {
     localStorage.setItem(environment.accessToken,data.access)
     localStorage.setItem(environment.refreshToken,data.refresh);
-    this.router.navigate(['/profile']).then(r => {})
+    if(this.url)
+    this.router.navigate([this.url]).then(r => {})
+
   }
   public onSubmit(): void {
     this.ruleForm.markAllAsTouched()

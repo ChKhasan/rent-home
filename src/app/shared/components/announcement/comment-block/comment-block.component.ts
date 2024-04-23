@@ -35,6 +35,7 @@ export class CommentBlockComponent implements OnInit,OnDestroy{
   public loading: boolean = false;
   public message: string = '';
   public dateFormat: string = 'dd.MM.YYYY'
+  public url: string  =''
   constructor(
     private commentsService: CommentsService,
     private route: ActivatedRoute,
@@ -54,6 +55,7 @@ export class CommentBlockComponent implements OnInit,OnDestroy{
   }
   webSocketConnection() {
     this.id = this.route.snapshot.paramMap.get('id');
+    this.url = `/announcement/${this.id}/`
     this.webSocketService.connect(`wss://api.rent-home.uz/ws/announcement/${this.id}/`);
     this.webSocketService.onMessage().subscribe((message) => {
       this.loading = false

@@ -1,6 +1,6 @@
 <div class="header bg-[color:#fff]">
   <app-register-dialog></app-register-dialog>
-  <app-auth-dialog></app-auth-dialog>
+  <app-auth-dialog [url]="'profile'"></app-auth-dialog>
   <p-toast></p-toast>
   <div class="py-[20px] 2xl:container mx-auto flex justify-between px-4">
     <div class="flex gap-[40px] items-center">
@@ -235,6 +235,7 @@
             </li>
             <li
               *ngIf="authService.auth"
+              (click)="logout()"
               class="flex gap-[12px] cursor-pointer items-center whitespace-nowrap font-500 text-[16px]"
             >
               <svg
