@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ButtonModule} from "primeng/button";
 import {CommentResponse} from "../../../../core/interfaces/common.interface";
 import {CommentsService} from "../../../../core/services/comments/comments.service";
@@ -9,6 +9,8 @@ import {AuthService} from "../../../../core/services/auth/auth.service";
 import {environment} from "../../../../../environments/environment";
 import {DatePipe, NgForOf, NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
+import {AuthDialogComponent} from "../../modals/auth-dialog/auth-dialog.component";
+import {RegisterDialogComponent} from "../../modals/register-dialog/register-dialog.component";
 
 @Component({
   selector: 'app-comment-block',
@@ -18,12 +20,16 @@ import {FormsModule} from "@angular/forms";
     NgForOf,
     FormsModule,
     NgIf,
-    DatePipe
+    DatePipe,
+    AuthDialogComponent,
+    RegisterDialogComponent
   ],
   templateUrl: './comment-block.component.html',
   styleUrl: './comment-block.component.css'
 })
-export class CommentBlockComponent {
+export class CommentBlockComponent implements OnInit,OnDestroy{
+  @ViewChild(RegisterDialogComponent) registerDialogComponent!: RegisterDialogComponent;
+  @ViewChild(AuthDialogComponent) authDialogComponent!: AuthDialogComponent;
   public comments: CommentResponse[] = [];
   private id: any;
   public loading: boolean = false;
@@ -56,11 +62,18 @@ export class CommentBlockComponent {
     });
   }
   sendMessage(): void {
-    this.loading = true;
-    this.webSocketService.send({ text: this.message });
-    this.message = ''
-  }
+    if(this.authService.auth && this.authService.user.id) {
+      this.loading = true;
+      this.webSocketService.send({ text: this.message });
+      this.message = ''
+    } else {
+      this.openAuthDialog()
+    }
 
+  }
+  openAuthDialog() {
+    this.authDialogComponent.showDialog();
+  }
   ngOnDestroy(): void {
     this.webSocketService.disconnect(); // Disconnect WebSocket when component is destroyed
   }
