@@ -1,6 +1,22 @@
 <div>
   <app-banner></app-banner>
   <div class="2xl:container mx-auto px-4">
+    <h3 class="font-600 text-[48px]"> <span class="text-[--green]">Yangi </span>e'lonlar</h3>
+   <div class="mr-[-15px] ml-[-15px]">
+     <ngx-slick-carousel class="carousel"
+                         #slickModal="slick-carousel"
+                         [config]="slideConfig"
+                         (init)="slickInit($event)"
+                         (breakpoint)="breakpoint($event)"
+                         (afterChange)="afterChange($event)"
+                         (beforeChange)="beforeChange($event)">
+       <ng-container *ngFor="let announcement of announcements">
+         <div ngxSlickItem class="p-[15px] slide">
+           <app-announcements-card [announcement]="announcement"></app-announcements-card>
+         </div>
+       </ng-container>
+     </ngx-slick-carousel>
+   </div>
     <div
       class="grid grid-cols-3 gap-[30px]"
       *ngIf="loading, else announcementsList"

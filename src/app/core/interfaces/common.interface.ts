@@ -17,13 +17,7 @@ export interface CommentResponse {
   comment: string,
   announcement: number | null,
   created: string | undefined,
-  user: {
-    email: string | null,
-    first_name: string | null,
-    id: number,
-    last_name: string | null,
-    name: string | null,
-  }
+  user: UserInfo
 }
 export interface UserInfo {
   email: string | null,
@@ -31,6 +25,13 @@ export interface UserInfo {
   id?: number,
   last_name: string | null,
   name: string | null,
+  images: UserImages[]
+}
+export interface UserImages {
+  id: number,
+  uuid: string,
+  image: string,
+  name: string | null
 }
 export interface Login {
   phone_number: string,

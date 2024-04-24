@@ -20,9 +20,12 @@ export class AuthService {
   authHandler() {
     const AUTH_TOKEN = localStorage.getItem(environment.accessToken);
     Boolean(AUTH_TOKEN) ?
-      this.getUser().subscribe((response) => {
+      this.getUser().subscribe((response: UserInfo) => {
         if (response) {
           this.user = response;
+          if(response.images && !response.images[0].image.includes(environment.baseUrl)) {
+            this.user.images[0].image = environment.baseUrl + response.images[0].image
+          }
           this.auth = true;
         }
       }) :
