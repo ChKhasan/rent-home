@@ -4,8 +4,7 @@
   </div>
   <div class="body px-6 py-6 border border-solid border-[--grey-3] border-t-0 rounded-b-[12px]">
     <div class="board h-[400px] pr-2 flex flex-col-reverse pb-6 gap-6 overflow-y-scroll">
-      {{pendingComments}}
-      <div *ngIf="loading">
+      <div *ngIf="loading" class="flex flex-col gap-6">
         <div *ngFor="let comment of pendingComments"
              class="flex w-full"
              [class]="comment.user.id === authService.user.id ? 'justify-end':'justify-start'">

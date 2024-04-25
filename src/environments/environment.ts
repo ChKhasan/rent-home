@@ -3,6 +3,7 @@ export const environment = {
   CI: false,
   accessToken: 'access_token',
   refreshToken: 'refresh_token',
+  pendingComments: 'pending_comments',
   storeLikes: 'likes',
   baseUrl: 'https://api.rent-home.uz',
   urls: {

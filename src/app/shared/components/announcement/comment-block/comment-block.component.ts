@@ -46,6 +46,7 @@ export class CommentBlockComponent implements OnInit,OnDestroy{
   ) {
 
   }
+
   ngOnInit(): void {
     if (typeof window !== 'undefined') {
       Promise.resolve().then(() => this.__GET_COMMETS())
@@ -75,6 +76,17 @@ export class CommentBlockComponent implements OnInit,OnDestroy{
       }
     });
   }
+  sendPendingMessages() {
+    if(this.authService.auth && this.authService.user.id) {
+      this.loading = true;
+      // @ts-ignore
+      // let pendingComments = JSON.parse(localStorage.getItem(environment.pendingComments));
+      // pendingComments.forEach((elem: any) => {
+      //   this.webSocketService.send({ text: elem.comment });
+      // })
+      localStorage.removeItem(environment.pendingComments)
+    }
+  }
   sendMessage(): void {
     if(this.authService.auth && this.authService.user.id) {
       this.loading = true;
@@ -85,9 +97,11 @@ export class CommentBlockComponent implements OnInit,OnDestroy{
         user: this.authService.user,
         pending: true
       })
+      if(!navigator.onLine) {
+        localStorage.setItem(environment.pendingComments,JSON.stringify(this.pendingComments))
+      }
       this.webSocketService.send({ text: this.message });
       this.message = ''
-      console.log(this.pendingComments)
     } else {
       this.openAuthDialog()
     }
