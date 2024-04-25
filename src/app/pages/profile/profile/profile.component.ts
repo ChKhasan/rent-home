@@ -72,9 +72,7 @@ export class ProfileComponent implements OnInit {
 
   __GET_USER() {
     this.authService.getUser().subscribe((data: UserInfo) => {
-      if (data.images && !data.images[0].image.includes(environment.baseUrl)) {
-        this.avatar = environment.baseUrl + data.images[0].image
-      }
+      this.avatar = data.images[0].image
       this.ruleForm.patchValue({
         name: data.name || '',
         first_name: data.first_name || '',
@@ -133,9 +131,7 @@ export class ProfileComponent implements OnInit {
     if (event.originalEvent['body']) {
       this.uploadedFiles = [event.originalEvent['body']]
       this.avatar = this.uploadedFiles[0].image
-      console.log(this.uploadedFiles)
     }
-    // this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
   }
 
   dataTransform() {

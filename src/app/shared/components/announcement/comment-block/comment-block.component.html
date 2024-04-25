@@ -4,6 +4,34 @@
   </div>
   <div class="body px-6 py-6 border border-solid border-[--grey-3] border-t-0 rounded-b-[12px]">
     <div class="board h-[400px] pr-2 flex flex-col-reverse pb-6 gap-6 overflow-y-scroll">
+      {{pendingComments}}
+      <div *ngIf="loading">
+        <div *ngFor="let comment of pendingComments"
+             class="flex w-full"
+             [class]="comment.user.id === authService.user.id ? 'justify-end':'justify-start'">
+          <div class="comment-card min-w-[180px] max-w-[90%] flex flex-col gap-2">
+            <div class="head flex gap-2 items-center ">
+              <img
+                *ngIf="comment.user.images.length > 0 && comment.user.images[0].image, else defaultImage"
+                class="w-6 h-6 rounded-full overflow-hidden object-cover"
+                [src]="comment.user.images[0].image" alt="">
+              <ng-template #defaultImage>
+                <img class="w-6 h-6 rounded-full overflow-hidden object-cover" src="assets/images/avatar.png" alt="">
+              </ng-template>
+              <h6 class="font-500 text-[14px] text-[--gray-6]">{{comment.user.name}}</h6>
+            </div>
+            <div
+              class="body relative px-[18px] py-[18px] pr-[94px] rounded-[12px] bg-[#F0FBF0] text-[#576657] font-500 text-base">
+              <p>{{comment.comment}}</p>
+              <span
+                *ngIf="comment.pending"
+                class="font-500 text-[--green] text-[8px] absolute bottom-2 right-4"><i class="pi pi-clock text-[12px]"  ></i></span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
       <div *ngFor="let comment of comments"
            class="flex w-full"
            [class]="comment.user.id === authService.user.id ? 'justify-end':'justify-start'">
@@ -32,7 +60,7 @@
       class="input-send border border-solid border-[--grey-3] rounded-[12px] px-3 py-3 gap-4 flex justify-between items-center">
       <input type="text" (keyup.enter)="sendMessage()" [(ngModel)]="message" placeholder="Savolingingizni yozing"
              class="w-full font-500 text-base border-0 focus:outline-0 h-full placeholder-[--grey-3]">
-      <p-button [disabled]="message.length === 0" (click)="sendMessage()" [loading]="loading"
+      <p-button [disabled]="message.length === 0" (click)="sendMessage()"
                 styleClass="bg-[--green] rounded-[8px] h-11 w-[154px] flex items-center justify-center gap-2">Yuborish
         <svg *ngIf="!loading" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" clip-rule="evenodd"

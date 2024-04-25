@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ButtonModule} from "primeng/button";
-import {CommentResponse} from "../../../../core/interfaces/common.interface";
+import {CommentResponse, UserImages} from "../../../../core/interfaces/common.interface";
 import {CommentsService} from "../../../../core/services/comments/comments.service";
 import {ActivatedRoute} from "@angular/router";
 import {QueryService} from "../../../../core/services/query/query.service";
@@ -31,6 +31,7 @@ export class CommentBlockComponent implements OnInit,OnDestroy{
   @ViewChild(RegisterDialogComponent) registerDialogComponent!: RegisterDialogComponent;
   @ViewChild(AuthDialogComponent) authDialogComponent!: AuthDialogComponent;
   public comments: CommentResponse[] = [];
+  public pendingComments: any = []
   private id: any;
   public loading: boolean = false;
   public message: string = '';
@@ -57,15 +58,36 @@ export class CommentBlockComponent implements OnInit,OnDestroy{
     this.webSocketService.connect(`wss://api.rent-home.uz/ws/announcement/${this.id}/`);
     this.webSocketService.onMessage().subscribe((message) => {
       this.loading = false
-      if(message.message && message.message !== '401')
-        this.comments.unshift(message.message)
+      if(message.message && message.message !== '401'){
+        let comment = {...message.message,
+        user: {
+          ...message.message.user,
+          images: message.message.user.images.map((elem: UserImages) => {
+            return {
+              ...elem,
+              image: environment.baseUrl + elem.image
+            }
+          })
+        }
+        }
+        this.pendingComments = []
+        this.comments.unshift(comment)
+      }
     });
   }
   sendMessage(): void {
     if(this.authService.auth && this.authService.user.id) {
       this.loading = true;
+      this.pendingComments.push({
+        announcement: this.id,
+        comment: this.message,
+        created: `${new Date()}`,
+        user: this.authService.user,
+        pending: true
+      })
       this.webSocketService.send({ text: this.message });
       this.message = ''
+      console.log(this.pendingComments)
     } else {
       this.openAuthDialog()
     }
