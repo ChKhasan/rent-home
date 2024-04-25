@@ -22,6 +22,7 @@ import {QueryService} from "../../core/services/query/query.service";
 import {SlickCarouselModule} from "ngx-slick-carousel";
 import {CarouselModule} from "primeng/carousel";
 import {TagModule} from "primeng/tag";
+import {BannerTemplateComponent} from "../../shared/components/home/banner-template/banner-template.component";
 
 
 @Component({
@@ -30,9 +31,6 @@ import {TagModule} from "primeng/tag";
   imports: [
     HeaderComponent,
     ButtonModule,
-    DropdownModule,
-    InputSwitchModule,
-    InputTextModule,
     NgIf,
     PaginatorModule,
     ReactiveFormsModule,
@@ -46,7 +44,8 @@ import {TagModule} from "primeng/tag";
     PaginationComponent,
     SlickCarouselModule,
     CarouselModule,
-    TagModule
+    TagModule,
+    BannerTemplateComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
@@ -60,86 +59,19 @@ export class HomeComponent implements OnInit {
   public skeletonList = [1, 2, 3, 4, 5, 6];
   public announcements?: any;
   public totalPage: number = 0;
-  slickModalConfig: any;
-  products: any;
 
-  responsiveOptions: any[] | undefined;
   constructor(
     private _announcementsService: AnnouncementsService,
     private queryConfig: QueryService
   ) {
-    this.slickModalConfig = {
-      autoplay: true,
-      autoplaySpeed: 2000,
-      dots: true,
-      infinite: true,
-      speed: 300,
-      slidesToShow: 1,
-      slidesToScroll: 1
-    };
-  }
-  slides = [
-    {img: "http://placehold.it/350x150/000000"},
-    {img: "http://placehold.it/350x150/111111"},
-    {img: "http://placehold.it/350x150/333333"},
-    {img: "http://placehold.it/350x150/666666"}
-  ];
-  slideConfig = {"slidesToShow": 3, "slidesToScroll": 1,'spaceBetween': 24};
 
-  addSlide() {
-    this.slides.push({img: "http://placehold.it/350x150/777777"})
   }
 
-  removeSlide() {
-    this.slides.length = this.slides.length - 1;
-  }
+  slideConfig = {"slidesToShow": 3, "slidesToScroll": 1, 'spaceBetween': 24};
 
-  slickInit(e: any) {
-    console.log('slick initialized');
-  }
-
-  breakpoint(e: any) {
-    console.log('breakpoint');
-  }
-
-  afterChange(e: any) {
-    console.log('afterChange');
-  }
-
-  beforeChange(e: any) {
-    console.log('beforeChange');
-  }
   ngOnInit(): void {
     if (typeof window !== 'undefined') {
-     this.__GET_ANNOUNCEMENTS()
-    }
-    this.responsiveOptions = [
-      {
-        breakpoint: '1199px',
-        numVisible: 1,
-        numScroll: 1
-      },
-      {
-        breakpoint: '991px',
-        numVisible: 2,
-        numScroll: 1
-      },
-      {
-        breakpoint: '767px',
-        numVisible: 1,
-        numScroll: 1
-      }
-    ];
-  }
-  // @ts-ignore
-  getSeverity(status: string) {
-    switch (status) {
-      case 'INSTOCK':
-        return 'success';
-      case 'LOWSTOCK':
-        return 'warning';
-      case 'OUTOFSTOCK':
-        return 'danger';
+      this.__GET_ANNOUNCEMENTS()
     }
   }
   __GET_ANNOUNCEMENTS = () => {

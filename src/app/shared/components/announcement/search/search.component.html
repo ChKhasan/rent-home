@@ -16,26 +16,11 @@
       >
         <i class="pi pi-car" style="font-size: 1rem"></i>Transport bo'yicha qidirish
       </p>
-<!--        <p-autoComplete-->
-<!--          (onUnselect)="onChange($event)"-->
-<!--          class="search-select"-->
-<!--          [(ngModel)]="filteredTransports"-->
-<!--          [suggestions]="filteredList"-->
-<!--          [multiple]="true"-->
-<!--          styleClass="w-full"-->
-<!--          placeholder="Выберите транспорт"-->
-<!--          (completeMethod)="filterCountry($event)"-->
-<!--          field="name"-->
-<!--        ></p-autoComplete>-->
+
       <p-multiSelect styleClass="w-full" (onClear)="onClear()" [showClear]="true" (onRemove)="onChange($event)" class="w-full"   placeholder="Выберите транспорт" inputId="float-label" [options]="transports" [(ngModel)]="selectedCities" optionLabel="name"></p-multiSelect>
     </div>
   </div>
-<!--  <span-->
-<!--    class="text-[color:var(&#45;&#45;dark-3)] text-[17px] mt-[24px] flex gap-[12px] items-center"-->
-<!--  >-->
-<!--     <p-checkbox  [binary]="true" inputId="binary"></p-checkbox>-->
-<!--      Men O’zbekiston fuqarosiman-->
-<!--    </span>-->
+
   <p-button
     [loading]="loading"
     (click)="filterSend()"

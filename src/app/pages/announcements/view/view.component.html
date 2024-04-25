@@ -1,116 +1,148 @@
 <div class="announcement py-[60px]">
-  <div class="2xl:container mx-auto px-4">
-    <div class="back mb-[30px]">
-      <button
-        (click)="goBack()"
-        class="bg-[var(--grey-1)] font-500 text-[18px] h-11 flex justify-center items-center rounded-xl gap-2 px-[18px]"
-      >
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M11.0303 8.53033C11.3232 8.23744 11.3232 7.76256 11.0303 7.46967C10.7374 7.17678 10.2626 7.17678 9.96967 7.46967L5.96967 11.4697C5.82322 11.6161 5.75 11.8081 5.75 12C5.75 12.1017 5.77024 12.1987 5.80691 12.2871C5.84351 12.3755 5.89776 12.4584 5.96967 12.5303L9.96967 16.5303C10.2626 16.8232 10.7374 16.8232 11.0303 16.5303C11.3232 16.2374 11.3232 15.7626 11.0303 15.4697L8.31066 12.75H18C18.4142 12.75 18.75 12.4142 18.75 12C18.75 11.5858 18.4142 11.25 18 11.25H8.31066L11.0303 8.53033Z"
-            fill="black"
-          />
-        </svg>
-        Ortga qaytish
-      </button>
-    </div>
-    <div class="head">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-4">
-          <h1 class="font-600 text-[48px]">{{ announcement.title }}</h1>
-          <span class="flex items-center gap-1 font-600 text-[20px]"
-          ><svg
-            width="32"
-            height="33"
-            viewBox="0 0 32 33"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+    <div class="2xl:container mx-auto px-4">
+        <div class="back mb-[30px]">
+            <button
+                    (click)="goBack()"
+                    class="bg-[var(--grey-1)] font-500 text-[18px] h-11 flex justify-center items-center rounded-xl gap-2 px-[18px]"
+            >
+                <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path
+                            d="M11.0303 8.53033C11.3232 8.23744 11.3232 7.76256 11.0303 7.46967C10.7374 7.17678 10.2626 7.17678 9.96967 7.46967L5.96967 11.4697C5.82322 11.6161 5.75 11.8081 5.75 12C5.75 12.1017 5.77024 12.1987 5.80691 12.2871C5.84351 12.3755 5.89776 12.4584 5.96967 12.5303L9.96967 16.5303C10.2626 16.8232 10.7374 16.8232 11.0303 16.5303C11.3232 16.2374 11.3232 15.7626 11.0303 15.4697L8.31066 12.75H18C18.4142 12.75 18.75 12.4142 18.75 12C18.75 11.5858 18.4142 11.25 18 11.25H8.31066L11.0303 8.53033Z"
+                            fill="black"
+                    />
+                </svg>
+                Ortga qaytish
+            </button>
+        </div>
+        <div class="head">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <h1 class="font-600 text-[48px]">{{ announcement.title }}</h1>
+                    <span class="flex items-center gap-1 font-600 text-[20px]"
+                    ><svg
+                            width="32"
+                            height="33"
+                            viewBox="0 0 32 33"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                    >
                 <path
-                  d="M17.1523 4.49496C16.6386 3.60943 15.3596 3.60943 14.8459 4.49496L11.2271 10.7314C10.9733 11.1688 10.5346 11.4673 10.0345 11.5429L3.25272 12.5672C2.11368 12.7392 1.71413 14.1773 2.60121 14.9123L7.65333 19.0979C8.12098 19.4853 8.34088 20.0965 8.22728 20.6931L6.90572 27.6333C6.6968 28.7304 7.84852 29.5828 8.83672 29.0625L15.2226 25.7C15.7086 25.4441 16.2895 25.4441 16.7756 25.7L23.1615 29.0625C24.1496 29.5828 25.3014 28.7304 25.0924 27.6333L23.771 20.6931C23.6574 20.0965 23.8772 19.4853 24.3448 19.0979L29.397 14.9123C30.284 14.1773 29.8846 12.7392 28.7455 12.5672L21.9638 11.5429C21.4636 11.4673 21.025 11.1688 20.7711 10.7314L17.1523 4.49496Z"
-                  fill="#D7C30F"
+                        d="M17.1523 4.49496C16.6386 3.60943 15.3596 3.60943 14.8459 4.49496L11.2271 10.7314C10.9733 11.1688 10.5346 11.4673 10.0345 11.5429L3.25272 12.5672C2.11368 12.7392 1.71413 14.1773 2.60121 14.9123L7.65333 19.0979C8.12098 19.4853 8.34088 20.0965 8.22728 20.6931L6.90572 27.6333C6.6968 28.7304 7.84852 29.5828 8.83672 29.0625L15.2226 25.7C15.7086 25.4441 16.2895 25.4441 16.7756 25.7L23.1615 29.0625C24.1496 29.5828 25.3014 28.7304 25.0924 27.6333L23.771 20.6931C23.6574 20.0965 23.8772 19.4853 24.3448 19.0979L29.397 14.9123C30.284 14.1773 29.8846 12.7392 28.7455 12.5672L21.9638 11.5429C21.4636 11.4673 21.025 11.1688 20.7711 10.7314L17.1523 4.49496Z"
+                        fill="#D7C30F"
                 /></svg
-          >5
+                    >5
             </span>
-        </div>
-        <div
-          class="flex bg-[var(--grey-1)] font-500 text-[18px] h-11 px-3 justify-center items-center rounded-xl gap-2"
-        >
-          <p class="text-black text-[18px] font-500">Juda yaxshi:</p>
-          <span
-            class="bg-[var(--green)] h-5 px-1 rounded font-400 text-[18px] flex items-center text-white"
-          >{{ announcement.appartment_status }}</span
-          >
-        </div>
-      </div>
-      <p class="text-[18px] flex justify-start items-center gap-3 mt-5">
-        <svg
-          width="24"
-          height="25"
-          viewBox="0 0 24 25"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M7.25 10.5C7.25 7.87665 9.37665 5.75 12 5.75C14.6233 5.75 16.75 7.87665 16.75 10.5C16.75 13.1234 14.6233 15.25 12 15.25C9.37665 15.25 7.25 13.1234 7.25 10.5ZM12 7.25C10.2051 7.25 8.75 8.70507 8.75 10.5C8.75 12.2949 10.2051 13.75 12 13.75C13.7949 13.75 15.25 12.2949 15.25 10.5C15.25 8.70507 13.7949 7.25 12 7.25Z"
-            fill="#AEAEB2"
-          />
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M3.52439 9.35685C3.87872 5.05824 7.47087 1.75 11.784 1.75H12.216C16.5292 1.75 20.1213 5.05824 20.4756 9.35685C20.666 11.666 19.9527 13.9589 18.486 15.7526L13.693 21.6144C12.818 22.6845 11.182 22.6845 10.307 21.6144L5.51399 15.7526C4.04733 13.9589 3.33405 11.666 3.52439 9.35685ZM11.784 3.25C8.25152 3.25 5.30951 5.95948 5.01932 9.48008C4.8609 11.4019 5.45455 13.3102 6.67521 14.8031L11.4682 20.6649C11.7431 21.001 12.2569 21.001 12.5318 20.6649L17.3248 14.8031C18.5455 13.3102 19.1391 11.4019 18.9807 9.48008C18.6905 5.95948 15.7485 3.25 12.216 3.25H11.784Z"
-            fill="#AEAEB2"
-          />
-        </svg>
-        {{ announcement.address }}
-      </p>
-    </div>
-    <div class="carousel mt-8">
-      <div class="card">
-        <p-galleria  [value]="images" [showIndicators]="false" [showItemNavigatorsOnHover]="true" [thumbnailsPosition]="'bottom'"  [containerStyle]="{ 'max-width': '100%' }" [numVisible]="5">
-          <ng-template pTemplate="item" let-item>
-            <img [src]="item.image" style="width: 100%; max-height: 420px; display: block;object-fit: contain" />
-          </ng-template>
-          <ng-template pTemplate="thumbnail" let-item>
-            <div class="grid grid-nogutter justify-content-center">
-              <img [src]="item.image" style="max-height: 110px;" />
+                </div>
+                <div
+                        class="flex bg-[var(--grey-1)] font-500 text-[18px] h-11 px-3 justify-center items-center rounded-xl gap-2"
+                >
+                    <p class="text-black text-[18px] font-500">Juda yaxshi:</p>
+                    <span
+                            class="bg-[var(--green)] h-5 px-1 rounded font-400 text-[18px] flex items-center text-white"
+                    >{{ announcement.appartment_status }}</span
+                    >
+                </div>
             </div>
-          </ng-template>
-        </p-galleria>
-      </div>
-    </div>
-    <div class="body mt-[30px]">
-      <div>
-        <div>
-          <p class="text-[20px] text-[var(--dark-3)]">
-            {{ announcement.description }}
-          </p>
-          <div class="mt-[30px]">
-            <div class="flex justify-between w-full">
-              <h4 class="text-[18px] font-600">Qulayliklar</h4>
-              <div class="flex gap-4">
-                <p-tag [icon]="announcement.conditioner ? 'pi pi-check':'pi pi-times'" [severity]="announcement.conditioner ? 'success':'danger'" value="Konditsioner"></p-tag>
-                <p-tag icon="pi pi-check" severity="success" value="Kir yuvish mashinasi"></p-tag>
-                <p-tag [icon]="announcement.washing_machine ? 'pi pi-check':'pi pi-times'" [severity]="announcement.washing_machine ? 'success':'danger'" value="Konditsioner"></p-tag>
+            <p class="text-[18px] flex justify-start items-center gap-3 mt-5">
+                <svg
+                        width="24"
+                        height="25"
+                        viewBox="0 0 24 25"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M7.25 10.5C7.25 7.87665 9.37665 5.75 12 5.75C14.6233 5.75 16.75 7.87665 16.75 10.5C16.75 13.1234 14.6233 15.25 12 15.25C9.37665 15.25 7.25 13.1234 7.25 10.5ZM12 7.25C10.2051 7.25 8.75 8.70507 8.75 10.5C8.75 12.2949 10.2051 13.75 12 13.75C13.7949 13.75 15.25 12.2949 15.25 10.5C15.25 8.70507 13.7949 7.25 12 7.25Z"
+                            fill="#AEAEB2"
+                    />
+                    <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M3.52439 9.35685C3.87872 5.05824 7.47087 1.75 11.784 1.75H12.216C16.5292 1.75 20.1213 5.05824 20.4756 9.35685C20.666 11.666 19.9527 13.9589 18.486 15.7526L13.693 21.6144C12.818 22.6845 11.182 22.6845 10.307 21.6144L5.51399 15.7526C4.04733 13.9589 3.33405 11.666 3.52439 9.35685ZM11.784 3.25C8.25152 3.25 5.30951 5.95948 5.01932 9.48008C4.8609 11.4019 5.45455 13.3102 6.67521 14.8031L11.4682 20.6649C11.7431 21.001 12.2569 21.001 12.5318 20.6649L17.3248 14.8031C18.5455 13.3102 19.1391 11.4019 18.9807 9.48008C18.6905 5.95948 15.7485 3.25 12.216 3.25H11.784Z"
+                            fill="#AEAEB2"
+                    />
+                </svg>
+                {{ announcement.address }}
+            </p>
+        </div>
+        <div class="carousel mt-8">
+          <div class="body-container">
+            <div class="card">
+              <div class="primeng-carousel relative">
+                <button class="absolute top-0 right-0 z-50" pButton type="button" icon="pi pi-external-link"
+                        (click)="displayBasic = true"></button>
+
+                <p-galleria [(activeIndex)]="activeIndex" [value]="images" [showIndicators]="false"
+                            [showItemNavigatorsOnHover]="true" [transitionInterval]="3000" [@fadeAnimation]="'true'"
+                            [thumbnailsPosition]="'bottom'" [containerStyle]="{ 'max-width': '100%' }"
+                            [numVisible]="4">
+                  <ng-template pTemplate="item" let-item>
+                    <img [@fadeAnimation]="'true'" [class.jump-animation]="images.indexOf(item) === activeIndex"
+                         [src]="item.image"
+                         style="width: 100%; max-height: 420px; display: block;object-fit: contain"/>
+                  </ng-template>
+                  <ng-template pTemplate="thumbnail" let-item>
+                    <div class="grid grid-nogutter justify-content-center">
+                      <img [src]="item.image" style="max-height: 60px;"/>
+                    </div>
+                  </ng-template>
+                </p-galleria>
+              </div>
+              <div class="card flex justify-content-center">
+                <p-galleria [value]="images" [(visible)]="displayBasic" [responsiveOptions]="responsiveOptions"
+                            [containerStyle]="{'max-width': '50%'}" [numVisible]="9"
+                            [circular]="true" [fullScreen]="true" [showItemNavigators]="true">
+                  <ng-template pTemplate="item" let-item>
+                    <img [src]="item.image" style="width: 100%; display: block;"/>
+                  </ng-template>
+                  <ng-template pTemplate="thumbnail" let-item>
+                    <div class="grid grid-nogutter justify-content-center">
+                      <img [src]="item.image" style="display: block;"/>
+                    </div>
+                  </ng-template>
+                </p-galleria>
               </div>
             </div>
+            <app-price-block></app-price-block>
           </div>
+
         </div>
-        <div class="mt-[30px] body-container">
-          <app-info-tab [announcement]="announcement"></app-info-tab>
-          <app-search [getData]="afterSendFilter" [url]="'announcements'"></app-search>
+        <div class="body mt-[30px]">
+            <div>
+                <div>
+                    <p class="text-[20px] text-[var(--dark-3)]">
+                        {{ announcement.description }}
+                    </p>
+                    <div class="mt-[30px]">
+                        <div class="flex justify-between w-full">
+                            <h4 class="text-[18px] font-600">Qulayliklar</h4>
+                            <div class="flex gap-4">
+                                <p-tag [icon]="announcement.conditioner ? 'pi pi-check':'pi pi-times'"
+                                       [severity]="announcement.conditioner ? 'success':'danger'"
+                                       value="Konditsioner"></p-tag>
+                                <p-tag icon="pi pi-check" severity="success" value="Kir yuvish mashinasi"></p-tag>
+                                <p-tag [icon]="announcement.washing_machine ? 'pi pi-check':'pi pi-times'"
+                                       [severity]="announcement.washing_machine ? 'success':'danger'"
+                                       value="Konditsioner"></p-tag>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-[30px] body-container">
+                    <app-info-tab [announcement]="announcement"></app-info-tab>
+                    <app-search [getData]="afterSendFilter" [url]="'announcements'"></app-search>
+                </div>
+                <!--        <AppInfoTab class="mt-[30px]" :announcement="announcement" />-->
+            </div>
+            <!--      <AppSearch />-->
         </div>
-<!--        <AppInfoTab class="mt-[30px]" :announcement="announcement" />-->
-      </div>
-<!--      <AppSearch />-->
     </div>
-  </div>
 </div>

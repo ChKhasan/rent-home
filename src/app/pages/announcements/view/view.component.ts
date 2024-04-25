@@ -5,6 +5,9 @@ import {GalleriaModule} from "primeng/galleria";
 import {TagModule} from "primeng/tag";
 import {InfoTabComponent} from "../../../shared/components/announcement/info-tab/info-tab.component";
 import {SearchComponent} from "../../../shared/components/announcement/search/search.component";
+import {ButtonModule} from "primeng/button";
+import {animate, style, transition, trigger} from "@angular/animations";
+import {PriceBlockComponent} from "../../../shared/components/announcement/price-block/price-block.component";
 
 @Component({
   selector: 'app-view',
@@ -13,12 +16,27 @@ import {SearchComponent} from "../../../shared/components/announcement/search/se
     GalleriaModule,
     TagModule,
     InfoTabComponent,
-    SearchComponent
+    SearchComponent,
+    ButtonModule,
+    PriceBlockComponent
   ],
   templateUrl: './view.component.html',
-  styleUrl: './view.component.css'
+  styleUrl: './view.component.css',
+  animations: [
+    trigger('fadeAnimation', [
+      transition('void => *', [
+        style({ opacity: 0 }),
+        animate('300ms', style({ opacity: 1 }))
+      ]),
+      transition('* => void', [
+        animate('300ms', style({ opacity: 0 }))
+      ])
+    ])
+  ]
 })
 export class ViewComponent implements OnInit {
+  displayBasic: boolean = false;
+  activeIndex = 0;
   public announcement = {
     title: undefined,
     appartment_status: undefined,
