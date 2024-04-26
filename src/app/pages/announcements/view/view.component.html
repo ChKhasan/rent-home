@@ -1,5 +1,5 @@
 <div class="announcement py-[60px]">
-    <div class="2xl:container mx-auto px-4">
+    <div class="2xl:container mx-auto px-4" >
         <div class="back mb-[30px]">
             <button
                     (click)="goBack()"
@@ -111,7 +111,7 @@
                 </p-galleria>
               </div>
             </div>
-            <app-price-block></app-price-block>
+            <app-price-block [announcement]="announcement"></app-price-block>
           </div>
 
         </div>
@@ -119,7 +119,7 @@
             <div>
                 <div>
                     <p class="text-[20px] text-[var(--dark-3)]">
-                        {{ announcement.description }}
+                        {{announcement ? announcement.description:'' }}
                     </p>
                     <div class="mt-[30px]">
                         <div class="flex justify-between w-full">

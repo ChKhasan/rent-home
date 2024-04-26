@@ -1,0 +1,40 @@
+<p-dialog [(visible)]="visible"
+          [dismissableMask]="true"
+          [modal]="true"
+          [style]="{ width: '456px',borderRadius: '12px',overflow: 'hidden',padding: 0 }"
+          [showHeader]="false"
+>
+  <div class="flex flex-col gap-[24px]">
+    <div class="flex justify-center">
+      <h2 class="font-700 text-[31px]">
+        Kodni kiriting
+      </h2>
+    </div>
+    <div>
+<!--      <div [formGroup]="ruleForm" class="flex flex-col gap-[18px]">-->
+        <div class="flex flex-col gap-2 items-center relative">
+          <label class="font-400 text-[--gray-6] text-base" >Telefon raqamingiz</label>
+          <p-inputOtp [length]="5" [(ngModel)]="value"></p-inputOtp>
+
+        </div>
+<!--      </div>-->
+      <button
+        pButton
+        [loading]="loading"
+        (click)="onSubmit()"
+        class="w-full mt-[18px] h-12 items-center text-[17px] bg-[color:var(--green)] rounded-[8px] text-white font-600 flex justify-center"
+      >
+        Tasdiqlash
+      </button>
+      <div class="flex justify-center mt-4">
+        <button
+          class="mx-auto font-600 text-[17px] bg-[transparent] text-[color:var(--green)]"
+        >
+          Boshqa tel raqam kiritish
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+</p-dialog>

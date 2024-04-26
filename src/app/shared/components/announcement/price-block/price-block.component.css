@@ -1,59 +1,16 @@
-.ripple {
-    /*background: #79b928;
-    color: #fff;*/
-    padding: 20px 23px;
-    position: relative;
-    overflow: hidden;
-}
 
-.ripple::before {
-    content: "";
-    position: absolute;
-    background-color: rgba(0,0,0,.1);
-    width: 10%;
-    height: 25%;
-    border-radius: 50%;
-    z-index: 1;
-    top: 35%;
-    left: 45%;
-    -webkit-transform: scale(0);
-    transform: scale(0);
-}
-
-/*.ripple:hover {
-	background: #74b126;
-	color: #fff;
-}*/
-
-.ripple:hover::before {
-    -webkit-transform: scale(12);
-    transform: scale(12);
-    -webkit-transition: border-radius .5s .5s,-webkit-transform .5s;
-    transition: border-radius .5s .5s,-webkit-transform .5s;
-    transition: transform .5s,border-radius .5s .5s;
-    transition: transform .5s,border-radius .5s .5s,-webkit-transform .5s;
-}
-
-.ripple:hover::after {
-    content: "";
-    position: absolute;
-    z-index: 2;
-    left: 50%;
-    -webkit-transform: translateX(-50%);
-    transform: translateX(-50%);
-}
 .box {
     border-radius: 8px;
     position: relative;
     width: 100%;
     padding: 18px 0;
-    display: inline-block;
+    display: flex;
     text-decoration: none;
     /*text-transform: uppercase;*/
     overflow: hidden;
     cursor: pointer;
     font-size: 16px;
-    background-color:  rgb(0, 160, 0);
+    background-color:  rgba(0, 160, 0,0.5);
     transition:
             box-shadow 0.4s ease,
             background-color 0.4s ease,
@@ -85,10 +42,15 @@
             0 0 18px 0 rgba(238, 170, 51, 0.6),
             0 0 4px 0 rgba(238, 170, 51, 0.7);
 }
-
+.box div {
+  transition: .4s
+}
+.box:hover div {
+  top: -48px;
+}
 .box span {
     color: #fff;
-    letter-spacing: 4px;
+    letter-spacing: 3px;
     position: relative;
     z-index: 4
 }
@@ -121,12 +83,12 @@
 }
 .box i:before {
     border-radius: 46%;
-    background-color: rgba(20, 20, 20, 0.2);
+    background-color: rgba(20, 20, 20, 0.08);
     animation: animate 5s linear infinite;
 }
 .box i:after {
     border-radius: 40%;
-    background-color: rgba(20, 20, 20, 0.5);
+    background-color: rgba(20, 20, 20, 0.1);
     animation: animate 10s linear infinite;
 }
 

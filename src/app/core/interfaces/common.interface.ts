@@ -1,11 +1,21 @@
-import {FormControl, FormGroup} from "@angular/forms";
-
 export interface Announcement {
-  userId: number,
-  id: number,
+  transports: any,
+  images: UserImages[],
   title: string,
-  body: string,
-  images: any[]
+  partnership: boolean,
+  need_people_count: number,
+  room_count: number,
+  address: string,
+  location_x: number | string,
+  location_y: number | string,
+  currency: string,
+  total_price: number,
+  price_for_one: number,
+  appartment_status: number,
+  description: string,
+  conditioner: boolean,
+  washing_machine: boolean,
+  user: UserInfo,
 }
 
 export interface CommentPayload {

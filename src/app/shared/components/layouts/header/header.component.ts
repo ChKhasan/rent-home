@@ -6,6 +6,8 @@ import {ToastModule} from "primeng/toast";
 import {RegisterDialogComponent} from "../../modals/register-dialog/register-dialog.component";
 import {AuthDialogComponent} from "../../modals/auth-dialog/auth-dialog.component";
 import {AuthService} from "../../../../core/services/auth/auth.service";
+import {NumberDialogComponent} from "../../modals/number-dialog/number-dialog.component";
+import {SmsDialogComponent} from "../../modals/sms-dialog/sms-dialog.component";
 
 @Component({
   selector: 'app-header',
@@ -15,7 +17,9 @@ import {AuthService} from "../../../../core/services/auth/auth.service";
     NgIf,
     ToastModule,
     RegisterDialogComponent,
-    AuthDialogComponent
+    AuthDialogComponent,
+    NumberDialogComponent,
+    SmsDialogComponent
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
@@ -24,6 +28,8 @@ import {AuthService} from "../../../../core/services/auth/auth.service";
 export class HeaderComponent implements OnInit{
   @ViewChild(RegisterDialogComponent) registerDialogComponent!: RegisterDialogComponent;
   @ViewChild(AuthDialogComponent) authDialogComponent!: AuthDialogComponent;
+  @ViewChild(NumberDialogComponent) numberDialogComponent!: NumberDialogComponent;
+  @ViewChild(SmsDialogComponent) smsDialogComponent!: SmsDialogComponent;
   public profileDrop: Boolean = false
 
 constructor(
@@ -48,6 +54,15 @@ constructor(
     });}
   openAuthDialog() {
     this.authDialogComponent.showDialog();
+  }
+  openNumberDialog() {
+    this.numberDialogComponent.showDialog()
+  }
+  openSmsDialog() {
+    this.smsDialogComponent.showDialog()
+  }
+  completeCallback = () => {
+    console.log("asdasda")
   }
   logout() {
     this.authService.logout();

@@ -8,6 +8,7 @@ import {SearchComponent} from "../../../shared/components/announcement/search/se
 import {ButtonModule} from "primeng/button";
 import {animate, style, transition, trigger} from "@angular/animations";
 import {PriceBlockComponent} from "../../../shared/components/announcement/price-block/price-block.component";
+import {Announcement} from "../../../core/interfaces/common.interface";
 
 @Component({
   selector: 'app-view',
@@ -35,16 +36,10 @@ import {PriceBlockComponent} from "../../../shared/components/announcement/price
   ]
 })
 export class ViewComponent implements OnInit {
+  loading:boolean = false;
   displayBasic: boolean = false;
   activeIndex = 0;
-  public announcement = {
-    title: undefined,
-    appartment_status: undefined,
-    address: undefined,
-    description: undefined,
-    conditioner: false,
-    washing_machine: false
-  };
+  public announcement!: Announcement;
   private id: string | null = '';
   images!: any[];
 
@@ -70,9 +65,11 @@ export class ViewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.announcementService.getById(this.id).subscribe((response) => {
+    this.loading = true;
+    this.announcementService.getById(this.id).subscribe((response: Announcement) => {
       this.announcement = response
       this.images = response.images
+      this.loading = false;
     })
   }
   goBack(): void {

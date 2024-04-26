@@ -1,6 +1,8 @@
 <div class="header bg-[color:#fff]">
   <app-register-dialog></app-register-dialog>
   <app-auth-dialog [url]="'profile'"></app-auth-dialog>
+  <app-number-dialog [completeCallback]="completeCallback" [url]="'profile'"></app-number-dialog>
+  <app-sms-dialog [completeCallback]="completeCallback"> </app-sms-dialog>
   <p-toast></p-toast>
   <div class="py-[20px] 2xl:container mx-auto flex justify-between px-4">
     <div class="flex gap-[40px] items-center">
@@ -161,7 +163,7 @@
             </li>
             <li
               *ngIf="!authService.auth"
-              (click)="openAuthDialog()"
+              (click)="openSmsDialog()"
               class="flex gap-[12px] cursor-pointer items-center whitespace-nowrap font-500 text-[16px] pb-[18px] border-[0] border-b border-solid border-[color:#E5E5EA]"
             >
               <svg

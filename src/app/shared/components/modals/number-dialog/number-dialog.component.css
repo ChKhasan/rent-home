@@ -1,0 +1,27 @@
+.user-icon {
+  box-shadow: 0px 15px 24px 0px rgba(0, 0, 0, 0.08),
+  0px -12px 14px 0px rgba(0, 0, 0, 0.14) inset;
+}
+:host ::ng-deep .p-dialog {
+  box-shadow: none;
+}
+:host ::ng-deep .p-dialog-content {
+  padding: 40px
+}
+:host ::ng-deep .p-inputmask {
+  border-radius: 8px;
+  border: 2px solid var(--input-stroke);
+  background: var(--gray-1 );
+  height: 48px;
+  font-family: var(--medium);
+  color: var(--dark-5);
+  width: 100%;
+}
+
+:host ::ng-deep .mask-input .p-inputmask {
+  padding-left:57px;
+}
+.number-style {
+  font-family: var(--medium);
+  color: var(--dark-5);
+}

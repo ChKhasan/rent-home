@@ -8,16 +8,16 @@
     </div>
     <div class="flex flex-col gap-3 pb-6 border-[0] border-solid border-b border-[#D1DDD1] mt-6">
         <div class="flex justify-between"><h4 class="font-600 text-[18px]">Xonalar soni</h4> <h4
-                class="font-600 text-[18px]">1</h4></div>
-        <div class="flex justify-between"><h4 class="font-400 text-base">Odamlar soni</h4> <h4
+                class="font-600 text-[18px]">{{announcement.room_count}}</h4></div>
+        <div class="flex justify-between" *ngIf="announcement.partnership"><h4 class="font-400 text-base">Odamlar soni</h4> <h4
                 class="font-400 text-base">
-            1</h4></div>
-        <div class="flex justify-between "><h4 class="font-400 text-base">Umumiy narx</h4> <h4
-                class="font-600 text-[18px] ">350 000 UZS</h4></div>
+          {{announcement.need_people_count}}</h4></div>
+        <div class="flex justify-between "><h4 class="font-400 text-base">Narx: kishi uchun</h4> <h4
+                class="font-600 text-[18px] ">{{announcement.price_for_one | price}} UZS</h4></div>
 
     </div>
-    <div class="flex justify-between mt-6"><h4 class="font-400 text-[17px]">Narx: kishi uchun</h4>
-        <h4 class="font-600 text-[20px] text-[--green]">350 000 UZS</h4>
+    <div class="flex justify-between mt-6"><h4 class="font-400 text-[17px]">Narx:</h4>
+        <h4 class="font-600 text-[20px] text-[--green]">{{announcement.total_price |  price }} UZS</h4>
     </div>
 <!--    <p-button-->
 <!--            [loading]="loading"-->
@@ -33,8 +33,11 @@
 <!--    >-->
 <!--        Aloqaga chiqish-->
 <!--    </a>-->
-    <div class="box mt-[18px]">
-        <span class="flex w-full justify-center">  Aloqaga chiqish</span>
+    <div class="box mt-[18px] h-12 flex justify-center">
+     <div class="absolute top-0">
+       <span class="text flex w-full justify-center items-center h-12">  Aloqaga chiqish</span>
+       <span class="phone_number flex w-full justify-center items-center h-12">  +998 99 730 14 99</span>
+     </div>
         <i></i>
     </div>
 </div>
