@@ -33,3 +33,7 @@
 ::ng-deep .p-galleria-panel {
    transition: opacity 0.3s ease-in-out;
  }
+
+:host ::ng-deep .p-skeleton {
+  height: 100% !important;
+}

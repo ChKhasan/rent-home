@@ -9,6 +9,8 @@ import {ButtonModule} from "primeng/button";
 import {animate, style, transition, trigger} from "@angular/animations";
 import {PriceBlockComponent} from "../../../shared/components/announcement/price-block/price-block.component";
 import {Announcement} from "../../../core/interfaces/common.interface";
+import {SkeletonModule} from "primeng/skeleton";
+import {StyleClassModule} from "primeng/styleclass";
 
 @Component({
   selector: 'app-view',
@@ -19,7 +21,9 @@ import {Announcement} from "../../../core/interfaces/common.interface";
     InfoTabComponent,
     SearchComponent,
     ButtonModule,
-    PriceBlockComponent
+    PriceBlockComponent,
+    SkeletonModule,
+    StyleClassModule
   ],
   templateUrl: './view.component.html',
   styleUrl: './view.component.css',
@@ -36,7 +40,7 @@ import {Announcement} from "../../../core/interfaces/common.interface";
   ]
 })
 export class ViewComponent implements OnInit {
-  loading:boolean = false;
+  loading:boolean = true;
   displayBasic: boolean = false;
   activeIndex = 0;
   public announcement!: Announcement;
@@ -65,7 +69,6 @@ export class ViewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loading = true;
     this.announcementService.getById(this.id).subscribe((response: Announcement) => {
       this.announcement = response
       this.images = response.images

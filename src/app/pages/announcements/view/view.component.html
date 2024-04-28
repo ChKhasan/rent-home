@@ -23,8 +23,10 @@
         <div class="head">
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-4">
-                    <h1 class="font-600 text-[48px]">{{ announcement.title }}</h1>
-                    <span class="flex items-center gap-1 font-600 text-[20px]"
+                  <p-skeleton *ngIf="loading, else title"   class="w-[600px] h-[60px]"  styleClass="ng_skeleton h-10"></p-skeleton>
+                  <ng-template #title><h1 class="font-600 text-[48px]" >{{ announcement.title }}</h1></ng-template>
+
+                    <span class="flex items-center gap-1 font-600 text-[20px]" *ngIf="!loading"
                     ><svg
                             width="32"
                             height="33"
@@ -39,110 +41,131 @@
                     >5
             </span>
                 </div>
+              <p-skeleton *ngIf="loading, else reyting"  class="w-[160px] h-[44px]"  styleClass="ng_skeleton h-10"></p-skeleton>
+              <ng-template #reyting>
                 <div
-                        class="flex bg-[var(--grey-1)] font-500 text-[18px] h-11 px-3 justify-center items-center rounded-xl gap-2"
+                  class="flex bg-[var(--grey-1)] font-500 text-[18px] h-11 px-3 justify-center items-center rounded-xl gap-2"
                 >
-                    <p class="text-black text-[18px] font-500">Juda yaxshi:</p>
-                    <span
-                            class="bg-[var(--green)] h-5 px-1 rounded font-400 text-[18px] flex items-center text-white"
-                    >{{ announcement.appartment_status }}</span
-                    >
+                  <p class="text-black text-[18px] font-500">Juda yaxshi:</p>
+                  <span
+                    class="bg-[var(--green)] h-5 px-1 rounded font-400 text-[18px] flex items-center text-white"
+                  >{{ announcement.appartment_status }}</span
+                  >
                 </div>
+              </ng-template>
+
             </div>
+          <p-skeleton *ngIf="loading, else address"  class="w-[40%] flex mt-5 h-[25px]"  styleClass="ng_skeleton h-10"></p-skeleton>
+          <ng-template #address>
             <p class="text-[18px] flex justify-start items-center gap-3 mt-5">
-                <svg
-                        width="24"
-                        height="25"
-                        viewBox="0 0 24 25"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                >
-                    <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M7.25 10.5C7.25 7.87665 9.37665 5.75 12 5.75C14.6233 5.75 16.75 7.87665 16.75 10.5C16.75 13.1234 14.6233 15.25 12 15.25C9.37665 15.25 7.25 13.1234 7.25 10.5ZM12 7.25C10.2051 7.25 8.75 8.70507 8.75 10.5C8.75 12.2949 10.2051 13.75 12 13.75C13.7949 13.75 15.25 12.2949 15.25 10.5C15.25 8.70507 13.7949 7.25 12 7.25Z"
-                            fill="#AEAEB2"
-                    />
-                    <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M3.52439 9.35685C3.87872 5.05824 7.47087 1.75 11.784 1.75H12.216C16.5292 1.75 20.1213 5.05824 20.4756 9.35685C20.666 11.666 19.9527 13.9589 18.486 15.7526L13.693 21.6144C12.818 22.6845 11.182 22.6845 10.307 21.6144L5.51399 15.7526C4.04733 13.9589 3.33405 11.666 3.52439 9.35685ZM11.784 3.25C8.25152 3.25 5.30951 5.95948 5.01932 9.48008C4.8609 11.4019 5.45455 13.3102 6.67521 14.8031L11.4682 20.6649C11.7431 21.001 12.2569 21.001 12.5318 20.6649L17.3248 14.8031C18.5455 13.3102 19.1391 11.4019 18.9807 9.48008C18.6905 5.95948 15.7485 3.25 12.216 3.25H11.784Z"
-                            fill="#AEAEB2"
-                    />
-                </svg>
-                {{ announcement.address }}
+              <svg
+                width="24"
+                height="25"
+                viewBox="0 0 24 25"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M7.25 10.5C7.25 7.87665 9.37665 5.75 12 5.75C14.6233 5.75 16.75 7.87665 16.75 10.5C16.75 13.1234 14.6233 15.25 12 15.25C9.37665 15.25 7.25 13.1234 7.25 10.5ZM12 7.25C10.2051 7.25 8.75 8.70507 8.75 10.5C8.75 12.2949 10.2051 13.75 12 13.75C13.7949 13.75 15.25 12.2949 15.25 10.5C15.25 8.70507 13.7949 7.25 12 7.25Z"
+                  fill="#AEAEB2"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M3.52439 9.35685C3.87872 5.05824 7.47087 1.75 11.784 1.75H12.216C16.5292 1.75 20.1213 5.05824 20.4756 9.35685C20.666 11.666 19.9527 13.9589 18.486 15.7526L13.693 21.6144C12.818 22.6845 11.182 22.6845 10.307 21.6144L5.51399 15.7526C4.04733 13.9589 3.33405 11.666 3.52439 9.35685ZM11.784 3.25C8.25152 3.25 5.30951 5.95948 5.01932 9.48008C4.8609 11.4019 5.45455 13.3102 6.67521 14.8031L11.4682 20.6649C11.7431 21.001 12.2569 21.001 12.5318 20.6649L17.3248 14.8031C18.5455 13.3102 19.1391 11.4019 18.9807 9.48008C18.6905 5.95948 15.7485 3.25 12.216 3.25H11.784Z"
+                  fill="#AEAEB2"
+                />
+              </svg>
+              {{ announcement.address }}
             </p>
+          </ng-template>
+
         </div>
         <div class="carousel mt-8">
           <div class="body-container">
             <div class="card">
-              <div class="primeng-carousel relative">
-                <button class="absolute top-0 right-0 z-50" pButton type="button" icon="pi pi-external-link"
-                        (click)="displayBasic = true"></button>
+              <p-skeleton *ngIf="loading, else carousel"  class="w-full flex mt-5 h-[420px]"  styleClass="ng_skeleton h-10"></p-skeleton>
+              <ng-template #carousel>
+                <div class="primeng-carousel relative">
+                  <button class="absolute top-0 right-0 z-50" pButton type="button" icon="pi pi-external-link"
+                          (click)="displayBasic = true"></button>
 
-                <p-galleria [(activeIndex)]="activeIndex" [value]="images" [showIndicators]="false"
-                            [showItemNavigatorsOnHover]="true" [transitionInterval]="3000" [@fadeAnimation]="'true'"
-                            [thumbnailsPosition]="'bottom'" [containerStyle]="{ 'max-width': '100%' }"
-                            [numVisible]="4">
-                  <ng-template pTemplate="item" let-item>
-                    <img [@fadeAnimation]="'true'" [class.jump-animation]="images.indexOf(item) === activeIndex"
-                         [src]="item.image"
-                         style="width: 100%; max-height: 420px; display: block;object-fit: contain"/>
-                  </ng-template>
-                  <ng-template pTemplate="thumbnail" let-item>
-                    <div class="grid grid-nogutter justify-content-center">
-                      <img [src]="item.image" style="max-height: 60px;"/>
-                    </div>
-                  </ng-template>
-                </p-galleria>
-              </div>
-              <div class="card flex justify-content-center">
-                <p-galleria [value]="images" [(visible)]="displayBasic" [responsiveOptions]="responsiveOptions"
-                            [containerStyle]="{'max-width': '50%'}" [numVisible]="9"
-                            [circular]="true" [fullScreen]="true" [showItemNavigators]="true">
-                  <ng-template pTemplate="item" let-item>
-                    <img [src]="item.image" style="width: 100%; display: block;"/>
-                  </ng-template>
-                  <ng-template pTemplate="thumbnail" let-item>
-                    <div class="grid grid-nogutter justify-content-center">
-                      <img [src]="item.image" style="display: block;"/>
-                    </div>
-                  </ng-template>
-                </p-galleria>
-              </div>
+                  <p-galleria [(activeIndex)]="activeIndex" [value]="images" [showIndicators]="false"
+                              [showItemNavigatorsOnHover]="true" [transitionInterval]="3000" [@fadeAnimation]="'true'"
+                              [thumbnailsPosition]="'bottom'" [containerStyle]="{ 'max-width': '100%' }"
+                              [numVisible]="4">
+                    <ng-template pTemplate="item" let-item>
+                      <img [@fadeAnimation]="'true'" [class.jump-animation]="images.indexOf(item) === activeIndex"
+                           [src]="item.image"
+                           style="width: 100%; max-height: 420px; display: block;object-fit: contain"/>
+                    </ng-template>
+                    <ng-template pTemplate="thumbnail" let-item>
+                      <div class="grid grid-nogutter justify-content-center">
+                        <img [src]="item.image" style="max-height: 60px;"/>
+                      </div>
+                    </ng-template>
+                  </p-galleria>
+                </div>
+              </ng-template>
+              <p-skeleton *ngIf="loading, else thumb"  class="w-full flex mt-5 h-[91px]" styleClass="ng_skeleton h-10"></p-skeleton>
+              <ng-template #thumb>
+                <div class="card flex justify-content-center">
+                  <p-galleria [value]="images" [(visible)]="displayBasic" [responsiveOptions]="responsiveOptions"
+                              [containerStyle]="{'max-width': '50%'}" [numVisible]="9"
+                              [circular]="true" [fullScreen]="true" [showItemNavigators]="true">
+                    <ng-template pTemplate="item" let-item>
+                      <img [src]="item.image" style="width: 100%; display: block;"/>
+                    </ng-template>
+                    <ng-template pTemplate="thumbnail" let-item>
+                      <div class="grid grid-nogutter justify-content-center">
+                        <img [src]="item.image" style="display: block;"/>
+                      </div>
+                    </ng-template>
+                  </p-galleria>
+                </div>
+              </ng-template>
+
             </div>
             <app-price-block [announcement]="announcement"></app-price-block>
           </div>
 
         </div>
-        <div class="body mt-[30px]">
-            <div>
-                <div>
-                    <p class="text-[20px] text-[var(--dark-3)]">
-                        {{announcement ? announcement.description:'' }}
-                    </p>
+        <div class="body mt-[30px] flex flex-col ">
+            <div class="body-container">
+                <div >
+<!--                  <p-skeleton *ngIf="loading, else desc"  class="w-full flex mt-5" height="300px" styleClass="ng_skeleton h-10"></p-skeleton>-->
+<!--                  <ng-template #desc >-->
+<!--                    <p class="text-[20px] text-[var(&#45;&#45;dark-3)]">-->
+<!--                      {{announcement ? announcement.description:'' }}-->
+<!--                    </p>-->
+<!--                  </ng-template>-->
+
                     <div class="mt-[30px]">
                         <div class="flex justify-between w-full">
                             <h4 class="text-[18px] font-600">Qulayliklar</h4>
+                          <p-skeleton *ngIf="loading, else items"  class="w-[300px] flex mt-5 h-[26px]"  styleClass="ng_skeleton h-10"></p-skeleton>
+                          <ng-template #items>
                             <div class="flex gap-4">
-                                <p-tag [icon]="announcement.conditioner ? 'pi pi-check':'pi pi-times'"
-                                       [severity]="announcement.conditioner ? 'success':'danger'"
-                                       value="Konditsioner"></p-tag>
-                                <p-tag icon="pi pi-check" severity="success" value="Kir yuvish mashinasi"></p-tag>
-                                <p-tag [icon]="announcement.washing_machine ? 'pi pi-check':'pi pi-times'"
-                                       [severity]="announcement.washing_machine ? 'success':'danger'"
-                                       value="Konditsioner"></p-tag>
+                              <p-tag [icon]="announcement.conditioner ? 'pi pi-check':'pi pi-times'"
+                                     [severity]="announcement.conditioner ? 'success':'danger'"
+                                     value="Konditsioner"></p-tag>
+                              <p-tag icon="pi pi-check" severity="success" value="Kir yuvish mashinasi"></p-tag>
+                              <p-tag [icon]="announcement.washing_machine ? 'pi pi-check':'pi pi-times'"
+                                     [severity]="announcement.washing_machine ? 'success':'danger'"
+                                     value="Konditsioner"></p-tag>
                             </div>
+                          </ng-template>
+
                         </div>
                     </div>
                 </div>
-                <div class="mt-[30px] body-container">
-                    <app-info-tab [announcement]="announcement"></app-info-tab>
-                    <app-search [getData]="afterSendFilter" [url]="'announcements'"></app-search>
-                </div>
-                <!--        <AppInfoTab class="mt-[30px]" :announcement="announcement" />-->
             </div>
-            <!--      <AppSearch />-->
+          <div class="mt-[30px] body-container">
+            <app-info-tab [announcement]="announcement" [loading]="loading"></app-info-tab>
+            <app-search [getData]="afterSendFilter" [url]="'announcements'"></app-search>
+          </div>
         </div>
     </div>
 </div>

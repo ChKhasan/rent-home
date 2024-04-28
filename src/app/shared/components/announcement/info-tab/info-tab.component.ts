@@ -13,22 +13,24 @@ import {FieldsetModule} from "primeng/fieldset";
 import {AvatarModule} from "primeng/avatar";
 import {environment} from "../../../../../environments/environment";
 import {CommentBlockComponent} from "../comment-block/comment-block.component";
+import {SkeletonModule} from "primeng/skeleton";
 
 @Component({
   selector: 'app-info-tab',
   standalone: true,
-  imports: [
-    NgIf,
-    AngularYandexMapsModule,
-    CommentDialogComponent,
-    CommentCardComponent,
-    NgForOf,
-    FieldsetModule,
-    AvatarModule,
-    DatePipe,
-    CommentBlockComponent,
-    NgClass
-  ],
+    imports: [
+        NgIf,
+        AngularYandexMapsModule,
+        CommentDialogComponent,
+        CommentCardComponent,
+        NgForOf,
+        FieldsetModule,
+        AvatarModule,
+        DatePipe,
+        CommentBlockComponent,
+        NgClass,
+        SkeletonModule
+    ],
   templateUrl: './info-tab.component.html',
   styleUrl: './info-tab.component.css'
 })
@@ -36,7 +38,7 @@ export class InfoTabComponent {
   public tabHandle = 1;
   public zoom = 10;
   public coords = [0, 0];
-  public loading = false;
+  @Input() loading: boolean = true;
   @ViewChild(CommentDialogComponent) commentDialogComponent!: CommentDialogComponent
   @ViewChild(CommentBlockComponent) commentBlockComponent!: CommentBlockComponent
   @Input() announcement: any;
