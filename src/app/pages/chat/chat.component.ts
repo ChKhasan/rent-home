@@ -74,14 +74,14 @@ export class ChatComponent implements OnInit {
   ngOnInit(): void {
     if (typeof window !== 'undefined') {
       this.authService.authHandler().then(() => {
-        console.log("user get")
+        this.chatService.webSocketConnection();
+        this.webSocketService.onMessage().subscribe((message) => {
+          this.loading = false;
+          this.commandController(message);
+        });
         this.__GET_USER_ROOMS()
       });
 
-      this.webSocketService.onMessage().subscribe((message) => {
-        this.loading = false;
-        this.commandController(message);
-      });
     }
   }
 
