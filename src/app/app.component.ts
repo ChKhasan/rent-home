@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {Router, RouterOutlet} from "@angular/router";
+import {RouterOutlet} from "@angular/router";
 import { Location } from '@angular/common';
 import {HeaderComponent} from "./shared/components/layouts/header/header.component";
 import {FooterComponent} from "./shared/components/layouts/footer/footer.component";
@@ -22,7 +22,6 @@ export class AppComponent implements OnInit {
   constructor(
     private likesService: LikesService,
     private authService: AuthService,
-    private router: Router,
     private location: Location,
     private chatService: ChatService,
     private webSocketService: WebSocketService,
@@ -34,8 +33,8 @@ export class AppComponent implements OnInit {
     if (typeof window !== 'undefined') {
       let currentPath = this.location.path();
       if (!currentPath.includes('/profile/chat')) {
-        this.chatService.__GET_USER_ROOMS();
         this.authService.authHandler().then(() => {
+          this.chatService.__GET_USER_ROOMS();
           this.sokectEventHandler();
           const AUTH_TOKEN = localStorage.getItem(environment.accessToken);
           Boolean(AUTH_TOKEN) ? this.POST_GET_LIKES() : this.likesService.reloadLikes();
@@ -69,6 +68,7 @@ export class AppComponent implements OnInit {
   sokectEventHandler() {
     this.chatService.webSocketConnection();
     this.webSocketService.onMessage().subscribe((message) => {
+      console.log(message)
       this.commandController(message);
     });
   }
