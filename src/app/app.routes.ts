@@ -12,6 +12,7 @@ import {MapLayoutComponent} from "./shared/components/layouts/map-layout/map-lay
 import {LayoutComponent} from "./shared/components/layouts/layout/layout.component";
 import {authGuard} from "./core/guards/auth.guard";
 import {LikesComponent} from "./pages/likes/likes.component";
+import {ChatComponent} from "./pages/chat/chat.component";
 
 export const routes: Routes = [
   {
@@ -40,6 +41,7 @@ export const routes: Routes = [
       { path: 'create', component: CreateComponent },
       { path: 'announcements/:id', component: EditComponent },
       { path: 'announcements', component: AnnouncementsComponent },
+      { path: 'chat', component: ChatComponent },
     ]
   },
   ];

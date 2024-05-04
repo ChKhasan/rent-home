@@ -5,3 +5,18 @@
 <footer>
   <app-footer></app-footer>
 </footer>
+<p-toast position="top-center" key="confirm" [baseZIndex]="5000">
+  <ng-template let-message pTemplate="message">
+    <div class="flex flex-col items-start" style="flex: 1">
+      <div class="flex align-items-center gap-2">
+        <p-avatar *ngIf="message.data.user.images.length > 0, else image" class="object-cover" [image]="message.data.user.images[0].image" shape="circle"/>
+        <ng-template #image>
+          <p-avatar  class="object-cover" image="./assets/images/avatar.png" shape="circle"/>
+        </ng-template>
+        <span class="font-bold text-900">{{message.data.user.name}}</span>
+      </div>
+      <div class="font-medium text-lg my-3 text-900">{{message.summary}}</div>
+
+    </div>
+  </ng-template>
+</p-toast>

@@ -27,6 +27,12 @@ export class TabComponent {
       to: "/profile/announcements",
       name: "profile-announcements",
     },
+    {
+      title: "Mening yozishmalarim",
+      id: 3,
+      to: "/profile/chat",
+      name: "profile-chat",
+    },
   ];
   activeRouteName: string | undefined;
   constructor(public router: Router,public route: ActivatedRoute) {
@@ -34,7 +40,6 @@ export class TabComponent {
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
       this.activeRouteName = this.router.url;
-      console.log(this.activeRouteName)
     });
   }
 }

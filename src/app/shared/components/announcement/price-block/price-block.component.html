@@ -6,27 +6,49 @@
             <span class="flex items-center text-[color:var(--green)]">ma'lumotlar</span>
         </h5>
     </div>
-    <div class="flex flex-col gap-3 pb-6 border-[0] border-solid border-b border-[#D1DDD1] mt-6">
-        <div class="flex justify-between"><h4 class="font-600 text-[18px]">Xonalar soni</h4> <h4
-                class="font-600 text-[18px]">{{announcement.room_count}}</h4></div>
-        <div class="flex justify-between" *ngIf="announcement.partnership"><h4 class="font-400 text-base">Odamlar soni</h4> <h4
-                class="font-400 text-base">
-          {{announcement.need_people_count}}</h4></div>
-        <div class="flex justify-between "><h4 class="font-400 text-base">Narx: kishi uchun</h4> <h4
-                class="font-600 text-[18px] ">{{announcement.price_for_one | price}} UZS</h4></div>
+  <div *ngIf="loading, else texts" class="flex flex-col gap-3 pb-6 border-[0] border-solid border-b border-[#D1DDD1] mt-6">
+    <p-skeleton   class="w-full flex  h-[23px]" styleClass="ng_skeleton h-10"></p-skeleton>
+    <p-skeleton   class="w-full flex  h-[23px]" styleClass="ng_skeleton h-10"></p-skeleton>
+    <p-skeleton   class="w-full flex  h-[23px]" styleClass="ng_skeleton h-10"></p-skeleton>
 
+  </div>
+  <ng-template #texts>
+    <div class="flex flex-col gap-3 pb-6 border-[0] border-solid border-b border-[#D1DDD1] mt-6">
+      <div class="flex justify-between">
+        <h4 class="font-600 text-[18px]">Xonalar soni</h4>
+        <h4 class="font-600 text-[18px]">{{announcement.room_count}}</h4>
+      </div>
+      <div class="flex justify-between" *ngIf="announcement.partnership">
+        <h4 class="font-400 text-base">Odamlar soni</h4>
+        <h4 class="font-400 text-base"> {{announcement.need_people_count}}</h4>
+      </div>
+      <div class="flex justify-between ">
+        <h4 class="font-400 text-base">Narx: kishi uchun</h4>
+        <h4 class="font-600 text-[18px] ">{{announcement.price_for_one | price}} UZS</h4>
+      </div>
     </div>
-    <div class="flex justify-between mt-6"><h4 class="font-400 text-[17px]">Narx:</h4>
-        <h4 class="font-600 text-[20px] text-[--green]">{{announcement.total_price |  price }} UZS</h4>
+  </ng-template>
+  <div class="flex justify-between mt-6" *ngIf="loading, else price">
+
+    <p-skeleton   class="w-full flex h-[23px]" styleClass="ng_skeleton h-10"></p-skeleton>
+  </div>
+  <ng-template #price>
+    <div class="flex justify-between mt-6">
+      <h4 class="font-400 text-[17px]">Narx:</h4>
+      <h4 class="font-600 text-[20px] text-[--green]">{{announcement.total_price |  price }} UZS</h4>
     </div>
-<!--    <p-button-->
-<!--            [loading]="loading"-->
-<!--            (click)="filterSend()"-->
-<!--            styleClass="ripple-button mt-[18px] w-full py-[14px] bg-[color:var(&#45;&#45;green)] rounded-[8px] text-white font-600 flex justify-center"-->
-<!--            class=" px-0 py-0 rounded-[8px] bg-[transparent] border-0"-->
-<!--    >-->
-<!--       Xabar qoldirish-->
-<!--    </p-button>-->
+  </ng-template>
+
+    <p-button
+      *ngIf="authService.user.id !== announcement?.user"
+            [loading]="loading"
+            (click)="toChat()"
+            styleClass="ripple-button mt-[18px] w-full gap-4 items-center py-[14px] bg-[color:var(--green)] rounded-[8px] text-white font-600 flex justify-center"
+            class=" px-0 py-0 rounded-[8px] bg-[transparent] border-0"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24"><path fill="#fff" d="M18 3a4 4 0 0 1 4 4v8a4 4 0 0 1-4 4h-4.724l-4.762 2.857a1 1 0 0 1-1.508-.743L7 21v-2H6a4 4 0 0 1-3.995-3.8L2 15V7a4 4 0 0 1 4-4zm-4 9H8a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2m2-4H8a1 1 0 1 0 0 2h8a1 1 0 0 0 0-2"/></svg>
+       Xabar qoldirish
+    </p-button>
 <!--    <a-->
 <!--            href="#"-->
 <!--            class="ripple mt-[18px] w-full border border-solid border-[&#45;&#45;green] text-[&#45;&#45;green] py-[14px] bg-[transparent] rounded-[8px]  font-600 flex justify-center px-0 "-->
@@ -41,3 +63,4 @@
         <i></i>
     </div>
 </div>
+<app-auth-dialog></app-auth-dialog>

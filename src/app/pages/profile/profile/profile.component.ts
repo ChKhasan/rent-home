@@ -72,7 +72,7 @@ export class ProfileComponent implements OnInit {
 
   __GET_USER() {
     this.authService.getUser().subscribe((data: UserInfo) => {
-      this.avatar = data.images[0].image
+      this.avatar = data.images.length > 0 ? data.images[0].image:''
       this.ruleForm.patchValue({
         name: data.name || '',
         first_name: data.first_name || '',

@@ -53,7 +53,7 @@ export class CommentBlockComponent implements OnInit,OnDestroy{
       this.webSocketConnection()
     }
   }
-  webSocketConnection() {
+  webSocketConnection = () => {
     this.id = this.route.snapshot.paramMap.get('id');
     this.url = `/announcement/${this.id}/`
     this.webSocketService.connect(`wss://api.rent-home.uz/ws/announcement/${this.id}/`);
@@ -77,6 +77,7 @@ export class CommentBlockComponent implements OnInit,OnDestroy{
     });
   }
   sendMessage(): void {
+    console.log(this.authService)
     if(this.authService.auth && this.authService.user.id) {
       this.loading = true;
       this.pendingComments.push({

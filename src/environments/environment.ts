@@ -27,7 +27,9 @@ export const environment = {
     POST_TRANSPORTS: '/api/proxy/',
     POST_COMMENTS: '/api/comment/',
     DELETE_COMMENTS: '/api/comment/',
-    PUT_USER: '/api/users/'
+    PUT_USER: '/api/users/',
+    GET_USERROOMS: '/api/user-rooms/',
+    GET_USERMESSAGES: '/api/user-rooms/'
 
   }
 };

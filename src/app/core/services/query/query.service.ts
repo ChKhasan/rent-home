@@ -58,7 +58,7 @@ export class QueryService {
     return query
   }
 
-  updateCustomQuery = (e: any, func: Function) => {
+  updateCustomQuery = (e: any, func?: Function) => {
     return new Promise<void>((resolve, reject) => {
       this.router.navigate([], {
         queryParams: this.generatorCustomQuery(e),

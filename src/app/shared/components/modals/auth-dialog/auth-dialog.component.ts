@@ -16,6 +16,7 @@ import {environment} from "../../../../../environments/environment";
 import {Router} from "@angular/router";
 import {finalize} from "rxjs";
 import {PasswordModule} from "primeng/password";
+import {WebSocketService} from "../../../../core/services/webSocket/web-socket.service";
 @Component({
   selector: 'app-auth-dialog',
   standalone: true,
@@ -40,6 +41,7 @@ export class AuthDialogComponent {
   visible: boolean = false;
   loading: boolean = false;
   @Input() url: string | undefined
+  @Input() afterComplite: Function | undefined
   public ruleForm = new FormGroup({
     password: passwordControl,
     phone_number: numberControl,
@@ -47,7 +49,8 @@ export class AuthDialogComponent {
   constructor(
     private authService: AuthService,
     private toastService: ToastService,
-    private router: Router
+    private router: Router,
+    private webSocketService: WebSocketService,
   ) {
   }
   eventPipe(data: any) {
@@ -56,6 +59,8 @@ export class AuthDialogComponent {
     this.ruleForm.reset();
     this.toastService.showMessage('success','Success',data.message)
     this.authService.authHandler();
+    if(this.afterComplite) this.afterComplite()
+
   }
   tokenHandle(data: any) {
     localStorage.setItem(environment.accessToken,data.access)
@@ -65,7 +70,6 @@ export class AuthDialogComponent {
 
   }
   public onSubmit(): void {
-    console.log(this.ruleForm)
     this.ruleForm.markAllAsTouched()
     if (this.ruleForm.invalid)  return;
     this.postLogin()

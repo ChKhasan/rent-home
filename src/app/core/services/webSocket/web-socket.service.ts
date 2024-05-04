@@ -15,8 +15,8 @@ export class WebSocketService {
 
 
   public connect(url: string): void {
-    console.log(this.socket$)
-    const token = localStorage.getItem(environment.accessToken)
+    const token = localStorage.getItem(environment.accessToken);
+    if(token)
     this.socket$ = webSocket(`${url}?token=${token}`);
   }
 

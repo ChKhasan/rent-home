@@ -10,7 +10,6 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 import {
   nameControl,
   numberControl,
-  passwordControl,
   passwordRegisterControl
 } from "../../../../core/common/form-control";
 import {ValidationErrorAnimation} from "../../../../core/common/animations";
@@ -43,9 +42,9 @@ export class RegisterDialogComponent {
   visible: boolean = false;
   loading: boolean = false;
   public ruleForm = new FormGroup({
-    password: passwordRegisterControl,
-    name: nameControl,
-    phone_number: numberControl,
+    password: new FormControl(undefined, [Validators.required,Validators.minLength(8),Validators.pattern(/^(?=.*[a-z])(?=.*\d).*$/)]),
+    name: new FormControl("", [Validators.required,Validators.minLength(4)]),
+    phone_number: new FormControl('', [Validators.required,Validators.pattern(/^\d{2} \d{3} \d{2} \d{2}$/)]),
   })
   constructor(private authService: AuthService,private toastService: ToastService) {
   }

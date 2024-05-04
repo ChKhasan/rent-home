@@ -18,24 +18,26 @@ export class AuthService {
   }
 
   authHandler() {
-    const AUTH_TOKEN = localStorage.getItem(environment.accessToken);
-    Boolean(AUTH_TOKEN) ?
-      this.getUser().subscribe((response: UserInfo) => {
-        if (response) {
-          this.user = response;
-          // if(response.images && !response.images[0].image.includes(environment.baseUrl)) {
-          //   this.user.images[0].image = environment.baseUrl + response.images[0].image
-          // }
-          this.auth = true;
-        }
-      }) :
-      this.auth = false;
+    return new Promise<void>((resolve, reject) => {
+      const AUTH_TOKEN = localStorage.getItem(environment.accessToken);
+      Boolean(AUTH_TOKEN) ?
+        this.getUser().subscribe((response: UserInfo) => {
+          if (response) {
+            this.user = response;
+            console.log(this.user)
+            this.auth = true;
+            resolve();
+          }
+        }):
+        this.auth = false;
+    })
+
   }
 
   logout() {
     localStorage.removeItem(environment.accessToken)
     localStorage.removeItem(environment.refreshToken)
-    this.authHandler()
+    this.authHandler().then(() => {})
   }
 
   postRegister(payload: any): Observable<Announcement[] | null> {

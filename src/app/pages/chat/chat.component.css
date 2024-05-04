@@ -1,0 +1,57 @@
+.chat-container {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.message-block {
+  box-shadow: 0 0 18px #00000014;
+}
+
+.board::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+.board::-webkit-scrollbar-track {
+  background: var(--grey-1);
+  border-radius: 10px;
+}
+
+/* Handle */
+.board::-webkit-scrollbar-thumb {
+  background: var(--green);
+  border-radius: 10px;
+}
+
+.message-block-head {
+  display: grid;
+  grid-template-columns: 2fr 1.5fr;
+}
+
+:host ::ng-deep .ng_skeleton {
+  width: 100%;
+  border-radius: 4px;
+  height: 85px !important;
+}
+
+.message-skeleton-1 {
+  max-width: 80%;
+  width: 100%;
+}
+
+.message-skeleton-2 {
+  max-width: 70%;
+  width: 100%;
+}
+
+.message-skeleton-3 {
+  max-width: 50%;
+  width: 100%;
+}
+
+.message-skeleton-4 {
+  max-width: 60%;
+  width: 100%;
+}

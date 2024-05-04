@@ -29,6 +29,7 @@ export interface CommentResponse {
   created: string | undefined,
   user: UserInfo
 }
+
 export interface UserInfo {
   email: string | null,
   first_name: string | null,
@@ -37,12 +38,14 @@ export interface UserInfo {
   name: string | null,
   images: UserImages[]
 }
+
 export interface UserImages {
   id: number,
   uuid: string,
   image: string,
   name: string | null
 }
+
 export interface Login {
   phone_number: string,
   password: string,
@@ -64,4 +67,33 @@ export interface FilterForm {
   total_price__gte: Number,
   total_price__lte: Number,
   room_count: Number,
+}
+
+export interface IUserRooms {
+  created_at?: string,
+  id: number,
+  message?: string,
+  messages: any[],
+  name: string,
+  user?: UserInfo,
+  users: UserInfo[]
+}
+
+export interface IMessage {
+  created_at?: string,
+  id: number,
+  is_read: boolean,
+  message: string,
+  receiver: number,
+  room: number,
+  sender: number
+}
+
+export interface IMessageObj {
+  created_at?: string,
+  id: number,
+  is_read: boolean,
+  messages: IMessage[],
+  name: string
+  users: UserInfo[]
 }

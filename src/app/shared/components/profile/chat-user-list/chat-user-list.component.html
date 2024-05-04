@@ -1,0 +1,42 @@
+<div class="user-list h-full flex flex-col rounded-[24px] border border-solid border-[var(--input-stroke)] bg-white ">
+  <div class="px-6 py-6">
+
+    <div class="search  border flex gap-6 border-solid border-[#EBEBEB] rounded-[12px] h-[52px] px-[22px] py-[14px]">
+      <input type="text" class="w-full h-full focus:outline-0 border-0" placeholder="Search" name="" id="">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M20.25 11.5C20.25 16.3325 16.3325 20.25 11.5 20.25C6.66751 20.25 2.75 16.3325 2.75 11.5C2.75 6.66751 6.66751 2.75 11.5 2.75C16.3325 2.75 20.25 6.66751 20.25 11.5ZM11.5 21.75C17.1609 21.75 21.75 17.1609 21.75 11.5C21.75 5.83908 17.1609 1.25 11.5 1.25C5.83908 1.25 1.25 5.83908 1.25 11.5C1.25 17.1609 5.83908 21.75 11.5 21.75ZM20.5303 19.4697C20.2374 19.1768 19.7626 19.1768 19.4697 19.4697C19.1768 19.7626 19.1768 20.2374 19.4697 20.5303L21.4696 22.5303C21.7625 22.8232 22.2374 22.8232 22.5303 22.5303C22.8232 22.2374 22.8232 21.7625 22.5303 21.4696L20.5303 19.4697Z" fill="#020105"/>
+      </svg>
+
+    </div>
+  </div>
+
+  <div
+    class="list flex flex-col gap-6"
+    *ngIf="loading, else messagesList"
+  >
+    <p-skeleton *ngFor="let item of skeletonList" class="w-full" styleClass="ng_skeleton"></p-skeleton>
+  </div>
+  <ng-template #messagesList>
+    <div class="list flex flex-col max-h-[670px] overflow-y-scroll pb-4">
+      <div (click)="handlerRoom(room)" [ngClass]="{active: isRoom.id === room.id}" class="user-card px-6 cursor-pointer gap-4 flex py-5 border-[0] border-b border-solid border-[#E8E8F7]" *ngFor="let room of userRooms">
+        <div class="image h-[60px] min-w-[60px] w-[60px] rounded-full overflow-hidden">
+          <img *ngIf="room.user && room.user.images.length > 0, else image" [src]="room.user.images[0].image" class="w-full h-full object-cover" alt="">
+          <ng-template #image>
+            <img  src="./assets/images/avatar.png" class="w-full h-full object-cover" alt="">
+          </ng-template>
+        </div>
+        <div class="body w-full flex flex-col gap-1">
+          <div class="flex justify-between items-center">
+            <h4 class="font-500 text-base">{{room?.user?.name}}</h4>
+            <p class="font-400 text-[12px] text-[#C2C2C3]">17:36</p>
+          </div>
+          <div class="flex gap-1 items-end justify-between">
+            <p class="font-400 text-[14px] text-[#9A999B]">{{room?.message}}</p>
+            <p-badge value="80" severity="danger"></p-badge>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+</div>
