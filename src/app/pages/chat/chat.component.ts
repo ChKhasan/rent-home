@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {
   MyAnnouncementsCardComponent
 } from "../../shared/components/cards/my-announcements-card/my-announcements-card.component";
@@ -21,7 +21,9 @@ import {MessageService} from "primeng/api";
 import {RippleModule} from "primeng/ripple";
 import {AvatarModule} from "primeng/avatar";
 import {ChatService} from "../../core/services/chat/chat.service";
-import {finalize} from "rxjs";
+import {finalize, Observable} from "rxjs";
+
+// import EventEmitter from "events";
 
 @Component({
   selector: 'app-chat',
@@ -61,6 +63,8 @@ export class ChatComponent implements OnInit {
   public isRoom: any = {}
   public userRooms: any = [];
   public newGroup: boolean = false
+  // messageObservable: Observable<boolean>;
+  intervalId: any
 
   constructor(private webSocketService: WebSocketService,
               public authService: AuthService,
@@ -69,31 +73,53 @@ export class ChatComponent implements OnInit {
               private queryService: QueryService,
               private router: Router
   ) {
+    // this.messageObservable = new Observable((observer) => {
+    //   this.intervalId = setInterval(() => {
+    //     observer.next(this.authService.auth);
+    //     console.log("set")
+    //   }, 1000);
+    // });
+    // let oldValue: boolean;
+    // this.messageObservable.subscribe((newValue) => {
+    //   if (newValue !== oldValue) {
+    //     if (newValue) {
+    //       this.firstConnection()
+    //       clearInterval(this.intervalId)
+    //     }
+    //     oldValue = newValue;
+    //   }
+    // });
   }
 
   ngOnInit(): void {
     if (typeof window !== 'undefined') {
-      this.authService.authHandler().then(() => {
-        this.chatService.webSocketConnection();
-        this.webSocketService.onMessage().subscribe((message) => {
-          this.loading = false;
-          this.commandController(message);
-        });
-        this.__GET_USER_ROOMS()
-      });
-
+      this.authService.getBooleanValue().subscribe((value) => {
+        if (value) {
+          this.firstConnection()
+        }
+      })
     }
+  }
+
+  firstConnection() {
+    setTimeout(() => {
+      this.webSocketService.onMessage().subscribe((message) => {
+        this.loading = false;
+        this.commandController(message);
+      });
+    }, 1000)
+    this.__GET_USER_ROOMS()
   }
 
   __GET_USER_ROOMS() {
     this.loadingRooms = true
-    this.chatService.getUserRooms().pipe(finalize(() => this.loadingRooms = false)).subscribe((response:IUserRooms[]) => {
+    this.chatService.getUserRooms().pipe(finalize(() => this.loadingRooms = false)).subscribe((response: IUserRooms[]) => {
       if (response.length > 0)
-        this.userRooms = response.filter((item: any) => item.users[0].id !== this.authService.user.id).map((elem: IUserRooms) => {
+        this.userRooms = response.filter((item: any) => item.users.find((elem: any) => elem.id !== this.authService.user?.id)?.id !== this.authService.user.id).map((elem: IUserRooms) => {
           return {
             ...elem,
             message: elem.messages.length > 0 ? elem.messages[elem.messages.length - 1].message : '',
-            user: elem.users[0]
+            user: elem.users.find((elem: any) => elem.id !== this.authService.user.id)
           }
         })
       this.findCurrentRoom()
@@ -102,7 +128,7 @@ export class ChatComponent implements OnInit {
   }
 
   findCurrentRoom() {
-    let room = this.userRooms.find((elem: any) => elem.users[0].id === Number(this.queryService.activeQueryList()['userId']));
+    let room = this.userRooms.find((elem: any) => elem.users.find((elem: any) => elem.id !== this.authService.user?.id)?.id === Number(this.queryService.activeQueryList()['userId']));
     if (this.queryService.activeQueryList()['userId'] && !room) {
       this.loadingMessages = false
       return
@@ -175,7 +201,7 @@ export class ChatComponent implements OnInit {
     let newGroup = {
       ...message,
       message: '',
-      user: message.users[0]
+      user: message.users.find((elem: any) => elem.id !== this.authService.user.id)
     }
     this.isRoom = newGroup;
     this.newGroup = true
@@ -216,8 +242,14 @@ export class ChatComponent implements OnInit {
 
     }
     this.pendingComments = []
-    this.comments.unshift(message)
-
+    if (Number(this.queryService.activeQueryList()['userId']) === message.room) {
+      this.comments.unshift(message)
+    } else {
+      let curentRoom = this.userRooms.find((elem: any) => elem.id === message.room);
+      curentRoom.message = message.message;
+      curentRoom.messages.unshift(message)
+      console.log(this.userRooms,curentRoom)
+      }
   }
 
   handlerRoom = (room: IUserRooms) => {

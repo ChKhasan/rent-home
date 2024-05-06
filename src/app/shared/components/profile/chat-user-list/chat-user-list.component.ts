@@ -28,4 +28,8 @@ export class ChatUserListComponent {
   @Input() loading!: boolean
   constructor(public chatService: ChatService) {
   }
+  getUnreadMessageCount(messages: any): string {
+    return String(messages.filter((elem: any) => !elem.is_read).length);
+  }
+    protected readonly length = length;
 }

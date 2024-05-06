@@ -32,7 +32,7 @@
           </div>
           <div class="flex gap-1 items-end justify-between">
             <p class="font-400 text-[14px] text-[#9A999B]">{{room?.message}}</p>
-            <p-badge value="80" severity="danger"></p-badge>
+            <p-badge [value]="getUnreadMessageCount(room.messages)" severity="danger"></p-badge>
           </div>
         </div>
       </div>

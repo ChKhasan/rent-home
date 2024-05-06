@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpResponse} from "@angular/common/http";
 import {ToastService} from "../toast/toast.service";
-import {debounceTime, distinctUntilChanged, map, Observable} from "rxjs";
+import {BehaviorSubject, debounceTime, distinctUntilChanged, map, Observable} from "rxjs";
 import {Announcement, UserInfo} from "../../interfaces/common.interface";
 import {environment} from "../../../../environments/environment";
 
@@ -11,7 +11,14 @@ import {environment} from "../../../../environments/environment";
 export class AuthService {
   public auth: boolean = false;
   public user: any = {}
+  private booleanSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  setBooleanValue(value: boolean): void {
+    this.booleanSubject.next(value);
+  }
 
+  getBooleanValue(): Observable<boolean> {
+    return this.booleanSubject.asObservable();
+  }
   constructor(
     private _httpsClient: HttpClient,
   ) {
@@ -24,8 +31,8 @@ export class AuthService {
         this.getUser().subscribe((response: UserInfo) => {
           if (response) {
             this.user = response;
-            console.log(this.user)
             this.auth = true;
+            this.setBooleanValue(this.auth);
             resolve();
           }
         }):

@@ -1,6 +1,6 @@
-import {Component, OnInit} from "@angular/core";
-import {RouterOutlet} from "@angular/router";
-import { Location } from '@angular/common';
+import {Component, OnInit, ViewChild} from "@angular/core";
+import {NavigationEnd, Router, RouterOutlet} from "@angular/router";
+import {Location, NgIf} from '@angular/common';
 import {HeaderComponent} from "./shared/components/layouts/header/header.component";
 import {FooterComponent} from "./shared/components/layouts/footer/footer.component";
 import {LikesService} from "./core/services/likes/likes.service";
@@ -9,37 +9,48 @@ import {environment} from "../environments/environment";
 import {IMessage} from "./core/interfaces/common.interface";
 import {ChatService} from "./core/services/chat/chat.service";
 import {WebSocketService} from "./core/services/webSocket/web-socket.service";
-import {MessageService} from "primeng/api";
+import {MessageService, SharedModule} from "primeng/api";
+import {ChatComponent} from "./pages/chat/chat.component";
+import {AvatarModule} from "primeng/avatar";
+import {ToastModule} from "primeng/toast";
 
 @Component({
   selector: "app-root",
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, FooterComponent],
+  imports: [RouterOutlet, HeaderComponent, FooterComponent, AvatarModule, NgIf, SharedModule, ToastModule],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.css",
 })
 export class AppComponent implements OnInit {
+  @ViewChild(ChatComponent) chatComponent!: ChatComponent;
+
+
   constructor(
     private likesService: LikesService,
     private authService: AuthService,
     private location: Location,
     private chatService: ChatService,
     private webSocketService: WebSocketService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router
   ) {
   }
 
   ngOnInit() {
     if (typeof window !== 'undefined') {
       let currentPath = this.location.path();
-      if (!currentPath.includes('/profile/chat')) {
+
         this.authService.authHandler().then(() => {
-          this.chatService.__GET_USER_ROOMS();
-          this.sokectEventHandler();
+          this.chatService.webSocketConnection();
+          if (currentPath.includes('/profile/chat')) {
+          } else {
+            this.sokectEventHandler();
+            this.chatService.__GET_USER_ROOMS();
+          }
           const AUTH_TOKEN = localStorage.getItem(environment.accessToken);
           Boolean(AUTH_TOKEN) ? this.POST_GET_LIKES() : this.likesService.reloadLikes();
         });
-      }
+
     }
   }
 
@@ -66,9 +77,7 @@ export class AppComponent implements OnInit {
   }
 
   sokectEventHandler() {
-    this.chatService.webSocketConnection();
     this.webSocketService.onMessage().subscribe((message) => {
-      console.log(message)
       this.commandController(message);
     });
   }
@@ -86,6 +95,16 @@ export class AppComponent implements OnInit {
 
   showTopCenter(message: IMessage) {
     let user = this.chatService.userRooms.find((elem: any) => elem.id === message.room);
+    this.messageService.clear();
     this.messageService.add({key: 'confirm', severity: 'success', summary: message.message, data: user});
+  }
+  toChat(data: any) {
+    this.router.navigate(['profile/chat'], {
+      queryParams: {
+        roomId: data.id
+      },
+    }).then(() => {
+      this.messageService.clear();
+    })
   }
 }
