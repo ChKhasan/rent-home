@@ -8,16 +8,11 @@ import {environment} from "../../../../environments/environment";
   providedIn: 'root'
 })
 export class WebSocketService {
-
-  constructor() { }
-
   private socket$!: WebSocketSubject<any>;
-
-
   public connect(url: string): void {
     const token = localStorage.getItem(environment.accessToken);
     if(token)
-    this.socket$ = webSocket(`${url}?token=${token}`);
+      this.socket$ = webSocket(`${url}?token=${token}`);
   }
 
   public send(data: any): void {
@@ -30,6 +25,6 @@ export class WebSocketService {
 
   public disconnect(): void {
     if(this.socket$)
-    this.socket$.complete(); // Close the connection
+      this.socket$.complete(); // Close the connection
   }
 }

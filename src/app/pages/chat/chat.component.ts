@@ -1,4 +1,4 @@
-import {Component, OnInit, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {
   MyAnnouncementsCardComponent
 } from "../../shared/components/cards/my-announcements-card/my-announcements-card.component";
@@ -13,15 +13,13 @@ import {FormsModule} from "@angular/forms";
 import {RegisterDialogComponent} from "../../shared/components/modals/register-dialog/register-dialog.component";
 import {IMessage, IMessageObj, IUserRooms} from "../../core/interfaces/common.interface";
 import {QueryService} from "../../core/services/query/query.service";
-import {WebSocketService} from "../../core/services/webSocket/web-socket.service";
 import {AuthService} from "../../core/services/auth/auth.service";
 import {BadgeModule} from "primeng/badge";
 import {ToastModule} from "primeng/toast";
-import {MessageService} from "primeng/api";
 import {RippleModule} from "primeng/ripple";
 import {AvatarModule} from "primeng/avatar";
 import {ChatService} from "../../core/services/chat/chat.service";
-import {finalize, Observable} from "rxjs";
+import {finalize} from "rxjs";
 
 // import EventEmitter from "events";
 
@@ -63,12 +61,8 @@ export class ChatComponent implements OnInit {
   public isRoom: any = {}
   public userRooms: any = [];
   public newGroup: boolean = false
-  // messageObservable: Observable<boolean>;
-  intervalId: any
 
-  constructor(private webSocketService: WebSocketService,
-              public authService: AuthService,
-              private messageService: MessageService,
+  constructor(public authService: AuthService,
               private chatService: ChatService,
               private queryService: QueryService,
               private router: Router
@@ -94,20 +88,18 @@ export class ChatComponent implements OnInit {
   ngOnInit(): void {
     if (typeof window !== 'undefined') {
       this.authService.getBooleanValue().subscribe((value) => {
-        if (value) {
-          this.firstConnection()
-        }
+        if (value) this.firstConnection()
       })
     }
   }
 
   firstConnection() {
     setTimeout(() => {
-      this.webSocketService.onMessage().subscribe((message) => {
+      this.chatService.onMessage().subscribe((message) => {
         this.loading = false;
         this.commandController(message);
       });
-    }, 1000)
+    }, 100)
     this.__GET_USER_ROOMS()
   }
 
@@ -123,7 +115,6 @@ export class ChatComponent implements OnInit {
           }
         })
       this.findCurrentRoom()
-
     })
   }
 
@@ -151,11 +142,6 @@ export class ChatComponent implements OnInit {
     })
   }
 
-  showTopCenter(message: IMessage) {
-    let user = this.userRooms.find((elem: any) => elem.id === message.room);
-    this.messageService.add({key: 'confirm', severity: 'success', summary: message.message, data: user});
-  }
-
   sendMessage(): void {
     if (this.authService.auth && this.authService.user.id) {
       this.loading = true;
@@ -170,7 +156,7 @@ export class ChatComponent implements OnInit {
         pending: true
       })
       let receiver = Number(this.queryService.activeQueryList()['userId']) || this.isRoom.user.id;
-      this.webSocketService.send({message: this.message, receiver: receiver});
+      this.chatService.send({message: this.message, receiver: receiver});
       this.message = ''
     } else {
     }
@@ -221,35 +207,24 @@ export class ChatComponent implements OnInit {
   }
 
   addMessage(message: any) {
-    // if (message.sender !== this.authService.user.id) {
-    //   this.showTopCenter(message)
-    // }
-    if (this.newGroup) {
-      setTimeout(() => {
-        this.userRooms = this.userRooms.map((elem: any) => {
-          if (elem.id === message.room) {
-            return {
-              ...elem,
-              message: message.message || "message",
-            }
-          } else {
-            return elem
-          }
-        });
-        this.newGroup = false
-
-      }, 100)
-
-    }
+    this.userRooms = this.userRooms.map((elem: any) => {
+      if (elem.id === message.room) {
+        return {
+          ...elem,
+          message: message.message || "message",
+        }
+      } else {
+        return elem
+      }
+    });
     this.pendingComments = []
-    if (Number(this.queryService.activeQueryList()['userId']) === message.room) {
+    if (Number(this.queryService.activeQueryList()['roomId']) === message.room) {
       this.comments.unshift(message)
     } else {
       let curentRoom = this.userRooms.find((elem: any) => elem.id === message.room);
       curentRoom.message = message.message;
       curentRoom.messages.unshift(message)
-      console.log(this.userRooms,curentRoom)
-      }
+    }
   }
 
   handlerRoom = (room: IUserRooms) => {

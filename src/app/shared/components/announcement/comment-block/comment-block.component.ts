@@ -30,6 +30,7 @@ import {RegisterDialogComponent} from "../../modals/register-dialog/register-dia
 export class CommentBlockComponent implements OnInit,OnDestroy{
   @ViewChild(RegisterDialogComponent) registerDialogComponent!: RegisterDialogComponent;
   @ViewChild(AuthDialogComponent) authDialogComponent!: AuthDialogComponent;
+
   public comments: CommentResponse[] = [];
   public pendingComments: any = []
   private id: any;
@@ -77,7 +78,6 @@ export class CommentBlockComponent implements OnInit,OnDestroy{
     });
   }
   sendMessage(): void {
-    console.log(this.authService)
     if(this.authService.auth && this.authService.user.id) {
       this.loading = true;
       this.pendingComments.push({
@@ -103,7 +103,6 @@ export class CommentBlockComponent implements OnInit,OnDestroy{
   __GET_COMMETS = () => {
     this.commentsService.get(this.commentParams()).subscribe((response: CommentResponse[]) => {
       this.comments = response.reverse();
-      console.log(this.comments)
     })
   }
  get commentLength() {

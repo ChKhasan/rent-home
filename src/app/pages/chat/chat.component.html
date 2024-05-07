@@ -2,21 +2,6 @@
 <!--  <div #child1 style="height: 200px; background-color: #f0f0f0;">Child 1</div>-->
 <!--  <div #child2 style="height: 200px; background-color: #e0e0e0;">Child 2</div>-->
 <!--</div>-->
-<p-toast position="top-center" key="confirm" [baseZIndex]="5000">
-  <ng-template let-message pTemplate="message">
-    <div class="flex flex-col items-start" style="flex: 1">
-      <div class="flex align-items-center gap-2">
-        <p-avatar *ngIf="message.data.user.images.length > 0, else image" class="object-cover" [image]="message.data.user.images[0].image" shape="circle"/>
-        <ng-template #image>
-          <p-avatar  class="object-cover" image="./assets/images/avatar.png" shape="circle"/>
-        </ng-template>
-        <span class="font-bold text-900">{{message.data.user.name}}</span>
-      </div>
-      <div class="font-medium text-lg my-3 text-900">{{message.summary}}</div>
-
-    </div>
-  </ng-template>
-</p-toast>
 <div class="announcements py-[60px]">
   <div class="2xl:container mx-auto px-4">
     <div class="title flex justify-between items-center">

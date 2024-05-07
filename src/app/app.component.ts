@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from "@angular/core";
+import {Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {NavigationEnd, Router, RouterOutlet} from "@angular/router";
 import {Location, NgIf} from '@angular/common';
 import {HeaderComponent} from "./shared/components/layouts/header/header.component";
@@ -8,7 +8,6 @@ import {AuthService} from "./core/services/auth/auth.service";
 import {environment} from "../environments/environment";
 import {IMessage} from "./core/interfaces/common.interface";
 import {ChatService} from "./core/services/chat/chat.service";
-import {WebSocketService} from "./core/services/webSocket/web-socket.service";
 import {MessageService, SharedModule} from "primeng/api";
 import {ChatComponent} from "./pages/chat/chat.component";
 import {AvatarModule} from "primeng/avatar";
@@ -21,16 +20,14 @@ import {ToastModule} from "primeng/toast";
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.css",
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit,OnDestroy {
   @ViewChild(ChatComponent) chatComponent!: ChatComponent;
-
 
   constructor(
     private likesService: LikesService,
     private authService: AuthService,
     private location: Location,
     private chatService: ChatService,
-    private webSocketService: WebSocketService,
     private messageService: MessageService,
     private router: Router
   ) {
@@ -40,12 +37,13 @@ export class AppComponent implements OnInit {
     if (typeof window !== 'undefined') {
       let currentPath = this.location.path();
 
-        this.authService.authHandler().then(() => {
-          this.chatService.webSocketConnection();
-          if (currentPath.includes('/profile/chat')) {
-          } else {
-            this.sokectEventHandler();
-            this.chatService.__GET_USER_ROOMS();
+
+      this.authService.authHandler().then(() => {
+        this.chatService.webSocketConnection();
+        if (currentPath.includes('/profile/chat')) {
+        } else {
+          this.sokectEventHandler();
+          this.chatService.__GET_USER_ROOMS();
           }
           const AUTH_TOKEN = localStorage.getItem(environment.accessToken);
           Boolean(AUTH_TOKEN) ? this.POST_GET_LIKES() : this.likesService.reloadLikes();
@@ -73,11 +71,11 @@ export class AppComponent implements OnInit {
     });
   }
   ngOnDestroy(): void {
-    this.webSocketService.disconnect(); // Disconnect WebSocket when component is destroyed
+    this.chatService.disconnect(); // Disconnect WebSocket when component is destroyed
   }
 
   sokectEventHandler() {
-    this.webSocketService.onMessage().subscribe((message) => {
+    this.chatService.onMessage().subscribe((message) => {
       this.commandController(message);
     });
   }
