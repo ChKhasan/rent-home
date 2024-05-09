@@ -24,7 +24,8 @@
       </div>
     </div>
     <div class="chat-container mx-auto  items-center mt-[30px] flex flex-col gap-4">
-      <app-chat-user-list [loading]="loadingRooms" [userRooms]="userRooms" [handlerRoom]="handlerRoom" [isRoom]="isRoom" class="h-full"></app-chat-user-list>
+      <app-chat-user-list [loading]="loadingRooms" [userRooms]="userRooms" [handlerRoom]="handlerRoom" [isRoom]="isRoom"
+                          class="h-full"></app-chat-user-list>
       <div>
         <div class="message-block rounded-[24px] overflow-hidden border border-solid border-[var(--input-stroke)]">
           <div
@@ -55,14 +56,16 @@
               class="board h-[580px] pr-2 flex flex-col-reverse pb-6 gap-6 overflow-y-scroll"
               *ngIf="loadingMessages, else messagesList"
             >
-              <div *ngFor="let item of skeletonList" class="flex"  [ngClass]="item % 2 == 0 ? 'justify-start':'justify-end'">
-             <div class="flex"  [ngClass]="item % 2 == 0 ? 'justify-start message-skeleton-'+item:'justify-end message-skeleton-'+item">
-               <p-skeleton class="w-full"  styleClass="ng_skeleton"></p-skeleton>
-             </div>
+              <div *ngFor="let item of skeletonList" class="flex"
+                   [ngClass]="item % 2 == 0 ? 'justify-start':'justify-end'">
+                <div class="flex"
+                     [ngClass]="item % 2 == 0 ? 'justify-start message-skeleton-'+item:'justify-end message-skeleton-'+item">
+                  <p-skeleton class="w-full" styleClass="ng_skeleton"></p-skeleton>
+                </div>
               </div>
             </div>
             <ng-template #messagesList>
-              <div class="board h-[580px] pr-2 flex flex-col-reverse pb-6 gap-6 overflow-y-scroll">
+              <div class="board h-[580px] pr-2 flex flex-col-reverse pb-6 gap-6 overflow-y-scroll" (scroll)="onParentDivScrolled()" #parentDiv>
                 <div *ngIf="loading" class="flex flex-col gap-6">
                   <div *ngFor="let comment of pendingComments"
                        class="flex w-full"
@@ -81,19 +84,22 @@
 
                   </div>
                 </div>
+                <div *ngFor="let comment of comments">
+                  <div class="unread" *ngIf="comment.is_first">Непрочитанные сообщения</div>
+                  <div [attr.id]="'child_' + comment.id" #childRef
+                       class="flex w-full"
+                       [class]="comment.sender === authService.user.id ? 'justify-end':'justify-start'">
 
-                <div *ngFor="let comment of comments"
-                     class="flex w-full"
-                     [class]="comment.sender === authService.user.id ? 'justify-end':'justify-start'">
-                  <div class="comment-card min-w-[180px] max-w-[90%] flex flex-col gap-2">
-                    <div
-                      class="body relative px-[18px] py-[18px] pr-[94px] rounded-[12px] bg-[#F0FBF0] text-[#576657] font-500 text-base">
-                      <p>{{comment.message}}</p>
-                      <span
-                        class="font-500 text-[--green] text-[12px] absolute bottom-2 right-4">{{comment.created_at | date:dateFormat}}</span>
+                    <div class="comment-card min-w-[180px] max-w-[90%] flex flex-col gap-2">
+                      <div
+                        class="body relative px-[18px] py-[18px] pr-[94px] rounded-[12px] bg-[#F0FBF0] text-[#576657] font-500 text-base">
+                        <p>{{comment.message}}{{comment.id}}</p>
+                        <span
+                          class="font-500 text-[--green] text-[12px] absolute bottom-2 right-4">{{comment.created_at | date:dateFormat}}</span>
+                      </div>
                     </div>
-                  </div>
 
+                  </div>
                 </div>
               </div>
             </ng-template>

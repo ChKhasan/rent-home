@@ -20,7 +20,7 @@ import {ToastModule} from "primeng/toast";
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.css",
 })
-export class AppComponent implements OnInit,OnDestroy {
+export class AppComponent implements OnInit, OnDestroy {
   @ViewChild(ChatComponent) chatComponent!: ChatComponent;
 
   constructor(
@@ -35,27 +35,32 @@ export class AppComponent implements OnInit,OnDestroy {
 
   ngOnInit() {
     if (typeof window !== 'undefined') {
-      let currentPath = this.location.path();
-
-
       this.authService.authHandler().then(() => {
-        this.chatService.webSocketConnection();
-        if (currentPath.includes('/profile/chat')) {
-        } else {
-          this.sokectEventHandler();
-          this.chatService.__GET_USER_ROOMS();
-          }
-          const AUTH_TOKEN = localStorage.getItem(environment.accessToken);
-          Boolean(AUTH_TOKEN) ? this.POST_GET_LIKES() : this.likesService.reloadLikes();
-        });
-
+        this.firstSocketConnection()
+        this.likesFirstGetter()
+      });
     }
+  }
+
+  firstSocketConnection() {
+    let currentPath = this.location.path();
+    this.chatService.webSocketConnection();
+    if (!currentPath.includes('/profile/chat')) {
+      this.sokectEventHandler();
+      this.chatService.__GET_USER_ROOMS();
+    }
+  }
+
+  likesFirstGetter() {
+    const AUTH_TOKEN = localStorage.getItem(environment.accessToken);
+    Boolean(AUTH_TOKEN) ? this.POST_GET_LIKES() : this.likesService.reloadLikes();
   }
 
   POST_GET_LIKES() {
     let localLikes = JSON.parse(localStorage.getItem(environment.storeLikes) as string);
     if (localLikes && localLikes.length > 0)
-      Promise.all(localLikes.map((item: any) => this.__POST_LIKE({announcement: item}))).then(r => {});
+      Promise.all(localLikes.map((item: any) => this.__POST_LIKE({announcement: item}))).then(r => {
+      });
     this.__GET_LIKE();
   }
 
@@ -70,6 +75,7 @@ export class AppComponent implements OnInit,OnDestroy {
       localStorage.removeItem(environment.storeLikes);
     });
   }
+
   ngOnDestroy(): void {
     this.chatService.disconnect(); // Disconnect WebSocket when component is destroyed
   }
@@ -86,9 +92,9 @@ export class AppComponent implements OnInit,OnDestroy {
   }
 
   addMessage(message: any) {
-    if (message.sender !== this.authService.user.id) {
+    let currentPath = this.location.path();
+    if (message.sender !== this.authService.user.id && !currentPath.includes('/profile/chat'))
       this.showTopCenter(message)
-    }
   }
 
   showTopCenter(message: IMessage) {
@@ -96,6 +102,7 @@ export class AppComponent implements OnInit,OnDestroy {
     this.messageService.clear();
     this.messageService.add({key: 'confirm', severity: 'success', summary: message.message, data: user});
   }
+
   toChat(data: any) {
     this.router.navigate(['profile/chat'], {
       queryParams: {

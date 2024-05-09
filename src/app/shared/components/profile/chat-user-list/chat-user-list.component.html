@@ -19,12 +19,18 @@
   <ng-template #messagesList>
     <div class="list flex flex-col max-h-[670px] overflow-y-scroll pb-4">
       <div (click)="handlerRoom(room)" [ngClass]="{active: isRoom.id === room.id}" class="user-card px-6 cursor-pointer gap-4 flex py-5 border-[0] border-b border-solid border-[#E8E8F7]" *ngFor="let room of userRooms">
-        <div class="image h-[60px] min-w-[60px] w-[60px] rounded-full overflow-hidden">
-          <img *ngIf="room.user && room.user.images.length > 0, else image" [src]="room.user.images[0].image" class="w-full h-full object-cover" alt="">
-          <ng-template #image>
-            <img  src="./assets/images/avatar.png" class="w-full h-full object-cover" alt="">
-          </ng-template>
+        <div class="relative h-[60px] min-w-[60px] w-[60px]">
+          <div class="image h-[60px] min-w-[60px] w-[60px] rounded-full overflow-hidden ">
+            <img *ngIf="room.user && room.user.images.length > 0, else image" [src]="room.user.images[0].image" class="w-full h-full object-cover" alt="">
+            <ng-template #image>
+              <img  src="./assets/images/avatar.png" class="w-full h-full object-cover" alt="">
+            </ng-template>
+
+          </div>
+          <div class='status-circle' [ngClass]="room.user?.is_online ? 'online':'offline'">
+          </div>
         </div>
+
         <div class="body w-full flex flex-col gap-1">
           <div class="flex justify-between items-center">
             <h4 class="font-500 text-base">{{room?.user?.name}}</h4>

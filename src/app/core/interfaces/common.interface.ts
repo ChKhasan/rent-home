@@ -36,6 +36,7 @@ export interface UserInfo {
   id?: number,
   last_name: string | null,
   name: string | null,
+  is_online?: boolean,
   images: UserImages[]
 }
 
@@ -81,16 +82,18 @@ export interface IUserRooms {
 
 export interface IMessage {
   created_at?: string,
-  id: number,
+   id: number,
   is_read: boolean,
   message: string,
   receiver: number,
   room: number,
-  sender: number
+  sender: number,
+  is_first?: boolean,
 }
 
 export interface IMessageObj {
   created_at?: string,
+  is_first?: boolean,
   id: number,
   is_read: boolean,
   messages: IMessage[],

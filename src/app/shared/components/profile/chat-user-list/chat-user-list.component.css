@@ -35,3 +35,19 @@ p {
   background: var(--green);
   border-radius: 10px;
 }
+.status-circle {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+
+  border: 2px solid white;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+}
+.online {
+  background-color: var(--ant-primary-color);
+}
+.offline {
+  background-color: grey;
+}

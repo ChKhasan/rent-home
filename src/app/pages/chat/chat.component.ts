@@ -1,4 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren
+} from '@angular/core';
 import {
   MyAnnouncementsCardComponent
 } from "../../shared/components/cards/my-announcements-card/my-announcements-card.component";
@@ -19,9 +28,7 @@ import {ToastModule} from "primeng/toast";
 import {RippleModule} from "primeng/ripple";
 import {AvatarModule} from "primeng/avatar";
 import {ChatService} from "../../core/services/chat/chat.service";
-import {finalize} from "rxjs";
-
-// import EventEmitter from "events";
+import {debounceTime, finalize, fromEvent} from "rxjs";
 
 @Component({
   selector: 'app-chat',
@@ -48,7 +55,9 @@ import {finalize} from "rxjs";
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css'
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, AfterViewInit {
+  @ViewChildren('childRef') childRefs!: QueryList<ElementRef>;
+  @ViewChild('parentDiv') parentDiv!: ElementRef;
   public comments: IMessage[] = [];
   public pendingComments: any = []
   public loading: boolean = false;
@@ -67,22 +76,6 @@ export class ChatComponent implements OnInit {
               private queryService: QueryService,
               private router: Router
   ) {
-    // this.messageObservable = new Observable((observer) => {
-    //   this.intervalId = setInterval(() => {
-    //     observer.next(this.authService.auth);
-    //     console.log("set")
-    //   }, 1000);
-    // });
-    // let oldValue: boolean;
-    // this.messageObservable.subscribe((newValue) => {
-    //   if (newValue !== oldValue) {
-    //     if (newValue) {
-    //       this.firstConnection()
-    //       clearInterval(this.intervalId)
-    //     }
-    //     oldValue = newValue;
-    //   }
-    // });
   }
 
   ngOnInit(): void {
@@ -171,16 +164,20 @@ export class ChatComponent implements OnInit {
         this.createGroup(message.message);
         break;
       case 'online':
-        this.userOnlineOffline(message);
+        this.userOnlineOffline(message, "online");
         break;
       case 'offline':
-        this.userOnlineOffline(message);
+        this.userOnlineOffline(message, 'offline');
         break;
     }
   }
 
-  userOnlineOffline(message: any) {
-
+  userOnlineOffline(message: any, type: string) {
+    let currentRoom = this.userRooms.find((elem: any) => {
+      return elem.users.find((item: any) => item.id === message.message.user_id)
+    })
+    let currentUser = currentRoom.users.find((item: any) => item.id === message.message.user_id)
+    currentUser.is_online = message.type === 'online'
   }
 
   createGroup(message: any) {
@@ -240,17 +237,95 @@ export class ChatComponent implements OnInit {
     let id = Number(this.queryService.activeQueryList()['roomId'])
     this.loadingMessages = true
     if (id) this.chatService.getMessages(id).pipe(finalize(() => this.loadingMessages = false)).subscribe((response: IMessageObj) => {
-      this.comments = response.messages.reverse();
+      let isFirstUnread = false
+      this.comments = response.messages.map((elem: any) => {
+        if (!elem.is_read && !isFirstUnread) {
+          isFirstUnread = true
+          return {
+            ...elem,
+            is_first: true
+          }
+        } else {
+          return {
+            ...elem,
+            is_first: false
+          }
+        }
+      }).reverse();
+
+      console.log(this.comments)
+      if (this.comments.length > 0)
+        setTimeout(() => {
+          this.scrollToUnreadMessages();
+        }, 0)
     })
+
   }
 
-  // @ViewChild('parentDiv') parentDiv!: ElementRef;
-  // @ViewChild('child2') child2!: ElementRef;
-  //
-  // scrollToSecondChild() {
-  //   const parentDiv = this.parentDiv.nativeElement;
-  //   const child2 = this.child2.nativeElement;
-  //   parentDiv.scrollTop = child2.offsetTop;
-  // }
+  ngAfterViewInit() {
+    if (this.parentDiv) {
+      // Create an observable for the scroll events on the parent div
+      const scroll$ = fromEvent(this.parentDiv.nativeElement, 'scroll');
 
+      // Subscribe to the scroll events with debounceTime
+      scroll$.pipe(
+        debounceTime(1000) // Adjust the debounce time as needed (in milliseconds)
+      ).subscribe(() => {
+        this.onParentDivScrolled();
+      });
+    }
+  }
+
+  scrollToUnreadMessages(): void {
+    if (!this.parentDiv) {
+      console.error("Parent container not found.");
+      return;
+    }
+    const unreadMessage = this.parentDiv.nativeElement.querySelector('.unread');
+    if (!unreadMessage) {
+      console.error("Unread message element not found.");
+      return;
+    }
+    this.parentDiv.nativeElement.scrollTop = unreadMessage.offsetTop - this.parentDiv.nativeElement.offsetTop;
+  }
+
+  @HostListener('scroll', ['$event'])
+  private scrollAccess = true;
+
+  onParentDivScrolled(): void {
+    if (this.scrollAccess)
+      setTimeout(() => {
+        this.scrollCall()
+      }, 1000)
+    this.scrollAccess = false
+  }
+
+  scrollCall() {
+    const unreadMessage = this.parentDiv.nativeElement.querySelector('.unread');
+    const parentDivRect = this.parentDiv.nativeElement.getBoundingClientRect();
+    const unreadMessageRect = unreadMessage.getBoundingClientRect();
+    const scrollTopOffset = unreadMessageRect.top - parentDivRect.top;
+
+    let unreads = this.comments.filter((elem: any) => !elem.is_read);
+    let unreadMessageIds: any[] = []
+    unreads.forEach((item: any) => {
+      const unreadMessage = this.parentDiv.nativeElement.querySelector('#child_' + item.id);
+      const unreadMessageRect = unreadMessage.getBoundingClientRect();
+      const scrollTopOffset = unreadMessageRect.top - parentDivRect.top;
+      if (scrollTopOffset - this.parentDiv.nativeElement.offsetHeight < 0) {
+        if (!unreadMessageIds.includes(item.id)) unreadMessageIds.push(item.id)
+      }
+      console.log('#child_' + item.id, scrollTopOffset - this.parentDiv.nativeElement.offsetHeight < 0)
+    })
+    console.log("send", unreadMessageIds)
+    this.scrollAccess = true
+  }
+
+  private debounce(func: Function, delay: number) {
+    let timer: any;
+    return (...args: any[]) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => func.apply(this, args), delay);
+    };
+  }
 }

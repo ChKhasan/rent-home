@@ -55,3 +55,17 @@
   max-width: 60%;
   width: 100%;
 }
+.unread {
+  content: "Unread messages";
+  height: 30px;
+  /*margin-bottom: .1875rem;*/
+  text-align: center;
+  color: var(--green);
+  line-height: 2.1;
+  font-weight: 500;
+  font-size: 15px;
+  background-color: rgba(0,0,0,0.08);
+  z-index: 2;
+  position: relative;
+  margin-bottom: 24px;
+}
