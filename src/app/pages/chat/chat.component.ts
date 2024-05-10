@@ -158,7 +158,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
   socketSender(data: any) {
-    console.log(data)
     this.chatService.send(data);
   }
 
@@ -264,7 +263,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
         }
       }).reverse();
 
-      console.log(this.comments)
       if (this.comments.length > 0)
         setTimeout(() => {
           this.scrollCall();
@@ -308,7 +306,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.scrollAccess = false
   }
  readNewMessage(message: any) {
-   console.log('new message',message)
    if(!message.is_read && message.sender !== this.authService.user.id) {
      const data = {
        type: 'read',
