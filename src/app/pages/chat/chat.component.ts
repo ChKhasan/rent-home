@@ -267,7 +267,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
       console.log(this.comments)
       if (this.comments.length > 0)
         setTimeout(() => {
-          this.scrollToUnreadMessages();
+          this.scrollCall();
         }, 0)
     })
 
@@ -324,7 +324,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
   scrollCall() {
     const unreadMessage = this.parentDiv.nativeElement.querySelector('.unread');
     const parentDivRect = this.parentDiv.nativeElement.getBoundingClientRect();
-    // if (unreadMessage) {
       let unreads = this.comments.filter((elem: any) => !elem.is_read && elem.sender !== this.authService.user.id);
       let unreadMessageIds: any[] = []
       unreads.forEach((item: any) => {
@@ -346,9 +345,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
         this.socketSender(data)
       }
       this.scrollAccess = true
-    // }
-
-
   }
 
   handleReadMessages(message: any) {
