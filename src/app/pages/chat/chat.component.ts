@@ -309,7 +309,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
  readNewMessage(message: any) {
    console.log('new message',message)
-   if(!message.is_read) {
+   if(!message.is_read && message.sender !== this.authService.user.id) {
      const data = {
        type: 'read',
        receiver: message.receiver,
