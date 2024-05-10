@@ -226,7 +226,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
     });
     this.pendingComments = []
     if (Number(this.queryService.activeQueryList()['roomId']) === message.room) {
-      this.comments.unshift(message)
+      this.comments.unshift(message);
+      this.readNewMessage(message);
     } else {
       let curentRoom = this.userRooms.find((elem: any) => elem.id === message.room);
       curentRoom.message = message.message;
@@ -306,11 +307,24 @@ export class ChatComponent implements OnInit, AfterViewInit {
       }, 1000)
     this.scrollAccess = false
   }
+ readNewMessage(message: any) {
+   console.log('new message',message)
+   if(!message.is_read) {
+     const data = {
+       type: 'read',
+       receiver: message.receiver,
+       sender: message.sender,
+       ids: [message.id],
+       room_id: this.isRoom.id
+     }
+     this.socketSender(data)
+   }
 
+ }
   scrollCall() {
     const unreadMessage = this.parentDiv.nativeElement.querySelector('.unread');
     const parentDivRect = this.parentDiv.nativeElement.getBoundingClientRect();
-    if(unreadMessage) {
+    if (unreadMessage) {
       let unreads = this.comments.filter((elem: any) => !elem.is_read && elem.sender !== this.authService.user.id);
       let unreadMessageIds: any[] = []
       unreads.forEach((item: any) => {
@@ -320,10 +334,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
         if (scrollTopOffset - this.parentDiv.nativeElement.offsetHeight < 0) {
           if (!unreadMessageIds.find((elem: any) => elem.id === item.id)) unreadMessageIds.push(item)
         }
-        console.log('#child_' + item.id, item.is_read)
       })
-      console.log("send", unreadMessageIds)
-      console.log("isRomm", this.isRoom)
       if (unreadMessageIds.length > 0) {
         const data = {
           type: 'read',
@@ -332,24 +343,23 @@ export class ChatComponent implements OnInit, AfterViewInit {
           ids: unreadMessageIds.map((elem: any) => elem.id),
           room_id: this.isRoom.id
         }
-        console.log(data)
         this.socketSender(data)
       }
       this.scrollAccess = true
     }
 
 
-
   }
 
   handleReadMessages(message: any) {
+    console.log("message",message)
     let unreads = this.comments.filter((elem: any) => !elem.is_read && elem.sender !== this.authService.user.id);
     this.comments.forEach((elem: any) => {
       if (!elem.is_read && elem.sender === this.authService.user.id) {
         console.log("not read")
-        if (message.room_id === this.isRoom.id) {
+        if (message.message.room_id === this.isRoom.id) {
           console.log("is room")
-          if (message.ids.includes(elem.id)) {
+          if (message.message.ids.includes(elem.id)) {
             console.log('is message', elem.id)
             elem.is_read = true
           }
