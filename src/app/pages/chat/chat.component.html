@@ -65,7 +65,8 @@
               </div>
             </div>
             <ng-template #messagesList>
-              <div class="board h-[580px] pr-2 flex flex-col-reverse pb-6 gap-6 overflow-y-scroll" (scroll)="onParentDivScrolled()" #parentDiv>
+              <div class="board h-[580px] pr-2 flex flex-col-reverse pb-6 gap-6 overflow-y-scroll"
+                   (scroll)="onParentDivScrolled()" #parentDiv>
                 <div *ngIf="loading" class="flex flex-col gap-6">
                   <div *ngFor="let comment of pendingComments"
                        class="flex w-full"
@@ -92,10 +93,15 @@
 
                     <div class="comment-card min-w-[180px] max-w-[90%] flex flex-col gap-2">
                       <div
-                        class="body relative px-[18px] py-[18px] pr-[94px] rounded-[12px] bg-[#F0FBF0] text-[#576657] font-500 text-base">
+                        class="body relative px-[18px] py-[18px] pr-6 rounded-[12px] bg-[#F0FBF0] text-[#576657] font-500 text-base">
                         <p>{{comment.message}}{{comment.id}}</p>
                         <span
-                          class="font-500 text-[--green] text-[12px] absolute bottom-2 right-4">{{comment.created_at | date:dateFormat}}</span>
+                          class="font-500 text-[--green] text-[10px] items-center absolute bottom-[1px] right-4 flex gap-1">{{comment.created_at | date:dateFormat}}
+                    <span *ngIf="comment.sender === authService.user.id">
+                      <span *ngIf="comment.is_read, else unread"><ng-container *ngTemplateOutlet="readIcon"></ng-container></span>
+                       <ng-template #unread><ng-container *ngTemplateOutlet="unreadIcon"></ng-container></ng-template>
+                    </span>
+                        </span>
                       </div>
                     </div>
 
@@ -125,3 +131,32 @@
     </div>
   </div>
 </div>
+<ng-template #readIcon>
+  <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24">
+    <defs>
+      <mask id="lineMdCheckAll0">
+        <g fill="none" stroke="#fff" stroke-dasharray="22" stroke-dashoffset="22" stroke-linecap="round"
+           stroke-linejoin="round" stroke-width="2">
+          <path d="M2 13.5l4 4l10.75 -10.75">
+            <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.4s" values="22;0"/>
+          </path>
+          <path stroke="#000" stroke-width="4" d="M7.5 13.5l4 4l10.75 -10.75" opacity="0">
+            <set attributeName="opacity" begin="0.4s" to="1"/>
+            <animate fill="freeze" attributeName="stroke-dashoffset" begin="0.4s" dur="0.4s" values="22;0"/>
+          </path>
+          <path d="M7.5 13.5l4 4l10.75 -10.75" opacity="0">
+            <set attributeName="opacity" begin="0.4s" to="1"/>
+            <animate fill="freeze" attributeName="stroke-dashoffset" begin="0.4s" dur="0.4s" values="22;0"/>
+          </path>
+        </g>
+      </mask>
+    </defs>
+    <rect width="24" height="24" fill="#00a000" mask="url(#lineMdCheckAll0)"/>
+  </svg>
+</ng-template>
+<ng-template #unreadIcon>
+  <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24">
+    <path fill="none" stroke="#00a000" stroke-linecap="round" stroke-linejoin="round"
+          stroke-width="2" d="M20 7L10 17l-5-5"/>
+  </svg>
+</ng-template>

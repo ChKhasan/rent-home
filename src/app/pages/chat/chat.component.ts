@@ -11,7 +11,7 @@ import {
 import {
   MyAnnouncementsCardComponent
 } from "../../shared/components/cards/my-announcements-card/my-announcements-card.component";
-import {DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
+import {DatePipe, NgClass, NgForOf, NgIf, NgTemplateOutlet} from "@angular/common";
 import {PaginationComponent} from "../../shared/components/pagination/pagination.component";
 import {SkeletonModule} from "primeng/skeleton";
 import {NavigationExtras, Router, RouterLink} from "@angular/router";
@@ -50,7 +50,8 @@ import {debounceTime, finalize, fromEvent} from "rxjs";
     ToastModule,
     RippleModule,
     AvatarModule,
-    NgClass
+    NgClass,
+    NgTemplateOutlet
   ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css'
@@ -149,10 +150,16 @@ export class ChatComponent implements OnInit, AfterViewInit {
         pending: true
       })
       let receiver = Number(this.queryService.activeQueryList()['userId']) || this.isRoom.user.id;
-      this.chatService.send({message: this.message, receiver: receiver});
+      const data = {message: this.message, receiver: receiver}
+      this.socketSender(data)
       this.message = ''
     } else {
     }
+  }
+
+  socketSender(data: any) {
+    console.log(data)
+    this.chatService.send(data);
   }
 
   commandController(message: any) {
@@ -164,15 +171,18 @@ export class ChatComponent implements OnInit, AfterViewInit {
         this.createGroup(message.message);
         break;
       case 'online':
-        this.userOnlineOffline(message, "online");
+        this.userOnlineOffline(message);
         break;
       case 'offline':
-        this.userOnlineOffline(message, 'offline');
+        this.userOnlineOffline(message);
+        break;
+      case 'read':
+        this.handleReadMessages(message);
         break;
     }
   }
 
-  userOnlineOffline(message: any, type: string) {
+  userOnlineOffline(message: any) {
     let currentRoom = this.userRooms.find((elem: any) => {
       return elem.users.find((item: any) => item.id === message.message.user_id)
     })
@@ -264,10 +274,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     if (this.parentDiv) {
-      // Create an observable for the scroll events on the parent div
       const scroll$ = fromEvent(this.parentDiv.nativeElement, 'scroll');
-
-      // Subscribe to the scroll events with debounceTime
       scroll$.pipe(
         debounceTime(1000) // Adjust the debounce time as needed (in milliseconds)
       ).subscribe(() => {
@@ -306,19 +313,48 @@ export class ChatComponent implements OnInit, AfterViewInit {
     const unreadMessageRect = unreadMessage.getBoundingClientRect();
     const scrollTopOffset = unreadMessageRect.top - parentDivRect.top;
 
-    let unreads = this.comments.filter((elem: any) => !elem.is_read);
+    let unreads = this.comments.filter((elem: any) => !elem.is_read && elem.sender !== this.authService.user.id);
     let unreadMessageIds: any[] = []
     unreads.forEach((item: any) => {
       const unreadMessage = this.parentDiv.nativeElement.querySelector('#child_' + item.id);
       const unreadMessageRect = unreadMessage.getBoundingClientRect();
       const scrollTopOffset = unreadMessageRect.top - parentDivRect.top;
       if (scrollTopOffset - this.parentDiv.nativeElement.offsetHeight < 0) {
-        if (!unreadMessageIds.includes(item.id)) unreadMessageIds.push(item.id)
+        if (!unreadMessageIds.find((elem: any) => elem.id === item.id)) unreadMessageIds.push(item)
       }
-      console.log('#child_' + item.id, scrollTopOffset - this.parentDiv.nativeElement.offsetHeight < 0)
+      console.log('#child_' + item.id, item.is_read)
     })
     console.log("send", unreadMessageIds)
+    console.log("isRomm", this.isRoom)
+    if (unreadMessageIds.length > 0) {
+      const data = {
+        type: 'read',
+        receiver: unreadMessageIds[0].receiver,
+        sender: unreadMessageIds[0].sender,
+        ids: unreadMessageIds.map((elem: any) => elem.id),
+        room_id: this.isRoom.id
+      }
+      console.log(data)
+      this.socketSender(data)
+    }
     this.scrollAccess = true
+
+  }
+
+  handleReadMessages(message: any) {
+    let unreads = this.comments.filter((elem: any) => !elem.is_read && elem.sender !== this.authService.user.id);
+    this.comments.forEach((elem: any) => {
+      if (!elem.is_read && elem.sender === this.authService.user.id) {
+        console.log("not read")
+        if (message.room_id === this.isRoom.id) {
+          console.log("is room")
+          if (message.ids.includes(elem.id)) {
+            console.log('is message', elem.id)
+            elem.is_read = true
+          }
+        }
+      }
+    })
   }
 
   private debounce(func: Function, delay: number) {
