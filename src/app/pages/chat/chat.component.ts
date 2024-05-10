@@ -310,34 +310,35 @@ export class ChatComponent implements OnInit, AfterViewInit {
   scrollCall() {
     const unreadMessage = this.parentDiv.nativeElement.querySelector('.unread');
     const parentDivRect = this.parentDiv.nativeElement.getBoundingClientRect();
-    const unreadMessageRect = unreadMessage.getBoundingClientRect();
-    const scrollTopOffset = unreadMessageRect.top - parentDivRect.top;
-
-    let unreads = this.comments.filter((elem: any) => !elem.is_read && elem.sender !== this.authService.user.id);
-    let unreadMessageIds: any[] = []
-    unreads.forEach((item: any) => {
-      const unreadMessage = this.parentDiv.nativeElement.querySelector('#child_' + item.id);
-      const unreadMessageRect = unreadMessage.getBoundingClientRect();
-      const scrollTopOffset = unreadMessageRect.top - parentDivRect.top;
-      if (scrollTopOffset - this.parentDiv.nativeElement.offsetHeight < 0) {
-        if (!unreadMessageIds.find((elem: any) => elem.id === item.id)) unreadMessageIds.push(item)
+    if(unreadMessage) {
+      let unreads = this.comments.filter((elem: any) => !elem.is_read && elem.sender !== this.authService.user.id);
+      let unreadMessageIds: any[] = []
+      unreads.forEach((item: any) => {
+        const unreadMessage = this.parentDiv.nativeElement.querySelector('#child_' + item.id);
+        const unreadMessageRect = unreadMessage.getBoundingClientRect();
+        const scrollTopOffset = unreadMessageRect.top - parentDivRect.top;
+        if (scrollTopOffset - this.parentDiv.nativeElement.offsetHeight < 0) {
+          if (!unreadMessageIds.find((elem: any) => elem.id === item.id)) unreadMessageIds.push(item)
+        }
+        console.log('#child_' + item.id, item.is_read)
+      })
+      console.log("send", unreadMessageIds)
+      console.log("isRomm", this.isRoom)
+      if (unreadMessageIds.length > 0) {
+        const data = {
+          type: 'read',
+          receiver: unreadMessageIds[0].receiver,
+          sender: unreadMessageIds[0].sender,
+          ids: unreadMessageIds.map((elem: any) => elem.id),
+          room_id: this.isRoom.id
+        }
+        console.log(data)
+        this.socketSender(data)
       }
-      console.log('#child_' + item.id, item.is_read)
-    })
-    console.log("send", unreadMessageIds)
-    console.log("isRomm", this.isRoom)
-    if (unreadMessageIds.length > 0) {
-      const data = {
-        type: 'read',
-        receiver: unreadMessageIds[0].receiver,
-        sender: unreadMessageIds[0].sender,
-        ids: unreadMessageIds.map((elem: any) => elem.id),
-        room_id: this.isRoom.id
-      }
-      console.log(data)
-      this.socketSender(data)
+      this.scrollAccess = true
     }
-    this.scrollAccess = true
+
+
 
   }
 
