@@ -137,7 +137,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
   sendMessage(): void {
-    if (this.authService.auth && this.authService.user.id) {
+    if (this.authService.auth && this.authService.user.id && this.message.length > 0) {
       this.loading = true;
       this.pendingComments.push({
         created_at: `${new Date()}`,
