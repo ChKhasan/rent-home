@@ -94,11 +94,12 @@
                     <div class="comment-card min-w-[180px] max-w-[90%] flex flex-col gap-2">
                       <div
                         class="body relative px-[18px] py-[18px] pr-6 rounded-[12px] bg-[#F0FBF0] text-[#576657] font-500 text-base">
-                        <p>{{comment.message}}{{comment.id}}</p>
+                        <p>{{comment.message}}</p>
                         <span
                           class="font-500 text-[--green] text-[10px] items-center absolute bottom-[1px] right-4 flex gap-1">{{comment.created_at | date:dateFormat}}
-                    <span *ngIf="comment.sender === authService.user.id">
-                      <span *ngIf="comment.is_read, else unread"><ng-container *ngTemplateOutlet="readIcon"></ng-container></span>
+                          <span *ngIf="comment.sender === authService.user.id">
+                      <span *ngIf="comment.is_read, else unread"><ng-container
+                        *ngTemplateOutlet="readIcon"></ng-container></span>
                        <ng-template #unread><ng-container *ngTemplateOutlet="unreadIcon"></ng-container></ng-template>
                     </span>
                         </span>
