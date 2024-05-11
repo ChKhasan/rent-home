@@ -345,8 +345,15 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
   handleReadMessages(message: any) {
-    let unreads = this.comments.filter((elem: any) => !elem.is_read && elem.sender !== this.authService.user.id);
-    this.comments.forEach((elem: any) => {
+    console.log("read",message)
+    let room = this.userRooms.find((elem: any) => elem.id === message.message.room_id);
+    console.log("room",room)
+    this.unreadToRead(message,this.comments)
+    this.unreadToRead(message,room.messages)
+  }
+
+  unreadToRead(message: any,rooms: any) {
+    rooms.forEach((elem: any) => {
       if (!elem.is_read && elem.sender === this.authService.user.id) {
         if (message.message.room_id === this.isRoom.id) {
           if (message.message.ids.includes(elem.id)) {
@@ -357,11 +364,4 @@ export class ChatComponent implements OnInit, AfterViewInit {
     })
   }
 
-  private debounce(func: Function, delay: number) {
-    let timer: any;
-    return (...args: any[]) => {
-      clearTimeout(timer);
-      timer = setTimeout(() => func.apply(this, args), delay);
-    };
-  }
 }
