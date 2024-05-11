@@ -249,7 +249,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
     if (id) this.chatService.getMessages(id).pipe(finalize(() => this.loadingMessages = false)).subscribe((response: IMessageObj) => {
       let isFirstUnread = false
       this.comments = response.messages.map((elem: any) => {
-        if (!elem.is_read && !isFirstUnread) {
+        if (!elem.is_read && !isFirstUnread && elem.sender !== this.authService.user.id) {
           isFirstUnread = true
           return {
             ...elem,

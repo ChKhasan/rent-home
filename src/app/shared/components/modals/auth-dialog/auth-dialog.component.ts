@@ -6,7 +6,7 @@ import {InputNumberModule} from "primeng/inputnumber";
 import {InputTextModule} from "primeng/inputtext";
 import {NgClass, NgIf} from "@angular/common";
 import {PaginatorModule} from "primeng/paginator";
-import {FormGroup, ReactiveFormsModule} from "@angular/forms";
+import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {numberControl, passwordControl} from "../../../../core/common/form-control";
 import {ValidationErrorAnimation} from "../../../../core/common/animations";
 import {InvaidTextComponent} from "../../form/invaid-text/invaid-text.component";
@@ -43,8 +43,8 @@ export class AuthDialogComponent {
   @Input() url: string | undefined
   @Input() afterComplite: Function | undefined
   public ruleForm = new FormGroup({
-    password: passwordControl,
-    phone_number: numberControl,
+    password: new FormControl(undefined, [Validators.required,Validators.minLength(8),Validators.pattern(/^(?=.*[a-z])(?=.*\d).*$/)]),
+    phone_number: new FormControl('', [Validators.required,Validators.pattern(/^\d{2} \d{3} \d{2} \d{2}$/)]),
   })
   constructor(
     private authService: AuthService,
@@ -70,6 +70,7 @@ export class AuthDialogComponent {
 
   }
   public onSubmit(): void {
+    console.log(this.ruleForm)
     this.ruleForm.markAllAsTouched()
     if (this.ruleForm.invalid)  return;
     this.postLogin()

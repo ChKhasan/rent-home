@@ -4,6 +4,8 @@ import {ToastService} from "../toast/toast.service";
 import {BehaviorSubject, debounceTime, distinctUntilChanged, map, Observable} from "rxjs";
 import {Announcement, UserInfo} from "../../interfaces/common.interface";
 import {environment} from "../../../../environments/environment";
+import {Location} from "@angular/common";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +23,8 @@ export class AuthService {
   }
   constructor(
     private _httpsClient: HttpClient,
+    private location: Location,
+    private router: Router
   ) {
   }
 
@@ -44,6 +48,11 @@ export class AuthService {
   logout() {
     localStorage.removeItem(environment.accessToken)
     localStorage.removeItem(environment.refreshToken)
+    let currentPath = this.location.path();
+    console.log(currentPath)
+    if (currentPath.includes('/profile')) {
+      this.router.navigate(['/']).then(() => {})
+    }
     this.authHandler().then(() => {})
   }
 

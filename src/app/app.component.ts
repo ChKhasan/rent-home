@@ -22,6 +22,7 @@ import {ToastModule} from "primeng/toast";
 })
 export class AppComponent implements OnInit, OnDestroy {
   @ViewChild(ChatComponent) chatComponent!: ChatComponent;
+  private newGroup: any = {}
 
   constructor(
     private likesService: LikesService,
@@ -87,8 +88,23 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   commandController(message: any) {
+
+    if (message.type === 'group_created')
+      this.createGroup(message.message);
     if (message.type === 'chat_message')
-      this.addMessage(message.message);
+      setTimeout(() => {
+        this.addMessage(message.message);
+      }, 500)
+
+  }
+
+  createGroup(message: any) {
+    this.newGroup = {
+      ...message,
+      message: '',
+      user: message.users.find((elem: any) => elem.id !== this.authService.user.id)
+    }
+    console.log('create', this.newGroup)
   }
 
   addMessage(message: any) {
@@ -99,8 +115,16 @@ export class AppComponent implements OnInit, OnDestroy {
 
   showTopCenter(message: IMessage) {
     let user = this.chatService.userRooms.find((elem: any) => elem.id === message.room);
+    console.log(user)
+    if (!user) {
+      user = {
+        user: this.newGroup.user
+      }
+    }
+    console.log("new user", user)
     this.messageService.clear();
-    this.messageService.add({key: 'confirm', severity: 'success', summary: message.message, data: user});
+    if (user?.user)
+      this.messageService.add({key: 'confirm', severity: 'success', summary: message.message, data: user});
   }
 
   toChat(data: any) {

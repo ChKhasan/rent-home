@@ -32,7 +32,7 @@
     <h1 class="text-[18px] font-600 mt-[30px]">Manzil haritada</h1>
     <p-skeleton *ngIf="loading"  class="w-full flex h-[400px] mt-5" styleClass="ng_skeleton h-10"></p-skeleton>
     <div
-      class="map mt-[18px] h-[400px] rounded-xl border border-solid border-[--grey-3] overflow-hidden" *ngIf="announcement.location_x && !loading"
+      class="map mt-[18px] h-[400px] rounded-xl border border-solid border-[--grey-3] overflow-hidden" *ngIf="announcement?.location_x && !loading"
     >
       <ya-map [center]="[announcement.location_x,announcement.location_y]"  [zoom]="zoom">
         <ya-placemark [geometry]="[announcement.location_x,announcement.location_y]"></ya-placemark>
