@@ -305,56 +305,59 @@ export class ChatComponent implements OnInit, AfterViewInit {
       }, 1000)
     this.scrollAccess = false
   }
- readNewMessage(message: any) {
-   if(!message.is_read && message.sender !== this.authService.user.id) {
-     const data = {
-       type: 'read',
-       receiver: message.receiver,
-       sender: message.sender,
-       ids: [message.id],
-       room_id: this.isRoom.id
-     }
-     this.socketSender(data)
-   }
 
- }
+  readNewMessage(message: any) {
+    if (!message.is_read && message.sender !== this.authService.user.id) {
+      const data = {
+        type: 'read',
+        receiver: message.receiver,
+        sender: message.sender,
+        ids: [message.id],
+        room_id: this.isRoom.id
+      }
+      this.socketSender(data)
+    }
+
+  }
+
   scrollCall() {
     const unreadMessage = this.parentDiv.nativeElement.querySelector('.unread');
     const parentDivRect = this.parentDiv.nativeElement.getBoundingClientRect();
-      let unreads = this.comments.filter((elem: any) => !elem.is_read && elem.sender !== this.authService.user.id);
-      let unreadMessageIds: any[] = []
-      unreads.forEach((item: any) => {
-        const unreadMessage = this.parentDiv.nativeElement.querySelector('#child_' + item.id);
-        const unreadMessageRect = unreadMessage?.getBoundingClientRect();
-        const scrollTopOffset = unreadMessageRect.top - parentDivRect.top;
-        if (scrollTopOffset - this.parentDiv.nativeElement.offsetHeight < 0) {
-          if (!unreadMessageIds.find((elem: any) => elem.id === item.id)) unreadMessageIds.push(item)
-        }
-      })
-      if (unreadMessageIds.length > 0) {
-        const data = {
-          type: 'read',
-          receiver: unreadMessageIds[0].receiver,
-          sender: unreadMessageIds[0].sender,
-          ids: unreadMessageIds.map((elem: any) => elem.id),
-          room_id: this.isRoom.id
-        }
-        this.socketSender(data)
+    let unreads = this.comments.filter((elem: any) => !elem.is_read && elem.sender !== this.authService.user.id);
+    let unreadMessageIds: any[] = []
+    unreads.forEach((item: any) => {
+      const unreadMessage = this.parentDiv.nativeElement.querySelector('#child_' + item.id);
+      const unreadMessageRect = unreadMessage?.getBoundingClientRect();
+      const scrollTopOffset = unreadMessageRect.top - parentDivRect.top;
+      if (scrollTopOffset - this.parentDiv.nativeElement.offsetHeight < 0) {
+        if (!unreadMessageIds.find((elem: any) => elem.id === item.id)) unreadMessageIds.push(item)
       }
-      this.scrollAccess = true
+    })
+    if (unreadMessageIds.length > 0) {
+      const data = {
+        type: 'read',
+        receiver: unreadMessageIds[0].receiver,
+        sender: unreadMessageIds[0].sender,
+        ids: unreadMessageIds.map((elem: any) => elem.id),
+        room_id: this.isRoom.id
+      }
+      this.socketSender(data)
+    }
+    this.scrollAccess = true
   }
 
   handleReadMessages(message: any) {
-    console.log("read",message)
+    console.log("read", message)
     let room = this.userRooms.find((elem: any) => elem.id === message.message.room_id);
-    console.log("room",room)
-    this.unreadToRead(message,this.comments)
-    this.unreadToRead(message,room.messages)
+    console.log("room", room)
+    this.unreadToRead(message, this.comments, true)
+    this.unreadToRead(message, room.messages, false)
   }
 
-  unreadToRead(message: any,rooms: any) {
+  unreadToRead(message: any, rooms: any, userAccess: boolean) {
     rooms.forEach((elem: any) => {
-      if (!elem.is_read && elem.sender === this.authService.user.id) {
+      let access = userAccess ? elem.sender === this.authService.user.id : elem.sender !== this.authService.user.id
+      if (!elem.is_read && access) {
         if (message.message.room_id === this.isRoom.id) {
           if (message.message.ids.includes(elem.id)) {
             elem.is_read = true
