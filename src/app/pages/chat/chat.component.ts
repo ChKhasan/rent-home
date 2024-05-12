@@ -99,17 +99,19 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   __GET_USER_ROOMS() {
     this.loadingRooms = true
-    this.chatService.getUserRooms().pipe(finalize(() => this.loadingRooms = false)).subscribe((response: IUserRooms[]) => {
-      if (response.length > 0)
-        this.userRooms = response.filter((item: any) => item.users.find((elem: any) => elem.id !== this.authService.user?.id)?.id !== this.authService.user.id).map((elem: IUserRooms) => {
-          return {
-            ...elem,
-            message: elem.messages.length > 0 ? elem.messages[elem.messages.length - 1].message : '',
-            user: elem.users.find((elem: any) => elem.id !== this.authService.user.id)
-          }
-        })
-      this.findCurrentRoom()
-    })
+    this.chatService.getUserRooms()
+      .pipe(finalize(() => this.loadingRooms = false))
+      .subscribe((response: IUserRooms[]) => {
+        if (response.length > 0)
+          this.userRooms = response.filter((item: any) => item.users.find((elem: any) => elem.id !== this.authService.user?.id)?.id !== this.authService.user.id).map((elem: IUserRooms) => {
+            return {
+              ...elem,
+              message: elem.messages.length > 0 ? elem.messages[elem.messages.length - 1].message : '',
+              user: elem.users.find((elem: any) => elem.id !== this.authService.user.id)
+            }
+          })
+        this.findCurrentRoom()
+      })
   }
 
   findCurrentRoom() {
@@ -245,29 +247,32 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
   __GET_MESSAGES = () => {
     let id = Number(this.queryService.activeQueryList()['roomId'])
-    this.loadingMessages = true
-    if (id) this.chatService.getMessages(id).pipe(finalize(() => this.loadingMessages = false)).subscribe((response: IMessageObj) => {
-      let isFirstUnread = false
-      this.comments = response.messages.map((elem: any) => {
-        if (!elem.is_read && !isFirstUnread && elem.sender !== this.authService.user.id) {
-          isFirstUnread = true
-          return {
-            ...elem,
-            is_first: true
-          }
-        } else {
-          return {
-            ...elem,
-            is_first: false
-          }
-        }
-      }).reverse();
-
-      if (this.comments.length > 0)
-        setTimeout(() => {
-          this.scrollCall();
-        }, 0)
-    })
+    if (id) {
+      this.loadingMessages = true
+      this.chatService.getMessages(id)
+        .pipe(finalize(() => this.loadingMessages = false))
+        .subscribe((response: IMessageObj) => {
+          let isFirstUnread = false
+          this.comments = response.messages.map((elem: any) => {
+            if (!elem.is_read && !isFirstUnread && elem.sender !== this.authService.user.id) {
+              isFirstUnread = true
+              return {
+                ...elem,
+                is_first: true
+              }
+            } else {
+              return {
+                ...elem,
+                is_first: false
+              }
+            }
+          }).reverse();
+          if (this.comments.length > 0)
+            setTimeout(() => {
+              this.scrollCall();
+            }, 0)
+        })
+    }
 
   }
 
@@ -280,19 +285,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
         this.onParentDivScrolled();
       });
     }
-  }
-
-  scrollToUnreadMessages(): void {
-    if (!this.parentDiv) {
-      console.error("Parent container not found.");
-      return;
-    }
-    const unreadMessage = this.parentDiv.nativeElement.querySelector('.unread');
-    if (!unreadMessage) {
-      console.error("Unread message element not found.");
-      return;
-    }
-    this.parentDiv.nativeElement.scrollTop = unreadMessage.offsetTop - this.parentDiv.nativeElement.offsetTop;
   }
 
   @HostListener('scroll', ['$event'])

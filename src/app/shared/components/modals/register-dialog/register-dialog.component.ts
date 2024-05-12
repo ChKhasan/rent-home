@@ -17,6 +17,7 @@ import {InvaidTextComponent} from "../../form/invaid-text/invaid-text.component"
 import {AuthService} from "../../../../core/services/auth/auth.service";
 import {ToastService} from "../../../../core/services/toast/toast.service";
 import {PasswordModule} from "primeng/password";
+import {finalize} from "rxjs";
 @Component({
   selector: 'app-register-dialog',
   standalone: true,
@@ -41,6 +42,7 @@ import {PasswordModule} from "primeng/password";
 export class RegisterDialogComponent {
   visible: boolean = false;
   loading: boolean = false;
+  infoError: boolean = false;
   public ruleForm = new FormGroup({
     password: new FormControl(undefined, [Validators.required,Validators.minLength(8),Validators.pattern(/^(?=.*[a-z])(?=.*\d).*$/)]),
     name: new FormControl("", [Validators.required,Validators.minLength(4)]),
@@ -69,9 +71,15 @@ export class RegisterDialogComponent {
   postRegister() {
     this.loading = true
     const data = this.dataTransform()
-    this.authService.postRegister(data).subscribe((response) => {
+    this.authService.postRegister(data)
+      .pipe(finalize(() => {
+        this.loading = false
+      }))
+      .subscribe((response) => {
       this.eventPipe({message: "Вы успешно зарегистрировались",response:response});
-    },)
+    }, (error) => {
+      if (error.status === 400) this.infoError = true
+    })
 
   }
   showDialog() {
