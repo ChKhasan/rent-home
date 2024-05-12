@@ -17,6 +17,8 @@ import {Router} from "@angular/router";
 import {finalize} from "rxjs";
 import {PasswordModule} from "primeng/password";
 import {WebSocketService} from "../../../../core/services/webSocket/web-socket.service";
+import {Announcement} from "../../../../core/interfaces/common.interface";
+
 @Component({
   selector: 'app-auth-dialog',
   standalone: true,
@@ -40,12 +42,14 @@ import {WebSocketService} from "../../../../core/services/webSocket/web-socket.s
 export class AuthDialogComponent {
   visible: boolean = false;
   loading: boolean = false;
+  infoError: boolean = false
   @Input() url: string | undefined
   @Input() afterComplite: Function | undefined
   public ruleForm = new FormGroup({
-    password: new FormControl(undefined, [Validators.required,Validators.minLength(8),Validators.pattern(/^(?=.*[a-z])(?=.*\d).*$/)]),
-    phone_number: new FormControl('', [Validators.required,Validators.pattern(/^\d{2} \d{3} \d{2} \d{2}$/)]),
+    password: new FormControl(undefined, [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[a-z])(?=.*\d).*$/)]),
+    phone_number: new FormControl('', [Validators.required, Validators.pattern(/^\d{2} \d{3} \d{2} \d{2}$/)]),
   })
+
   constructor(
     private authService: AuthService,
     private toastService: ToastService,
@@ -53,47 +57,60 @@ export class AuthDialogComponent {
     private webSocketService: WebSocketService,
   ) {
   }
+
   eventPipe(data: any) {
     this.tokenHandle(data.response)
     this.closeDialog();
     this.ruleForm.reset();
-    this.toastService.showMessage('success','Success',data.message)
+    this.toastService.showMessage('success', 'Success', data.message)
     this.authService.authHandler();
-    if(this.afterComplite) this.afterComplite()
+    if (this.afterComplite) this.afterComplite()
 
   }
+
   tokenHandle(data: any) {
-    localStorage.setItem(environment.accessToken,data.access)
-    localStorage.setItem(environment.refreshToken,data.refresh);
-    if(this.url)
-    this.router.navigate([this.url]).then(r => {})
+    localStorage.setItem(environment.accessToken, data.access)
+    localStorage.setItem(environment.refreshToken, data.refresh);
+    if (this.url)
+      this.router.navigate([this.url]).then(r => {
+      })
 
   }
+
   public onSubmit(): void {
     console.log(this.ruleForm)
     this.ruleForm.markAllAsTouched()
-    if (this.ruleForm.invalid)  return;
+    if (this.ruleForm.invalid) return;
     this.postLogin()
   }
+
   dataTransform() {
     return {
       ...this.ruleForm.value,
-      phone_number: '+998'+this.ruleForm.value.phone_number?.replaceAll(' ','')
+      phone_number: '+998' + this.ruleForm.value.phone_number?.replaceAll(' ', '')
     }
   }
+
   postLogin() {
     this.loading = true
     const data = this.dataTransform()
     this.authService.postLogin(data)
-      .pipe(finalize(() => this.loading = false))
-      .subscribe((response) => {
-      this.eventPipe({message: "Добро пожаловать",response:response});
-    })
+      .pipe(finalize(() => {
+        this.loading = false
+      }))
+      .subscribe(
+        (response: Announcement[] | null) => {
+          this.eventPipe({message: "Добро пожаловать", response: response});
+        }, (error) => {
+          if (error.status === 401) this.infoError = true
+        })
 
   }
+
   showDialog() {
     this.visible = true;
   }
+
   closeDialog() {
     this.visible = false;
   }

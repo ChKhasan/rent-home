@@ -347,9 +347,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
   handleReadMessages(message: any) {
-    console.log("read", message)
     let room = this.userRooms.find((elem: any) => elem.id === message.message.room_id);
-    console.log("room", room)
     this.unreadToRead(message, this.comments, true)
     this.unreadToRead(message, room.messages, false)
   }
