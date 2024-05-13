@@ -96,7 +96,6 @@ export class BottomBarComponent implements OnInit{
     ).subscribe(() => {
 
       this.isPath = this.location.path()
-      console.log(this.location)
     });
   }
 

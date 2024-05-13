@@ -2,15 +2,24 @@
   <app-banner></app-banner>
   <div class="2xl:container mx-auto px-4">
     <h3 class="font-600 text-[48px] md:text-[20px]"> <span class="text-[--green]">Yangi </span>e'lonlar</h3>
-   <div class="mr-[-15px] ml-[-15px]">
-     <ngx-slick-carousel class="carousel" [config]="slideConfig">
-     <div slot="my-carousel" *ngFor="let announcement of announcements;let i = index" >
-       <div ngxSlickItem class="p-[15px] md:p-[6px] slide">
-         <app-announcements-card [announcement]="announcement"></app-announcements-card>
-       </div>
-     </div>
-     </ngx-slick-carousel>
-   </div>
+    <div
+      class="grid grid-cols-3 md:grid-cols-2 gap-[30px] md:gap-3 mt-[15px]"
+      *ngIf="loading, else carouselList"
+    >
+      <p-skeleton *ngFor="let item of [1,2]" class="w-full" styleClass="ng_skeleton"></p-skeleton>
+    </div>
+    <ng-template #carouselList>
+      <div class="mr-[-15px] ml-[-15px]">
+        <ngx-slick-carousel class="carousel" [config]="slideConfig">
+          <div slot="my-carousel" *ngFor="let announcement of announcements;let i = index" >
+            <div ngxSlickItem class="p-[15px] md:p-[6px] slide">
+              <app-announcements-card [announcement]="announcement"></app-announcements-card>
+            </div>
+          </div>
+        </ngx-slick-carousel>
+      </div>
+    </ng-template>
+
     <div class="my-6">
       <app-banner-template></app-banner-template>
     </div>
