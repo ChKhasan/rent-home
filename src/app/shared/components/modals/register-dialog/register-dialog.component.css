@@ -36,3 +36,8 @@
 :host ::ng-deep .p-password {
   width: 100%;
 }
+@media (max-width: 768px) {
+  :host ::ng-deep .p-dialog-content {
+    padding: 24px
+  }
+}

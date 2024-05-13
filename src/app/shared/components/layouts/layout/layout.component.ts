@@ -6,6 +6,7 @@ import {SharedModule} from "primeng/api";
 import {AvatarModule} from "primeng/avatar";
 import {ToastModule} from "primeng/toast";
 import {NgIf} from "@angular/common";
+import {BottomBarComponent} from "../bottom-bar/bottom-bar.component";
 
 @Component({
   selector: 'app-layout',
@@ -17,7 +18,8 @@ import {NgIf} from "@angular/common";
     AvatarModule,
     SharedModule,
     ToastModule,
-    NgIf
+    NgIf,
+    BottomBarComponent
   ],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.css'
