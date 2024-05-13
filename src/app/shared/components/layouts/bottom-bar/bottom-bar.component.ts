@@ -100,11 +100,6 @@ export class BottomBarComponent implements OnInit{
     });
   }
 
-
-  handleAction(item: any): void {
-    if (item.action) item.action();
-  }
-
   openAuthDialog() {
     this.authDialogComponent.showDialog();
   }
