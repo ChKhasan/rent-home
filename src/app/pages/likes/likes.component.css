@@ -1,0 +1,10 @@
+:host ::ng-deep .ng_skeleton {
+  width: 100% ;
+  border-radius: 18px;
+  height: 490px !important;
+}
+@media (max-width: 768px) {
+  :host ::ng-deep .ng_skeleton {
+    height: 259px !important;
+  }
+}

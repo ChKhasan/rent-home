@@ -1,6 +1,21 @@
 .bottom-bar {
-  box-shadow: 0 -4px 12px 0 rgba(0,0,0,0.1);
+  box-shadow: 0 -4px 12px 0 rgba(0, 0, 0, 0.1);
 }
+
 ul {
   list-style: none;
+}
+
+.active span {
+  background-color: var(--green);
+}
+
+.active svg path {
+  fill: #fff
+}
+:host ::ng-deep .active svg path {
+  fill: #fff
+}
+.active {
+  color: #000
 }

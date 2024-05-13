@@ -121,7 +121,6 @@ export class AppComponent implements OnInit, OnDestroy {
         user: this.newGroup.user
       }
     }
-    console.log("new user", user)
     this.messageService.clear();
     if (user?.user)
       this.messageService.add({key: 'confirm', severity: 'success', summary: message.message, data: user});
