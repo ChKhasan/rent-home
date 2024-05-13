@@ -1,5 +1,5 @@
-<div class="card bg-white">
-  <div class="image relative cursor-pointer h-[262px] rounded-[8px] overflow-hidden">
+<div class="card bg-white px-6 py-6 md:px-3 md:py-3 rounded-[18px] md:rounded-[8px]">
+  <div class="image mb-6 md:mb-3 relative cursor-pointer h-[262px] md:h-[125px] rounded-[8px] overflow-hidden">
     <img
       *ngIf="announcement.images[0]?.image; else showImage"
       class="w-full h-full object-cover"
@@ -13,10 +13,11 @@
         alt=""
         height="455" width="845"/>
     </ng-template>
-    <button pButton [loading]="loading" class="min-h-8 min-w-8 flex items-center justify-center absolute top-[18px] right-[18px] px-0 py-0" (click)="check_auth(announcement?.id)">
+    <button pButton [loading]="loading" class="md:right-2 md:top-[7px] md:rounded-[4px] overflow-hidden min-h-8 md:min-h-5 md:min-w-5 min-w-8 flex items-center justify-center absolute top-[18px] right-[18px] px-0 py-0" (click)="check_auth(announcement?.id)">
     <span *ngIf="!loading">
 
       <svg
+         class="md:h-[20px] md:w-[20px]"
         *ngIf="likesService.likes.includes(announcement?.id); else showSvg"
         xmlns="http://www.w3.org/2000/svg"
         width="32"
@@ -35,7 +36,7 @@
 <ng-template #showSvg>
 
   <svg
-
+    class="md:h-[20px] md:w-[20px]"
     xmlns="http://www.w3.org/2000/svg"
     width="32"
     height="32"
@@ -56,7 +57,7 @@
     <div
       class="absolute bottom-[18px] left-[18px] px-[5px] py-[4px] rounded-[4px] bg-[color:#000000cc]"
     >
-      <p class="text-white font-500 text-[16px] flex gap-[4px] items-center">
+      <p class="text-white font-500 text-[16px] flex gap-[4px] items-center md:hidden">
         Juda yaxshi:
         <span
           class="rounded-[4px] h-[24px] w-[24px] flex items-center font-400 justify-center bg-[color:#00a00080]"
@@ -65,10 +66,11 @@
       </p>
     </div>
     <div
-      class="absolute top-[18px] left-[18px] px-[5px] py-[4px] flex rounded-[4px] bg-[color:#000000cc]"
+      class="absolute top-[18px] left-[18px] md:left-2 md:top-[7px] px-[5px] py-[4px] flex rounded-[4px] bg-[color:#000000cc]"
     >
-      <p class="text-white font-500 text-[16px] flex gap-[4px] items-center">
+      <p class="text-white font-500 text-[16px] md:text-[12px] flex gap-[4px] items-center">
         <svg
+          class="md:h-4 md:w-4"
           xmlns="http://www.w3.org/2000/svg"
           width="19"
           height="18"
@@ -94,14 +96,15 @@
   <div class="body">
     <a [routerLink]="'/announcements/' + announcement?.id" class="title">
       <h3
-        class="cursor-pointer text-[black]"
+        class="cursor-pointer text-[black] text-[25px] md:text-[14px]"
       >
         {{ announcement?.title }}
       </h3>
     </a>
 
-    <span class="location flex gap-[12px] items-center mt-[8px]">
+    <span class="location flex gap-[12px] items-center mt-[8px] md:gap-1 md:items-center">
         <svg
+          class="md:h-4 md:w-4"
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
@@ -121,19 +124,19 @@
             fill="#D1D1D6"
           />
         </svg>
-        <p class="flex gap-[12px]">
+        <p class="flex gap-[12px] text-base md:text-[12px]">
           {{ announcement?.address }}
         </p>
       </span>
-    <div class="flex justify-between mt-[24px]">
+    <div class="flex justify-between mt-[24px] md:mt-3">
       <p class="flex items-center gap-[8px] text-[16px]">
         <svg
+          class="md:h-4 md:w-4 icon"
           xmlns="http://www.w3.org/2000/svg"
           width="20px"
           height="20px"
           viewBox="0 0 1024 1024"
           fill="#000000"
-          class="icon"
           version="1.1"
         >
           <path
@@ -141,11 +144,12 @@
             fill=""
           /></svg
         >
-        <i *ngIf="announcement.conditioner" class="pi pi-check" style="color: var(--green)"></i>
-        <i *ngIf="!announcement.conditioner" class="pi pi-times" style="color: red"></i>
+        <i *ngIf="announcement.conditioner" class="pi pi-check  md:text-[14px]" style="color: var(--green)"></i>
+        <i *ngIf="!announcement.conditioner" class="pi pi-times md:text-[14px]" style="color: red"></i>
       </p>
       <p class="flex items-center gap-[8px] text-[16px]">
         <svg
+          class="md:h-4 md:w-4 icon"
           xmlns="http://www.w3.org/2000/svg"
           xmlns:xlink="http://www.w3.org/1999/xlink"
           fill="#000000"
@@ -171,11 +175,12 @@
               </g>
             </g></svg
         >
-        <i *ngIf="announcement.washing_machine" class="pi pi-check" style="color: var(--green)"></i>
-        <i *ngIf="!announcement.washing_machine" class="pi pi-times" style="color: red"></i>
+        <i *ngIf="announcement.washing_machine" class="pi pi-check md:text-[14px]" style="color: var(--green)"></i>
+        <i *ngIf="!announcement.washing_machine" class="pi pi-times md:text-[14px]" style="color: red"></i>
       </p>
       <p class="flex items-center gap-[8px] text-[16px]">
         <svg
+          class="md:h-4 md:w-4 icon"
           xmlns="http://www.w3.org/2000/svg"
           xmlns:xlink="http://www.w3.org/1999/xlink"
           fill="#000000"
@@ -209,13 +214,13 @@
             />
           </g></svg
         >
-        <i *ngIf="announcement.washing_machine" class="pi pi-check" style="color: var(--green)"></i>
-        <i *ngIf="!announcement.washing_machine" class="pi pi-times" style="color: red"></i>
+        <i *ngIf="announcement.washing_machine" class="pi pi-check md:text-[14px]" style="color: var(--green)"></i>
+        <i *ngIf="!announcement.washing_machine" class="pi pi-times md:text-[14px]" style="color: red"></i>
       </p>
     </div>
-    <div class="flex flex-col gap-[8px] mt-[18px]">
+    <div class="flex flex-col gap-[8px] mt-[18px] md:mt-1">
       <div class="flex gap-[8px] items-center">
-        <h6 class="flex text-[20px] gap-[4px]">
+        <h6 class="flex text-[20px] md:text-[14px] gap-[4px]">
             <span class="text-[color:var(--green)] font-500"
             >{{ announcement?.total_price }}
             </span>

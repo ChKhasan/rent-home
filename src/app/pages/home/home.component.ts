@@ -67,7 +67,24 @@ export class HomeComponent implements OnInit {
 
   }
 
-  slideConfig = {"slidesToShow": 3, "slidesToScroll": 1, 'spaceBetween': 24};
+  slideConfig = {"slidesToShow": 3, "slidesToScroll": 1, 'spaceBetween': 24, responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2.1,
+          slidesToScroll: 1,
+          infinite: false
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        }
+      },
+      // Add more breakpoints as needed
+    ]};
 
   ngOnInit(): void {
     if (typeof window !== 'undefined') {

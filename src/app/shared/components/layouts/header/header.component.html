@@ -7,7 +7,7 @@
   <div class="py-[20px] 2xl:container mx-auto flex justify-between px-4">
     <div class="flex gap-[40px] items-center">
       <a [routerLink]="'/'" class="logo text-[color:var(--green)]">logo</a>
-      <a href="tel:+998777077009" class="flex gap-[13px] items-center">
+      <a href="tel:+998777077009" class="flex gap-[13px] items-center md:hidden">
         <span
           class="flex items-center justify-center w-[43px] h-[43px] bg-[color:var(--gray-1)] rounded-full border-[color:var(--gray-2)] border-[1px] border-solid"
         >
@@ -32,7 +32,7 @@
       <a
         href="https://t.me/asherzod1"
         target="_blank"
-        class="flex gap-[13px] items-center"
+        class="flex gap-[13px] items-center md:hidden"
       >
         <span
           class="flex items-center justify-center w-[43px] h-[43px] bg-[color:var(--gray-1)] rounded-full border-[color:var(--gray-2)] border-[1px] border-solid"
@@ -75,7 +75,7 @@
       </a>
     </div>
     <div class="flex gap-[30px] items-center">
-      <a routerLink="/profile/create" class="font-600 text-[color:var(--green)] cursor-pointer">
+      <a routerLink="/profile/create" class="font-600 text-[color:var(--green)] cursor-pointer md:hidden">
         E'lon qo’shish
       </a>
 

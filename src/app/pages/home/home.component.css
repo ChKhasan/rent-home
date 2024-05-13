@@ -34,3 +34,16 @@
   content: url("/assets/images/Caret-Left.svg");
   font-size: unset;
 }
+@media (max-width: 768px) {
+  .slick-slide {
+    float: right;
+    width: 50%;
+    height: auto;
+  }
+  :host ::ng-deep .slick-prev, :host ::ng-deep .slick-next {
+    display: none !important;
+  }
+  :host ::ng-deep .ng_skeleton {
+    height: 259px !important;
+  }
+}

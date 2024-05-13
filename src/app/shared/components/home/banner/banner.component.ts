@@ -3,16 +3,18 @@ import {CascadeSelectModule} from "primeng/cascadeselect";
 import {FormsModule} from "@angular/forms";
 import {CheckboxModule} from "primeng/checkbox";
 import {RouterLink} from "@angular/router";
+import {SearchComponent} from "../../announcement/search/search.component";
 
 @Component({
   selector: 'app-banner',
   standalone: true,
-  imports: [
-    CascadeSelectModule,
-    FormsModule,
-    CheckboxModule,
-    RouterLink
-  ],
+    imports: [
+        CascadeSelectModule,
+        FormsModule,
+        CheckboxModule,
+        RouterLink,
+        SearchComponent
+    ],
   templateUrl: './banner.component.html',
   styleUrl: './banner.component.css'
 })
@@ -96,5 +98,8 @@ export class BannerComponent {
         ]
       }
     ];
+  }
+  afterSendFilter = () => {
+
   }
 }

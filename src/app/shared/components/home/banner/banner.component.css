@@ -41,3 +41,13 @@ padding: 0 !important;
 :host ::ng-deep .p-cascadeselect-trigger {
   display: none;
 }
+@media (max-width: 768px) {
+  .banner {
+    height: 50vh;
+    margin-bottom: 80px;
+  }
+  .img {
+    width: 100%;
+    height: 50vh;
+  }
+}
