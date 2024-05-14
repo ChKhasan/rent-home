@@ -1,4 +1,4 @@
-import {Component, OnInit, QueryList} from '@angular/core';
+import {Component, OnInit, QueryList, ViewChild} from '@angular/core';
 import {finalize} from "rxjs";
 import {AnnouncementsService} from "../../../core/services/announcements/announcements.service";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
@@ -12,6 +12,7 @@ import {
 import {FilterComponent} from "../../../shared/components/announcement/filter/filter.component";
 import {SearchComponent} from "../../../shared/components/announcement/search/search.component";
 import {HttpParams} from "@angular/common/http";
+import {BottomSheetComponent} from "../../../shared/components/modals/bottom-sheet/bottom-sheet.component";
 
 const sortOptions = [
   {
@@ -42,7 +43,8 @@ const sortOptions = [
     MyAnnouncementsCardComponent,
     FilterComponent,
     SearchComponent,
-    RouterLink
+    RouterLink,
+    BottomSheetComponent
   ],
   templateUrl: './list.component.html',
   styleUrl: './list.component.css'
@@ -54,7 +56,7 @@ export class ListComponent implements OnInit {
   public totalPage: number = 0;
   public sortOptions = sortOptions;
   public currentSort: string = 'appartment_status'
-
+ @ViewChild(BottomSheetComponent) bottomSheetComponent!: BottomSheetComponent
   constructor(
     private _announcementsService: AnnouncementsService,
     private queryConfig: QueryService
@@ -73,17 +75,27 @@ export class ListComponent implements OnInit {
       });
   }
   filterSend = (e: any) => {
-    this.queryConfig.updateCustomQuery(e,this.__GET_ANNOUNCEMENTS)
+    this.queryConfig.updateCustomQuery(e,this.__GET_ANNOUNCEMENTS);
+    this.closeBottomSheet()
   }
   clearFilter = () => {
     this.queryConfig.clearFilter(this.__GET_ANNOUNCEMENTS).then(() => {
       this.currentSort = "appartment_status";
     })
+    this.closeBottomSheet()
   }
   sortHandle(option: any) {
     this.currentSort == option[0]
       ? (this.currentSort = option[1])
       : (this.currentSort = option[0]);
     this.filterSend({ordering: this.currentSort});
+  }
+  openBottomSheet() {
+    this.bottomSheetComponent.open()
+
+  }
+  closeBottomSheet = () => {
+    this.bottomSheetComponent.close();
+
   }
 }

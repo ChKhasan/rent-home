@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {CheckboxModule} from "primeng/checkbox";
-import { FormsModule} from "@angular/forms";
+import {FormsModule} from "@angular/forms";
 import {InputNumberModule} from "primeng/inputnumber";
 import {ButtonModule} from "primeng/button";
 import {SliderModule} from "primeng/slider";
@@ -17,12 +17,13 @@ import {QueryService} from "../../../../core/services/query/query.service";
     CheckboxModule,
     InputNumberModule,
     ButtonModule,
-    SliderModule
+    SliderModule,
+    NgIf
   ],
   templateUrl: './filter.component.html',
   styleUrl: './filter.component.css'
 })
-export class FilterComponent implements OnInit{
+export class FilterComponent implements OnInit {
   public sliderValue: number[] = [0, 4000000];
   public tab: number = 1;
   public filterForm: FilterForm = {
@@ -51,27 +52,36 @@ export class FilterComponent implements OnInit{
   @Input() filterAction!: Function
   @Input() clearFilterAction!: Function;
   @Input() loading!: boolean;
+  @Input() close: Function | undefined;
+
   constructor(private queryService: QueryService) {
   }
-ngOnInit() {
-  if (typeof window !== 'undefined') {
-    let query = this.queryService.activeQueryList()
-    for (let item in this.filterForm) {
-      this.filterForm[item as keyof FilterForm] = typeof query[item] === 'string' && JSON.parse(query[item]) || this.filterForm[item as keyof FilterForm]
+
+  ngOnInit() {
+    if (typeof window !== 'undefined') {
+      let query = this.queryService.activeQueryList()
+      for (let item in this.filterForm) {
+        this.filterForm[item as keyof FilterForm] = typeof query[item] === 'string' && JSON.parse(query[item]) || this.filterForm[item as keyof FilterForm]
+      }
+      this.sliderValue[0] = Number(this.filterForm.total_price__gte);
+      this.sliderValue[1] = Number(this.filterForm.total_price__lte);
     }
-    this.sliderValue[0] = Number(this.filterForm.total_price__gte);
-    this.sliderValue[1] = Number(this.filterForm.total_price__lte);
+
   }
 
-}
+  closeBottomSheet() {
+    if (this.close !== undefined)
+      this.close()
+  }
 
   filterSend() {
     this.filterForm.total_price__gte = this.sliderValue[0];
     this.filterForm.total_price__lte = this.sliderValue[1];
     this.filterAction(this.filterForm)
   }
+
   clearFilter() {
-  this.clearFilterAction()
+    this.clearFilterAction()
     this.filterForm = {
       conditioner: false,
       partnership: false,
