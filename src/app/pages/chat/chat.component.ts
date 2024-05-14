@@ -30,33 +30,36 @@ import {AvatarModule} from "primeng/avatar";
 import {ChatService} from "../../core/services/chat/chat.service";
 import {debounceTime, finalize, fromEvent} from "rxjs";
 import {TabComponent} from "../../shared/components/profile/tab/tab.component";
+import {animate, stagger, style, transition, trigger,query} from "@angular/animations";
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-    imports: [
-        MyAnnouncementsCardComponent,
-        NgForOf,
-        NgIf,
-        PaginationComponent,
-        SkeletonModule,
-        RouterLink,
-        ChatUserListComponent,
-        AuthDialogComponent,
-        ButtonModule,
-        DatePipe,
-        FormsModule,
-        RegisterDialogComponent,
-        BadgeModule,
-        ToastModule,
-        RippleModule,
-        AvatarModule,
-        NgClass,
-        NgTemplateOutlet,
-        TabComponent
-    ],
+  imports: [
+    MyAnnouncementsCardComponent,
+    NgForOf,
+    NgIf,
+    PaginationComponent,
+    SkeletonModule,
+    RouterLink,
+    ChatUserListComponent,
+    AuthDialogComponent,
+    ButtonModule,
+    DatePipe,
+    FormsModule,
+    RegisterDialogComponent,
+    BadgeModule,
+    ToastModule,
+    RippleModule,
+    AvatarModule,
+    NgClass,
+    NgTemplateOutlet,
+    TabComponent
+  ],
   templateUrl: './chat.component.html',
-  styleUrl: './chat.component.css'
+  styleUrl: './chat.component.css',
+
+
 })
 export class ChatComponent implements OnInit, AfterViewInit {
   @ViewChildren('childRef') childRefs!: QueryList<ElementRef>;
@@ -72,6 +75,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   public skeletonList = [1, 2, 3, 4, 1, 2, 3];
   public isRoom: any = {}
   public userRooms: any = [];
+  public allUserRooms: any = [];
   public newGroup: boolean = false
 
   constructor(public authService: AuthService,
@@ -89,6 +93,11 @@ export class ChatComponent implements OnInit, AfterViewInit {
     }
   }
 
+  userSearch = (name: string) => {
+    console.log(this.allUserRooms, name)
+    this.userRooms = this.allUserRooms.filter((elem: any) => elem.user && elem.user.name.toLocaleUpperCase().includes(name.toLocaleUpperCase()))
+  }
+
   firstConnection() {
     setTimeout(() => {
       this.chatService.onMessage().subscribe((message) => {
@@ -104,7 +113,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.chatService.getUserRooms()
       .pipe(finalize(() => this.loadingRooms = false))
       .subscribe((response: IUserRooms[]) => {
-        if (response.length > 0)
+        if (response.length > 0) {
           this.userRooms = response.filter((item: any) => item.users.find((elem: any) => elem.id !== this.authService.user?.id)?.id !== this.authService.user.id).map((elem: IUserRooms) => {
             return {
               ...elem,
@@ -112,6 +121,10 @@ export class ChatComponent implements OnInit, AfterViewInit {
               user: elem.users.find((elem: any) => elem.id !== this.authService.user.id)
             }
           })
+          this.allUserRooms = [...this.userRooms];
+          console.log(this.allUserRooms,this.userRooms)
+        }
+
         this.findCurrentRoom()
       })
   }

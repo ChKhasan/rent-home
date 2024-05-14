@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class="chat-container mx-auto  items-center mt-[30px] flex flex-col gap-4">
-      <app-chat-user-list [loading]="loadingRooms" [userRooms]="userRooms" [handlerRoom]="handlerRoom" [isRoom]="isRoom"
+      <app-chat-user-list [userSearch]="userSearch" [loading]="loadingRooms" [userRooms]="userRooms" [handlerRoom]="handlerRoom" [isRoom]="isRoom"
                           class="h-full"></app-chat-user-list>
       <div>
         <div class="message-block rounded-[24px] overflow-hidden border border-solid border-[var(--input-stroke)]">
@@ -39,13 +39,13 @@
             <div class="gap-4 relative flex items-center pl-6">
               <span
                 class="absolute h-[85px] left-0 flex w-[1px] border-[0] border-l  border-solid border-[#EBEBEB]"></span>
-              <div class="image h-[50px] w-[50px] min-w-[50px] rounded-[4px] overflow-hidden">
-                <img src="./assets/images/avatar.png" class="w-full h-full object-cover" alt="">
-              </div>
-              <div class="body flex flex-col justify-center gap-1">
-                <h4 class="font-500 text-[16px] text-[#020105]">O’zbekona millliy libos BOHOR</h4>
-                <p class="font-400 text-[14px] text-[#5D5D5F]">750.000 so’m</p>
-              </div>
+<!--              <div class="image h-[50px] w-[50px] min-w-[50px] rounded-[4px] overflow-hidden">-->
+<!--                <img src="./assets/images/avatar.png" class="w-full h-full object-cover" alt="">-->
+<!--              </div>-->
+<!--              <div class="body flex flex-col justify-center gap-1">-->
+<!--                <h4 class="font-500 text-[16px] text-[#020105]">O’zbekona millliy libos BOHOR</h4>-->
+<!--                <p class="font-400 text-[14px] text-[#5D5D5F]">750.000 so’m</p>-->
+<!--              </div>-->
             </div>
           </div>
           <div class="body px-6 py-6  rounded-b-[12px]">
