@@ -1,5 +1,5 @@
-<div class="card py-[25px] px-[24px] rounded-[18px]">
-  <div class="img rounded-[8px] relative">
+<div class="card py-[25px] px-[24px] md:px-3 md:py-3 rounded-[18px]">
+  <div class="img h-[262px] md:h-[120px] rounded-[8px] relative">
     <img
       *ngIf="announcement?.images[0]?.image"
       class="w-full h-full object-cover"
@@ -13,9 +13,9 @@
       alt=""
       height="262" width="345"/>
     <div
-      class="absolute bottom-[18px] left-[18px] px-[5px] py-[4px] rounded-[4px] bg-[color:#000000cc]"
+      class="absolute bottom-[18px] left-[18px] md:left-[5px] md:bottom-[5px] px-[5px] py-[4px] rounded-[4px] bg-[color:#000000cc]"
     >
-      <p class="text-white font-500 text-[16px] flex gap-[4px] items-center">
+      <p class="text-white font-500 text-[16px] flex gap-[4px] items-center md:text-[12px]">
         Juda yaxshi:
         <span
           class="rounded-[4px] h-[24px] w-[24px] flex items-center font-400 justify-center bg-[color:#00a00080]"
@@ -28,7 +28,7 @@
     <div>
       <div class="flex items-center gap-[18px]">
         <a
-          class="text-[25px] font-600 max-w-[60%] cursor-pointer"
+          class="text-[25px] font-600 max-w-[60%] cursor-pointer md:text-[14px]"
           [routerLink]="'/announcements/'+announcement?.id"
         >
           {{ announcement?.title }}
@@ -48,8 +48,9 @@
           >{{ announcement?.appartment_status / 2 }}</span
         > -->
       </div>
-      <div class="flex items-center gap-[12px] mt-[8px]">
+      <div class="flex items-center gap-[12px] md:gap-2 mt-[8px]">
         <svg
+          class="md:w-5 md:h-5"
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
@@ -69,11 +70,12 @@
             fill="#D1D1D6"
           />
         </svg>
-        <p class="max-w-[60%] address">{{ announcement?.address }}</p>
+        <p class="max-w-[60%] address md:text-[12px] ">{{ announcement?.address }}</p>
       </div>
-      <div class="mt-[17px] flex items-center gap-[32px]">
-        <p class="flex items-center gap-[8px] text-[16px]">
+      <div class="mt-[17px] flex items-center gap-[32px] md:gap-5">
+        <p class="flex items-center gap-[8px] text-[16px] md:text-[12px]">
           <svg
+
             xmlns="http://www.w3.org/2000/svg"
             width="20px"
             height="20px"
@@ -88,7 +90,7 @@
             />
           </svg
           >
-          Konditsioner
+          <span class="md:hidden"> Konditsioner</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="18"
@@ -104,7 +106,7 @@
             />
           </svg>
         </p>
-        <p class="flex items-center gap-[8px] text-[16px]">
+        <p class="flex items-center gap-[8px] text-[16px] md:text-[12px]">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -131,7 +133,8 @@
               </g>
             </g></svg
           >
-          Muzlatgich
+
+          <span class="md:hidden"> Muzlatgich</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="18"
@@ -147,7 +150,7 @@
             />
           </svg>
         </p>
-        <p class="flex items-center gap-[8px] text-[16px]">
+        <p class="flex items-center gap-[8px] text-[16px] md:text-[12px]">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -183,7 +186,8 @@
             </g>
           </svg
           >
-          Kir moshina
+          <span class="md:hidden"> Kir moshina</span>
+
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="18"
@@ -203,7 +207,7 @@
     </div>
     <div class="flex justify-between items-end">
       <div class="flex flex-col gap-[8px]">
-        <h6 class="text-[20px]">
+        <h6 class="text-[20px] md:text-[14px]">
             <span class="text-[color:var(--green)] font-500">{{
               announcement?.total_price
               }}</span>

@@ -3,9 +3,9 @@
   display: grid;
   grid-template-columns: 294px 1fr;
   grid-gap: 24px;
+
 }
 .img {
-  height: 262px;
   overflow: hidden;
 }
 a,
@@ -17,7 +17,14 @@ a,
   text-overflow: ellipsis;
   transition: .3s;
   color: #000;
+  w:al
 }
 a:hover {
   color: var(--green);
+}
+@media (max-width: 768px) {
+  .card {
+    grid-template-columns: 140px 1fr;
+    grid-gap: 12px;
+  }
 }

@@ -11,3 +11,9 @@
   border-radius: 18px;
   height: 311px !important;
 }
+@media (max-width: 768px) {
+  .applications-container {
+    grid-template-columns: 1fr;
+    grid-gap: 30px;
+  }
+}

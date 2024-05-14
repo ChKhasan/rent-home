@@ -1,17 +1,18 @@
-<div class="applications py-[60px]">
+<div class="applications py-[60px] md:py-[18px]">
   <div class="2xl:container mx-auto px-4">
     <div class="flex items-center justify-between mb-[30px]">
-      <h1 class="font-600 text-[60px] flex items-center gap-[24px]">
+      <h1 class="font-600 text-[60px] md:text-[24px] flex items-center gap-[24px]">
         Natija:
         <span class="text-[color:var(--green)] flex items-center">{{ totalPage }}</span>
       </h1>
       <a
         routerLink="/map"
-        class="bg-[color:var(--btn-blue)] text-white py-[10px] flex rounded-[8px] min-w-[250px] justify-center"
+        class="bg-[color:var(--btn-blue)] text-white py-[10px] md:py-[6px] flex items-center md:text-base flex rounded-[8px] min-w-[250px] md:min-w-[200px] justify-center"
       >
         Haritada ko’rish
         <span
         ><svg
+          class="md:w-5 md:h-5"
           xmlns="http://www.w3.org/2000/svg"
           width="25"
           height="24"
@@ -38,12 +39,12 @@
       </a>
     </div>
     <div class="applications-container grid">
-      <div class="flex flex-col gap-6">
+      <div class="flex flex-col gap-6 md:hidden">
         <app-search [getData]="__GET_ANNOUNCEMENTS" [loading]="loading"></app-search>
         <app-filter [filterAction]="filterSend" [loading]="loading"  [clearFilterAction]="clearFilter"></app-filter>
       </div>
       <div>
-        <div class="flex items-center justify-between mb-[30px]">
+        <div class="flex items-center justify-between mb-[30px] md:hidden">
           <h6 class="font-600 text-[color:#C5C6C7] text-[20px]">Tahlash:</h6>
           <div
             class="tab gap-[10px] flex px-[4px] rounded-[12px] items-center border border-[color:#EAEAEA] border-solid py-[4px]"
@@ -91,12 +92,12 @@
           </div>
         </div>
 
-        <div class="flex flex-col gap-[31px]"  *ngIf="loading, else announcementsList">
+        <div class="flex flex-col gap-[31px] md:gap-3"  *ngIf="loading, else announcementsList">
           <p-skeleton *ngFor="let item of skeletonList" class="w-full" styleClass="ng_skeleton"></p-skeleton>
         </div>
         <ng-template #announcementsList>
 
-          <div class="flex flex-col gap-[31px]" >
+          <div class="flex flex-col gap-[31px] md:gap-3" >
             <ng-container *ngFor="let announcement of announcements">
               <app-my-announcements-card [announcement]="announcement"></app-my-announcements-card>
             </ng-container>
