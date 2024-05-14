@@ -5,6 +5,7 @@ import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {SkeletonModule} from "primeng/skeleton";
 import {IUserRooms} from "../../../../core/interfaces/common.interface";
 import {AvatarModule} from "primeng/avatar";
+import {AuthService} from "../../../../core/services/auth/auth.service";
 
 @Component({
   selector: 'app-chat-user-list',
@@ -26,11 +27,13 @@ export class ChatUserListComponent {
   @Input() isRoom!: any
   @Input() userRooms!: IUserRooms[]
   @Input() loading!: boolean
-  constructor(public chatService: ChatService) {
+  constructor(public chatService: ChatService,
+              private authService: AuthService) {
   }
   getUnreadMessageCount(messages: any): string {
     if(messages && messages.length > 0) {
-      return String(messages.filter((elem: any) => !elem.is_read).length);
+      console.log(messages)
+      return String(messages.filter((elem: any) => !elem.is_read && elem.sender !== this.authService.user.id).length);
     } else {
       return '0'
     }
