@@ -2,3 +2,13 @@
   color: #fff;
   background-color: var(--green);
 }
+@media (max-width: 768px) {
+  .tab button {
+    border-bottom: 2px solid transparent;
+  }
+  .tab .active {
+    color: #000;
+    background-color: transparent;
+    border-color: var(--green);
+  }
+}

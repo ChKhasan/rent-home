@@ -29,30 +29,32 @@ import {RippleModule} from "primeng/ripple";
 import {AvatarModule} from "primeng/avatar";
 import {ChatService} from "../../core/services/chat/chat.service";
 import {debounceTime, finalize, fromEvent} from "rxjs";
+import {TabComponent} from "../../shared/components/profile/tab/tab.component";
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [
-    MyAnnouncementsCardComponent,
-    NgForOf,
-    NgIf,
-    PaginationComponent,
-    SkeletonModule,
-    RouterLink,
-    ChatUserListComponent,
-    AuthDialogComponent,
-    ButtonModule,
-    DatePipe,
-    FormsModule,
-    RegisterDialogComponent,
-    BadgeModule,
-    ToastModule,
-    RippleModule,
-    AvatarModule,
-    NgClass,
-    NgTemplateOutlet
-  ],
+    imports: [
+        MyAnnouncementsCardComponent,
+        NgForOf,
+        NgIf,
+        PaginationComponent,
+        SkeletonModule,
+        RouterLink,
+        ChatUserListComponent,
+        AuthDialogComponent,
+        ButtonModule,
+        DatePipe,
+        FormsModule,
+        RegisterDialogComponent,
+        BadgeModule,
+        ToastModule,
+        RippleModule,
+        AvatarModule,
+        NgClass,
+        NgTemplateOutlet,
+        TabComponent
+    ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css'
 })

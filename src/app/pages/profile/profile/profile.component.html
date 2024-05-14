@@ -1,144 +1,155 @@
-<div class="profile py-[60px]">
+<div class="profile py-[60px] md:py-[18px]">
   <div class="2xl:container mx-auto px-4">
-    <div class="title flex justify-between items-center">
-      <h3 class="text-[60px] font-600">Sozlamalar</h3>
+    <div class="title flex justify-between items-center md:flex-col">
+      <h3 class="text-[60px] font-600 md:text-[24px] md:mb-3">Sozlamalar</h3>
       <app-tab></app-tab>
     </div>
-    <div class="body mt-[30px] flex justify-between">
-      <div class="image-block">
-        <h5 class="image-title font-600 text-[31px]">Shaxsiy ma’lumotlar</h5>
-      <div class="relative mt-11 w-[168px] h-[168px] flex items-center">
-            <div class="image w-full h-full rounded-full overflow-hidden">
+    <div class="body mt-[30px] flex justify-between md:flex-col md:items-center">
+      <div class="image-block md:flex md:justify-center md:flex-col md:items-center">
+        <h5 class="image-title font-600 text-[31px] md:hidden">Shaxsiy ma’lumotlar</h5>
+        <div class="relative mt-11 md:mt-[0] w-[168px] h-[168px] md:w-[100px] md:h-[100px] flex items-center">
+          <div class="image w-full h-full rounded-full overflow-hidden">
+            <img
+              *ngIf="avatar, else defaultImage"
+              class="w-full h-full object-cover"
+              [src]="avatar"
+              alt=""
+            />
+            <ng-template #defaultImage>
               <img
-                *ngIf="avatar, else defaultImage"
                 class="w-full h-full object-cover"
-                [src]="avatar"
+                src="assets/images/avatar.png"
                 alt=""
               />
-              <ng-template #defaultImage>
-                <img
-                  class="w-full h-full object-cover"
-                  src="assets/images/avatar.png"
-                  alt=""
-                />
-              </ng-template>
+            </ng-template>
 
-            </div>  <p-fileUpload class="flex items-center  absolute right-[-20px] " styleClass="file-upload" mode="basic" name="image"
-                                  url="https://api.rent-home.uz/api/images/"
-                                  (onUpload)="onUpload($event)"
-                                  [auto]="true"
-                                  method="post"
-                                  [multiple]="true"
-                                  accept="image/*"
-                                  [maxFileSize]="1000000"
-                                  [headers]="headers"
-      >
-      </p-fileUpload></div>
-
-    </div>
-    <div class="forma max-w-[556px] max-auto w-full">
-      <div [formGroup]="ruleForm" class="flex flex-col gap-[18px]">
-        <div class="flex flex-col gap-2 relative">
-          <label class="font-400 text-[--gray-6] text-base" for="name">Ism</label>
-          <div class="relative w-full flex items-center password-input">
-            <input
-              pInputText
-              [ngClass]="{'ng-invalid ng-dirty': ruleForm.controls.name.touched &&ruleForm.controls.name.errors && ruleForm.controls.name.errors['required'] }"
-              type="text"
-              class=" w-full h-12 rounded-[8px] border-[2px] border-solid border-[--input-stroke] bg-[--gray-1]"
-              id="name"
-              placeholder="Ism..."
-              formControlName="name"
-            />
           </div>
-
-          <div
-            *ngIf="ruleForm.controls.name.invalid && (ruleForm.controls.name.dirty  || ruleForm.controls.name.touched)"
+          <p-fileUpload class="flex items-center  absolute right-[-20px] " styleClass="file-upload" mode="basic"
+                        name="image"
+                        url="https://api.rent-home.uz/api/images/"
+                        (onUpload)="onUpload($event)"
+                        [auto]="true"
+                        method="post"
+                        [multiple]="true"
+                        accept="image/*"
+                        [maxFileSize]="1000000"
+                        [headers]="headers"
           >
-            <app-invaid-text [text]="'Name is required.'"  *ngIf="ruleForm.controls.name.errors && ruleForm.controls.name.errors['required']"></app-invaid-text>
-            <app-invaid-text [text]="'Password must be at least 4 characters long.'"  *ngIf="ruleForm.controls.name.errors && ruleForm.controls.name.errors['minlength']"></app-invaid-text>
-          </div>
-
+          </p-fileUpload>
         </div>
-        <div class="flex flex-col gap-2 relative">
-          <label class="font-400 text-[--gray-6] text-base" for="first_name">Familiya</label>
-          <div class="relative w-full flex items-center password-input">
-            <input
-              pInputText
-              [ngClass]="{'ng-invalid ng-dirty': ruleForm.controls.first_name.touched &&ruleForm.controls.first_name.errors && ruleForm.controls.first_name.errors['required'] }"
-              type="text"
-              class=" w-full h-12 rounded-[8px] border-[2px] border-solid border-[--input-stroke] bg-[--gray-1]"
-              id="first_name"
-              placeholder="Familiyangiz"
-              formControlName="first_name"
-            />
-          </div>
 
-          <div
-            *ngIf="ruleForm.controls.first_name.invalid && (ruleForm.controls.first_name.dirty  || ruleForm.controls.first_name.touched)"
-          >
-            <app-invaid-text [text]="'First name is required.'"  *ngIf="ruleForm.controls.first_name.errors && ruleForm.controls.first_name.errors['required']"></app-invaid-text>
-            <app-invaid-text [text]="'Password must be at least 4 characters long.'"  *ngIf="ruleForm.controls.first_name.errors && ruleForm.controls.first_name.errors['minlength']"></app-invaid-text>
-          </div>
-
-        </div>
-        <div class="flex flex-col gap-2 relative">
-          <label class="font-400 text-[--gray-6] text-base" for="last_name">Otangizning ismi</label>
-          <div class="relative w-full flex items-center password-input">
-            <input
-              pInputText
-              [ngClass]="{'ng-invalid ng-dirty': ruleForm.controls.last_name.touched &&ruleForm.controls.last_name.errors && ruleForm.controls.last_name.errors['required'] }"
-              type="text"
-              class=" w-full h-12 rounded-[8px] border-[2px] border-solid border-[--input-stroke] bg-[--gray-1]"
-              id="last_name"
-              placeholder="Otangizning ismi"
-              formControlName="last_name"
-            />
-          </div>
-
-          <div
-            *ngIf="ruleForm.controls.last_name.invalid && (ruleForm.controls.last_name.dirty  || ruleForm.controls.last_name.touched)"
-          >
-            <app-invaid-text [text]="'Last name is required.'"  *ngIf="ruleForm.controls.last_name.errors && ruleForm.controls.last_name.errors['required']"></app-invaid-text>
-            <app-invaid-text [text]="'Password must be at least 4 characters long.'"  *ngIf="ruleForm.controls.last_name.errors && ruleForm.controls.last_name.errors['minlength']"></app-invaid-text>
-          </div>
-
-        </div>
-        <div class="flex flex-col gap-2 relative">
-          <label class="font-400 text-[--gray-6] text-base" for="email">Elektron pochta</label>
-          <div class="relative w-full flex items-center password-input">
-            <input
-              pInputText
-              [ngClass]="{'ng-invalid ng-dirty': ruleForm.controls.email.touched &&ruleForm.controls.email.errors && ruleForm.controls.email.errors['required'] }"
-              type="text"
-              class=" w-full h-12 rounded-[8px] border-[2px] border-solid border-[--input-stroke] bg-[--gray-1]"
-              id="email"
-              placeholder="example@mail.ru"
-              formControlName="email"
-            />
-          </div>
-
-          <div
-            *ngIf="ruleForm.controls.email.invalid && (ruleForm.controls.email.dirty  || ruleForm.controls.email.touched)"
-          >
-            <app-invaid-text [text]="'Email is required.'"  *ngIf="ruleForm.controls.email.errors && ruleForm.controls.email.errors['required']"></app-invaid-text>
-            <app-invaid-text [text]="'Please insert a valid email address'"  *ngIf="ruleForm.controls.email.errors && ruleForm.controls.email.errors['email']"></app-invaid-text>
-          </div>
-
-        </div>
       </div>
+      <div class="forma max-w-[556px] max-auto w-full">
+        <div [formGroup]="ruleForm" class="flex flex-col gap-[18px]">
+          <div class="flex flex-col gap-2 relative">
+            <label class="font-400 text-[--gray-6] text-base" for="name">Ism</label>
+            <div class="relative w-full flex items-center password-input">
+              <input
+                pInputText
+                [ngClass]="{'ng-invalid ng-dirty': ruleForm.controls.name.touched &&ruleForm.controls.name.errors && ruleForm.controls.name.errors['required'] }"
+                type="text"
+                class=" w-full h-12 rounded-[8px] border-[2px] border-solid border-[--input-stroke] bg-[--gray-1]"
+                id="name"
+                placeholder="Ism..."
+                formControlName="name"
+              />
+            </div>
 
-      <div class="flex justify-end mt-[65px]">
-        <p-button
-          [loading]="loading"
-          (click)="onSubmit()"
-          class="px-0 py-0 rounded-[12px]"
-          styleClass="w-[270px] h-12 rounded-[12px] bg-[var(--green)] text-white flex items-center justify-center"
-        >
-          Saqlash
-        </p-button>
+            <div
+              *ngIf="ruleForm.controls.name.invalid && (ruleForm.controls.name.dirty  || ruleForm.controls.name.touched)"
+            >
+              <app-invaid-text [text]="'Name is required.'"
+                               *ngIf="ruleForm.controls.name.errors && ruleForm.controls.name.errors['required']"></app-invaid-text>
+              <app-invaid-text [text]="'Password must be at least 4 characters long.'"
+                               *ngIf="ruleForm.controls.name.errors && ruleForm.controls.name.errors['minlength']"></app-invaid-text>
+            </div>
+
+          </div>
+          <div class="flex flex-col gap-2 relative">
+            <label class="font-400 text-[--gray-6] text-base" for="first_name">Familiya</label>
+            <div class="relative w-full flex items-center password-input">
+              <input
+                pInputText
+                [ngClass]="{'ng-invalid ng-dirty': ruleForm.controls.first_name.touched &&ruleForm.controls.first_name.errors && ruleForm.controls.first_name.errors['required'] }"
+                type="text"
+                class=" w-full h-12 rounded-[8px] border-[2px] border-solid border-[--input-stroke] bg-[--gray-1]"
+                id="first_name"
+                placeholder="Familiyangiz"
+                formControlName="first_name"
+              />
+            </div>
+
+            <div
+              *ngIf="ruleForm.controls.first_name.invalid && (ruleForm.controls.first_name.dirty  || ruleForm.controls.first_name.touched)"
+            >
+              <app-invaid-text [text]="'First name is required.'"
+                               *ngIf="ruleForm.controls.first_name.errors && ruleForm.controls.first_name.errors['required']"></app-invaid-text>
+              <app-invaid-text [text]="'Password must be at least 4 characters long.'"
+                               *ngIf="ruleForm.controls.first_name.errors && ruleForm.controls.first_name.errors['minlength']"></app-invaid-text>
+            </div>
+
+          </div>
+          <div class="flex flex-col gap-2 relative">
+            <label class="font-400 text-[--gray-6] text-base" for="last_name">Otangizning ismi</label>
+            <div class="relative w-full flex items-center password-input">
+              <input
+                pInputText
+                [ngClass]="{'ng-invalid ng-dirty': ruleForm.controls.last_name.touched &&ruleForm.controls.last_name.errors && ruleForm.controls.last_name.errors['required'] }"
+                type="text"
+                class=" w-full h-12 rounded-[8px] border-[2px] border-solid border-[--input-stroke] bg-[--gray-1]"
+                id="last_name"
+                placeholder="Otangizning ismi"
+                formControlName="last_name"
+              />
+            </div>
+
+            <div
+              *ngIf="ruleForm.controls.last_name.invalid && (ruleForm.controls.last_name.dirty  || ruleForm.controls.last_name.touched)"
+            >
+              <app-invaid-text [text]="'Last name is required.'"
+                               *ngIf="ruleForm.controls.last_name.errors && ruleForm.controls.last_name.errors['required']"></app-invaid-text>
+              <app-invaid-text [text]="'Password must be at least 4 characters long.'"
+                               *ngIf="ruleForm.controls.last_name.errors && ruleForm.controls.last_name.errors['minlength']"></app-invaid-text>
+            </div>
+
+          </div>
+          <div class="flex flex-col gap-2 relative">
+            <label class="font-400 text-[--gray-6] text-base" for="email">Elektron pochta</label>
+            <div class="relative w-full flex items-center password-input">
+              <input
+                pInputText
+                [ngClass]="{'ng-invalid ng-dirty': ruleForm.controls.email.touched &&ruleForm.controls.email.errors && ruleForm.controls.email.errors['required'] }"
+                type="text"
+                class=" w-full h-12 rounded-[8px] border-[2px] border-solid border-[--input-stroke] bg-[--gray-1]"
+                id="email"
+                placeholder="example@mail.ru"
+                formControlName="email"
+              />
+            </div>
+
+            <div
+              *ngIf="ruleForm.controls.email.invalid && (ruleForm.controls.email.dirty  || ruleForm.controls.email.touched)"
+            >
+              <app-invaid-text [text]="'Email is required.'"
+                               *ngIf="ruleForm.controls.email.errors && ruleForm.controls.email.errors['required']"></app-invaid-text>
+              <app-invaid-text [text]="'Please insert a valid email address'"
+                               *ngIf="ruleForm.controls.email.errors && ruleForm.controls.email.errors['email']"></app-invaid-text>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="flex justify-end md:block md:w-full mt-[65px] md:mt-6">
+          <p-button
+            [loading]="loading"
+            (click)="onSubmit()"
+            class="px-0 py-0 rounded-[12px]"
+            styleClass="w-[270px] md:w-full h-12 rounded-[12px] bg-[var(--green)] text-white flex items-center justify-center"
+          >
+            Saqlash
+          </p-button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </div>

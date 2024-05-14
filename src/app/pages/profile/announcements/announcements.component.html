@@ -1,8 +1,9 @@
-<div class="announcements py-[60px]">
+<div class="announcements py-[60px] md:py-[18px]">
   <div class="2xl:container mx-auto px-4">
-    <div class="title flex justify-between items-center">
-      <h3 class="text-[60px] font-600">Mening e'lonlarim</h3>
-      <div class="tab gap-[10px] flex rounded-[12px] items-center">
+    <div class="title flex justify-between items-center md:flex-col">
+      <h3 class="text-[60px] font-600 md:text-[24px] md:mb-3">Mening e'lonlarim</h3>
+      <div class="hidden md:flex"> <app-tab></app-tab></div>
+      <div class="tab gap-[10px] flex rounded-[12px] items-center md:hidden">
         <button
           class="px-[20px] whitespace-nowrap py-[10px] rounded-[12px] text-black bg-[var(--gray-1)] text-[16px] font-500 flex items-center gap-[10px]"
           [routerLink]="'/profile'"

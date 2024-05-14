@@ -11,18 +11,20 @@ import {PaginationComponent} from "../../../shared/components/pagination/paginat
 import {finalize} from "rxjs";
 import {QueryList} from "../../../core/interfaces/common.interface";
 import {QueryService} from "../../../core/services/query/query.service";
+import {TabComponent} from "../../../shared/components/profile/tab/tab.component";
 
 @Component({
   selector: 'app-announcements',
   standalone: true,
-  imports: [
-    RouterLink,
-    MyAnnouncementsCardComponent,
-    NgForOf,
-    SkeletonModule,
-    NgIf,
-    PaginationComponent
-  ],
+    imports: [
+        RouterLink,
+        MyAnnouncementsCardComponent,
+        NgForOf,
+        SkeletonModule,
+        NgIf,
+        PaginationComponent,
+        TabComponent
+    ],
   templateUrl: './announcements.component.html',
   styleUrl: './announcements.component.css'
 })

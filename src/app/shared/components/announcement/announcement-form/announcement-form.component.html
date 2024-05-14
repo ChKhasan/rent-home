@@ -1,7 +1,7 @@
-<div class="announcements py-[60px]">
+<div class="announcements py-[60px] md:py-[18px]">
   <div class="2xl:container mx-auto px-4">
-    <div class="title flex justify-between items-center">
-      <h3 class="text-[60px] font-600">E'lon qo'shish</h3>
+    <div class="title flex justify-between items-center ">
+      <h3 class="text-[60px] font-600 md:text-[20px]">E'lon qo'shish</h3>
       <button
         (click)="goBack()"
         class="px-[20px] cursor-pointer whitespace-nowrap py-[10px] rounded-[12px] text-black bg-[var(--gray-1)] text-[16px] font-500 flex items-center gap-[10px]"
@@ -23,11 +23,11 @@
     </div>
     <div class="body mt-[30px]" [formGroup]="ruleForm">
 
-      <div class="forma max-w-[992px] mx-auto bg-[var(--gray-1)] px-8 py-8">
-        <h4 class="text-black font-semibold mb-4 text-[24px]">
+      <div class="forma max-w-[992px] md:max-w-full mx-auto md:bg-transparent bg-[var(--gray-1)] px-8 py-8 md:px-0 md:py-0">
+        <h4 class="text-black font-semibold mb-4 text-[24px] md:text-[20px]">
           Опишите в подробностях
         </h4>
-        <div class="max-w-[60%]">
+        <div class="max-w-[60%] md:max-w-full">
           <div class="form-grid flex flex-col gap-[30px]">
             <div class="flex flex-col gap-2 relative">
               <label class="font-400 text-[--gray-6] text-base" for="name">Укажите название*</label>
@@ -95,7 +95,7 @@
               </div>
             </div>
             <div class="clearfix" [pTooltip]="tooltipContent">
-              <h4 class="text-black font-semibold mb-0 text-[24px]">Фото</h4>
+              <h4 class="text-black font-semibold mb-0 text-[24px] md:text-[20px]">Фото</h4>
               <p class="mb-3 mt-3">
                 Первое фото будет на обложке объявления. Перетащите, чтобы
                 изменить порядок.
@@ -120,7 +120,7 @@
                     *ngFor="let obj of uploadedFiles">
                     <p-image class="flex items-center justify-center w-full h-full object-contain"
                              [src]="obj?.image" alt="Image" [preview]="true">
-                      <ng-template pTemplate="indicator">
+                      <ng-template pTemplate="indicator" >
                         <i class="pi pi-eye"></i>
                       </ng-template>
                     </p-image>
@@ -136,11 +136,11 @@
           </div>
         </div>
       </div>
-      <div class="forma max-w-[992px] mt-4 mx-auto bg-[var(--gray-1)] px-8 py-8">
-        <h4 class="text-black font-semibold mb-4 text-[24px]">
+      <div class="forma max-w-[992px] md:max-w-full mt-4 mx-auto bg-[var(--gray-1)] md:bg-transparent px-8 py-8 px-8 py-8 md:px-0 md:py-0">
+        <h4 class="text-black font-semibold mb-4 text-[24px] md:text-[20px]">
           Дополнительная информация
         </h4>
-        <div class="max-w-[60%]">
+        <div class="max-w-[60%] md:max-w-full">
           <div class="flex flex-col gap-3 mb-4">
             <div class="flex gap-1">
               <p-checkbox formControlName="conditioner" [binary]="true" inputId="conditioner"></p-checkbox>
@@ -218,11 +218,11 @@
             <!--            </div>-->
           </div>
           <div
-            class="flex justify-end max-w-[60%] mt-4 cursor-pointer"
+            class="flex justify-end max-w-[60%] md:max-w-full mt-4 cursor-pointer"
           >
             <div
               (click)="openMapDialog()"
-              class="h-12 w-[250px] flex items-center justify-center bg-[#3A75CE] rounded-lg text-white font-500 gap-2"
+              class="h-12 w-[250px] md:w-full flex items-center justify-center bg-[#3A75CE] rounded-lg text-white font-500 gap-2"
             >
               Haritadan joyni ko’rsatish
               <svg
@@ -255,14 +255,14 @@
 
         </div>
 
-        <div class="flex justify-end mt-[65px] max-w-[60%]">
+        <div class="flex justify-end md:block mt-[65px] md:mt-6 max-w-[60%] md:max-w-full">
           <p-button
             pRipple
             pButton
             [loading]="_formControl.loading"
             (click)="onSubmit()"
-            class="px-0 py-0 bg-[transparent] rounded-[12px] border-0"
-            styleClass="w-[270px] px-0 py-0 p-ripple h-12 rounded-[12px] bg-[var(--green)] text-white flex items-center justify-center"
+            class="px-0 py-0 bg-[transparent] rounded-[12px] border-0 md:w-full"
+            styleClass="w-[270px] md:w-full px-0 py-0 p-ripple h-12 rounded-[12px] bg-[var(--green)] text-white flex items-center justify-center"
           >
             Saqlash
           </p-button>
