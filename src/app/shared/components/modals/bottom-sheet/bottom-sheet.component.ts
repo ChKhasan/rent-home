@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, HostListener} from '@angular/core';
 import {animate, style, transition, trigger} from "@angular/animations";
 import {NgIf} from "@angular/common";
 
@@ -24,6 +24,7 @@ import {NgIf} from "@angular/common";
 })
 export class BottomSheetComponent {
   bottomSheetVisible = false;
+  startY!: number;
   open() {
     this.bottomSheetVisible = true;
     document.body.classList.add('no-scroll');
@@ -31,5 +32,16 @@ export class BottomSheetComponent {
   close() {
     this.bottomSheetVisible = false;
     document.body.classList.remove('no-scroll');
+  }
+  onTouchStart(event: TouchEvent) {
+    this.startY = event.touches[0].clientY;
+  }
+
+  @HostListener('touchmove', ['$event'])
+  onTouchMove(event: TouchEvent) {
+    const deltaY = event.touches[0].clientY - this.startY;
+    if (deltaY > 50 && this.bottomSheetVisible) {
+      this.close();
+    }
   }
 }
