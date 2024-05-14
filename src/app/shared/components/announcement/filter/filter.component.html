@@ -3,7 +3,9 @@
 >
   <div class="flex justify-between">
     <h5 class="font-600 text-[24px]">Filter</h5>
-    <button (click)="closeBottomSheet()" class="p-2 bg-[transparent]"><i class="pi pi-times" style="font-size: 1.2rem"></i></button>
+    <button *ngIf="close" (click)="closeBottomSheet()" class="p-2 bg-[transparent]">
+      <i  class="pi pi-times" style="font-size: 1.2rem"></i>
+    </button>
   </div>
   <div class="tab flex justify-between">
     <button

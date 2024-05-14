@@ -13,6 +13,7 @@ import {FilterComponent} from "../../../shared/components/announcement/filter/fi
 import {SearchComponent} from "../../../shared/components/announcement/search/search.component";
 import {HttpParams} from "@angular/common/http";
 import {BottomSheetComponent} from "../../../shared/components/modals/bottom-sheet/bottom-sheet.component";
+import {EmptyFoundComponent} from "../../../shared/components/empty-found/empty-found.component";
 
 const sortOptions = [
   {
@@ -44,7 +45,8 @@ const sortOptions = [
     FilterComponent,
     SearchComponent,
     RouterLink,
-    BottomSheetComponent
+    BottomSheetComponent,
+    EmptyFoundComponent
   ],
   templateUrl: './list.component.html',
   styleUrl: './list.component.css'
@@ -52,7 +54,7 @@ const sortOptions = [
 export class ListComponent implements OnInit {
   public loading: boolean = true;
   public skeletonList = [1, 2, 3, 4, 5, 6];
-  public announcements?: any;
+  public announcements: any = [];
   public totalPage: number = 0;
   public sortOptions = sortOptions;
   public currentSort: string = 'appartment_status'

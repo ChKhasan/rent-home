@@ -41,7 +41,7 @@
     <div class="applications-container grid">
       <div class="flex flex-col gap-6 md:hidden">
         <app-search [getData]="__GET_ANNOUNCEMENTS" [loading]="loading"></app-search>
-        <app-filter [filterAction]="filterSend" [loading]="loading"  [clearFilterAction]="clearFilter"></app-filter>
+        <app-filter [filterAction]="filterSend" [loading]="loading" [clearFilterAction]="clearFilter"></app-filter>
       </div>
       <div>
         <div class="flex items-center justify-between mb-[30px] md:hidden">
@@ -84,7 +84,7 @@
                 </g>
                 <defs>
                   <clipPath id="clip0_347_11118">
-                    <rect width="18" height="18" fill="white" />
+                    <rect width="18" height="18" fill="white"/>
                   </clipPath>
                 </defs>
               </svg>
@@ -92,17 +92,20 @@
           </div>
         </div>
 
-        <div class="flex flex-col gap-[31px] md:gap-3"  *ngIf="loading, else announcementsList">
+        <div class="flex flex-col gap-[31px] md:gap-3" *ngIf="loading, else announcementsList">
           <p-skeleton *ngFor="let item of skeletonList" class="w-full" styleClass="ng_skeleton"></p-skeleton>
         </div>
         <ng-template #announcementsList>
 
-          <div class="flex flex-col gap-[31px] md:gap-3" >
+          <div class="flex flex-col gap-[31px] md:gap-3">
             <ng-container *ngFor="let announcement of announcements">
               <app-my-announcements-card [announcement]="announcement"></app-my-announcements-card>
             </ng-container>
           </div>
         </ng-template>
+        <div class="h-[40vh] flex items-center justify-center" *ngIf="announcements.length === 0 && !loading">
+          <app-empty-found></app-empty-found>
+        </div>
         <div class="flex justify-center mt-6" *ngIf="announcements?.length > 0">
 
           <app-pagination [getData]="__GET_ANNOUNCEMENTS" [totalPage]="totalPage"></app-pagination>
@@ -112,10 +115,14 @@
   </div>
 </div>
 <app-bottom-sheet>
-  <app-filter [close]="closeBottomSheet" [filterAction]="filterSend" [loading]="loading"  [clearFilterAction]="clearFilter"></app-filter>
+  <app-filter [close]="closeBottomSheet" [filterAction]="filterSend" [loading]="loading"
+              [clearFilterAction]="clearFilter"></app-filter>
 </app-bottom-sheet>
-<button (click)="openBottomSheet()" class="w-[56px] h-[56px] rounded-full flex justify-center items-center bg-[--green] fixed right-[18px] bottom-[84px]">
+<button (click)="openBottomSheet()"
+        class="hidden md:flex w-[56px] h-[56px] rounded-full justify-center items-center bg-[--green] fixed right-[18px] bottom-[84px]">
   <svg width="22" height="26" viewBox="0 0 22 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M18.9809 3.2316C13.6768 2.63879 8.32298 2.63879 3.01877 3.2316C2.65987 3.27172 2.48703 3.69259 2.71417 3.97335L7.40353 9.77004C9.08333 11.8466 9.99986 14.4367 9.99986 17.1076V20.9599L11.9999 22.4266V17.1076C11.9999 14.4367 12.9164 11.8466 14.5963 9.77004L19.2856 3.97335C19.5127 3.69259 19.3399 3.27172 18.9809 3.2316ZM2.79662 1.24399C8.24847 0.634654 13.7512 0.634654 19.2031 1.24399C21.1324 1.4596 22.0615 3.72199 20.8405 5.23123L16.1511 11.0279C14.7592 12.7486 13.9999 14.8946 13.9999 17.1076V24.4C13.9999 24.7768 13.788 25.1218 13.4519 25.292C13.1157 25.4624 12.7124 25.4292 12.4085 25.2064L8.40853 22.2731C8.15162 22.0847 7.99986 21.7852 7.99986 21.4667V17.1076C7.99986 14.8946 7.2405 12.7486 5.84861 11.0279L1.15925 5.23123C-0.0616723 3.72199 0.867381 1.4596 2.79662 1.24399Z" fill="white"/>
+    <path fill-rule="evenodd" clip-rule="evenodd"
+          d="M18.9809 3.2316C13.6768 2.63879 8.32298 2.63879 3.01877 3.2316C2.65987 3.27172 2.48703 3.69259 2.71417 3.97335L7.40353 9.77004C9.08333 11.8466 9.99986 14.4367 9.99986 17.1076V20.9599L11.9999 22.4266V17.1076C11.9999 14.4367 12.9164 11.8466 14.5963 9.77004L19.2856 3.97335C19.5127 3.69259 19.3399 3.27172 18.9809 3.2316ZM2.79662 1.24399C8.24847 0.634654 13.7512 0.634654 19.2031 1.24399C21.1324 1.4596 22.0615 3.72199 20.8405 5.23123L16.1511 11.0279C14.7592 12.7486 13.9999 14.8946 13.9999 17.1076V24.4C13.9999 24.7768 13.788 25.1218 13.4519 25.292C13.1157 25.4624 12.7124 25.4292 12.4085 25.2064L8.40853 22.2731C8.15162 22.0847 7.99986 21.7852 7.99986 21.4667V17.1076C7.99986 14.8946 7.2405 12.7486 5.84861 11.0279L1.15925 5.23123C-0.0616723 3.72199 0.867381 1.4596 2.79662 1.24399Z"
+          fill="white"/>
   </svg>
 </button>
