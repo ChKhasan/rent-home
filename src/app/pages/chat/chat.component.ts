@@ -30,7 +30,7 @@ import {AvatarModule} from "primeng/avatar";
 import {ChatService} from "../../core/services/chat/chat.service";
 import {debounceTime, finalize, fromEvent} from "rxjs";
 import {TabComponent} from "../../shared/components/profile/tab/tab.component";
-import {animate, stagger, style, transition, trigger,query} from "@angular/animations";
+import {animate, stagger, style, transition, trigger, query} from "@angular/animations";
 
 @Component({
   selector: 'app-chat',
@@ -58,6 +58,17 @@ import {animate, stagger, style, transition, trigger,query} from "@angular/anima
   ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css',
+  animations: [
+    trigger('slideInOut', [
+      transition(':enter', [
+        style({ transform: 'translateX(100%)' }),
+        animate('200ms ease-in', style({ transform: 'translateX(0%)' }))
+      ]),
+      transition(':leave', [
+        animate('200ms ease-in', style({ transform: 'translateX(100%)' }))
+      ])
+    ])
+  ]
 
 
 })
@@ -76,7 +87,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
   public isRoom: any = {}
   public userRooms: any = [];
   public allUserRooms: any = [];
-  public newGroup: boolean = false
+  public newGroup: boolean = false;
+  public showBoard: boolean = false
 
   constructor(public authService: AuthService,
               private chatService: ChatService,
@@ -122,7 +134,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
             }
           })
           this.allUserRooms = [...this.userRooms];
-          console.log(this.allUserRooms,this.userRooms)
+          console.log(this.allUserRooms, this.userRooms)
         }
 
         this.findCurrentRoom()
@@ -259,6 +271,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
       this.__GET_MESSAGES();
     });
     this.isRoom = room;
+    this.toggleBoad(true)
   }
   __GET_MESSAGES = () => {
     let id = Number(this.queryService.activeQueryList()['roomId'])
@@ -370,5 +383,9 @@ export class ChatComponent implements OnInit, AfterViewInit {
         }
       }
     })
+  }
+
+  toggleBoad = (value: boolean) => {
+     this.showBoard = value
   }
 }

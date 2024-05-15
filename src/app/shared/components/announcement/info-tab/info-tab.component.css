@@ -5,3 +5,8 @@
 :host ::ng-deep .p-skeleton {
   height: 100% !important;
 }
+@media (max-width: 768px) {
+  .info-tab {
+    box-shadow: none;
+  }
+}

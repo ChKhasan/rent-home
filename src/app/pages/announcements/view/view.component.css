@@ -37,3 +37,13 @@
 :host ::ng-deep .p-skeleton {
   height: 100% !important;
 }
+:host ::ng-deep .p-tag-success {
+  background: var(--green);
+}
+@media (max-width: 768px) {
+  .body-container {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+}

@@ -1,7 +1,11 @@
-<div class="user-list h-full flex flex-col rounded-[24px] border border-solid border-[var(--input-stroke)] bg-white ">
-  <div class="px-6 py-6">
-
-    <div class="search  border flex gap-6 border-solid border-[#EBEBEB] rounded-[12px] h-[52px] px-[22px] py-[14px]">
+<div class="user-list  h-full flex flex-col md:max-h-[100vh] md:h-[100vh] rounded-[24px] border border-solid border-[var(--input-stroke)] bg-white md:border-0 md:rounded-none">
+  <div class="px-6 py-6 md:py-3 md:px-3 md:flex md:gap-4 md:items-center">
+    <a routerLink="/profile" class="hidden  h-[28px] w-[28px] items-center justify-center rounded-[4px] bg-[--gray-1] md:flex">
+      <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M5.53033 0.469668C5.2374 0.176777 4.7626 0.176777 4.4697 0.469668L0.469703 4.4697C0.176803 4.7626 0.176803 5.2374 0.469703 5.5303L4.4697 9.5303C4.7626 9.8232 5.2374 9.8232 5.53033 9.5303C5.82322 9.2374 5.82322 8.7626 5.53033 8.4697L2.0607 5L5.53033 1.53033C5.82322 1.23744 5.82322 0.762558 5.53033 0.469668Z" fill="black"/>
+      </svg>
+    </a>
+    <div class="search w-full border flex gap-6 border-solid border-[#EBEBEB] rounded-[12px] h-[52px] px-[22px] py-[14px]">
       <input  type="text" class="w-full h-full focus:outline-0 border-0" placeholder="Search" name="" id=""
               [(ngModel)]="searchValue"
               (input)="onChangeSearch($event)">
@@ -19,7 +23,7 @@
     <p-skeleton *ngFor="let item of skeletonList" class="w-full" styleClass="ng_skeleton"></p-skeleton>
   </div>
   <ng-template #messagesList>
-    <div class="list flex flex-col max-h-[670px] overflow-y-scroll pb-4" [@listAnimation]="userRooms.length">
+    <div class="list flex flex-col max-h-[670px] md:max-h-fit overflow-y-scroll pb-4" [@listAnimation]="userRooms.length">
       <div (click)="handlerRoom(room)" [ngClass]="{active: isRoom.id === room.id}" class="user-card px-6 cursor-pointer gap-4 flex py-5 border-[0] border-b border-solid border-[#E8E8F7]" *ngFor="let room of userRooms">
         <div class="relative h-[60px] min-w-[60px] w-[60px]">
           <div class="image h-[60px] min-w-[60px] w-[60px] rounded-full overflow-hidden ">
@@ -46,5 +50,5 @@
       </div>
     </div>
   </ng-template>
-
 </div>
+

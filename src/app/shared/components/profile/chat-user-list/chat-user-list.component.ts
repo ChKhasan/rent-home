@@ -7,6 +7,7 @@ import {AvatarModule} from "primeng/avatar";
 import {AuthService} from "../../../../core/services/auth/auth.service";
 import {FormsModule} from "@angular/forms";
 import {animate, query, stagger, style, transition, trigger} from "@angular/animations";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-chat-user-list',
@@ -18,7 +19,8 @@ import {animate, query, stagger, style, transition, trigger} from "@angular/anim
     SkeletonModule,
     NgClass,
     AvatarModule,
-    FormsModule
+    FormsModule,
+    RouterLink
   ],
   templateUrl: './chat-user-list.component.html',
   styleUrl: './chat-user-list.component.css',
@@ -47,6 +49,7 @@ export class ChatUserListComponent {
   @Input() userRooms!: IUserRooms[]
   @Input() loading!: boolean;
   @Input() userSearch!: Function;
+  @Input() toggleBoad: Function | undefined
   public searchValue: string = ''
   constructor(private authService: AuthService) {}
   getUnreadMessageCount(messages: any): string {
@@ -57,4 +60,8 @@ export class ChatUserListComponent {
       this.userSearch(this.searchValue)
   }
     protected readonly length = length;
+  // openBoard() {
+  //   if(this.toggleBoad)
+  //     this.toggleBoad(true)
+  // }
 }

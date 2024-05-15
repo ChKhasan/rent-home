@@ -51,3 +51,8 @@ p {
 .offline {
   background-color: grey;
 }
+@media (max-width: 768px) {
+  .user-list {
+    box-shadow: none;
+  }
+}
