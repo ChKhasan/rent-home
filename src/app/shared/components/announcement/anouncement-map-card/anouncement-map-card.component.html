@@ -1,7 +1,24 @@
 <div
-  class="rounded-[12px] w-full flex flex-col gap-[24px] bg-white px-[30px] py-[30px] border-[1px] border-[color:var(--input-stroke)] border-solid"
+  class="rounded-[12px] md:h-full w-full flex flex-col gap-[24px] bg-white px-[30px] py-[30px] md:border-none md:px-4 md:py-4 border-[1px] border-[color:var(--input-stroke)] border-solid"
 >
+<div class="flex justify-between">
   <h1 class="font-600 text-[24px]">{{ announcement.title }}</h1>
+  <button *ngIf="close" (click)="closeBottomSheet()" class="p-2 bg-[transparent]">
+    <i  class="pi pi-times" style="font-size: 1.2rem"></i>
+  </button>
+</div>
+  <p-galleria
+    [value]="announcement.images"
+    [numVisible]="5"
+    [circular]="true"
+    [showItemNavigators]="true"
+    [showThumbnails]="false"
+    [responsiveOptions]="responsiveOptions"
+    [containerStyle]="{ 'max-width': '640px','height':'250px' }">
+    <ng-template pTemplate="item" let-item>
+      <img [src]="item.image" style="width: 100%; display: block; height: 250px;object-fit: contain" />
+    </ng-template>
+  </p-galleria>
   <div class="flex justify-between w-full flex-col gap-4">
     <h4 class="text-[18px] font-600">Qulayliklar</h4>
     <div class="flex gap-4">
@@ -9,5 +26,9 @@
       <p-tag icon="pi pi-check" severity="success" value="Kir yuvish mashinasi"></p-tag>
       <p-tag [icon]="announcement.washing_machine ? 'pi pi-check':'pi pi-times'" [severity]="announcement.washing_machine ? 'success':'danger'" value="Konditsioner"></p-tag>
     </div>
+  </div>
+  <div class="mx-[-30px] mb-[-30px] md:mx-0 md-mb-0">
+
+    <app-price-block [announcement]="announcement"></app-price-block>
   </div>
 </div>

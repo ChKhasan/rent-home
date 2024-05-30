@@ -1,10 +1,11 @@
 <div>
   <!--  <MapLoader v-if="loading" />-->
-  <div class="navbar w-full fixed top-1 md:bottom-1 md:top-auto md:justify-end md:pr-2 flex justify-center left-0 z-[2000] md:z-[100]">
+  <div
+    class="navbar w-full fixed top-1 md:bottom-1 md:top-auto md:justify-end md:pr-2 flex justify-center left-0 z-[2000] md:z-[100]">
     <ul class="px-3 py-3 rounded-xl open-tab bg-white flex md:flex-col gap-3">
       <li>
         <button class="md:hidden block" (click)="toggleToolbar()" [ngClass]="{ active: showToolbar }">
-          <svg
+           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="svg-icon"
             style="width: 24px; height: 24px; vertical-align: middle; overflow: hidden"
@@ -122,7 +123,9 @@
     [ngClass]="{ toolbarShow: showInfo }"
   >
 
-    <app-anouncement-map-card></app-anouncement-map-card>
+    <app-anouncement-map-card [close]="closeAnnouncementInfo"
+                              [announcement]="currentAnnouce"
+    ></app-anouncement-map-card>
   </div>
   <div
     [ngClass]="{ busShow: showBus || showMiniBus || showSubway }"
@@ -130,22 +133,25 @@
   >
     <div class="relative">
       <div class="absolute left-[-39px] top-9 flex flex-col gap-2">
-        <button   (click)="toggleBus('showBus')"
+        <button (click)="toggleBus('showBus')"
                 class="open-transport-btn w-10 h-10 bg-[var(--gray-1)]  rounded-l-[8px] border-[1px]  border-r-[0] border-[color:var(--input-stroke)] border-solid"
                 [ngClass]="{ 'bg-white': showBus }">
-          <p-badge class="absolute top-[-10px] left-[-10px]" *ngIf="selectedTransports.bus.length > 0" [value]="selectedTransports.bus.length" severity="success"></p-badge>
+          <p-badge class="absolute top-[-10px] left-[-10px]" *ngIf="selectedTransports.bus.length > 0"
+                   [value]="selectedTransports.bus.length" severity="success"></p-badge>
           <app-bus-icon [showBus]="showBus"></app-bus-icon>
         </button>
         <button (click)="toggleBus('showMiniBus')"
                 class="open-transport-btn w-10 h-10 bg-[var(--gray-1)]  rounded-l-[8px] border-[1px]  border-r-[0] border-[color:var(--input-stroke)] border-solid"
                 [ngClass]="{ 'bg-white': showMiniBus }">
-          <p-badge class="absolute top-[-10px] left-[-10px]" *ngIf="selectedTransports.miniBus.length > 0" [value]="selectedTransports.miniBus.length" severity="success"></p-badge>
+          <p-badge class="absolute top-[-10px] left-[-10px]" *ngIf="selectedTransports.miniBus.length > 0"
+                   [value]="selectedTransports.miniBus.length" severity="success"></p-badge>
           <app-mini-bus-icon [showMiniBus]="showMiniBus"></app-mini-bus-icon>
         </button>
         <button (click)="toggleBus('showSubway')"
                 class="open-transport-btn w-10 h-10 bg-[var(--gray-1)]  rounded-l-[8px] border-[1px]  border-r-[0] border-[color:var(--input-stroke)] border-solid"
                 [ngClass]="{ 'bg-white': showSubway }">
-          <p-badge class="absolute top-[-10px] left-[-10px]" *ngIf="selectedTransports.subway.length > 0" [value]="selectedTransports.subway.length" severity="success"></p-badge>
+          <p-badge class="absolute top-[-10px] left-[-10px]" *ngIf="selectedTransports.subway.length > 0"
+                   [value]="selectedTransports.subway.length" severity="success"></p-badge>
           <app-subway-icon [showSubway]="showSubway"></app-subway-icon>
         </button>
       </div>
@@ -256,117 +262,132 @@
     </ya-map>
   </div>
 </div>
-<app-bottom-sheet>
-  <app-filter [close]="closeBShFilter"
-              [filterAction]="filterSend"
-              [loading]="loading"
-              [clearFilterAction]="clearFilter"
-  ></app-filter>
-</app-bottom-sheet>
-<app-bottom-sheet>
-  <div class="relative px-4 py-6">
-    <div class="flex justify-between mb-4">
-      <h5 class="font-600 text-[24px]">Транспорт</h5>
-      <button  (click)="closeBShTransport()" class="p-2 bg-[transparent]">
-        <i  class="pi pi-times" style="font-size: 1.2rem"></i>
-      </button>
-    </div>
-    <div class="flex pb-1 justify-center gap-2 border-[0] border-b border-[var(--gray-4)] border-solid mx-[-20px]">
-      <button   (click)="toggleBus('showBus')"
+<div class="md:block hidden">
+  <app-bottom-sheet>
+    <app-filter [close]="closeBShFilter"
+                [filterAction]="filterSend"
+                [loading]="loading"
+                [clearFilterAction]="clearFilter"
+    ></app-filter>
+  </app-bottom-sheet>
+  <app-bottom-sheet>
+    <div class="relative px-4 py-6">
+      <div class="flex justify-between mb-4">
+        <h5 class="font-600 text-[24px]">Транспорт</h5>
+        <button (click)="closeBShTransport()" class="p-2 bg-[transparent]">
+          <i class="pi pi-times" style="font-size: 1.2rem"></i>
+        </button>
+      </div>
+      <div class="flex pb-1 justify-center gap-2 border-[0] border-b border-[var(--gray-4)] border-solid mx-[-20px]">
+        <button (click)="toggleBus('showBus')"
                 class="open-transport-btn bg-[transparent] font-500 font-bold"
                 [ngClass]="{ 'active-tab ': showBus }">
-        Автобусы <p-badge  *ngIf="selectedTransports.bus.length > 0" [value]="selectedTransports.bus.length" severity="success"></p-badge>
+          Автобусы
+          <p-badge *ngIf="selectedTransports.bus.length > 0" [value]="selectedTransports.bus.length"
+                   severity="success"></p-badge>
 
-      </button>
-      <button (click)="toggleBus('showMiniBus')"
-              class="open-transport-btn bg-[transparent] font-bold"
-              [ngClass]="{ 'active-tab': showMiniBus }">
-        Линии метро <p-badge  *ngIf="selectedTransports.miniBus.length > 0" [value]="selectedTransports.miniBus.length" severity="success"></p-badge>
+        </button>
+        <button (click)="toggleBus('showMiniBus')"
+                class="open-transport-btn bg-[transparent] font-bold"
+                [ngClass]="{ 'active-tab': showMiniBus }">
+          Машрутки
+          <p-badge *ngIf="selectedTransports.miniBus.length > 0" [value]="selectedTransports.miniBus.length"
+                   severity="success"></p-badge>
 
-      </button>
-      <button (click)="toggleBus('showSubway')"
-              class="open-transport-btn bg-[transparent] font-bold"
-              [ngClass]="{ 'active-tab': showSubway }">
-        Машрутки  <p-badge  *ngIf="selectedTransports.subway.length > 0" [value]="selectedTransports.subway.length" severity="success"></p-badge>
+        </button>
+        <button (click)="toggleBus('showSubway')"
+                class="open-transport-btn bg-[transparent] font-bold"
+                [ngClass]="{ 'active-tab': showSubway }">
+          Линии метро
+          <p-badge *ngIf="selectedTransports.subway.length > 0" [value]="selectedTransports.subway.length"
+                   severity="success"></p-badge>
 
-      </button>
-    </div>
-    <div class="max-h-[100vh]  overflow-y-scroll" *ngIf="showMiniBus">
-      <div *ngIf="transports.length > 0" class="bg-white py-4 rounded-xl">
-        <h4 class="text-black font-semibold mb-4 text-[16]">Маршруты поблизости</h4>
-        <ul class="bus-list flex flex-wrap gap-2 overflow-y-scroll h-[400px] items-start">
-          <li *ngFor="let transport of marshutka"
-              [style.background]="transport?.color"
-              class="rounded-[5px] block"
-              [class]="{
+        </button>
+      </div>
+      <div class="max-h-[100vh]  overflow-y-scroll" *ngIf="showMiniBus">
+        <div *ngIf="transports.length > 0" class="bg-white py-4 rounded-xl">
+          <h4 class="text-black font-semibold mb-4 text-[16]">Маршруты поблизости</h4>
+          <ul class="bus-list flex flex-wrap gap-2 overflow-y-scroll h-[400px] items-start">
+            <li *ngFor="let transport of marshutka"
+                [style.background]="transport?.color"
+                class="rounded-[5px] block"
+                [class]="{
               active: routeTransports.includes(transport.ri) && !transportLoading,
               'pointer-events-none opacity-50': loading,
             }">
-            <p-button
-              [loading]="transportLoading"
-              (click)="filterTransport(transport)"
-              class="px-0"
-              styleClass="relative min-w-8 px-1 bg-[transparent] border border-solid border-[var(--grey-1)]  h-8 flex justify-center items-center  buses cursor-pointer text-[14px]"
+              <p-button
+                [loading]="transportLoading"
+                (click)="filterTransport(transport)"
+                class="px-0"
+                styleClass="relative min-w-8 px-1 bg-[transparent] border border-solid border-[var(--grey-1)]  h-8 flex justify-center items-center  buses cursor-pointer text-[14px]"
 
 
-            >
+              >
          <span class="text-[#000000]" [class]="{
               active: routeTransports.includes(transport.ri) && !transportLoading,
             }"> {{ transport?.name }}</span>
 
-            </p-button>
-          </li>
-        </ul>
-      </div>
+              </p-button>
+            </li>
+          </ul>
+        </div>
 
-    </div>
-    <div class="max-h-[100vh]  overflow-y-scroll" *ngIf="showBus">
-      <div *ngIf="transports.length > 0" class="bg-white py-4 rounded-xl  ">
-        <h4 class="text-black font-semibold mb-4 text-[16]">Автобусы поблизости</h4>
-        <ul class="bus-list flex flex-wrap gap-2 overflow-y-scroll h-[400px] items-start">
-          <li *ngFor="let transport of buses"
-              [style.background]="transport?.color" class="rounded-[5px] "
-              [class]="{
+      </div>
+      <div class="max-h-[100vh]  overflow-y-scroll" *ngIf="showBus">
+        <div *ngIf="transports.length > 0" class="bg-white py-4 rounded-xl  ">
+          <h4 class="text-black font-semibold mb-4 text-[16]">Автобусы поблизости</h4>
+          <ul class="bus-list flex flex-wrap gap-2 overflow-y-scroll h-[400px] items-start">
+            <li *ngFor="let transport of buses"
+                [style.background]="transport?.color" class="rounded-[5px] "
+                [class]="{
               active: routeTransports.includes(transport.ri) && !transportLoading,
               'pointer-events-none opacity-50': loading,
             }">
-            <p-button
-              [loading]="transportLoading"
-              (click)="filterTransport(transport)"
-              class="px-0"
-              styleClass=" px-1 bg-[transparent] border border-solid border-[var(--grey-1)] min-w-8 h-8 flex items-center justify-center buses cursor-pointer text-[14px]"
-            >
+              <p-button
+                [loading]="transportLoading"
+                (click)="filterTransport(transport)"
+                class="px-0"
+                styleClass=" px-1 bg-[transparent] border border-solid border-[var(--grey-1)] min-w-8 h-8 flex items-center justify-center buses cursor-pointer text-[14px]"
+              >
          <span class="text-[#000000]" [class]="{
               active: routeTransports.includes(transport.ri) && !transportLoading,
             }"> {{ transport?.name }}</span>
-            </p-button>
-          </li>
-        </ul>
+              </p-button>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
-    <div class="max-h-[100vh]  overflow-y-scroll" *ngIf="showSubway">
-      <div *ngIf="transports.length > 0" class="bg-white py-4 rounded-xl">
-        <h4 class="text-black font-semibold mb-4 text-[16]">Линии метро поблизости</h4>
-        <ul class="bus-list flex flex-wrap gap-2 overflow-y-scroll h-[400px] items-start">
-          <li *ngFor="let transport of subways"
-              [style.background]="transport?.color" class="rounded-[5px] "
-              [class]="{
+      <div class="max-h-[100vh]  overflow-y-scroll" *ngIf="showSubway">
+        <div *ngIf="transports.length > 0" class="bg-white py-4 rounded-xl">
+          <h4 class="text-black font-semibold mb-4 text-[16]">Линии метро поблизости</h4>
+          <ul class="bus-list flex flex-wrap gap-2 overflow-y-scroll h-[400px] items-start">
+            <li *ngFor="let transport of subways"
+                [style.background]="transport?.color" class="rounded-[5px] "
+                [class]="{
               active: routeTransports.includes(transport.ri) && !transportLoading,
               'pointer-events-none opacity-50': loading,
             }">
-            <p-button
-              [loading]="transportLoading"
-              (click)="filterTransport(transport)"
-              class="px-0"
-              styleClass=" px-1 bg-[transparent] border border-solid border-[var(--grey-1)] min-w-8 h-8 flex items-center justify-center buses cursor-pointer text-[14px]"
-            >
+              <p-button
+                [loading]="transportLoading"
+                (click)="filterTransport(transport)"
+                class="px-0"
+                styleClass=" px-1 bg-[transparent] border border-solid border-[var(--grey-1)] min-w-8 h-8 flex items-center justify-center buses cursor-pointer text-[14px]"
+              >
          <span class="text-[#000000]" [class]="{
               active: routeTransports.includes(transport.ri) && !transportLoading,
             }"> {{ transport?.name }}</span>
-            </p-button>
-          </li>
-        </ul>
+              </p-button>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
-</app-bottom-sheet>
+  </app-bottom-sheet>
+  <app-bottom-sheet>
+    <div class="pt-3 overflow-y-scroll h-[70vh] info">
+      <app-anouncement-map-card [close]="closeAnnouncementInfo"
+                                [announcement]="currentAnnouce"
+      ></app-anouncement-map-card>
+    </div>
+  </app-bottom-sheet>
+</div>

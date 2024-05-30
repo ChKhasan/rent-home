@@ -41,18 +41,22 @@ import {BottomSheetComponent} from "../../shared/components/modals/bottom-sheet/
   templateUrl: './map.component.html',
   styleUrl: './map.component.css'
 })
-export class MapComponent implements OnInit,AfterViewInit  {
+export class MapComponent implements OnInit, AfterViewInit {
 
   // @ViewChild(BottomSheetComponent) bottomSheetComponent!: BottomSheetComponent
   @ViewChildren(BottomSheetComponent) bottomSheetComponents!: QueryList<BottomSheetComponent>;
 
   bottomSheetFilter!: BottomSheetComponent;
   bottomSheetTransports!: BottomSheetComponent;
+  bottomSheetInfo!: BottomSheetComponent;
+
   ngAfterViewInit() {
     const componentsArray = this.bottomSheetComponents.toArray();
     this.bottomSheetFilter = componentsArray[0];
     this.bottomSheetTransports = componentsArray[1];
+    this.bottomSheetInfo = componentsArray[2];
   }
+
   public showBus: boolean = false;
   public selectedTransports: { bus: any, miniBus: any, subway: any } = {
     bus: [],
@@ -76,6 +80,7 @@ export class MapComponent implements OnInit,AfterViewInit  {
   public announcements: any = []
   public currentAnnouce: any = {}
   public zoom: any = 10
+
   constructor(
     public router: Router,
     private transportsService: TransportsService,
@@ -127,13 +132,20 @@ export class MapComponent implements OnInit,AfterViewInit  {
     }
   }
 
+  closeAnnouncementInfo = () => {
+    this.showInfo = false;
+    this.closeBShInfo()
+  }
+
   handleAnnounce(id: number) {
-    this.showInfo = !this.showInfo;
+    this.showInfo = true;
+    this.openBShInfo()
     if (this.showInfo) {
       this.showToolbar = false
     }
-    this.currentAnnouce = this.announcements.find((elem: any) => elem.id == id);
+    this.currentAnnouce.id === id ? this.showInfo = false : this.currentAnnouce = this.announcements.find((elem: any) => elem.id == id);
   }
+
   activeTransports() {
     if (typeof this.queryService.activeQueryList()['transports'] === 'string') {
       this.routeTransports = [this.queryService.activeQueryList()['transports']] || []
@@ -200,6 +212,7 @@ export class MapComponent implements OnInit,AfterViewInit  {
       });
     }
   }
+
   selectedTransportsGenerateDelete(transport: any) {
     this.selectedTransports.bus = this.selectedTransports.bus.filter((elem: any) => Number(elem.ri) !== Number(transport.ri));
     this.selectedTransports.subway = this.selectedTransports.subway.filter((elem: any) => Number(elem.ri) !== Number(transport.ri));
@@ -342,6 +355,7 @@ export class MapComponent implements OnInit,AfterViewInit  {
       this.marshutka = response.filter((item: any) => item.type == 'MARSHUTKA');
     })
   }
+
   // openBottomSheet() {
   //   this.bottomSheetComponent.open()
   //
@@ -349,13 +363,16 @@ export class MapComponent implements OnInit,AfterViewInit  {
   openBShFilter() {
     this.bottomSheetFilter.open();
   }
+
   closeBShFilter = () => {
     this.bottomSheetFilter.close();
   }
+
   openBShTransport() {
     this.toggleBus('showBus')
     this.bottomSheetTransports.open();
   }
+
   closeBShTransport() {
     this.bottomSheetTransports.close();
     this.showSubway = false;
@@ -363,5 +380,10 @@ export class MapComponent implements OnInit,AfterViewInit  {
     this.showBus = false
   }
 
-
+  openBShInfo() {
+    this.bottomSheetInfo.open()
+  }
+  closeBShInfo() {
+    this.bottomSheetInfo.close()
+  }
 }

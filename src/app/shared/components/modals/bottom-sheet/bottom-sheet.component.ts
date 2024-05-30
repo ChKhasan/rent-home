@@ -34,12 +34,12 @@ export class BottomSheetComponent {
     document.body.classList.remove('no-scroll');
   }
   onTouchStart(event: TouchEvent) {
-    this.startY = event.touches[0].clientY;
+    // this.startY = event.touches[0].clientY;
   }
 
   @HostListener('touchmove', ['$event'])
   onTouchMove(event: TouchEvent) {
-    const deltaY = event.touches[0].clientY - this.startY;
-    if (deltaY > 50 && this.bottomSheetVisible) this.close();
+    // const deltaY = event.touches[0].clientY - this.startY;
+    // if (deltaY > 100 && this.bottomSheetVisible) this.close();
   }
 }
