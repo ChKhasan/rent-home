@@ -30,7 +30,7 @@ import {AvatarModule} from "primeng/avatar";
 import {ChatService} from "../../core/services/chat/chat.service";
 import {debounceTime, finalize, fromEvent} from "rxjs";
 import {TabComponent} from "../../shared/components/profile/tab/tab.component";
-import {animate, stagger, style, transition, trigger, query} from "@angular/animations";
+import {animate, style, transition, trigger} from "@angular/animations";
 
 @Component({
   selector: 'app-chat',

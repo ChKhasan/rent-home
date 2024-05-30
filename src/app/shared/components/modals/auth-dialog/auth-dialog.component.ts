@@ -7,7 +7,6 @@ import {InputTextModule} from "primeng/inputtext";
 import {NgClass, NgIf} from "@angular/common";
 import {PaginatorModule} from "primeng/paginator";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {numberControl, passwordControl} from "../../../../core/common/form-control";
 import {ValidationErrorAnimation} from "../../../../core/common/animations";
 import {InvaidTextComponent} from "../../form/invaid-text/invaid-text.component";
 import {AuthService} from "../../../../core/services/auth/auth.service";

@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
-import {NavigationEnd, Router, RouterOutlet} from "@angular/router";
+import {Router, RouterOutlet} from "@angular/router";
 import {Location, NgIf} from '@angular/common';
 import {HeaderComponent} from "./shared/components/layouts/header/header.component";
 import {FooterComponent} from "./shared/components/layouts/footer/footer.component";
@@ -12,6 +12,7 @@ import {MessageService, SharedModule} from "primeng/api";
 import {ChatComponent} from "./pages/chat/chat.component";
 import {AvatarModule} from "primeng/avatar";
 import {ToastModule} from "primeng/toast";
+import {CryptoService} from "./core/services/crypto/crypto.service";
 
 @Component({
   selector: "app-root",
@@ -30,7 +31,9 @@ export class AppComponent implements OnInit, OnDestroy {
     private location: Location,
     private chatService: ChatService,
     private messageService: MessageService,
-    private router: Router
+    private router: Router,
+    private cryptoService: CryptoService
+
   ) {
   }
 

@@ -6,6 +6,7 @@ import {environment} from "../../../../environments/environment";
 import {WebSocketService} from "../webSocket/web-socket.service";
 import {WebSocketSubject} from "rxjs/internal/observable/dom/WebSocketSubject";
 import {webSocket} from "rxjs/webSocket";
+import {RequestService} from "../request/request.service";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class ChatService {
   public loading: boolean = true
   constructor(
     private _httpsClient: HttpClient,
-    private webSocketService: WebSocketService
+    private requestService: RequestService
   ) { }
   private socket$!: WebSocketSubject<any>;
   public connect(url: string): void {
@@ -41,7 +42,10 @@ export class ChatService {
   }
 
   __GET_USER_ROOMS() {
-    this.getUserRooms().pipe(finalize(() => this.loading = false)).subscribe((response) => {
+
+    this.requestService.getData<IUserRooms[]>(environment.authUrls.GET_USERROOMS)
+      .pipe(finalize(() => this.loading = false))
+      .subscribe((response: IUserRooms[]) => {
       this.userRooms = response.map((elem: any) => {
         return {
           ...elem,

@@ -5,6 +5,7 @@ import {NgForOf, NgIf} from "@angular/common";
 import {TransportsService} from "../../../../core/services/transports/transports.service";
 import {ButtonModule} from "primeng/button";
 import {finalize} from "rxjs";
+import {CryptoService} from "../../../../core/services/crypto/crypto.service";
 
 @Component({
   selector: 'app-map-dialog',
@@ -34,7 +35,9 @@ export class MapDialogComponent implements OnInit {
   public busRoute: any = {}
   @Input() formHandle!: Function
 
-  constructor(private transportService: TransportsService) {
+  constructor(
+    private transportService: TransportsService,
+    private cryptoService: CryptoService) {
   }
 
   showDialog() {
@@ -56,15 +59,20 @@ export class MapDialogComponent implements OnInit {
     console.log(this.coords)
     this.__GET_LOCATICON_TRANSPORTS(this.transportParams(this.coords));
   }
- transportParams(coords: number[]) {
-   return {
-     params: {
-       url: `https://uz.easyway.info/ajax/en/tashkent/nearby/${coords[0]}/${coords[1]}/500`,
-     },
-   };
- }
+
+  transportParams(coords: number[]) {
+    const secretKey = this.cryptoService.getKey()
+    return {
+      location_x: coords[0],
+      location_y: coords[1],
+      nearby: 500,
+      key: secretKey,
+      city: 'tashkent'
+    };
+  }
+
   __GET_LOCATICON_TRANSPORTS(formData: any) {
-    this.transportService.getAll(formData).subscribe((response) => {
+    this.transportService.postByLocation(formData).subscribe((response) => {
       this.routes = response.routes;
       let allBusRoutes: any[] = [];
       let metroRoutes: any[] = [];
@@ -103,7 +111,7 @@ export class MapDialogComponent implements OnInit {
   }
 
   handleLocation = (location: any) => {
-    if(location.lat) {
+    if (location.lat) {
       this.coords = [location.lat, location.lon];
       this.mapCenter = [location.lat, location.lon];
       this.handleMapClick({
@@ -118,29 +126,27 @@ export class MapDialogComponent implements OnInit {
   };
 
   handleBusRoute(number: any) {
+    const secretKey = this.cryptoService.getKey()
     const formData = {
-      params: {
-        url: `https://uz.easyway.info/ajax/en/tashkent/routeInfo/${number}`,
-      },
+        id: number,
+        key: secretKey,
     };
     this.activeBus = number
     this.__GET_BUS_ROUTE(formData, number);
   }
+
   __GET_BUS_ROUTE = async (formData: any, number: any) => {
     this.transportLoading = true
     this.busRoute = {}
-    this.transportService.getAll(formData).pipe(finalize(() => {
+    this.transportService.postBusRoutes(formData).pipe(finalize(() => {
       this.transportLoading = false
     })).subscribe(async (data) => {
-
       this.busRoute.x = data.scheme.forward.split(" ").map((elem: any) => {
-        return [Number(elem.split(",")[0]),Number(elem.split(",")[1])]
+        return [Number(elem.split(",")[0]), Number(elem.split(",")[1])]
       });
       this.busRoute.y = data.scheme.backward.split(" ").map((elem: any) => {
-        return [Number(elem.split(",")[0]),Number(elem.split(",")[1])]
+        return [Number(elem.split(",")[0]), Number(elem.split(",")[1])]
       });
-      console.log(this.busRoute)
-
     })
 
   };

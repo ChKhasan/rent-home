@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {Router} from "@angular/router";
 import {FilterComponent} from "../../shared/components/announcement/filter/filter.component";
-import {AngularYandexMapsModule, YaReadyEvent} from "angular8-yandex-maps";
+import {AngularYandexMapsModule} from "angular8-yandex-maps";
 import {
   AnouncementMapCardComponent
 } from "../../shared/components/announcement/anouncement-map-card/anouncement-map-card.component";
@@ -16,6 +16,9 @@ import {SubwayIconComponent} from "../../shared/icons/subway-icon/subway-icon.co
 import {BusIconComponent} from "../../shared/icons/bus-icon/bus-icon.component";
 import {MiniBusIconComponent} from "../../shared/icons/mini-bus-icon/mini-bus-icon.component";
 import {BadgeModule} from "primeng/badge";
+import {TOP_COLORS} from "../../core/constants/map";
+import {CryptoService} from "../../core/services/crypto/crypto.service";
+import {BottomSheetComponent} from "../../shared/components/modals/bottom-sheet/bottom-sheet.component";
 
 @Component({
   selector: 'app-map',
@@ -32,12 +35,24 @@ import {BadgeModule} from "primeng/badge";
     SubwayIconComponent,
     BusIconComponent,
     MiniBusIconComponent,
-    BadgeModule
+    BadgeModule,
+    BottomSheetComponent
   ],
   templateUrl: './map.component.html',
   styleUrl: './map.component.css'
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit,AfterViewInit  {
+
+  // @ViewChild(BottomSheetComponent) bottomSheetComponent!: BottomSheetComponent
+  @ViewChildren(BottomSheetComponent) bottomSheetComponents!: QueryList<BottomSheetComponent>;
+
+  bottomSheetFilter!: BottomSheetComponent;
+  bottomSheetTransports!: BottomSheetComponent;
+  ngAfterViewInit() {
+    const componentsArray = this.bottomSheetComponents.toArray();
+    this.bottomSheetFilter = componentsArray[0];
+    this.bottomSheetTransports = componentsArray[1];
+  }
   public showBus: boolean = false;
   public selectedTransports: { bus: any, miniBus: any, subway: any } = {
     bus: [],
@@ -61,33 +76,12 @@ export class MapComponent implements OnInit {
   public announcements: any = []
   public currentAnnouce: any = {}
   public zoom: any = 10
-  public topColors = [
-    "rgb(255, 0, 0)",
-    "rgb(0, 128, 0)",
-    "rgb(0, 0, 255)",
-    "rgb(255, 255, 0)",
-    "rgb(128, 0, 128)",
-    "rgb(255, 165, 0)",
-    "rgb(255, 192, 203)",
-    "rgb(64, 224, 208)",
-    "rgb(165, 42, 42)",
-    "rgb(0, 0, 0)",
-    "rgb(128, 128, 128)",
-    "rgb(245, 245, 220)",
-    "rgb(128, 0, 0)",
-    "rgb(0, 0, 128)",
-    "rgb(0, 128, 128)",
-    "rgb(1,190,1)",
-    "rgb(75, 0, 130)",
-    "rgb(0, 255, 255)",
-    "rgb(255, 0, 255)"
-  ];
-
   constructor(
     public router: Router,
     private transportsService: TransportsService,
     private queryService: QueryService,
     private announcementService: AnnouncementsService,
+    private cryptoService: CryptoService
   ) {
   }
 
@@ -140,12 +134,6 @@ export class MapComponent implements OnInit {
     }
     this.currentAnnouce = this.announcements.find((elem: any) => elem.id == id);
   }
-
-
-  handleMapClick(event: any) {
-    this.coords = event.event.get('coords');
-  }
-
   activeTransports() {
     if (typeof this.queryService.activeQueryList()['transports'] === 'string') {
       this.routeTransports = [this.queryService.activeQueryList()['transports']] || []
@@ -259,17 +247,17 @@ export class MapComponent implements OnInit {
   }
 
   handleBusRoute(number: any) {
+    const secretKey = this.cryptoService.getKey()
     const formData = {
-      params: {
-        url: `https://uz.easyway.info/ajax/en/tashkent/routeInfo/${number}`,
-      },
+      id: number,
+      key: secretKey,
     };
     this.__GET_BUS_ROUTE(formData, number);
   }
 
   __GET_BUS_ROUTE = async (formData: any, number: any) => {
     this.transportLoading = true
-    this.transportsService.getAll(formData).pipe(finalize(() => {
+    this.transportsService.postBusRoutes(formData).pipe(finalize(() => {
       this.transportLoading = false
     })).subscribe(async (data) => {
       if (typeof this.queryService.activeQueryList()['transports'] === 'string') {
@@ -291,7 +279,7 @@ export class MapComponent implements OnInit {
           lng: elem.split(",")[1],
         };
       });
-      let color: any = this.topColors.filter(
+      let color: any = TOP_COLORS.filter(
         (elem: any) => !this.transports.map((item: any) => item.color).includes(elem)
       )[0];
       busRoutes.color = color;
@@ -354,5 +342,26 @@ export class MapComponent implements OnInit {
       this.marshutka = response.filter((item: any) => item.type == 'MARSHUTKA');
     })
   }
+  // openBottomSheet() {
+  //   this.bottomSheetComponent.open()
+  //
+  // }
+  openBShFilter() {
+    this.bottomSheetFilter.open();
+  }
+  closeBShFilter = () => {
+    this.bottomSheetFilter.close();
+  }
+  openBShTransport() {
+    this.toggleBus('showBus')
+    this.bottomSheetTransports.open();
+  }
+  closeBShTransport() {
+    this.bottomSheetTransports.close();
+    this.showSubway = false;
+    this.showMiniBus = false;
+    this.showBus = false
+  }
+
 
 }

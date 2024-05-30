@@ -41,6 +41,7 @@ export class SearchComponent implements OnInit {
     private router: Router
   ) {
   }
+
   async onClear() {
     let query: any = {...this.queryService.activeQueryList()}
     if (query['transports']) query.transports = []
@@ -48,6 +49,7 @@ export class SearchComponent implements OnInit {
     this.queryService.updateCustomQuery(query, this.getData).then(() => {
     })
   }
+
   onChange(event: any) {
     let query: any = {...this.queryService.activeQueryList()}
     if (query['transports'])
@@ -61,7 +63,7 @@ export class SearchComponent implements OnInit {
       this.transportsService.get().subscribe((response) => {
         this.transports = response;
         let query: any = {...this.queryService.activeQueryList()}
-        if(query?.transports) {
+        if (query?.transports) {
           query?.transports.forEach((elem: string) => {
             this.selectedCities.push(this.transports?.find((item: any) => item.ri === elem))
           })
@@ -71,20 +73,21 @@ export class SearchComponent implements OnInit {
 
 
   }
+
   filterSend() {
     let params = new HttpParams();
 
     let query = {...this.queryService.activeQueryList()};
     query['transports'] = this.selectedCities.map((elem: any) => elem.ri);
- if(this.url) {
-   this.router.navigate([this.url], {
-     queryParams: query,
-   }).then(() => this.getData())
- } else {
-   this.router.navigate([], {
-     queryParams: query,
-   }).then(() => this.getData())
- }
+    if (this.url) {
+      this.router.navigate([this.url], {
+        queryParams: query,
+      }).then(() => this.getData())
+    } else {
+      this.router.navigate([], {
+        queryParams: query,
+      }).then(() => this.getData())
+    }
 
   }
 

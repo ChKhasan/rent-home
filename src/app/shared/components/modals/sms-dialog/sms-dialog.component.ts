@@ -1,6 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {numberControl} from "../../../../core/common/form-control";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AuthService} from "../../../../core/services/auth/auth.service";
 import {finalize} from "rxjs";
 import {InvaidTextComponent} from "../../form/invaid-text/invaid-text.component";

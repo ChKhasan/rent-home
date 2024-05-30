@@ -67,14 +67,11 @@ export class AnnouncementFormComponent implements OnInit {
     location_x: 0
   }
   @ViewChild(MapDialogComponent) mapDialogComponent!: MapDialogComponent
-
-  public fileList: any = []
   @Input() isEdit: boolean = false;
   public announcement = {
     location_x: undefined,
     location_y: undefined
   }
-
   constructor(
     public _formControl: FormService,
     private messageService: MessageService,

@@ -1,9 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HeaderComponent} from "../../shared/components/layouts/header/header.component";
 import {ButtonModule} from "primeng/button";
-import {DropdownModule} from "primeng/dropdown";
-import {InputSwitchModule} from "primeng/inputswitch";
-import {InputTextModule} from "primeng/inputtext";
 import {AsyncPipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import {PaginatorModule} from "primeng/paginator";
 import {ReactiveFormsModule} from "@angular/forms";
@@ -23,6 +20,9 @@ import {SlickCarouselModule} from "ngx-slick-carousel";
 import {CarouselModule} from "primeng/carousel";
 import {TagModule} from "primeng/tag";
 import {BannerTemplateComponent} from "../../shared/components/home/banner-template/banner-template.component";
+import {TransportsService} from "../../core/services/transports/transports.service";
+import {environment} from "../../../environments/environment";
+import {RequestService} from "../../core/services/request/request.service";
 
 
 @Component({
@@ -62,7 +62,9 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private _announcementsService: AnnouncementsService,
-    private queryConfig: QueryService
+    private queryConfig: QueryService,
+    private transportService: TransportsService,
+    private requestService: RequestService
   ) {
 
   }
@@ -83,7 +85,6 @@ export class HomeComponent implements OnInit {
           slidesToScroll: 1,
         }
       },
-      // Add more breakpoints as needed
     ]};
 
   ngOnInit(): void {
@@ -93,9 +94,10 @@ export class HomeComponent implements OnInit {
   }
   __GET_ANNOUNCEMENTS = () => {
     this.loading = true;
-    this._announcementsService.get(this.queryConfig.generatorHttpParamsWithDefault())
+    this.requestService
+      .getData(environment.urls.GET_ANNONCEMENTS,this.queryConfig.generatorHttpParamsWithDefault())
       .pipe(finalize(() => this.loading = false))
-      .subscribe((response) => {
+      .subscribe((response: any) => {
         this.announcements = response?.results;
         this.totalPage = response.count
       });

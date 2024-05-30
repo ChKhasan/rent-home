@@ -31,7 +31,22 @@ export class QueryService {
   }
 
   generatorHttpParamsWithDefault() {
-    return this.generatorHttpParams(this.activeQueryWithDefaut())
+    return this.requestHttpParams(this.activeQueryWithDefaut())
+  }
+   requestHttpParams(object: { [p: string]: any }): HttpParams {
+    let params = new HttpParams();
+
+    Object.entries(object).forEach(([key, value]) => {
+      if (key === 'transports') {
+        (Array.isArray(value) ? value : [value]).forEach(elem => {
+          params = params.append('transports[]', elem.toString());
+        });
+      } else {
+        params = params.append(key, value.toString());
+      }
+    });
+
+    return params;
   }
   generatorHttpParams(object: { [p: string]: any }): HttpParams {
     let params = new HttpParams();

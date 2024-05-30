@@ -35,7 +35,6 @@ export class BottomBarComponent implements OnInit{
         })
       },
       isPath: '/'
-
     },
     {
       title: 'Saqlanganlar',
@@ -48,7 +47,6 @@ export class BottomBarComponent implements OnInit{
         this.router.navigate(['/likes'])
       },
       isPath: '/likes'
-
     },
     {
       title: 'Aloqa',
@@ -98,12 +96,6 @@ export class BottomBarComponent implements OnInit{
       this.isPath = this.location.path()
     });
   }
-
-
-  handleAction(item: any): void {
-    if (item.action) item.action();
-  }
-
   openAuthDialog() {
     this.authDialogComponent.showDialog();
   }

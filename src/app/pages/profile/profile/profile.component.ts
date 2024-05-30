@@ -6,17 +6,14 @@ import {InputTextModule} from "primeng/inputtext";
 import {InvaidTextComponent} from "../../../shared/components/form/invaid-text/invaid-text.component";
 import {NgClass, NgIf} from "@angular/common";
 import {PaginatorModule} from "primeng/paginator";
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {
   emailControl,
   firstControl, lastControl,
   nameControl,
-  numberControl,
-  passwordControl
 } from "../../../core/common/form-control";
 import {AuthService} from "../../../core/services/auth/auth.service";
 import {ToastService} from "../../../core/services/toast/toast.service";
-import {ActivatedRoute} from "@angular/router";
 import {UserImages, UserInfo} from "../../../core/interfaces/common.interface";
 import {ButtonModule} from "primeng/button";
 import {FileUploadModule} from "primeng/fileupload";

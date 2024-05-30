@@ -44,6 +44,7 @@ import {RouterLink} from "@angular/router";
 })
 export class ChatUserListComponent {
   public skeletonList = [1, 2, 3, 4, 5, 6];
+  protected readonly length = length;
   @Input() handlerRoom!: Function;
   @Input() isRoom!: any
   @Input() userRooms!: IUserRooms[]
@@ -59,9 +60,5 @@ export class ChatUserListComponent {
     if(this.userSearch)
       this.userSearch(this.searchValue)
   }
-    protected readonly length = length;
-  // openBoard() {
-  //   if(this.toggleBoad)
-  //     this.toggleBoad(true)
-  // }
+
 }

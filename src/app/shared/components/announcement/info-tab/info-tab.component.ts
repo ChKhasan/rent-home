@@ -1,17 +1,11 @@
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, ViewChild} from '@angular/core';
 import {DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import {AngularYandexMapsModule} from "angular8-yandex-maps";
 import {CommentDialogComponent} from "../../modals/comment-dialog/comment-dialog.component";
-import {CommentsService} from "../../../../core/services/comments/comments.service";
 import {CommentCardComponent} from "../../cards/comment-card/comment-card.component";
-import {ActivatedRoute} from "@angular/router";
-import {QueryService} from "../../../../core/services/query/query.service";
-import {CommentResponse} from "../../../../core/interfaces/common.interface";
-import {WebSocketService} from "../../../../core/services/webSocket/web-socket.service";
 import {AuthService} from "../../../../core/services/auth/auth.service";
 import {FieldsetModule} from "primeng/fieldset";
 import {AvatarModule} from "primeng/avatar";
-import {environment} from "../../../../../environments/environment";
 import {CommentBlockComponent} from "../comment-block/comment-block.component";
 import {SkeletonModule} from "primeng/skeleton";
 

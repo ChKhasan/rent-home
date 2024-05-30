@@ -40,8 +40,6 @@ export class BottomSheetComponent {
   @HostListener('touchmove', ['$event'])
   onTouchMove(event: TouchEvent) {
     const deltaY = event.touches[0].clientY - this.startY;
-    if (deltaY > 50 && this.bottomSheetVisible) {
-      this.close();
-    }
+    if (deltaY > 50 && this.bottomSheetVisible) this.close();
   }
 }

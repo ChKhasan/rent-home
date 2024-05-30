@@ -1,3 +1,7 @@
+export interface ICommonResponse {
+  page: number,
+  page_size: number
+}
 export interface Announcement {
   transports: any,
   images: UserImages[],
@@ -79,7 +83,6 @@ export interface IUserRooms {
   user?: UserInfo,
   users: UserInfo[]
 }
-
 export interface IMessage {
   created_at?: string,
    id: number,

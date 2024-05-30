@@ -13,6 +13,8 @@ export const environment = {
     GET_TRANSPORTS: '/api/transport/',
     GET_COMMENTS: '/api/comment/',
     GET_ALLTRANSPORTS: '/api/proxy/',
+    POST_LOCATIONBUSES: '/api/buses/',
+    POST_BUSROUTES: '/api/bus/'
 
   },
   authUrls: {

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AnnouncementsService} from "../../../core/services/announcements/announcements.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {GalleriaModule} from "primeng/galleria";
 import {TagModule} from "primeng/tag";
 import {InfoTabComponent} from "../../../shared/components/announcement/info-tab/info-tab.component";

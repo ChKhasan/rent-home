@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {ButtonModule} from "primeng/button";
 import {DialogModule} from "primeng/dialog";
 import {InputMaskModule} from "primeng/inputmask";
@@ -7,11 +7,6 @@ import {InputTextModule} from "primeng/inputtext";
 import {NgClass, NgIf} from "@angular/common";
 import {PaginatorModule} from "primeng/paginator";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {
-  nameControl,
-  numberControl,
-  passwordRegisterControl
-} from "../../../../core/common/form-control";
 import {ValidationErrorAnimation} from "../../../../core/common/animations";
 import {InvaidTextComponent} from "../../form/invaid-text/invaid-text.component";
 import {AuthService} from "../../../../core/services/auth/auth.service";
