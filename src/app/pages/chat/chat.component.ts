@@ -271,7 +271,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
       this.__GET_MESSAGES();
     });
     this.isRoom = room;
-    this.toggleBoad(true)
+    // this.toggleBoad(true)
   }
   __GET_MESSAGES = () => {
     let id = Number(this.queryService.activeQueryList()['roomId'])
