@@ -9,10 +9,11 @@ import {PaginatorModule} from "primeng/paginator";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {ValidationErrorAnimation} from "../../../../core/common/animations";
 import {InvaidTextComponent} from "../../form/invaid-text/invaid-text.component";
-import {AuthService} from "../../../../core/services/auth/auth.service";
 import {ToastService} from "../../../../core/services/toast/toast.service";
 import {PasswordModule} from "primeng/password";
 import {finalize} from "rxjs";
+import {environment} from "../../../../../environments/environment";
+import {RequestService} from "../../../../core/services/request/request.service";
 @Component({
   selector: 'app-register-dialog',
   standalone: true,
@@ -43,7 +44,10 @@ export class RegisterDialogComponent {
     name: new FormControl("", [Validators.required,Validators.minLength(4)]),
     phone_number: new FormControl('', [Validators.required,Validators.pattern(/^\d{2} \d{3} \d{2} \d{2}$/)]),
   })
-  constructor(private authService: AuthService,private toastService: ToastService) {
+  constructor(
+    private toastService: ToastService,
+    private requestService: RequestService
+  ) {
   }
 
   public onSubmit(): void {
@@ -66,7 +70,7 @@ export class RegisterDialogComponent {
   postRegister() {
     this.loading = true
     const data = this.dataTransform()
-    this.authService.postRegister(data)
+    this.requestService.requestData(environment.urls.POST_REGISTER,'POST',data)
       .pipe(finalize(() => {
         this.loading = false
       }))

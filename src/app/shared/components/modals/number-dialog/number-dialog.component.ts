@@ -8,8 +8,9 @@ import {InvaidTextComponent} from "../../form/invaid-text/invaid-text.component"
 import {NgClass, NgIf} from "@angular/common";
 import {PasswordModule} from "primeng/password";
 import {numberControl} from "../../../../core/common/form-control";
-import {AuthService} from "../../../../core/services/auth/auth.service";
 import {finalize} from "rxjs";
+import {RequestService} from "../../../../core/services/request/request.service";
+import {environment} from "../../../../../environments/environment";
 
 @Component({
   selector: 'app-number-dialog',
@@ -38,7 +39,7 @@ export class NumberDialogComponent {
     phone_number: numberControl,
   })
   constructor(
-    private authService: AuthService,
+    private requestService: RequestService
   ) {
   }
   eventPipe() {
@@ -61,7 +62,7 @@ export class NumberDialogComponent {
   postLogin() {
     this.loading = true
     const data = this.dataTransform()
-    this.authService.postLogin(data)
+    this.requestService.requestData(environment.urls.POST_LOGIN,'POST',data)
       .pipe(finalize(() => this.loading = false))
       .subscribe((response) => {
         this.eventPipe();

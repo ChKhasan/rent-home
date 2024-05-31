@@ -19,6 +19,8 @@ import {ButtonModule} from "primeng/button";
 import {FileUploadModule} from "primeng/fileupload";
 import {environment} from "../../../../environments/environment";
 import {HttpHeaders} from "@angular/common/http";
+import {RequestService} from "../../../core/services/request/request.service";
+import {finalize} from "rxjs";
 
 @Component({
   selector: 'app-profile',
@@ -56,6 +58,7 @@ export class ProfileComponent implements OnInit {
   constructor(
     public authService: AuthService,
     private toastService: ToastService,
+    private requestService: RequestService
   ) {
   }
 
@@ -68,7 +71,8 @@ export class ProfileComponent implements OnInit {
   }
 
   __GET_USER() {
-    this.authService.getUser().subscribe((data: UserInfo) => {
+    this.requestService.getData<UserInfo>(environment.authUrls.GET_ME)
+      .subscribe((data: UserInfo) => {
       this.avatar = data.images.length > 0 ? data.images[0].image:''
       this.ruleForm.patchValue({
         name: data.name || '',
@@ -107,7 +111,9 @@ export class ProfileComponent implements OnInit {
   putUser() {
     this.loading = true
     const data = this.dataTransform()
-    this.authService.put(data, this.authService.user.id).subscribe((response) => {
+    this.requestService.requestData(environment.authUrls.PUT_USER + this.authService.user.id + '/','PUT',data)
+      .pipe(finalize(() => this.loading = false))
+      .subscribe((response) => {
       this.__GET_USER()
       this.authService.authHandler()
       this.eventPipe({message: "Успешно изменено", response: response});

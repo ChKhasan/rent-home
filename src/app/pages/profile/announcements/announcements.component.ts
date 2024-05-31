@@ -1,17 +1,17 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, RouterLink} from "@angular/router";
+import {RouterLink} from "@angular/router";
 import {
   MyAnnouncementsCardComponent
 } from "../../../shared/components/cards/my-announcements-card/my-announcements-card.component";
-import {AnnouncementsService} from "../../../core/services/announcements/announcements.service";
-import {response} from "express";
 import {NgForOf, NgIf} from "@angular/common";
 import {SkeletonModule} from "primeng/skeleton";
 import {PaginationComponent} from "../../../shared/components/pagination/pagination.component";
 import {finalize} from "rxjs";
-import {QueryList} from "../../../core/interfaces/common.interface";
+import {IAnnouncement} from "../../../core/interfaces/common.interface";
 import {QueryService} from "../../../core/services/query/query.service";
 import {TabComponent} from "../../../shared/components/profile/tab/tab.component";
+import {RequestService} from "../../../core/services/request/request.service";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'app-announcements',
@@ -34,23 +34,22 @@ export class AnnouncementsComponent implements OnInit {
   public loading: boolean = true;
   public totalPage: number = 0
   constructor(
-    private announcementService: AnnouncementsService,
-    private queryService: QueryService
+    private queryService: QueryService,
+    private requestService: RequestService
   ) {
 
   }
   __GET_ANNOUNMENTS = () => {
     this.loading = true;
-    this.announcementService.getMy({params: this.queryService.generatorHttpParamsWithDefault()})
+    this.requestService.getData<IAnnouncement>(environment.authUrls.GET_MY_ANNONCEMENTS,this.queryService.generatorHttpParamsWithDefault())
       .pipe(finalize(() => this.loading = false))
-      .subscribe((response) => {
-        this.announcements = response?.results;
+      .subscribe((response:IAnnouncement) => {
+        this.announcements = response.results;
         this.totalPage = response.count
       })
   }
   ngOnInit() {
     if(typeof window !== 'undefined') this.__GET_ANNOUNMENTS()
-
   }
 
 }

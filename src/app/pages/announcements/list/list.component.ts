@@ -1,6 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {finalize} from "rxjs";
-import {AnnouncementsService} from "../../../core/services/announcements/announcements.service";
 import {RouterLink} from "@angular/router";
 import {PaginationComponent} from "../../../shared/components/pagination/pagination.component";
 import {NgForOf, NgIf} from "@angular/common";
@@ -14,6 +13,9 @@ import {SearchComponent} from "../../../shared/components/announcement/search/se
 import {BottomSheetComponent} from "../../../shared/components/modals/bottom-sheet/bottom-sheet.component";
 import {EmptyFoundComponent} from "../../../shared/components/empty-found/empty-found.component";
 import {SORT_OPTIONS} from "../../../core/constants/filter";
+import {RequestService} from "../../../core/services/request/request.service";
+import {environment} from "../../../../environments/environment";
+import {IAnnouncement} from "../../../core/interfaces/common.interface";
 @Component({
   selector: 'app-list',
   standalone: true,
@@ -41,8 +43,8 @@ export class ListComponent implements OnInit {
   public currentSort: string = 'appartment_status'
  @ViewChild(BottomSheetComponent) bottomSheetComponent!: BottomSheetComponent
   constructor(
-    private _announcementsService: AnnouncementsService,
-    private queryConfig: QueryService
+    private queryConfig: QueryService,
+    private requestService: RequestService
   ) {
   }
   ngOnInit(): void {
@@ -50,9 +52,9 @@ export class ListComponent implements OnInit {
   }
   __GET_ANNOUNCEMENTS = () => {
     this.loading = true;
-    this._announcementsService.get(this.queryConfig.generatorHttpParams(this.queryConfig.activeQueryWithDefaut()))
+    this.requestService.getData<IAnnouncement>(environment.urls.GET_ANNONCEMENTS,this.queryConfig.generatorHttpParams(this.queryConfig.activeQueryWithDefaut()))
       .pipe(finalize(() => this.loading = false))
-      .subscribe((response) => {
+      .subscribe((response:IAnnouncement) => {
         this.announcements = response?.results;
         this.totalPage = response.count
       });

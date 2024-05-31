@@ -1,11 +1,10 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpResponse} from "@angular/common/http";
-import {ToastService} from "../toast/toast.service";
-import {BehaviorSubject, debounceTime, distinctUntilChanged, map, Observable} from "rxjs";
-import {Announcement, UserInfo} from "../../interfaces/common.interface";
+import {BehaviorSubject, Observable} from "rxjs";
+import {UserInfo} from "../../interfaces/common.interface";
 import {environment} from "../../../../environments/environment";
 import {Location} from "@angular/common";
 import {Router} from "@angular/router";
+import {RequestService} from "../request/request.service";
 
 @Injectable({
   providedIn: 'root'
@@ -22,9 +21,9 @@ export class AuthService {
     return this.booleanSubject.asObservable();
   }
   constructor(
-    private _httpsClient: HttpClient,
     private location: Location,
-    private router: Router
+    private router: Router,
+    private requestService: RequestService
   ) {
   }
 
@@ -32,7 +31,8 @@ export class AuthService {
     return new Promise<void>((resolve, reject) => {
       const AUTH_TOKEN = localStorage.getItem(environment.accessToken);
       Boolean(AUTH_TOKEN) ?
-        this.getUser().subscribe((response: UserInfo) => {
+        this.requestService.getData<UserInfo>(environment.authUrls.GET_ME)
+          .subscribe((response: UserInfo) => {
           if (response) {
             this.user = response;
             this.auth = true;
@@ -49,49 +49,9 @@ export class AuthService {
     localStorage.removeItem(environment.accessToken)
     localStorage.removeItem(environment.refreshToken)
     let currentPath = this.location.path();
-    console.log(currentPath)
     if (currentPath.includes('/profile')) {
       this.router.navigate(['/']).then(() => {})
     }
     this.authHandler().then(() => {})
-  }
-
-  postRegister(payload: any): Observable<Announcement[] | null> {
-    return this._httpsClient
-      .post<Announcement[]>(environment.urls.POST_REGISTER, payload, {observe: 'response'})
-      .pipe(
-        debounceTime(300),
-        distinctUntilChanged(),
-        map((response: HttpResponse<Announcement[]>) => response.body)
-      );
-  }
-
-  getUser(): Observable<UserInfo> {
-    return this._httpsClient
-      .get<UserInfo>(environment.authUrls.GET_ME)
-      .pipe(
-        debounceTime(300),
-        distinctUntilChanged(),
-      );
-  }
-
-  put(payload: any, id: number): Observable<UserInfo | null> {
-    return this._httpsClient
-      .put<UserInfo>(environment.authUrls.PUT_USER + id + '/', payload, {observe: 'response'})
-      .pipe(
-        debounceTime(300),
-        distinctUntilChanged(),
-        map((response: HttpResponse<UserInfo>) => response.body)
-      );
-  }
-
-  postLogin(payload: any): Observable<Announcement[] | null> {
-    return this._httpsClient
-      .post<Announcement[]>(environment.urls.POST_LOGIN, payload, {observe: 'response'})
-      .pipe(
-        debounceTime(300),
-        distinctUntilChanged(),
-        map((response: HttpResponse<Announcement[]>) => response.body)
-      );
   }
 }

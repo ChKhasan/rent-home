@@ -1,6 +1,5 @@
 import {Component, Input} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {AuthService} from "../../../../core/services/auth/auth.service";
 import {finalize} from "rxjs";
 import {InvaidTextComponent} from "../../form/invaid-text/invaid-text.component";
 import {InputMaskModule} from "primeng/inputmask";
@@ -9,6 +8,8 @@ import {NgClass} from "@angular/common";
 import {InputTextModule} from "primeng/inputtext";
 import {ButtonModule} from "primeng/button";
 import {InputOtpModule} from "primeng/inputotp";
+import {environment} from "../../../../../environments/environment";
+import {RequestService} from "../../../../core/services/request/request.service";
 
 @Component({
   selector: 'app-sms-dialog',
@@ -37,7 +38,7 @@ export class SmsDialogComponent {
   //   phone_number: numberControl,
   // })
   constructor(
-    private authService: AuthService,
+    private requestService: RequestService
   ) {
   }
   eventPipe() {
@@ -60,7 +61,7 @@ export class SmsDialogComponent {
   postLogin() {
     this.loading = true
     const data = this.dataTransform()
-    this.authService.postLogin(data)
+    this.requestService.requestData(environment.urls.POST_LOGIN,'POST',data)
       .pipe(finalize(() => this.loading = false))
       .subscribe((response) => {
         this.eventPipe();

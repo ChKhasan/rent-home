@@ -17,6 +17,7 @@ import {finalize} from "rxjs";
 import {PasswordModule} from "primeng/password";
 import {WebSocketService} from "../../../../core/services/webSocket/web-socket.service";
 import {Announcement} from "../../../../core/interfaces/common.interface";
+import {RequestService} from "../../../../core/services/request/request.service";
 
 @Component({
   selector: 'app-auth-dialog',
@@ -53,7 +54,7 @@ export class AuthDialogComponent {
     private authService: AuthService,
     private toastService: ToastService,
     private router: Router,
-    private webSocketService: WebSocketService,
+    private requestService: RequestService
   ) {
   }
 
@@ -93,12 +94,12 @@ export class AuthDialogComponent {
   postLogin() {
     this.loading = true
     const data = this.dataTransform()
-    this.authService.postLogin(data)
+    this.requestService.requestData<any>(environment.urls.POST_LOGIN,'POST',data)
       .pipe(finalize(() => {
         this.loading = false
       }))
       .subscribe(
-        (response: Announcement[] | null) => {
+        (response: any) => {
           this.eventPipe({message: "Добро пожаловать", response: response});
         }, (error) => {
           if (error.status === 401) this.infoError = true

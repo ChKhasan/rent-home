@@ -1,6 +1,7 @@
 export interface ICommonResponse {
   page: number,
-  page_size: number
+  page_size: number,
+  count: number
 }
 export interface Announcement {
   transports: any,
@@ -10,8 +11,8 @@ export interface Announcement {
   need_people_count: number,
   room_count: number,
   address: string,
-  location_x: number | string,
-  location_y: number | string,
+  location_x: number,
+  location_y: number,
   currency: string,
   total_price: number,
   price_for_one: number,
@@ -42,6 +43,9 @@ export interface UserInfo {
   name: string | null,
   is_online?: boolean,
   images: UserImages[]
+}
+export interface IAnnouncement extends ICommonResponse {
+  results: Announcement[]
 }
 
 export interface UserImages {

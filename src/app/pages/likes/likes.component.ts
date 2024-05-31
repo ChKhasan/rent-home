@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import {AnnouncementsService} from "../../core/services/announcements/announcements.service";
 import {QueryService} from "../../core/services/query/query.service";
 import {finalize} from "rxjs";
 import {
@@ -8,6 +7,9 @@ import {
 import {NgForOf, NgIf} from "@angular/common";
 import {PaginationComponent} from "../../shared/components/pagination/pagination.component";
 import {SkeletonModule} from "primeng/skeleton";
+import {RequestService} from "../../core/services/request/request.service";
+import {environment} from "../../../environments/environment";
+import {IAnnouncement} from "../../core/interfaces/common.interface";
 
 @Component({
   selector: 'app-likes',
@@ -29,8 +31,8 @@ export class LikesComponent {
   public totalPage: number = 0
 
   constructor(
-    private _announcementsService: AnnouncementsService,
-    private queryConfig: QueryService
+    private queryConfig: QueryService,
+    private requestService: RequestService
   ) {
   }
   ngOnInit(): void {
@@ -41,9 +43,9 @@ export class LikesComponent {
 
   __GET_ANNOUNCEMENTS = () => {
     this.loading = true;
-    this._announcementsService.get(this.queryConfig.generatorHttpParamsWithDefault())
+    this.requestService.getData<IAnnouncement>(environment.urls.GET_ANNONCEMENTS,this.queryConfig.generatorHttpParamsWithDefault())
       .pipe(finalize(() => this.loading = false))
-      .subscribe((response) => {
+      .subscribe((response:IAnnouncement) => {
         this.announcements = response?.results;
         this.totalPage = response.count
       });

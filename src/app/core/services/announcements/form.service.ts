@@ -5,16 +5,16 @@ import {
   descControl,
   titleControl
 } from "../../common/form-control";
-import {AnnouncementsService} from "./announcements.service";
 import {ToastService} from "../toast/toast.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {Router} from "@angular/router";
 import {finalize} from "rxjs";
+import {RequestService} from "../request/request.service";
+import {environment} from "../../../../environments/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class FormService {
-  submitCallback!: Function;
   public ruleForm = new FormGroup({
     transports: new FormControl([]),
     images: new FormControl<string[]>([]),
@@ -23,8 +23,8 @@ export class FormService {
     need_people_count: new FormControl(0),
     room_count: new FormControl(0),
     address: addressControl,
-    location_x: new FormControl(''),
-    location_y: new FormControl(''),
+    location_x: new FormControl(0),
+    location_y: new FormControl(0),
     currency: new FormControl('USD'),
     total_price: new FormControl(0),
     price_for_one: new FormControl(0),
@@ -32,13 +32,13 @@ export class FormService {
     description: descControl,
     conditioner: new FormControl(false),
     washing_machine: new FormControl(false),
-    user: new FormControl(1),
+    user: new FormControl({}),
   });
   public loading: boolean = false;
   constructor(
-    private announcementsService: AnnouncementsService,
     private toastService: ToastService,
     private router: Router,
+    private requestService: RequestService
     ) {
   }
 
@@ -52,7 +52,7 @@ export class FormService {
 
   postForm(): void {
     this.loading = true;
-    this.announcementsService.post(this.ruleForm.value)
+    this.requestService.requestData(environment.authUrls.POST_ANNONCEMENTS,"POST",this.ruleForm.value)
       .pipe(finalize(() => this.loading = false))
       .subscribe(
       (response) => {
@@ -64,13 +64,13 @@ export class FormService {
 
   putForm(id: any): void {
     this.loading = true;
-    this.announcementsService.put(this.ruleForm.value,id )
+    this.requestService.requestData(environment.authUrls.PUT_ANNONCEMENTS + id + '/','PUT',this.ruleForm.value)
       .pipe(finalize(() => this.loading = false))
       .subscribe(
-      (response) => {
-        this.toastService.showMessage('success','Success','Объявление успешно изменено');
-        this.router.navigate(['/profile/announcements'])
-      }
-    );
+        (response) => {
+          this.toastService.showMessage('success','Success','Объявление успешно изменено');
+          this.router.navigate(['/profile/announcements'])
+        }
+      );
   }
 }

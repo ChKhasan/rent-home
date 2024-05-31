@@ -6,7 +6,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class PricePipe implements PipeTransform {
   transform(value: number | string,): number | string  {
-    return value.toLocaleString();
+    return ['string', 'number'].includes(typeof value) ? value.toLocaleString():value;
   }
-
 }

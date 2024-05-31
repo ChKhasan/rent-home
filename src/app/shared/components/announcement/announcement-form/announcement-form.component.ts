@@ -7,7 +7,7 @@ import {FormService} from "../../../../core/services/announcements/form.service"
 import {TooltipModule} from "primeng/tooltip";
 import {ButtonModule} from "primeng/button";
 import {ToastModule} from "primeng/toast";
-import {FileUploadEvent, FileUploadModule} from "primeng/fileupload";
+import {FileUploadModule} from "primeng/fileupload";
 import {MessageService} from "primeng/api";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {CheckboxModule} from "primeng/checkbox";
@@ -17,9 +17,10 @@ import {ImageModule} from "primeng/image";
 import {RippleModule} from "primeng/ripple";
 import {HttpHeaders} from "@angular/common/http";
 import {environment} from "../../../../../environments/environment";
-import {AnnouncementsService} from "../../../../core/services/announcements/announcements.service";
 import {ActivatedRoute, RouterLink} from "@angular/router";
 import {MapDialogComponent} from "../../modals/map-dialog/map-dialog.component";
+import {RequestService} from "../../../../core/services/request/request.service";
+import {Announcement} from "../../../../core/interfaces/common.interface";
 
 interface UploadEvent {
   originalEvent: Event;
@@ -68,16 +69,13 @@ export class AnnouncementFormComponent implements OnInit {
   }
   @ViewChild(MapDialogComponent) mapDialogComponent!: MapDialogComponent
   @Input() isEdit: boolean = false;
-  public announcement = {
-    location_x: undefined,
-    location_y: undefined
-  }
+  public announcement!:Announcement
   constructor(
     public _formControl: FormService,
     private messageService: MessageService,
-    private announcementService: AnnouncementsService,
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private requestService: RequestService
   ) {
     this.ruleForm = _formControl.ruleForm;
     this.id = this.route.snapshot.paramMap.get('id');
@@ -99,8 +97,10 @@ export class AnnouncementFormComponent implements OnInit {
   ngOnInit() {
     this.fileUploaderHeaders()
     if (this.isEdit) {
-      this.announcementService.getById(this.id).subscribe((response) => {
+      this.requestService.getData<Announcement>(environment.urls.GET_ANNONCEMENTS + this.id)
+      .subscribe((response:Announcement):void => {
         this.announcement = response
+        console.log("form anounts",response)
         this.uploadedFiles = response.images
         this.ruleForm.patchValue({
           transports: response.transports,
@@ -110,8 +110,8 @@ export class AnnouncementFormComponent implements OnInit {
           need_people_count: response.need_people_count,
           room_count: response.room_count,
           address: response.address,
-          location_x: response.location_x,
-          location_y: response.location_y,
+          location_x: response.location_x || 0,
+          location_y: response.location_y || 0,
           currency: response.currency,
           total_price: response.total_price,
           price_for_one: response.price_for_one,
@@ -147,9 +147,10 @@ export class AnnouncementFormComponent implements OnInit {
   }
 
   openMapDialog() {
-    this.mapDialogComponent?.handleLocation({
-      lat: this.announcement.location_x,
-      lon: this.announcement.location_y,
+
+    this.isEdit && this.mapDialogComponent?.handleLocation({
+      lat: this.announcement.location_x || 0,
+      lon: this.announcement.location_y || 0,
       display_name: ""
     })
     this.mapDialogComponent.showDialog()

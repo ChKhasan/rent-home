@@ -2,13 +2,13 @@ import {Component, Input, OnInit} from '@angular/core';
 import {CheckboxModule} from "primeng/checkbox";
 import {FormsModule} from "@angular/forms";
 import {AutoCompleteModule} from "primeng/autocomplete";
-import {TransportsService} from "../../../../core/services/transports/transports.service";
 import {QueryService} from "../../../../core/services/query/query.service";
 import {Router} from "@angular/router";
 import {ButtonModule} from "primeng/button";
 import {HttpParams} from "@angular/common/http";
-import {FilterForm} from "../../../../core/interfaces/common.interface";
 import {MultiSelectModule} from "primeng/multiselect";
+import {RequestService} from "../../../../core/services/request/request.service";
+import {environment} from "../../../../../environments/environment";
 
 interface AutoCompleteCompleteEvent {
   originalEvent: Event;
@@ -36,7 +36,7 @@ export class SearchComponent implements OnInit {
   public selectedCities: any = []
 
   constructor(
-    private transportsService: TransportsService,
+    private requestService: RequestService,
     private queryService: QueryService,
     private router: Router
   ) {
@@ -45,7 +45,6 @@ export class SearchComponent implements OnInit {
   async onClear() {
     let query: any = {...this.queryService.activeQueryList()}
     if (query['transports']) query.transports = []
-
     this.queryService.updateCustomQuery(query, this.getData).then(() => {
     })
   }
@@ -60,7 +59,8 @@ export class SearchComponent implements OnInit {
 
   ngOnInit() {
     if (typeof window !== 'undefined')
-      this.transportsService.get().subscribe((response) => {
+      this.requestService.getData(environment.urls.GET_TRANSPORTS)
+        .subscribe((response: any) => {
         this.transports = response;
         let query: any = {...this.queryService.activeQueryList()}
         if (query?.transports) {

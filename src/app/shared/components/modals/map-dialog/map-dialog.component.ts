@@ -2,10 +2,11 @@ import {Component, Input, OnInit} from '@angular/core';
 import {DialogModule} from "primeng/dialog";
 import {AngularYandexMapsModule} from "angular8-yandex-maps";
 import {NgForOf, NgIf} from "@angular/common";
-import {TransportsService} from "../../../../core/services/transports/transports.service";
 import {ButtonModule} from "primeng/button";
 import {finalize} from "rxjs";
 import {CryptoService} from "../../../../core/services/crypto/crypto.service";
+import {RequestService} from "../../../../core/services/request/request.service";
+import {environment} from "../../../../../environments/environment";
 
 @Component({
   selector: 'app-map-dialog',
@@ -36,8 +37,9 @@ export class MapDialogComponent implements OnInit {
   @Input() formHandle!: Function
 
   constructor(
-    private transportService: TransportsService,
-    private cryptoService: CryptoService) {
+    private cryptoService: CryptoService,
+    private requestService: RequestService
+  ) {
   }
 
   showDialog() {
@@ -49,9 +51,8 @@ export class MapDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.transportService.get().subscribe((response) => {
-      this.allTransports = Object.values(response);
-    })
+    this.requestService.getData(environment.urls.GET_TRANSPORTS)
+      .subscribe((response: any) => {this.allTransports = Object.values(response)})
   }
 
   handleMapClick(event: any) {
@@ -72,7 +73,8 @@ export class MapDialogComponent implements OnInit {
   }
 
   __GET_LOCATICON_TRANSPORTS(formData: any) {
-    this.transportService.postByLocation(formData).subscribe((response) => {
+    this.requestService.requestData(environment.urls.POST_LOCATIONBUSES,'POST',formData)
+      .subscribe((response: any) => {
       this.routes = response.routes;
       let allBusRoutes: any[] = [];
       let metroRoutes: any[] = [];
@@ -138,9 +140,10 @@ export class MapDialogComponent implements OnInit {
   __GET_BUS_ROUTE = async (formData: any, number: any) => {
     this.transportLoading = true
     this.busRoute = {}
-    this.transportService.postBusRoutes(formData).pipe(finalize(() => {
+    this.requestService.requestData(environment.urls.POST_BUSROUTES,formData)
+      .pipe(finalize(() => {
       this.transportLoading = false
-    })).subscribe(async (data) => {
+    })).subscribe(async (data: any) => {
       this.busRoute.x = data.scheme.forward.split(" ").map((elem: any) => {
         return [Number(elem.split(",")[0]), Number(elem.split(",")[1])]
       });

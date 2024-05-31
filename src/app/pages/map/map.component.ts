@@ -6,9 +6,7 @@ import {AngularYandexMapsModule} from "angular8-yandex-maps";
 import {
   AnouncementMapCardComponent
 } from "../../shared/components/announcement/anouncement-map-card/anouncement-map-card.component";
-import {TransportsService} from "../../core/services/transports/transports.service";
 import {QueryService} from "../../core/services/query/query.service";
-import {AnnouncementsService} from "../../core/services/announcements/announcements.service";
 import {finalize} from "rxjs";
 import {ButtonModule} from "primeng/button";
 import {StyleClassModule} from "primeng/styleclass";
@@ -19,6 +17,9 @@ import {BadgeModule} from "primeng/badge";
 import {TOP_COLORS} from "../../core/constants/map";
 import {CryptoService} from "../../core/services/crypto/crypto.service";
 import {BottomSheetComponent} from "../../shared/components/modals/bottom-sheet/bottom-sheet.component";
+import {RequestService} from "../../core/services/request/request.service";
+import {environment} from "../../../environments/environment";
+import {IAnnouncement} from "../../core/interfaces/common.interface";
 
 @Component({
   selector: 'app-map',
@@ -83,10 +84,10 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   constructor(
     public router: Router,
-    private transportsService: TransportsService,
     private queryService: QueryService,
-    private announcementService: AnnouncementsService,
-    private cryptoService: CryptoService
+    private cryptoService: CryptoService,
+    private requestService: RequestService,
+
   ) {
   }
 
@@ -127,9 +128,8 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   toggleToolbar() {
     this.showToolbar = !this.showToolbar;
-    if (this.showToolbar) {
-      this.showInfo = false
-    }
+    if (this.showToolbar) this.showInfo = false
+
   }
 
   closeAnnouncementInfo = () => {
@@ -140,9 +140,8 @@ export class MapComponent implements OnInit, AfterViewInit {
   handleAnnounce(id: number) {
     this.showInfo = true;
     this.openBShInfo()
-    if (this.showInfo) {
-      this.showToolbar = false
-    }
+    if (this.showInfo)  this.showToolbar = false
+
     this.currentAnnouce.id === id ? this.showInfo = false : this.currentAnnouce = this.announcements.find((elem: any) => elem.id == id);
   }
 
@@ -270,9 +269,10 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   __GET_BUS_ROUTE = async (formData: any, number: any) => {
     this.transportLoading = true
-    this.transportsService.postBusRoutes(formData).pipe(finalize(() => {
+    this.requestService.requestData(environment.urls.POST_BUSROUTES,"POST",formData)
+      .pipe(finalize(() => {
       this.transportLoading = false
-    })).subscribe(async (data) => {
+    })).subscribe(async (data: any) => {
       if (typeof this.queryService.activeQueryList()['transports'] === 'string') {
         this.routeTransports = [this.queryService.activeQueryList()['transports']] || []
       } else {
@@ -321,7 +321,8 @@ export class MapComponent implements OnInit, AfterViewInit {
   };
   __GET_ANNOUNCEMENTS = () => {
     if (Object.keys(this.queryService.generatorHttpParams(this.queryService.activeQueryList())).length > 0) {
-      this.announcementService.get(this.queryService.generatorHttpParams(this.queryService.activeQueryList())).subscribe((response) => {
+      this.requestService.getData<IAnnouncement>(environment.urls.GET_ANNONCEMENTS,this.queryService.generatorHttpParams(this.queryService.activeQueryList()))
+        .subscribe((response:IAnnouncement) => {
         if (typeof this.queryService.activeQueryList()['transports'] === 'string') {
           this.routeTransports = [this.queryService.activeQueryList()['transports']] || []
         } else {
@@ -344,7 +345,8 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   __GET_TRANSPORTS() {
-    this.transportsService.get().subscribe((response) => {
+    this.requestService.getData<any>(environment.urls.GET_TRANSPORTS)
+      .subscribe((response: any) => {
       this.transports = response;
       this.buses = response.filter((item: any) => item.type == 'BUS').sort((a: any, b: any) => {
         const nameA: number = parseInt(a.name);

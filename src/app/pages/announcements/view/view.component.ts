@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {AnnouncementsService} from "../../../core/services/announcements/announcements.service";
 import {ActivatedRoute} from "@angular/router";
 import {GalleriaModule} from "primeng/galleria";
 import {TagModule} from "primeng/tag";
@@ -11,6 +10,8 @@ import {PriceBlockComponent} from "../../../shared/components/announcement/price
 import {Announcement} from "../../../core/interfaces/common.interface";
 import {SkeletonModule} from "primeng/skeleton";
 import {StyleClassModule} from "primeng/styleclass";
+import {environment} from "../../../../environments/environment";
+import {RequestService} from "../../../core/services/request/request.service";
 
 @Component({
   selector: 'app-view',
@@ -62,14 +63,15 @@ export class ViewComponent implements OnInit {
     }
   ];
   constructor(
-    private announcementService: AnnouncementsService,
     private route: ActivatedRoute,
+    private requestService: RequestService
     ) {
     this.id = this.route.snapshot.paramMap.get('id');
   }
 
   ngOnInit() {
-    this.announcementService.getById(this.id).subscribe((response: Announcement) => {
+    this.requestService.getData<Announcement>(environment.urls.GET_ANNONCEMENTS + this.id)
+      .subscribe((response: Announcement) => {
       this.announcement = response
       this.images = response.images
       this.loading = false;

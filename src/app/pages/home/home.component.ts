@@ -5,7 +5,6 @@ import {AsyncPipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import {PaginatorModule} from "primeng/paginator";
 import {ReactiveFormsModule} from "@angular/forms";
 import {finalize} from "rxjs";
-import {AnnouncementsService} from "../../core/services/announcements/announcements.service";
 import {MessageService} from "primeng/api";
 import {ValidationErrorAnimation} from "../../core/common/animations";
 import {ToastModule} from "primeng/toast";
@@ -20,7 +19,6 @@ import {SlickCarouselModule} from "ngx-slick-carousel";
 import {CarouselModule} from "primeng/carousel";
 import {TagModule} from "primeng/tag";
 import {BannerTemplateComponent} from "../../shared/components/home/banner-template/banner-template.component";
-import {TransportsService} from "../../core/services/transports/transports.service";
 import {environment} from "../../../environments/environment";
 import {RequestService} from "../../core/services/request/request.service";
 
@@ -61,9 +59,7 @@ export class HomeComponent implements OnInit {
   public totalPage: number = 0;
 
   constructor(
-    private _announcementsService: AnnouncementsService,
     private queryConfig: QueryService,
-    private transportService: TransportsService,
     private requestService: RequestService
   ) {
 
