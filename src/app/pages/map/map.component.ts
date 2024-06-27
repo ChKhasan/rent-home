@@ -1,25 +1,25 @@
-import {AfterViewInit, Component, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {AfterViewInit, Component, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {Router} from "@angular/router";
-import {FilterComponent} from "../../shared/components/announcement/filter/filter.component";
+import {FilterComponent} from "@components/announcement/filter/filter.component";
 import {AngularYandexMapsModule} from "angular8-yandex-maps";
 import {
   AnouncementMapCardComponent
-} from "../../shared/components/announcement/anouncement-map-card/anouncement-map-card.component";
-import {QueryService} from "../../core/services/query/query.service";
+} from "@components/announcement/anouncement-map-card/anouncement-map-card.component";
+import {QueryService} from "@services/query";
 import {finalize} from "rxjs";
 import {ButtonModule} from "primeng/button";
 import {StyleClassModule} from "primeng/styleclass";
-import {SubwayIconComponent} from "../../shared/icons/subway-icon/subway-icon.component";
-import {BusIconComponent} from "../../shared/icons/bus-icon/bus-icon.component";
-import {MiniBusIconComponent} from "../../shared/icons/mini-bus-icon/mini-bus-icon.component";
+import {SubwayIconComponent} from "@/shared/icons/subway-icon/subway-icon.component";
+import {BusIconComponent} from "@/shared/icons/bus-icon/bus-icon.component";
+import {MiniBusIconComponent} from "@/shared/icons/mini-bus-icon/mini-bus-icon.component";
 import {BadgeModule} from "primeng/badge";
-import {TOP_COLORS} from "../../core/constants/map";
-import {CryptoService} from "../../core/services/crypto/crypto.service";
-import {BottomSheetComponent} from "../../shared/components/modals/bottom-sheet/bottom-sheet.component";
-import {RequestService} from "../../core/services/request/request.service";
-import {environment} from "../../../environments/environment";
-import {IAnnouncement} from "../../core/interfaces/common.interface";
+import {TOP_COLORS} from "@/core/constants/map";
+import {CryptoService} from "@services/crypto";
+import {BottomSheetComponent} from "@components/modals/bottom-sheet/bottom-sheet.component";
+import {RequestService} from "@services/request";
+import {environment} from "@environments";
+import {IAnnouncement} from "@services/interfaces";
 
 @Component({
   selector: 'app-map',
@@ -93,6 +93,7 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.__GET_TRANSPORTS();
+    this.__GET_ANNOUNCEMENTS()
     if (typeof window !== "undefined") {
       this.activeTransports()
     }
@@ -320,7 +321,7 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   };
   __GET_ANNOUNCEMENTS = () => {
-    if (Object.keys(this.queryService.generatorHttpParams(this.queryService.activeQueryList())).length > 0) {
+    // if (Object.keys(this.queryService.generatorHttpParams(this.queryService.activeQueryList())).length > 0) {
       this.requestService.getData<IAnnouncement>(environment.urls.GET_ANNONCEMENTS,this.queryService.generatorHttpParams(this.queryService.activeQueryList()))
         .subscribe((response:IAnnouncement) => {
         if (typeof this.queryService.activeQueryList()['transports'] === 'string') {
@@ -334,13 +335,14 @@ export class MapComponent implements OnInit, AfterViewInit {
             geometry: [item.location_x, item.location_y]
           }
         });
+          console.log(this.announcements)
         if (this.announcements.length > 0)
           this.mapCenter = [
             this.announcements[0].location_x,
             this.announcements[0].location_y,
           ];
       })
-    }
+    // }
 
   }
 
@@ -387,5 +389,9 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
   closeBShInfo() {
     this.bottomSheetInfo.close()
+  }
+  handleClusterClick(e: any) {
+    console.log(e)
+    console.log("asdajsieyuqwy4328y8433284")
   }
 }

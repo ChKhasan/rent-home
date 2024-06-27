@@ -1,13 +1,15 @@
-import {Component, HostListener, Input, OnInit, ViewChild} from '@angular/core';
-import {NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterLink,Event} from "@angular/router";
+import {Component, ViewChild} from '@angular/core';
+import { Router, RouterLink} from "@angular/router";
 import {NgIf} from "@angular/common";
-import {CustomDropDownAnimation} from "../../../../core/common/animations";
 import {ToastModule} from "primeng/toast";
 import {RegisterDialogComponent} from "../../modals/register-dialog/register-dialog.component";
 import {AuthDialogComponent} from "../../modals/auth-dialog/auth-dialog.component";
-import {AuthService} from "../../../../core/services/auth/auth.service";
 import {NumberDialogComponent} from "../../modals/number-dialog/number-dialog.component";
 import {SmsDialogComponent} from "../../modals/sms-dialog/sms-dialog.component";
+import {DropdownModule} from "primeng/dropdown";
+import {FormsModule} from "@angular/forms";
+import {DropdownComponent} from "../../dropdown/dropdown.component";
+import {AuthService} from "@services/auth";
 
 @Component({
   selector: 'app-header',
@@ -19,19 +21,20 @@ import {SmsDialogComponent} from "../../modals/sms-dialog/sms-dialog.component";
     RegisterDialogComponent,
     AuthDialogComponent,
     NumberDialogComponent,
-    SmsDialogComponent
+    SmsDialogComponent,
+    DropdownModule,
+    FormsModule,
+    DropdownComponent
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
-  animations: [CustomDropDownAnimation]
 })
-export class HeaderComponent implements OnInit{
+export class HeaderComponent {
   @ViewChild(RegisterDialogComponent) registerDialogComponent!: RegisterDialogComponent;
   @ViewChild(AuthDialogComponent) authDialogComponent!: AuthDialogComponent;
   @ViewChild(NumberDialogComponent) numberDialogComponent!: NumberDialogComponent;
   @ViewChild(SmsDialogComponent) smsDialogComponent!: SmsDialogComponent;
   public profileDrop: Boolean = false
-
 constructor(
   public router: Router,
   public authService: AuthService
@@ -40,18 +43,6 @@ constructor(
   openRegisterDialog() {
     this.registerDialogComponent.showDialog();
   }
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
-    if (!(event.target as HTMLElement).closest('.dropdown')) {
-      this.profileDrop = false;
-    }
-  }
-  ngOnInit() {
-    this.router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationStart) {
-        this.profileDrop = false
-      }
-    });}
   openAuthDialog() {
     this.authDialogComponent.showDialog();
   }

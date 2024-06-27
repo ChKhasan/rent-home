@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {TagModule} from "primeng/tag";
-import {Announcement} from "../../../../core/interfaces/common.interface";
+import {Announcement} from "@services/interfaces";
 import {PriceBlockComponent} from "../price-block/price-block.component";
 import {GalleriaModule} from "primeng/galleria";
 

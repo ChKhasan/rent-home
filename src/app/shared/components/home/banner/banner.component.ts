@@ -2,19 +2,24 @@ import { Component } from '@angular/core';
 import {CascadeSelectModule} from "primeng/cascadeselect";
 import {FormsModule} from "@angular/forms";
 import {CheckboxModule} from "primeng/checkbox";
-import {RouterLink} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {SearchComponent} from "../../announcement/search/search.component";
+import {InputNumberModule} from "primeng/inputnumber";
+import {ButtonModule} from "primeng/button";
+import {QueryService} from "@services/query";
 
 @Component({
   selector: 'app-banner',
   standalone: true,
-    imports: [
-        CascadeSelectModule,
-        FormsModule,
-        CheckboxModule,
-        RouterLink,
-        SearchComponent
-    ],
+  imports: [
+    CascadeSelectModule,
+    FormsModule,
+    CheckboxModule,
+    RouterLink,
+    SearchComponent,
+    InputNumberModule,
+    ButtonModule
+  ],
   templateUrl: './banner.component.html',
   styleUrl: './banner.component.css'
 })
@@ -22,7 +27,12 @@ export class BannerComponent {
   countries: any[] | undefined;
   checked: boolean = false;
   selectedCity: any;
-
+  value1: number = 1;
+  constructor(
+    private router: Router,
+    private queryService: QueryService
+  ) {
+  }
   ngOnInit() {
     this.countries = [
       {
@@ -101,5 +111,12 @@ export class BannerComponent {
   }
   afterSendFilter = () => {
 
+  }
+  toFilter() {
+    let query = {...this.queryService.activeQueryList()};
+    query['need_people_count'] = this.value1
+    this.router.navigate(['/announcements'], {
+      queryParams: query
+    });
   }
 }

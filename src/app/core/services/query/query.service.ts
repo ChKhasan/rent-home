@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {QueryList} from "../../interfaces/common.interface";
+import {QueryList} from "@services/interfaces";
 import {ActivatedRoute, Router} from "@angular/router";
 import {HttpParams} from "@angular/common/http";
 

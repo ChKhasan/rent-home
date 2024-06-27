@@ -2,16 +2,18 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {GalleriaModule} from "primeng/galleria";
 import {TagModule} from "primeng/tag";
-import {InfoTabComponent} from "../../../shared/components/announcement/info-tab/info-tab.component";
-import {SearchComponent} from "../../../shared/components/announcement/search/search.component";
+import {InfoTabComponent} from "@components/announcement/info-tab/info-tab.component";
+import {SearchComponent} from "@components/announcement/search/search.component";
 import {ButtonModule} from "primeng/button";
 import {animate, style, transition, trigger} from "@angular/animations";
-import {PriceBlockComponent} from "../../../shared/components/announcement/price-block/price-block.component";
-import {Announcement} from "../../../core/interfaces/common.interface";
+import {PriceBlockComponent} from "@components/announcement/price-block/price-block.component";
+import {Announcement} from "@services/interfaces";
 import {SkeletonModule} from "primeng/skeleton";
 import {StyleClassModule} from "primeng/styleclass";
-import {environment} from "../../../../environments/environment";
-import {RequestService} from "../../../core/services/request/request.service";
+import {environment} from "@environments";
+import {RequestService} from "@services/request";
+import {ThumbCarouselComponent} from "@components/announcement/thumb-carousel/thumb-carousel.component";
+import {AboutComponent} from "@components/announcement/about/about.component";
 
 @Component({
   selector: 'app-view',
@@ -24,7 +26,9 @@ import {RequestService} from "../../../core/services/request/request.service";
     ButtonModule,
     PriceBlockComponent,
     SkeletonModule,
-    StyleClassModule
+    StyleClassModule,
+    ThumbCarouselComponent,
+    AboutComponent
   ],
   templateUrl: './view.component.html',
   styleUrl: './view.component.css',

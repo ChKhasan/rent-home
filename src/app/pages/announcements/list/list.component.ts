@@ -1,21 +1,19 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {finalize} from "rxjs";
 import {RouterLink} from "@angular/router";
-import {PaginationComponent} from "../../../shared/components/pagination/pagination.component";
+import {PaginationComponent} from "@components/pagination/pagination.component";
 import {NgForOf, NgIf} from "@angular/common";
 import {SkeletonModule} from "primeng/skeleton";
-import {QueryService} from "../../../core/services/query/query.service";
-import {
-  MyAnnouncementsCardComponent
-} from "../../../shared/components/cards/my-announcements-card/my-announcements-card.component";
-import {FilterComponent} from "../../../shared/components/announcement/filter/filter.component";
-import {SearchComponent} from "../../../shared/components/announcement/search/search.component";
-import {BottomSheetComponent} from "../../../shared/components/modals/bottom-sheet/bottom-sheet.component";
-import {EmptyFoundComponent} from "../../../shared/components/empty-found/empty-found.component";
-import {SORT_OPTIONS} from "../../../core/constants/filter";
-import {RequestService} from "../../../core/services/request/request.service";
-import {environment} from "../../../../environments/environment";
-import {IAnnouncement} from "../../../core/interfaces/common.interface";
+import {QueryService} from "@services/query";
+import { MyAnnouncementsCardComponent } from "@components/cards/my-announcements-card/my-announcements-card.component";
+import {FilterComponent} from "@components/announcement/filter/filter.component";
+import {SearchComponent} from "@components/announcement/search/search.component";
+import {BottomSheetComponent} from "@components/modals/bottom-sheet/bottom-sheet.component";
+import {EmptyFoundComponent} from "@components/empty-found/empty-found.component";
+import {SORT_OPTIONS} from "@/core/constants/filter";
+import {RequestService} from "@services/request";
+import {environment} from "@environments";
+import {IAnnouncement} from "@services/interfaces";
 @Component({
   selector: 'app-list',
   standalone: true,

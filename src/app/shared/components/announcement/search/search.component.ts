@@ -2,13 +2,13 @@ import {Component, Input, OnInit} from '@angular/core';
 import {CheckboxModule} from "primeng/checkbox";
 import {FormsModule} from "@angular/forms";
 import {AutoCompleteModule} from "primeng/autocomplete";
-import {QueryService} from "../../../../core/services/query/query.service";
+import {QueryService} from "@services/query";
 import {Router} from "@angular/router";
 import {ButtonModule} from "primeng/button";
 import {HttpParams} from "@angular/common/http";
 import {MultiSelectModule} from "primeng/multiselect";
-import {RequestService} from "../../../../core/services/request/request.service";
-import {environment} from "../../../../../environments/environment";
+import {RequestService} from "@services/request";
+import {environment} from "@environments";
 
 interface AutoCompleteCompleteEvent {
   originalEvent: Event;

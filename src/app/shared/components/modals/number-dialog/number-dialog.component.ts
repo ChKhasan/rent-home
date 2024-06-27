@@ -7,10 +7,10 @@ import {InputTextModule} from "primeng/inputtext";
 import {InvaidTextComponent} from "../../form/invaid-text/invaid-text.component";
 import {NgClass, NgIf} from "@angular/common";
 import {PasswordModule} from "primeng/password";
-import {numberControl} from "../../../../core/common/form-control";
+import {numberControl} from "@/core/common/form-control";
 import {finalize} from "rxjs";
-import {RequestService} from "../../../../core/services/request/request.service";
-import {environment} from "../../../../../environments/environment";
+import {RequestService} from "@services/request";
+import {environment} from "@environments";
 
 @Component({
   selector: 'app-number-dialog',

@@ -17,7 +17,6 @@ export class RequestService {
       distinctUntilChanged(),
     );
   }
-
   requestData<T>(
     url: string,
     method: 'POST' | 'PATCH' | 'DELETE' | 'PUT',

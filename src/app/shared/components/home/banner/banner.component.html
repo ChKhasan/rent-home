@@ -85,15 +85,27 @@
                   /></svg
                 >Necha kishi?
               </h5>
-              <p-cascadeSelect [(ngModel)]="selectedCity" [options]="countries" optionLabel="cname" optionGroupLabel="name" [optionGroupChildren]="['states', 'cities']" [style]="{ minWidth: '14rem' }" placeholder="Manzilni kiriting"></p-cascadeSelect>
+              <p-inputNumber
+                class="max-w-[100px]"
+                styleClass="max-w-[100px]"
+                [inputStyleClass]="'max-w-[100px]'"
+                [(ngModel)]="value1"
+                [showButtons]="true"
+                buttonLayout="horizontal"
+                spinnerMode="horizontal"
+                inputId="vertical"
+                [min]="1"
+                incrementButtonIcon="pi pi-plus"
+                decrementButtonIcon="pi pi-minus" />
             </div>
           </div>
           <div class="flex flex-col justify-between">
-            <a routerLink="/announcements"
+            <button
+              (click)="toFilter()"
               class="w-100 py-[14px] bg-[color:var(--green)] rounded-[8px] text-white font-600 flex justify-center"
             >
               Qidirish
-            </a>
+            </button>
             <div class="flex gap-[12px] items-center">
               <p-checkbox [(ngModel)]="checked" [binary]="true" inputId="binary"></p-checkbox>
               <span (click)="checked = !checked" class="text-[color:var(--dark-3)] cursor-pointer ">

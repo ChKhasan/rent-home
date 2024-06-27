@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SubwayIconComponent } from './subway-icon.component';
+import { DropdownComponent } from './dropdown.component';
 
-describe('SubwayIconComponent', () => {
-  let component: SubwayIconComponent;
-  let fixture: ComponentFixture<SubwayIconComponent>;
+describe('DropdownComponent', () => {
+  let component: DropdownComponent;
+  let fixture: ComponentFixture<DropdownComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SubwayIconComponent]
+      imports: [DropdownComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(SubwayIconComponent);
+    fixture = TestBed.createComponent(DropdownComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

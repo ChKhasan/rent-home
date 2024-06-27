@@ -5,11 +5,11 @@ import {
   descControl,
   titleControl
 } from "../../common/form-control";
-import {ToastService} from "../toast/toast.service";
+import {ToastService} from "@services/toast";
 import {Router} from "@angular/router";
 import {finalize} from "rxjs";
-import {RequestService} from "../request/request.service";
-import {environment} from "../../../../environments/environment";
+import {RequestService} from "@services/request";
+import {environment} from "@environments";
 
 @Injectable({
   providedIn: "root",

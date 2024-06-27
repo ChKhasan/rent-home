@@ -1,13 +1,12 @@
 import {Component, Input, ViewChild} from '@angular/core';
 import {ButtonModule} from "primeng/button";
-import {Announcement} from "../../../../core/interfaces/common.interface";
+import {Announcement} from "@services/interfaces";
 import {CurrencyPipe, NgIf} from "@angular/common";
 import {PricePipe} from "../../../pipes/price/price.pipe";
 import {SkeletonModule} from "primeng/skeleton";
-import {QueryService} from "../../../../core/services/query/query.service";
 import {Router} from "@angular/router";
 import {AuthDialogComponent} from "../../modals/auth-dialog/auth-dialog.component";
-import {AuthService} from "../../../../core/services/auth/auth.service";
+import {AuthService} from "@services/auth";
 
 @Component({
   selector: 'app-price-block',

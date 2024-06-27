@@ -7,13 +7,13 @@ import {InputTextModule} from "primeng/inputtext";
 import {NgClass, NgIf} from "@angular/common";
 import {PaginatorModule} from "primeng/paginator";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {ValidationErrorAnimation} from "../../../../core/common/animations";
+import {ValidationErrorAnimation} from "@animations";
 import {InvaidTextComponent} from "../../form/invaid-text/invaid-text.component";
-import {ToastService} from "../../../../core/services/toast/toast.service";
 import {PasswordModule} from "primeng/password";
 import {finalize} from "rxjs";
-import {environment} from "../../../../../environments/environment";
-import {RequestService} from "../../../../core/services/request/request.service";
+import {environment} from "@environments";
+import {ToastService} from "@services/toast";
+import {RequestService} from "@services/request";
 @Component({
   selector: 'app-register-dialog',
   standalone: true,

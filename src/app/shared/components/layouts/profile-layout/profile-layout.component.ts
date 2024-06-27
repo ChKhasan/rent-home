@@ -3,11 +3,7 @@ import {NavigationEnd, Router, RouterOutlet} from "@angular/router";
 import {FooterComponent} from "../footer/footer.component";
 import {HeaderComponent} from "../header/header.component";
 import {BottomBarComponent} from "../bottom-bar/bottom-bar.component";
-import {LikesService} from "../../../../core/services/likes/likes.service";
-import {AuthService} from "../../../../core/services/auth/auth.service";
 import {Location, NgClass, NgIf} from "@angular/common";
-import {ChatService} from "../../../../core/services/chat/chat.service";
-import {MessageService} from "primeng/api";
 import {filter} from "rxjs";
 @Component({
   selector: 'app-profile-layout',

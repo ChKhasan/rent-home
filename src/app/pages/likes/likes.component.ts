@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
-import {QueryService} from "../../core/services/query/query.service";
+import {QueryService} from "@services/query";
 import {finalize} from "rxjs";
 import {
   AnnouncementsCardComponent
-} from "../../shared/components/cards/announcements-card/announcements-card.component";
+} from "@components/cards/announcements-card/announcements-card.component";
 import {NgForOf, NgIf} from "@angular/common";
-import {PaginationComponent} from "../../shared/components/pagination/pagination.component";
+import {PaginationComponent} from "@components/pagination/pagination.component";
 import {SkeletonModule} from "primeng/skeleton";
-import {RequestService} from "../../core/services/request/request.service";
-import {environment} from "../../../environments/environment";
-import {IAnnouncement} from "../../core/interfaces/common.interface";
+import {RequestService} from "@services/request";
+import {environment} from "@environments";
+import {IAnnouncement} from "@services/interfaces";
 
 @Component({
   selector: 'app-likes',

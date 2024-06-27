@@ -88,49 +88,7 @@
     <div class="carousel mt-8">
       <div class="body-container">
         <div class="card">
-          <p-skeleton *ngIf="loading, else carousel" class="w-full flex mt-5 h-[420px]"
-                      styleClass="ng_skeleton h-10"></p-skeleton>
-          <ng-template #carousel>
-            <div class="primeng-carousel relative">
-              <button class="absolute top-0 right-0 z-50" pButton type="button" icon="pi pi-external-link"
-                      (click)="displayBasic = true"></button>
-
-              <p-galleria [(activeIndex)]="activeIndex" [value]="images" [showIndicators]="false"
-                          [showItemNavigatorsOnHover]="true" [transitionInterval]="3000" [@fadeAnimation]="'true'"
-                          [thumbnailsPosition]="'bottom'" [containerStyle]="{ 'max-width': '100%' }"
-                          [numVisible]="4">
-                <ng-template pTemplate="item" let-item>
-                  <img [@fadeAnimation]="'true'" [class.jump-animation]="images.indexOf(item) === activeIndex"
-                       [src]="item.image"
-                       style="width: 100%; max-height: 420px; display: block;object-fit: contain"/>
-                </ng-template>
-                <ng-template pTemplate="thumbnail" let-item>
-                  <div class="grid grid-nogutter justify-content-center">
-                    <img [src]="item.image" style="max-height: 60px;"/>
-                  </div>
-                </ng-template>
-              </p-galleria>
-            </div>
-          </ng-template>
-          <p-skeleton *ngIf="loading, else thumb" class="w-full flex mt-5 h-[91px]"
-                      styleClass="ng_skeleton h-10"></p-skeleton>
-          <ng-template #thumb>
-            <div class="card flex justify-content-center">
-              <p-galleria [value]="images" [(visible)]="displayBasic" [responsiveOptions]="responsiveOptions"
-                          [containerStyle]="{'max-width': '50%'}" [numVisible]="9"
-                          [circular]="true" [fullScreen]="true" [showItemNavigators]="true">
-                <ng-template pTemplate="item" let-item>
-                  <img [src]="item.image" style="width: 100%; display: block;"/>
-                </ng-template>
-                <ng-template pTemplate="thumbnail" let-item>
-                  <div class="grid grid-nogutter justify-content-center">
-                    <img [src]="item.image" style="display: block;"/>
-                  </div>
-                </ng-template>
-              </p-galleria>
-            </div>
-          </ng-template>
-
+          <app-thumb-carousel [images]="images"></app-thumb-carousel>
         </div>
         <app-price-block [loading]="loading" [announcement]="announcement"></app-price-block>
       </div>
@@ -147,24 +105,25 @@
           <!--                  </ng-template>-->
 
           <div class="mt-[30px]">
-            <div class="flex justify-between w-full md:flex-col md:gap-1">
-              <h4 class="text-[18px] font-600">Qulayliklar</h4>
-              <p-skeleton *ngIf="loading, else items" class="w-[300px] flex mt-5 h-[26px]"
-                          styleClass="ng_skeleton h-10"></p-skeleton>
-              <ng-template #items>
-                <div class="flex gap-4">
-                  <p-tag [icon]="announcement.conditioner ? 'pi pi-check':'pi pi-times'"
-                         [severity]="announcement.conditioner ? 'success':'danger'"
-                         class="bg-[--green]"
-                         value="Konditsioner"></p-tag>
-                  <p-tag icon="pi pi-check" severity="success" value="Kir yuvish mashinasi"></p-tag>
-                  <p-tag [icon]="announcement.washing_machine ? 'pi pi-check':'pi pi-times'"
-                         [severity]="announcement.washing_machine ? 'success':'danger'"
-                         value="Konditsioner"></p-tag>
-                </div>
-              </ng-template>
+            <app-about [announcement]="announcement"></app-about>
+<!--            <div class="flex justify-between w-full md:flex-col md:gap-1">-->
+<!--              <h4 class="text-[18px] font-600">Qulayliklar</h4>-->
+<!--              <p-skeleton *ngIf="loading, else items" class="w-[300px] flex mt-5 h-[26px]"-->
+<!--                          styleClass="ng_skeleton h-10"></p-skeleton>-->
+<!--              <ng-template #items>-->
+<!--                <div class="flex gap-4">-->
+<!--                  <p-tag [icon]="announcement.conditioner ? 'pi pi-check':'pi pi-times'"-->
+<!--                         [severity]="announcement.conditioner ? 'success':'danger'"-->
+<!--                         class="bg-[&#45;&#45;green]"-->
+<!--                         value="Konditsioner"></p-tag>-->
+<!--                  <p-tag icon="pi pi-check" severity="success" value="Kir yuvish mashinasi"></p-tag>-->
+<!--                  <p-tag [icon]="announcement.washing_machine ? 'pi pi-check':'pi pi-times'"-->
+<!--                         [severity]="announcement.washing_machine ? 'success':'danger'"-->
+<!--                         value="Konditsioner"></p-tag>-->
+<!--                </div>-->
+<!--              </ng-template>-->
 
-            </div>
+<!--            </div>-->
           </div>
         </div>
       </div>

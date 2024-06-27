@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {debounceTime, distinctUntilChanged, map, Observable} from "rxjs";
-import {environment} from "../../../../environments/environment";
-import {CommentPayload,CommentResponse} from "../../interfaces/common.interface";
+import {environment} from "@environments";
+import {CommentPayload,CommentResponse} from "@services/interfaces";
 import {HttpClient, HttpParams, HttpResponse} from "@angular/common/http";
 
 @Injectable({

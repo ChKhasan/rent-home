@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from "rxjs";
-import {UserInfo} from "../../interfaces/common.interface";
-import {environment} from "../../../../environments/environment";
+import {UserInfo} from "@services/interfaces";
+import {environment} from "@environments";
 import {Location} from "@angular/common";
 import {Router} from "@angular/router";
-import {RequestService} from "../request/request.service";
+import {RequestService} from "@services/request";
 
 @Injectable({
   providedIn: 'root'

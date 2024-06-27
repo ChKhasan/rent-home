@@ -1,12 +1,12 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ButtonModule} from "primeng/button";
-import {CommentResponse, UserImages} from "../../../../core/interfaces/common.interface";
-import {CommentsService} from "../../../../core/services/comments/comments.service";
+import {CommentResponse, UserImages} from "@services/interfaces";
+import {CommentsService} from "@services/comments";
 import {ActivatedRoute} from "@angular/router";
-import {QueryService} from "../../../../core/services/query/query.service";
-import {WebSocketService} from "../../../../core/services/webSocket/web-socket.service";
-import {AuthService} from "../../../../core/services/auth/auth.service";
-import {environment} from "../../../../../environments/environment";
+import {QueryService} from "@services/query";
+import {WebSocketService} from "@services/webSocket";
+import {AuthService} from "@services/auth";
+import {environment} from "@environments";
 import {DatePipe, NgForOf, NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {AuthDialogComponent} from "../../modals/auth-dialog/auth-dialog.component";

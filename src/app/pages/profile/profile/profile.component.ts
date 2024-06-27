@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {TabComponent} from "../../../shared/components/profile/tab/tab.component";
+import {TabComponent} from "@components/profile/tab/tab.component";
 import {InputMaskModule} from "primeng/inputmask";
 import {InputNumberModule} from "primeng/inputnumber";
 import {InputTextModule} from "primeng/inputtext";
-import {InvaidTextComponent} from "../../../shared/components/form/invaid-text/invaid-text.component";
+import {InvaidTextComponent} from "@components/form/invaid-text/invaid-text.component";
 import {NgClass, NgIf} from "@angular/common";
 import {PaginatorModule} from "primeng/paginator";
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
@@ -11,15 +11,15 @@ import {
   emailControl,
   firstControl, lastControl,
   nameControl,
-} from "../../../core/common/form-control";
-import {AuthService} from "../../../core/services/auth/auth.service";
-import {ToastService} from "../../../core/services/toast/toast.service";
-import {UserImages, UserInfo} from "../../../core/interfaces/common.interface";
+} from "@/core/common/form-control";
+import {AuthService} from "@services/auth";
+import {ToastService} from "@services/toast";
+import {UserImages, UserInfo} from "@services/interfaces";
 import {ButtonModule} from "primeng/button";
 import {FileUploadModule} from "primeng/fileupload";
-import {environment} from "../../../../environments/environment";
+import {environment} from "@environments";
 import {HttpHeaders} from "@angular/common/http";
-import {RequestService} from "../../../core/services/request/request.service";
+import {RequestService} from "@services/request";
 import {finalize} from "rxjs";
 
 @Component({

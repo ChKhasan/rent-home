@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {CommentResponse} from "../../../../core/interfaces/common.interface";
+import {CommentResponse} from "@services/interfaces";
 import {DatePipe, NgForOf} from "@angular/common";
 import {AvatarModule} from "primeng/avatar";
 import {FieldsetModule} from "primeng/fieldset";

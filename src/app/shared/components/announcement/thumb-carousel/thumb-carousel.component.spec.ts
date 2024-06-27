@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MiniBusIconComponent } from './mini-bus-icon.component';
+import { ThumbCarouselComponent } from './thumb-carousel.component';
 
-describe('MiniBusIconComponent', () => {
-  let component: MiniBusIconComponent;
-  let fixture: ComponentFixture<MiniBusIconComponent>;
+describe('ThumbCarouselComponent', () => {
+  let component: ThumbCarouselComponent;
+  let fixture: ComponentFixture<ThumbCarouselComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MiniBusIconComponent]
+      imports: [ThumbCarouselComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(MiniBusIconComponent);
+    fixture = TestBed.createComponent(ThumbCarouselComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,0 +1,27 @@
+:host ::ng-deep .owl-prev,
+:host ::ng-deep .owl-next
+{
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background-color: var(--green) !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  top: 195px;
+  box-shadow: 0px 0px 12px 0px #00000040;
+  z-index: 100
+}
+:host ::ng-deep .owl-prev {
+  transform: rotate(180deg);
+  left: -15px;
+}
+:host ::ng-deep .owl-next {
+  right: -15px;
+}
+.owl-carousel .owl-item img {
+  display: block;
+  width: 100%;
+  height: auto;
+}

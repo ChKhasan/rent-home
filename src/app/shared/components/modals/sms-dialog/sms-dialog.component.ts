@@ -8,8 +8,8 @@ import {NgClass} from "@angular/common";
 import {InputTextModule} from "primeng/inputtext";
 import {ButtonModule} from "primeng/button";
 import {InputOtpModule} from "primeng/inputotp";
-import {environment} from "../../../../../environments/environment";
-import {RequestService} from "../../../../core/services/request/request.service";
+import {environment} from "@environments";
+import {RequestService} from "@services/request";
 
 @Component({
   selector: 'app-sms-dialog',

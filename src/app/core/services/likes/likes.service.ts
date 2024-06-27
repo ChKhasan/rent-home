@@ -4,8 +4,8 @@ import {
   HttpResponse,
 } from "@angular/common/http";
 import {debounceTime, distinctUntilChanged, map, Observable} from "rxjs";
-import {environment} from "../../../../environments/environment";
-import {Announcement, Likes} from "../../interfaces/common.interface";
+import {environment} from "@environments";
+import {Announcement, Likes} from "@services/interfaces";
 
 @Injectable({
   providedIn: 'root'

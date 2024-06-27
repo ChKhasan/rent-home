@@ -1,7 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {
   AnnouncementFormComponent
-} from "../../../shared/components/announcement/announcement-form/announcement-form.component";
+} from "@components/announcement/announcement-form/announcement-form.component";
 
 @Component({
   selector: 'app-create',

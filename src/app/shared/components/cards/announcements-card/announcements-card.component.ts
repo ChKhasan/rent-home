@@ -1,10 +1,11 @@
 import {Component, Input} from '@angular/core';
 import {NgIf, NgOptimizedImage} from "@angular/common";
-import {LikesService} from "../../../../core/services/likes/likes.service";
-import {AuthService} from "../../../../core/services/auth/auth.service";
+import {LikesService} from "@services/likes";
+import {AuthService} from "@services/auth";
 import {RouterLink} from "@angular/router";
 import {ButtonModule} from "primeng/button";
 import {finalize} from "rxjs";
+import {TooltipModule} from "primeng/tooltip";
 
 @Component({
   selector: 'app-announcements-card',
@@ -13,7 +14,8 @@ import {finalize} from "rxjs";
     NgIf,
     RouterLink,
     NgOptimizedImage,
-    ButtonModule
+    ButtonModule,
+    TooltipModule
   ],
   templateUrl: './announcements-card.component.html',
   styleUrl: './announcements-card.component.css'

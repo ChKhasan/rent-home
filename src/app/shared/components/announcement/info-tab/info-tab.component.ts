@@ -3,7 +3,7 @@ import {DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import {AngularYandexMapsModule} from "angular8-yandex-maps";
 import {CommentDialogComponent} from "../../modals/comment-dialog/comment-dialog.component";
 import {CommentCardComponent} from "../../cards/comment-card/comment-card.component";
-import {AuthService} from "../../../../core/services/auth/auth.service";
+import {AuthService} from "@services/auth";
 import {FieldsetModule} from "primeng/fieldset";
 import {AvatarModule} from "primeng/avatar";
 import {CommentBlockComponent} from "../comment-block/comment-block.component";

@@ -3,7 +3,7 @@ import {Location, NgClass, NgForOf, NgIf} from "@angular/common";
 import {DomSanitizer} from "@angular/platform-browser";
 import {NavigationEnd, Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {AuthDialogComponent} from "../../modals/auth-dialog/auth-dialog.component";
-import {AuthService} from "../../../../core/services/auth/auth.service";
+import {AuthService} from "@services/auth";
 import {RegisterDialogComponent} from "../../modals/register-dialog/register-dialog.component";
 import {filter} from "rxjs";
 

@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {ValidationErrorAnimation} from "../../../../core/common/animations";
+import {ValidationErrorAnimation} from "@animations";
 
 @Component({
   selector: 'app-invaid-text',

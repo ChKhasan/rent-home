@@ -106,7 +106,7 @@
         <div class="h-[40vh] flex items-center justify-center" *ngIf="announcements.length === 0 && !loading">
           <app-empty-found></app-empty-found>
         </div>
-        <div class="flex justify-center mt-6" *ngIf="announcements?.length > 0">
+        <div class="flex justify-center mt-6">
 
           <app-pagination [getData]="__GET_ANNOUNCEMENTS" [totalPage]="totalPage"></app-pagination>
         </div>

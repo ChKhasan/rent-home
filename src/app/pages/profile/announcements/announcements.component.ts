@@ -2,16 +2,16 @@ import {Component, OnInit} from '@angular/core';
 import {RouterLink} from "@angular/router";
 import {
   MyAnnouncementsCardComponent
-} from "../../../shared/components/cards/my-announcements-card/my-announcements-card.component";
+} from "@components/cards/my-announcements-card/my-announcements-card.component";
 import {NgForOf, NgIf} from "@angular/common";
 import {SkeletonModule} from "primeng/skeleton";
-import {PaginationComponent} from "../../../shared/components/pagination/pagination.component";
+import {PaginationComponent} from "@components/pagination/pagination.component";
 import {finalize} from "rxjs";
-import {IAnnouncement} from "../../../core/interfaces/common.interface";
-import {QueryService} from "../../../core/services/query/query.service";
-import {TabComponent} from "../../../shared/components/profile/tab/tab.component";
-import {RequestService} from "../../../core/services/request/request.service";
-import {environment} from "../../../../environments/environment";
+import {IAnnouncement} from "@services/interfaces";
+import {QueryService} from "@services/query";
+import {TabComponent} from "@components/profile/tab/tab.component";
+import {RequestService} from "@services/request";
+import {environment} from "@environments";
 
 @Component({
   selector: 'app-announcements',

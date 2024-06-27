@@ -13,7 +13,11 @@
         alt=""
         height="455" width="845"/>
     </ng-template>
-    <button pButton [loading]="loading" class="md:right-2 md:top-[7px] md:rounded-[4px] overflow-hidden min-h-8 md:min-h-5 md:min-w-5 min-w-8 flex items-center justify-center absolute top-[18px] right-[18px] px-0 py-0" (click)="check_auth(announcement?.id)">
+    <button pButton
+            pTooltip="Добавить в избранное"
+            tooltipPosition="left"
+            [loading]="loading"
+            class="md:right-2 md:top-[7px] md:rounded-[4px] overflow-hidden min-h-8 md:min-h-5 md:min-w-5 min-w-8 flex items-center justify-center absolute top-[18px] right-[18px] px-0 py-0" (click)="check_auth(announcement?.id)">
     <span *ngIf="!loading">
 
       <svg

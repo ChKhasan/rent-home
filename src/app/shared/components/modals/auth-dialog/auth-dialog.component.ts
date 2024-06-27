@@ -7,17 +7,15 @@ import {InputTextModule} from "primeng/inputtext";
 import {NgClass, NgIf} from "@angular/common";
 import {PaginatorModule} from "primeng/paginator";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {ValidationErrorAnimation} from "../../../../core/common/animations";
+import {ValidationErrorAnimation} from "@animations";
 import {InvaidTextComponent} from "../../form/invaid-text/invaid-text.component";
-import {AuthService} from "../../../../core/services/auth/auth.service";
-import {ToastService} from "../../../../core/services/toast/toast.service";
-import {environment} from "../../../../../environments/environment";
+import {environment} from "@environments";
 import {Router} from "@angular/router";
 import {finalize} from "rxjs";
 import {PasswordModule} from "primeng/password";
-import {WebSocketService} from "../../../../core/services/webSocket/web-socket.service";
-import {Announcement} from "../../../../core/interfaces/common.interface";
-import {RequestService} from "../../../../core/services/request/request.service";
+import {RequestService} from "@services/request";
+import {ToastService} from "@services/toast";
+import {AuthService} from "@services/auth";
 
 @Component({
   selector: 'app-auth-dialog',
@@ -46,7 +44,7 @@ export class AuthDialogComponent {
   @Input() url: string | undefined
   @Input() afterComplite: Function | undefined
   public ruleForm = new FormGroup({
-    password: new FormControl(undefined, [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[a-z])(?=.*\d).*$/)]),
+    password: new FormControl('', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[a-z])(?=.*\d).*$/)]),
     phone_number: new FormControl('', [Validators.required, Validators.pattern(/^\d{2} \d{3} \d{2} \d{2}$/)]),
   })
 

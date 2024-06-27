@@ -4,9 +4,9 @@ import {AngularYandexMapsModule} from "angular8-yandex-maps";
 import {NgForOf, NgIf} from "@angular/common";
 import {ButtonModule} from "primeng/button";
 import {finalize} from "rxjs";
-import {CryptoService} from "../../../../core/services/crypto/crypto.service";
-import {RequestService} from "../../../../core/services/request/request.service";
-import {environment} from "../../../../../environments/environment";
+import {CryptoService} from "@services/crypto";
+import {RequestService} from "@services/request";
+import {environment} from "@environments";
 
 @Component({
   selector: 'app-map-dialog',

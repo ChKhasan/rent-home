@@ -47,3 +47,39 @@
     height: 259px !important;
   }
 }
+.owl-carousel .owl-item img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.custom-carousel-container {
+  position: relative;
+  width: 100%;
+}
+
+.custom-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.prev {
+  left: 10px;
+}
+
+.next {
+  right: 10px;
+}
+
+.custom-nav:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+
+

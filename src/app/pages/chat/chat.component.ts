@@ -10,26 +10,26 @@ import {
 } from '@angular/core';
 import {
   MyAnnouncementsCardComponent
-} from "../../shared/components/cards/my-announcements-card/my-announcements-card.component";
+} from "@components/cards/my-announcements-card/my-announcements-card.component";
 import {DatePipe, NgClass, NgForOf, NgIf, NgTemplateOutlet} from "@angular/common";
-import {PaginationComponent} from "../../shared/components/pagination/pagination.component";
+import {PaginationComponent} from "@components/pagination/pagination.component";
 import {SkeletonModule} from "primeng/skeleton";
 import {NavigationExtras, Router, RouterLink} from "@angular/router";
-import {ChatUserListComponent} from "../../shared/components/profile/chat-user-list/chat-user-list.component";
-import {AuthDialogComponent} from "../../shared/components/modals/auth-dialog/auth-dialog.component";
+import {ChatUserListComponent} from "@components/profile/chat-user-list/chat-user-list.component";
+import {AuthDialogComponent} from "@components/modals/auth-dialog/auth-dialog.component";
 import {ButtonModule} from "primeng/button";
 import {FormsModule} from "@angular/forms";
-import {RegisterDialogComponent} from "../../shared/components/modals/register-dialog/register-dialog.component";
-import {IMessage, IMessageObj, IUserRooms} from "../../core/interfaces/common.interface";
-import {QueryService} from "../../core/services/query/query.service";
-import {AuthService} from "../../core/services/auth/auth.service";
+import {RegisterDialogComponent} from "@components/modals/register-dialog/register-dialog.component";
+import {IMessage, IMessageObj, IUserRooms} from "@services/interfaces";
+import {QueryService} from "@services/query";
+import {AuthService} from "@services/auth";
 import {BadgeModule} from "primeng/badge";
 import {ToastModule} from "primeng/toast";
 import {RippleModule} from "primeng/ripple";
 import {AvatarModule} from "primeng/avatar";
-import {ChatService} from "../../core/services/chat/chat.service";
+import {ChatService} from "@services/chat";
 import {debounceTime, finalize, fromEvent} from "rxjs";
-import {TabComponent} from "../../shared/components/profile/tab/tab.component";
+import {TabComponent} from "@components/profile/tab/tab.component";
 import {animate, style, transition, trigger} from "@angular/animations";
 
 @Component({

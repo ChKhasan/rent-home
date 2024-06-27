@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {debounceTime, distinctUntilChanged, finalize, Observable} from "rxjs";
-import {IMessageObj, IUserRooms, UserImages} from "../../interfaces/common.interface";
-import {environment} from "../../../../environments/environment";
-import {WebSocketService} from "../webSocket/web-socket.service";
+import {IMessageObj, IUserRooms} from "@services/interfaces";
+import {environment} from "@environments";
 import {WebSocketSubject} from "rxjs/internal/observable/dom/WebSocketSubject";
 import {webSocket} from "rxjs/webSocket";
-import {RequestService} from "../request/request.service";
+import {RequestService} from "@services/request";
 
 @Injectable({
   providedIn: 'root'

@@ -20,6 +20,23 @@
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["app/*"],
+      "@animations": ["app/core/common/animations"],
+      "@components/*": ["app/shared/components/*"],
+      "@environments": ["environments/environment"],
+      "@services/request": ["app/core/services/request/request.service"],
+      "@services/likes": ["app/core/services/likes/likes.service"],
+      "@services/query": ["app/core/services/query/query.service"],
+      "@services/toast": ["app/core/services/toast/toast.service"],
+      "@services/comments": ["app/core/services/comments/comments.service"],
+      "@services/chat": ["app/core/services/chat/chat.service"],
+      "@services/auth": ["app/core/services/auth/auth.service"],
+      "@services/crypto": ["app/core/services/crypto/crypto.service"],
+      "@services/interfaces": ["app/core/interfaces/common.interface"],
+      "@services/webSocket": ["app/core/services/webSocket/web-socket.service"]
+    },
     "lib": [
       "ES2022",
       "dom"

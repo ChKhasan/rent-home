@@ -1,12 +1,12 @@
-import {Component, Input, OnInit} from '@angular/core';
+  import {Component, Input, OnInit} from '@angular/core';
 import {NgForOf, NgIf} from "@angular/common";
 import {CheckboxModule} from "primeng/checkbox";
 import {FormsModule} from "@angular/forms";
 import {InputNumberModule} from "primeng/inputnumber";
 import {ButtonModule} from "primeng/button";
 import {SliderModule} from "primeng/slider";
-import {FilterForm} from "../../../../core/interfaces/common.interface";
-import {QueryService} from "../../../../core/services/query/query.service";
+import {FilterForm} from "@services/interfaces";
+import {QueryService} from "@services/query";
 
 @Component({
   selector: 'app-filter',

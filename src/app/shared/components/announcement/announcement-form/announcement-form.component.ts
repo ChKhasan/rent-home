@@ -3,7 +3,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {InputTextModule} from "primeng/inputtext";
 import {InvaidTextComponent} from "../../form/invaid-text/invaid-text.component";
 import {NgClass, NgForOf, NgIf, NgOptimizedImage, Location} from "@angular/common";
-import {FormService} from "../../../../core/services/announcements/form.service";
+import {FormService} from "@/core/services/announcements/form.service";
 import {TooltipModule} from "primeng/tooltip";
 import {ButtonModule} from "primeng/button";
 import {ToastModule} from "primeng/toast";
@@ -16,11 +16,11 @@ import {InputNumberModule} from "primeng/inputnumber";
 import {ImageModule} from "primeng/image";
 import {RippleModule} from "primeng/ripple";
 import {HttpHeaders} from "@angular/common/http";
-import {environment} from "../../../../../environments/environment";
+import {environment} from "@environments";
 import {ActivatedRoute, RouterLink} from "@angular/router";
 import {MapDialogComponent} from "../../modals/map-dialog/map-dialog.component";
-import {RequestService} from "../../../../core/services/request/request.service";
-import {Announcement} from "../../../../core/interfaces/common.interface";
+import {RequestService} from "@services/request";
+import {Announcement} from "@services/interfaces";
 
 interface UploadEvent {
   originalEvent: Event;

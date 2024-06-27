@@ -7,9 +7,9 @@ import {InputTextModule} from "primeng/inputtext";
 import {InvaidTextComponent} from "../../form/invaid-text/invaid-text.component";
 import {NgClass, NgIf} from "@angular/common";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {ToastService} from "../../../../core/services/toast/toast.service";
-import {CommentsService} from "../../../../core/services/comments/comments.service";
-import { CommentPayload} from '../../../../core/interfaces/common.interface'
+import {ToastService} from "@services/toast";
+import {CommentsService} from "@services/comments";
+import { CommentPayload} from "@services/interfaces"
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {ActivatedRoute} from "@angular/router";
 import {finalize} from "rxjs";
