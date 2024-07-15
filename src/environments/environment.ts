@@ -5,7 +5,7 @@ export const environment = {
   refreshToken: 'refresh_token',
   pendingComments: 'pending_comments',
   storeLikes: 'likes',
-  baseUrl: 'https://api.rent-home.uz',
+  baseUrl: 'http://new.rent-home.uz',
   urls: {
     GET_ANNONCEMENTS: '/api/announcement/',
     POST_REGISTER: '/register/',
