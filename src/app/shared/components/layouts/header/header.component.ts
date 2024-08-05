@@ -72,13 +72,12 @@ constructor(
   }
 
   anotherPhoneNumber = () => {
-
     this.closeSmsDialog();
     this.openNumberDialog()
   }
   
   openRegister = () => {
     this.closeAuthDialog()
-    this.openRegisterDialog()
+    this.openNumberDialog()
   }
 }

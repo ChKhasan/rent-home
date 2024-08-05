@@ -6,6 +6,8 @@ import {AuthDialogComponent} from "../../modals/auth-dialog/auth-dialog.componen
 import {AuthService} from "@services/auth";
 import {RegisterDialogComponent} from "../../modals/register-dialog/register-dialog.component";
 import {filter} from "rxjs";
+import { NumberDialogComponent } from "../../modals/number-dialog/number-dialog.component";
+import { SmsDialogComponent } from "../../modals/sms-dialog/sms-dialog.component";
 
 @Component({
   selector: 'app-bottom-bar',
@@ -17,7 +19,9 @@ import {filter} from "rxjs";
     RouterLinkActive,
     RouterLink,
     NgIf,
-    RegisterDialogComponent
+    RegisterDialogComponent,
+    NumberDialogComponent,
+    SmsDialogComponent
 ],
   templateUrl: './bottom-bar.component.html',
   styleUrl: './bottom-bar.component.css'
@@ -25,6 +29,8 @@ import {filter} from "rxjs";
 export class BottomBarComponent implements OnInit{
   @ViewChild(RegisterDialogComponent) registerDialogComponent!: RegisterDialogComponent;
   @ViewChild(AuthDialogComponent) authDialogComponent!: AuthDialogComponent;
+  @ViewChild(NumberDialogComponent) numberDialogComponent!: NumberDialogComponent;
+  @ViewChild(SmsDialogComponent) smsDialogComponent!: SmsDialogComponent;
   public isPath: string = ''
   public menuList = [
     {
@@ -106,13 +112,32 @@ export class BottomBarComponent implements OnInit{
   closeAuthDialog() {
     this.authDialogComponent.closeDialog();
   }
-
+  openSmsDialog() {
+    this.smsDialogComponent.showDialog()
+  }
+  closeSmsDialog() {
+    this.smsDialogComponent.closeDialog()
+  }
   sanitize(html: string) {
     return this.sanitizer.bypassSecurityTrustHtml(html);
   }
-
+  completeCallback = () => {
+    this.numberDialogComponent.closeDialog()
+    this.openSmsDialog()
+  }
+   openNumberDialog() {
+    this.numberDialogComponent.showDialog()
+  }
+  completeSmsCallback = () => {
+    this.closeSmsDialog();
+    this.openRegisterDialog()
+  }
   openRegister = () => {
     this.closeAuthDialog()
-    this.openRegisterDialog()
+    this.openNumberDialog()
+  }
+  anotherPhoneNumber = () => {
+    this.closeSmsDialog();
+    this.openNumberDialog()
   }
 }

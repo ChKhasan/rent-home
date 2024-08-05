@@ -35,5 +35,7 @@
     </ul>
   </div>
 </div>
-<app-auth-dialog [url]="'profile'" [openRegister]="openRegister"></app-auth-dialog>
 <app-register-dialog></app-register-dialog>
+<app-auth-dialog [url]="'profile'" [openRegister]="openRegister"></app-auth-dialog>
+<app-number-dialog [completeCallback]="completeCallback" [url]="'profile'"></app-number-dialog>
+<app-sms-dialog [completeCallback]="completeSmsCallback" [anotherPhoneNumber]="anotherPhoneNumber"></app-sms-dialog>
