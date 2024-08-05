@@ -20,7 +20,7 @@ import {environment} from "@environments";
 import {ActivatedRoute, RouterLink} from "@angular/router";
 import {MapDialogComponent} from "../../modals/map-dialog/map-dialog.component";
 import {RequestService} from "@services/request";
-import {Announcement} from "@services/interfaces";
+import { IAnnouncementInfo, Transport } from "@services/interfaces";
 
 interface UploadEvent {
   originalEvent: Event;
@@ -69,7 +69,7 @@ export class AnnouncementFormComponent implements OnInit {
   }
   @ViewChild(MapDialogComponent) mapDialogComponent!: MapDialogComponent
   @Input() isEdit: boolean = false;
-  public announcement!:Announcement
+  public announcement!:IAnnouncementInfo
   constructor(
     public _formControl: FormService,
     private messageService: MessageService,
@@ -97,21 +97,21 @@ export class AnnouncementFormComponent implements OnInit {
   ngOnInit() {
     this.fileUploaderHeaders()
     if (this.isEdit) {
-      this.requestService.getData<Announcement>(environment.urls.GET_ANNONCEMENTS + this.id)
-      .subscribe((response:Announcement):void => {
+      this.requestService.getData<IAnnouncementInfo>(environment.urls.GET_ANNONCEMENTS + this.id)
+      .subscribe((response:IAnnouncementInfo):void => {
         this.announcement = response
-        console.log("form anounts",response)
+
         this.uploadedFiles = response.images
         this.ruleForm.patchValue({
-          transports: response.transports,
-          images: [],
+          transports: response.transports as Transport[],
+          images: [], 
           title: response.title,
           partnership: response.partnership,
           need_people_count: response.need_people_count,
           room_count: response.room_count,
           address: response.address,
-          location_x: response.location_x || 0,
-          location_y: response.location_y || 0,
+          location_x: typeof response.location_x === 'string' ? parseFloat(response.location_x) : response.location_x || 0,
+          location_y: typeof response.location_y === 'string' ? parseFloat(response.location_y) : response.location_y || 0,
           currency: response.currency,
           total_price: response.total_price,
           price_for_one: response.price_for_one,

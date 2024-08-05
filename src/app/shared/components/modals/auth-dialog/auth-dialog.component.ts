@@ -16,6 +16,7 @@ import {PasswordModule} from "primeng/password";
 import {RequestService} from "@services/request";
 import {ToastService} from "@services/toast";
 import {AuthService} from "@services/auth";
+import { log } from 'node:console';
 
 @Component({
   selector: 'app-auth-dialog',
@@ -43,6 +44,7 @@ export class AuthDialogComponent {
   infoError: boolean = false
   @Input() url: string | undefined
   @Input() afterComplite: Function | undefined
+  @Input() openRegister: Function | undefined
   public ruleForm = new FormGroup({
     password: new FormControl('', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[a-z])(?=.*\d).*$/)]),
     phone_number: new FormControl('', [Validators.required, Validators.pattern(/^\d{2} \d{3} \d{2} \d{2}$/)]),
@@ -103,6 +105,12 @@ export class AuthDialogComponent {
           if (error.status === 401) this.infoError = true
         })
 
+  }
+
+  openRegisterDialog() {
+    console.log(this.openRegister);
+    
+    if(this.openRegister) this.openRegister()
   }
 
   showDialog() {

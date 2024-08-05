@@ -1,6 +1,6 @@
 <div class="header bg-[color:#fff]">
   <app-register-dialog></app-register-dialog>
-  <app-auth-dialog [url]="'profile'"></app-auth-dialog>
+  <app-auth-dialog [url]="'profile'" [openRegister]="openRegister"></app-auth-dialog>
   <app-number-dialog [completeCallback]="completeCallback" [url]="'profile'"></app-number-dialog>
   <app-sms-dialog [completeCallback]="completeCallback"></app-sms-dialog>
   <p-toast></p-toast>

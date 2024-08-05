@@ -16,8 +16,9 @@ import {filter} from "rxjs";
     NgClass,
     RouterLinkActive,
     RouterLink,
-    NgIf
-  ],
+    NgIf,
+    RegisterDialogComponent
+],
   templateUrl: './bottom-bar.component.html',
   styleUrl: './bottom-bar.component.css'
 })
@@ -99,8 +100,19 @@ export class BottomBarComponent implements OnInit{
   openAuthDialog() {
     this.authDialogComponent.showDialog();
   }
+  openRegisterDialog() {
+    this.registerDialogComponent.showDialog();
+  }
+  closeAuthDialog() {
+    this.authDialogComponent.closeDialog();
+  }
 
   sanitize(html: string) {
     return this.sanitizer.bypassSecurityTrustHtml(html);
+  }
+
+  openRegister = () => {
+    this.closeAuthDialog()
+    this.openRegisterDialog()
   }
 }

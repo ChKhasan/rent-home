@@ -46,6 +46,9 @@ constructor(
   openAuthDialog() {
     this.authDialogComponent.showDialog();
   }
+  closeAuthDialog() {
+    this.authDialogComponent.closeDialog();
+  }
   openNumberDialog() {
     this.numberDialogComponent.showDialog()
   }
@@ -58,5 +61,10 @@ constructor(
   logout() {
     this.authService.logout();
     this.profileDrop = false
+  }
+  
+  openRegister = () => {
+    this.closeAuthDialog()
+    this.openRegisterDialog()
   }
 }

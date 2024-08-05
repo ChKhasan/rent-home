@@ -1,7 +1,19 @@
+
+import type { components, paths } from './schema'
+
+export type IAnnouncementInfo = paths["/api/announcement/{id}/"]['get']['responses']['200']['content']['application/json'];
+export type IAnnouncementListItem = paths['/api/announcement/']['get']['responses']['200']['content']['application/json']['results'];
+export type IAnnouncementRequestBody = paths['/api/announcement/']['post']['requestBody']['content']['application/json'];
+export type Transport = components['schemas']['Transport']
+
 export interface ICommonResponse {
   page: number,
   page_size: number,
   count: number
+}
+
+export interface IAnnouncementList extends ICommonResponse {
+  results: IAnnouncementListItem[]
 }
 export interface Announcement {
   transports: any,

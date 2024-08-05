@@ -10,13 +10,14 @@ import {Router} from "@angular/router";
 import {finalize} from "rxjs";
 import {RequestService} from "@services/request";
 import {environment} from "@environments";
+import { Transport } from "@/core/interfaces/common.interface";
 
 @Injectable({
   providedIn: "root",
 })
 export class FormService {
   public ruleForm = new FormGroup({
-    transports: new FormControl([]),
+    transports:new FormControl<Transport[]>([]),
     images: new FormControl<string[]>([]),
     title: titleControl,
     partnership: new FormControl(false),
