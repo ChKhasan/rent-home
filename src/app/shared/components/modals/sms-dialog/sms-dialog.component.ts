@@ -31,9 +31,10 @@ import {RequestService} from "@services/request";
 export class SmsDialogComponent {
   visible: boolean = false;
   loading: boolean = false;
-  value: any
+  code: any
   @Input() url: string | undefined;
   @Input() completeCallback: Function | undefined
+  @Input() anotherPhoneNumber: Function | undefined
   // public ruleForm = new FormGroup({
   //   phone_number: numberControl,
   // })
@@ -44,7 +45,7 @@ export class SmsDialogComponent {
   eventPipe() {
     this.closeDialog();
     if(this.completeCallback) this.completeCallback()
-    // this.ruleForm.reset();
+    this.code = ''
   }
 
   public onSubmit(): void {
@@ -53,15 +54,16 @@ export class SmsDialogComponent {
     this.postLogin()
   }
   dataTransform() {
+    const phone_number = JSON.parse(localStorage.getItem('phone_number') || '');
     return {
-      // ...this.ruleForm.value,
-      // phone_number: '+998'+this.ruleForm.value.phone_number?.replaceAll(' ','')
+      code: this.code + '',
+      phone_number: '+998'+phone_number?.replaceAll(' ','')
     }
   }
   postLogin() {
     this.loading = true
     const data = this.dataTransform()
-    this.requestService.requestData(environment.urls.POST_LOGIN,'POST',data)
+    this.requestService.requestData(environment.urls.POST_CODE,'POST',data)
       .pipe(finalize(() => this.loading = false))
       .subscribe((response) => {
         this.eventPipe();
@@ -72,5 +74,10 @@ export class SmsDialogComponent {
   }
   closeDialog() {
     this.visible = false;
+  }
+
+  anotherPhoneNumberCall() {
+    console.log('asdasdasdas');
+    if(this.anotherPhoneNumber) this.anotherPhoneNumber()
   }
 }

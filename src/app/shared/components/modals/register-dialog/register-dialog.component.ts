@@ -42,7 +42,7 @@ export class RegisterDialogComponent {
   public ruleForm = new FormGroup({
     password: new FormControl(undefined, [Validators.required,Validators.minLength(8),Validators.pattern(/^(?=.*[a-z])(?=.*\d).*$/)]),
     name: new FormControl("", [Validators.required,Validators.minLength(4)]),
-    phone_number: new FormControl('', [Validators.required,Validators.pattern(/^\d{2} \d{3} \d{2} \d{2}$/)]),
+    // phone_number: new FormControl('', [Validators.required,Validators.pattern(/^\d{2} \d{3} \d{2} \d{2}$/)]),
   })
   constructor(
     private toastService: ToastService,
@@ -51,7 +51,6 @@ export class RegisterDialogComponent {
   }
 
   public onSubmit(): void {
-    console.log(this.ruleForm)
     this.ruleForm.markAllAsTouched()
     if (this.ruleForm.invalid)  return;
     this.postRegister()
@@ -62,9 +61,10 @@ export class RegisterDialogComponent {
     this.toastService.showMessage('success','Success',data.message)
   }
   dataTransform() {
+    const phone_number = JSON.parse(localStorage.getItem('phone_number') || '');
     return {
       ...this.ruleForm.value,
-      phone_number: '+998'+this.ruleForm.value.phone_number?.replaceAll(' ','')
+      phone_number: '+998' + phone_number?.replaceAll(' ','')
     }
   }
   postRegister() {

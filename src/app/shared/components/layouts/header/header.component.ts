@@ -55,12 +55,26 @@ constructor(
   openSmsDialog() {
     this.smsDialogComponent.showDialog()
   }
+  closeSmsDialog() {
+    this.smsDialogComponent.closeDialog()
+  }
   completeCallback = () => {
-    console.log("asdasda")
+    this.numberDialogComponent.closeDialog()
+    this.openSmsDialog()
+  }
+  completeSmsCallback = () => {
+    this.closeSmsDialog();
+    this.openRegisterDialog()
   }
   logout() {
     this.authService.logout();
     this.profileDrop = false
+  }
+
+  anotherPhoneNumber = () => {
+
+    this.closeSmsDialog();
+    this.openNumberDialog()
   }
   
   openRegister = () => {

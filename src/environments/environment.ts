@@ -9,6 +9,8 @@ export const environment = {
   urls: {
     GET_ANNONCEMENTS: '/api/announcement/',
     POST_REGISTER: '/register/',
+    POST_CODE: '/verification/code',
+    POST_NUMBER: '/verification/number',
     POST_LOGIN: '/api/token/',
     GET_TRANSPORTS: '/api/transport/',
     GET_COMMENTS: '/api/comment/',

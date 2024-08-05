@@ -25,3 +25,9 @@
   font-family: var(--medium);
   color: var(--dark-5);
 }
+
+.mask-input,.password-input {
+  border: none;
+  padding: 0;
+  width: 100%;
+}

@@ -4,17 +4,17 @@
           [style]="{ width: '456px',borderRadius: '12px',overflow: 'hidden',padding: 0 }"
           [showHeader]="false"
 >
-  <div class="flex flex-col gap-[24px]">
-    <div class="flex justify-center">
-      <h2 class="font-700 text-[31px]">
-        Kodni kiriting
-      </h2>
-    </div>
-    <div>
+    <div class="flex flex-col gap-[24px]">
+      <div class="flex justify-center">
+        <h2 class="font-700 text-[31px]">
+          Kodni kiriting
+        </h2>
+      </div>
+      <div>
 <!--      <div [formGroup]="ruleForm" class="flex flex-col gap-[18px]">-->
         <div class="flex flex-col gap-2 items-center relative">
           <label class="font-400 text-[--gray-6] text-base" >Telefon raqamingiz</label>
-          <p-inputOtp [length]="5" [(ngModel)]="value"></p-inputOtp>
+          <p-inputOtp [length]="5" [(ngModel)]="code"></p-inputOtp>
 
         </div>
 <!--      </div>-->
@@ -28,6 +28,7 @@
       </button>
       <div class="flex justify-center mt-4">
         <button
+          (click)="anotherPhoneNumberCall()"
           class="mx-auto font-600 text-[17px] bg-[transparent] text-[color:var(--green)]"
         >
           Boshqa tel raqam kiritish

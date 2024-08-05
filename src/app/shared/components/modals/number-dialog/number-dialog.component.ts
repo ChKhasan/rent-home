@@ -44,6 +44,7 @@ export class NumberDialogComponent {
   }
   eventPipe() {
     this.closeDialog();
+    localStorage.setItem('phone_number',JSON.stringify(this.ruleForm.value.phone_number))
     if(this.completeCallback) this.completeCallback()
     this.ruleForm.reset();
   }
@@ -62,7 +63,7 @@ export class NumberDialogComponent {
   postLogin() {
     this.loading = true
     const data = this.dataTransform()
-    this.requestService.requestData(environment.urls.POST_LOGIN,'POST',data)
+    this.requestService.requestData(environment.urls.POST_NUMBER,'POST',data)
       .pipe(finalize(() => this.loading = false))
       .subscribe((response) => {
         this.eventPipe();

@@ -2,7 +2,7 @@
   <app-register-dialog></app-register-dialog>
   <app-auth-dialog [url]="'profile'" [openRegister]="openRegister"></app-auth-dialog>
   <app-number-dialog [completeCallback]="completeCallback" [url]="'profile'"></app-number-dialog>
-  <app-sms-dialog [completeCallback]="completeCallback"></app-sms-dialog>
+  <app-sms-dialog [completeCallback]="completeSmsCallback" [anotherPhoneNumber]="anotherPhoneNumber"></app-sms-dialog>
   <p-toast></p-toast>
   <div class="py-[20px] md:py-4 2xl:container mx-auto flex justify-between px-4">
     <div class="flex gap-[40px] items-center">
@@ -210,7 +210,7 @@
             </li>
             <li
               *ngIf="!authService.auth"
-              (click)="openRegisterDialog()"
+              (click)="openNumberDialog()"
               class="flex gap-[12px] cursor-pointer items-center whitespace-nowrap font-500 text-[16px]"
             >
               <svg
