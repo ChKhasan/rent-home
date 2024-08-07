@@ -82,7 +82,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   public message: string = '';
   public dateFormat: string = 'dd.MM.YYYY'
   public url: string = '';
-  public loadingMessages: boolean = true
+  public loadingMessages: boolean = false
   public skeletonList = [1, 2, 3, 4, 1, 2, 3];
   public isRoom: any = {}
   public userRooms: any = [];
@@ -126,7 +126,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
       .pipe(finalize(() => this.loadingRooms = false))
       .subscribe((response: IUserRooms[]) => {
         if (response.length > 0) {
-          this.userRooms = response.filter((item: any) => item.users.find((elem: any) => elem.id !== this.authService.user?.id)?.id !== this.authService.user.id).map((elem: IUserRooms) => {
+          this.userRooms = response.filter((item: any) => item.users.find((elem: any) => elem.id !== this.authService.user?.id)?.id && item.users.find((elem: any) => elem.id !== this.authService.user?.id)?.id !== this.authService.user.id).map((elem: IUserRooms) => {
             return {
               ...elem,
               message: elem.messages.length > 0 ? elem.messages[elem.messages.length - 1].message : '',
@@ -134,9 +134,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
             }
           })
           this.allUserRooms = [...this.userRooms];
-          console.log(this.allUserRooms, this.userRooms)
         }
-
+        if(this.userRooms.length)
         this.findCurrentRoom()
       })
   }
@@ -166,7 +165,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
   sendMessage(): void {
-    if (this.authService.auth && this.authService.user.id && this.message.length > 0) {
+    let receiver = Number(this.queryService.activeQueryList()['userId']) || this.isRoom.user.id;
+    if (this.authService.auth && this.authService.user.id && this.message.length > 0 && (this.userRooms.length || receiver)) {
       this.loading = true;
       this.pendingComments.push({
         created_at: `${new Date()}`,
@@ -178,7 +178,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
         sender: this.authService.user.id,
         pending: true
       })
-      let receiver = Number(this.queryService.activeQueryList()['userId']) || this.isRoom.user.id;
       const data = {message: this.message, receiver: receiver}
       this.socketSender(data)
       this.message = ''
@@ -187,6 +186,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
   socketSender(data: any) {
+    console.log(data)
     this.chatService.send(data);
   }
 
@@ -300,7 +300,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
               this.scrollCall();
             }, 0)
         })
-    }
+    } 
 
   }
 

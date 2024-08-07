@@ -78,7 +78,6 @@ export class AuthDialogComponent {
   }
 
   public onSubmit(): void {
-    console.log(this.ruleForm)
     this.ruleForm.markAllAsTouched()
     if (this.ruleForm.invalid) return;
     this.postLogin()
