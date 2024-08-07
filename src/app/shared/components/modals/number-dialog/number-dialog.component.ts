@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {ButtonModule} from "primeng/button";
 import {DialogModule} from "primeng/dialog";
-import {FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {InputMaskModule} from "primeng/inputmask";
 import {InputTextModule} from "primeng/inputtext";
 import {InvaidTextComponent} from "../../form/invaid-text/invaid-text.component";
@@ -36,7 +36,7 @@ export class NumberDialogComponent {
   @Input() url: string | undefined;
   @Input() completeCallback: Function | undefined
   public ruleForm = new FormGroup({
-    phone_number: numberControl,
+    phone_number: new FormControl('', [Validators.required,Validators.pattern(/^\d{2} \d{3} \d{2} \d{2}$/)]),
   })
   constructor(
     private requestService: RequestService
@@ -50,6 +50,7 @@ export class NumberDialogComponent {
   }
 
   public onSubmit(): void {
+    console.log('data',this.ruleForm)
     this.ruleForm.markAllAsTouched()
     if (this.ruleForm.invalid)  return;
     this.postLogin()
@@ -62,7 +63,8 @@ export class NumberDialogComponent {
   }
   postLogin() {
     this.loading = true
-    const data = this.dataTransform()
+    const data = this.dataTransform();
+
     this.requestService.requestData(environment.urls.POST_NUMBER,'POST',data)
       .pipe(finalize(() => this.loading = false))
       .subscribe((response) => {

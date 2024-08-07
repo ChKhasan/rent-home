@@ -37,7 +37,7 @@ export class ChatService {
       this.socket$.complete(); // Close the connection
   }
   webSocketConnection = () => {
-    this.connect(`wss://api.rent-home.uz/ws/chat/`);
+    this.connect(`wss://new.rent-home.uz/ws/chat/`);
   }
 
   __GET_USER_ROOMS() {

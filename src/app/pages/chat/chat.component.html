@@ -23,7 +23,7 @@
       </div>
     </div>
     <div class="chat-container mx-auto  items-center md:h-[100vh] mt-[30px] md:mt-0 flex flex-col gap-4">
-      <div *ngIf="!showBoard" [@slideInOut]>
+      <div class="h-full" *ngIf="!showBoard" [@slideInOut]>
         <app-chat-user-list [userSearch]="userSearch"
                             [loading]="loadingRooms"
                             [userRooms]="userRooms"
