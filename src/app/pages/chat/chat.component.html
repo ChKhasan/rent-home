@@ -178,7 +178,7 @@
         </div>
       </div>
       <ng-template #messagesList>
-        <div class="board h-[580px] pr-2 flex flex-col-reverse pb-6 gap-6 overflow-y-scroll"
+        <div #scrollableDiv  class="board h-[580px] pr-2 flex flex-col-reverse pb-6 gap-6 overflow-y-scroll"
              (scroll)="onParentDivScrolled()" #parentDiv>
           <ng-container *ngTemplateOutlet="boardInner"></ng-container>
         </div>

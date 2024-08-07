@@ -106,7 +106,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
   userSearch = (name: string) => {
-    console.log(this.allUserRooms, name)
     this.userRooms = this.allUserRooms.filter((elem: any) => elem.user && elem.user.name.toLocaleUpperCase().includes(name.toLocaleUpperCase()))
   }
 
@@ -186,7 +185,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
   socketSender(data: any) {
-    console.log(data)
     this.chatService.send(data);
   }
 
@@ -255,11 +253,13 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.pendingComments = []
     if (Number(this.queryService.activeQueryList()['roomId']) === message.room) {
       this.comments.unshift(message);
+      this.scrollToTop()
       this.readNewMessage(message);
     } else {
       let curentRoom = this.userRooms.find((elem: any) => elem.id === message.room);
       curentRoom.message = message.message;
       curentRoom.messages.unshift(message)
+      
     }
   }
 
@@ -387,5 +387,12 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   toggleBoad = (value: boolean) => {
      this.showBoard = value
+  }
+
+  @ViewChild('scrollableDiv') scrollableDiv!: ElementRef;
+
+  scrollToTop() {
+    console.log('calll')
+    this.scrollableDiv.nativeElement.scrollTop = 0;
   }
 }
