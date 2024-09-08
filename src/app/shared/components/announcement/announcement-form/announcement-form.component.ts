@@ -1,26 +1,26 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {InputTextModule} from "primeng/inputtext";
-import {InvaidTextComponent} from "../../form/invaid-text/invaid-text.component";
-import {NgClass, NgForOf, NgIf, NgOptimizedImage, Location} from "@angular/common";
-import {FormService} from "@/core/services/announcements/form.service";
-import {TooltipModule} from "primeng/tooltip";
-import {ButtonModule} from "primeng/button";
-import {ToastModule} from "primeng/toast";
-import {FileUploadModule} from "primeng/fileupload";
-import {MessageService} from "primeng/api";
-import {InputTextareaModule} from "primeng/inputtextarea";
-import {CheckboxModule} from "primeng/checkbox";
-import {InputMaskModule} from "primeng/inputmask";
-import {InputNumberModule} from "primeng/inputnumber";
-import {ImageModule} from "primeng/image";
-import {RippleModule} from "primeng/ripple";
-import {HttpHeaders} from "@angular/common/http";
-import {environment} from "@environments";
-import {ActivatedRoute, RouterLink} from "@angular/router";
-import {MapDialogComponent} from "../../modals/map-dialog/map-dialog.component";
-import {RequestService} from "@services/request";
-import { IAnnouncementInfo, Transport } from "@services/interfaces";
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { InputTextModule } from 'primeng/inputtext';
+import { InvaidTextComponent } from '../../form/invaid-text/invaid-text.component';
+import { NgClass, NgForOf, NgIf, NgOptimizedImage, Location } from '@angular/common';
+import { FormService } from '@/core/services/announcements/form.service';
+import { TooltipModule } from 'primeng/tooltip';
+import { ButtonModule } from 'primeng/button';
+import { ToastModule } from 'primeng/toast';
+import { FileUploadModule } from 'primeng/fileupload';
+import { MessageService } from 'primeng/api';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { CheckboxModule } from 'primeng/checkbox';
+import { InputMaskModule } from 'primeng/inputmask';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { ImageModule } from 'primeng/image';
+import { RippleModule } from 'primeng/ripple';
+import { HttpHeaders } from '@angular/common/http';
+import { environment } from '@environments';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { MapDialogComponent } from '../../modals/map-dialog/map-dialog.component';
+import { RequestService } from '@services/request';
+import { IAnnouncementInfo, Transport } from '@services/interfaces';
 
 interface UploadEvent {
   originalEvent: Event;
@@ -30,32 +30,10 @@ interface UploadEvent {
 @Component({
   selector: 'app-announcement-form',
   standalone: true,
-  imports: [
-    FormsModule,
-    InputTextModule,
-    InvaidTextComponent,
-    NgIf,
-    ReactiveFormsModule,
-    NgClass,
-    TooltipModule,
-    NgOptimizedImage,
-    ButtonModule,
-    ToastModule,
-    FileUploadModule,
-    InputTextareaModule,
-    CheckboxModule,
-    InputMaskModule,
-    InputNumberModule,
-    NgForOf,
-    ImageModule,
-    RippleModule,
-    RouterLink,
-    MapDialogComponent
-  ],
+  imports: [FormsModule, InputTextModule, InvaidTextComponent, NgIf, ReactiveFormsModule, NgClass, TooltipModule, NgOptimizedImage, ButtonModule, ToastModule, FileUploadModule, InputTextareaModule, CheckboxModule, InputMaskModule, InputNumberModule, NgForOf, ImageModule, RippleModule, RouterLink, MapDialogComponent],
   templateUrl: './announcement-form.component.html',
   styleUrl: './announcement-form.component.css',
 })
-
 export class AnnouncementFormComponent implements OnInit {
   public ruleForm;
   private token: any;
@@ -65,46 +43,45 @@ export class AnnouncementFormComponent implements OnInit {
   formState = {
     transports: [],
     location_y: 0,
-    location_x: 0
-  }
-  @ViewChild(MapDialogComponent) mapDialogComponent!: MapDialogComponent
+    location_x: 0,
+  };
+  @ViewChild(MapDialogComponent) mapDialogComponent!: MapDialogComponent;
   @Input() isEdit: boolean = false;
-  public announcement!:IAnnouncementInfo
+  public announcement!: IAnnouncementInfo;
   constructor(
     public _formControl: FormService,
     private messageService: MessageService,
     private route: ActivatedRoute,
     private location: Location,
-    private requestService: RequestService
+    private requestService: RequestService,
   ) {
     this.ruleForm = _formControl.ruleForm;
     this.id = this.route.snapshot.paramMap.get('id');
   }
 
   goBack() {
-    this.location.back()
+    this.location.back();
   }
 
   fileUploaderHeaders() {
     if (typeof localStorage !== 'undefined') {
       this.token = localStorage.getItem(environment.accessToken);
       this.headers = new HttpHeaders({
-        'Authorization': `Bearer ${this.token}`
+        Authorization: `Bearer ${this.token}`,
       });
     }
   }
 
   ngOnInit() {
-    this.fileUploaderHeaders()
+    this.fileUploaderHeaders();
     if (this.isEdit) {
-      this.requestService.getData<IAnnouncementInfo>(environment.urls.GET_ANNONCEMENTS + this.id)
-      .subscribe((response:IAnnouncementInfo):void => {
-        this.announcement = response
+      this.requestService.getData<IAnnouncementInfo>(environment.urls.GET_ANNONCEMENTS + this.id).subscribe((response: IAnnouncementInfo): void => {
+        this.announcement = response;
 
-        this.uploadedFiles = response.images
+        this.uploadedFiles = response.images;
         this.ruleForm.patchValue({
           transports: response.transports as Transport[],
-          images: [], 
+          images: [],
           title: response.title,
           partnership: response.partnership,
           need_people_count: response.need_people_count,
@@ -121,46 +98,50 @@ export class AnnouncementFormComponent implements OnInit {
           washing_machine: response.washing_machine,
           user: response.user,
         });
-
-      })
+      });
     }
-
   }
 
   onSubmit(): void {
-    this.imagesPatcher()
+    this.imagesPatcher();
   }
 
   imagesPatcher() {
-    this.uploadedFiles.forEach((elem => {
+    this.uploadedFiles.forEach((elem) => {
       const imagesControl = this.ruleForm.get('images');
       if (imagesControl && imagesControl.value)
-        this.ruleForm.patchValue({images: [...imagesControl.value,elem?.uuid]})
-    }))
-    this._formControl.onSubmit(this.isEdit, this.id)
+        this.ruleForm.patchValue({
+          images: [...imagesControl.value, elem?.uuid],
+        });
+    });
+    this._formControl.onSubmit(this.isEdit, this.id);
   }
 
   onUpload(event: any) {
-    if (event.originalEvent['body']) this.uploadedFiles.push(event.originalEvent['body'])
+    if (event.originalEvent['body']) this.uploadedFiles.push(event.originalEvent['body']);
 
-    this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
+    this.messageService.add({
+      severity: 'info',
+      summary: 'File Uploaded',
+      detail: '',
+    });
   }
 
   openMapDialog() {
-
-    this.isEdit && this.mapDialogComponent?.handleLocation({
-      lat: this.announcement.location_x || 0,
-      lon: this.announcement.location_y || 0,
-      display_name: ""
-    })
-    this.mapDialogComponent.showDialog()
+    this.isEdit &&
+      this.mapDialogComponent?.handleLocation({
+        lat: this.announcement.location_x || 0,
+        lon: this.announcement.location_y || 0,
+        display_name: '',
+      });
+    this.mapDialogComponent.showDialog();
   }
 
   formHandle = (obj: any) => {
     this.ruleForm.patchValue({
       transports: obj.transports,
       location_x: obj.coords[0],
-      location_y: obj.coords[1]
-    })
+      location_y: obj.coords[1],
+    });
   };
 }

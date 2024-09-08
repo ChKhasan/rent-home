@@ -1,66 +1,59 @@
-<div class="shadow price-block rounded-[12px] bg-white px-[30px] py-[30px] border-[1px] border-[color:var(--input-stroke)] border-solid md:rounded-none md:px-0 md:border-l-[0] md:border-r-[0]"
->
-    <div>
-        <h5 class="font-600 text-[24px] flex gap-[5px]">
-            Asosiy
-            <span class="flex items-center text-[color:var(--green)]">ma'lumotlar</span>
-        </h5>
-    </div>
-  <div *ngIf="loading, else texts" class="flex flex-col gap-3 pb-6 border-[0] border-solid border-b border-[#D1DDD1] mt-6">
-    <p-skeleton   class="w-full flex  h-[23px]" styleClass="ng_skeleton h-10"></p-skeleton>
-    <p-skeleton   class="w-full flex  h-[23px]" styleClass="ng_skeleton h-10"></p-skeleton>
-    <p-skeleton   class="w-full flex  h-[23px]" styleClass="ng_skeleton h-10"></p-skeleton>
-
+<div class="shadow price-block rounded-[12px] bg-white px-[30px] py-[30px] border-[1px] border-[color:var(--input-stroke)] border-solid md:rounded-none md:px-0 md:border-l-[0] md:border-r-[0]">
+  <div>
+    <h5 class="font-600 text-[24px] flex gap-[5px]">
+      Asosiy
+      <span class="flex items-center text-[color:var(--green)]">ma'lumotlar</span>
+    </h5>
+  </div>
+  <div *ngIf="loading; else texts" class="flex flex-col gap-3 pb-6 border-[0] border-solid border-b border-[#D1DDD1] mt-6">
+    <p-skeleton class="w-full flex h-[23px]" styleClass="ng_skeleton h-10"></p-skeleton>
+    <p-skeleton class="w-full flex h-[23px]" styleClass="ng_skeleton h-10"></p-skeleton>
+    <p-skeleton class="w-full flex h-[23px]" styleClass="ng_skeleton h-10"></p-skeleton>
   </div>
   <ng-template #texts>
     <div class="flex flex-col gap-3 pb-6 border-[0] border-solid border-b border-[#D1DDD1] mt-6">
       <div class="flex justify-between">
         <h4 class="font-600 text-[18px]">Xonalar soni</h4>
-        <h4 class="font-600 text-[18px]">{{announcement.room_count}}</h4>
+        <h4 class="font-600 text-[18px]">{{ announcement.room_count }}</h4>
       </div>
       <div class="flex justify-between" *ngIf="announcement.partnership">
         <h4 class="font-400 text-base">Odamlar soni</h4>
-        <h4 class="font-400 text-base"> {{announcement.need_people_count}}</h4>
+        <h4 class="font-400 text-base">{{ announcement.need_people_count }}</h4>
       </div>
-      <div class="flex justify-between ">
+      <div class="flex justify-between">
         <h4 class="font-400 text-base">Narx: kishi uchun</h4>
-        <h4 class="font-600 text-[18px] ">{{announcement.price_for_one | price}} UZS</h4>
+        <h4 class="font-600 text-[18px]">{{ announcement.price_for_one || 0 | price }} UZS</h4>
       </div>
     </div>
   </ng-template>
-  <div class="flex justify-between mt-6" *ngIf="loading, else price">
-
-    <p-skeleton   class="w-full flex h-[23px]" styleClass="ng_skeleton h-10"></p-skeleton>
+  <div class="flex justify-between mt-6" *ngIf="loading; else price">
+    <p-skeleton class="w-full flex h-[23px]" styleClass="ng_skeleton h-10"></p-skeleton>
   </div>
   <ng-template #price>
     <div class="flex justify-between mt-6">
       <h4 class="font-400 text-[17px]">Narx:</h4>
-      <h4 class="font-600 text-[20px] text-[--green]">{{announcement.total_price |  price }} UZS</h4>
+      <h4 class="font-600 text-[20px] text-[--green]">{{ announcement.total_price || 0 | price }} UZS</h4>
     </div>
   </ng-template>
 
-    <p-button
-      *ngIf="authService.user.id !== announcement?.user"
-            [loading]="loading"
-            (click)="toChat()"
-            styleClass="ripple-button mt-[18px] w-full gap-4 items-center py-[14px] bg-[color:var(--green)] rounded-[8px] text-white font-600 flex justify-center"
-            class=" px-0 py-0 rounded-[8px] bg-[transparent] border-0"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24"><path fill="#fff" d="M18 3a4 4 0 0 1 4 4v8a4 4 0 0 1-4 4h-4.724l-4.762 2.857a1 1 0 0 1-1.508-.743L7 21v-2H6a4 4 0 0 1-3.995-3.8L2 15V7a4 4 0 0 1 4-4zm-4 9H8a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2m2-4H8a1 1 0 1 0 0 2h8a1 1 0 0 0 0-2"/></svg>
-       Xabar qoldirish
-    </p-button>
-<!--    <a-->
-<!--            href="#"-->
-<!--            class="ripple mt-[18px] w-full border border-solid border-[&#45;&#45;green] text-[&#45;&#45;green] py-[14px] bg-[transparent] rounded-[8px]  font-600 flex justify-center px-0 "-->
-<!--    >-->
-<!--        Aloqaga chiqish-->
-<!--    </a>-->
-    <div class="box mt-[18px] h-12 flex justify-center">
-     <div class="absolute top-0">
-       <span class="text flex w-full justify-center items-center h-12">  Aloqaga chiqish</span>
-       <span class="phone_number flex w-full justify-center items-center h-12">  +998 99 730 14 99</span>
-     </div>
-        <i></i>
+  <p-button *ngIf="authService.user.id !== announcement?.user" [loading]="loading" (click)="toChat()" styleClass="ripple-button mt-[18px] w-full gap-4 items-center py-[14px] bg-[color:var(--green)] rounded-[8px] text-white font-600 flex justify-center" class="px-0 py-0 rounded-[8px] bg-[transparent] border-0">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
+      <path fill="#fff" d="M18 3a4 4 0 0 1 4 4v8a4 4 0 0 1-4 4h-4.724l-4.762 2.857a1 1 0 0 1-1.508-.743L7 21v-2H6a4 4 0 0 1-3.995-3.8L2 15V7a4 4 0 0 1 4-4zm-4 9H8a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2m2-4H8a1 1 0 1 0 0 2h8a1 1 0 0 0 0-2" />
+    </svg>
+    Xabar qoldirish
+  </p-button>
+  <!--    <a-->
+  <!--            href="#"-->
+  <!--            class="ripple mt-[18px] w-full border border-solid border-[&#45;&#45;green] text-[&#45;&#45;green] py-[14px] bg-[transparent] rounded-[8px]  font-600 flex justify-center px-0 "-->
+  <!--    >-->
+  <!--        Aloqaga chiqish-->
+  <!--    </a>-->
+  <div class="box mt-[18px] h-12 flex justify-center">
+    <div class="absolute top-0">
+      <span class="text flex w-full justify-center items-center h-12">Aloqaga chiqish</span>
+      <span class="phone_number flex w-full justify-center items-center h-12">+998 99 730 14 99</span>
     </div>
+    <i></i>
+  </div>
 </div>
 <app-auth-dialog></app-auth-dialog>

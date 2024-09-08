@@ -8,10 +8,9 @@ describe('MapDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MapDialogComponent]
-    })
-    .compileComponents();
-    
+      imports: [MapDialogComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(MapDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

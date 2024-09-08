@@ -8,10 +8,9 @@ describe('MapLayoutComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MapLayoutComponent]
-    })
-    .compileComponents();
-    
+      imports: [MapLayoutComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(MapLayoutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

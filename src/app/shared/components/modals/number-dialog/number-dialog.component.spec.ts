@@ -8,10 +8,9 @@ describe('NumberDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NumberDialogComponent]
-    })
-    .compileComponents();
-    
+      imports: [NumberDialogComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(NumberDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

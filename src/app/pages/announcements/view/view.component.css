@@ -2,10 +2,9 @@
   display: grid;
   grid-template-columns: 1fr 393px;
   gap: 24px;
-
 }
 :host ::ng-deep .primeng-carousel .p-galleria-thumbnail-container {
-  background: rgba(0,0,0,0.06);
+  background: rgba(0, 0, 0, 0.06);
   border-radius: 10px;
 }
 :host ::ng-deep .primeng-carousel .p-galleria .p-galleria-thumbnail-container .p-galleria-thumbnail-prev,
@@ -31,8 +30,8 @@
   transition: opacity 0.3s ease-in-out;
 }
 ::ng-deep .p-galleria-panel {
-   transition: opacity 0.3s ease-in-out;
- }
+  transition: opacity 0.3s ease-in-out;
+}
 
 :host ::ng-deep .p-skeleton {
   height: 100% !important;
@@ -45,5 +44,4 @@
     grid-template-columns: 1fr;
     gap: 24px;
   }
-
 }

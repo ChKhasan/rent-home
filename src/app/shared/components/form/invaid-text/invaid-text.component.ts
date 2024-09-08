@@ -1,5 +1,5 @@
-import {Component, Input} from '@angular/core';
-import {ValidationErrorAnimation} from "@animations";
+import { Component, Input } from '@angular/core';
+import { ValidationErrorAnimation } from '@animations';
 
 @Component({
   selector: 'app-invaid-text',
@@ -7,7 +7,7 @@ import {ValidationErrorAnimation} from "@animations";
   imports: [],
   animations: [ValidationErrorAnimation],
   templateUrl: './invaid-text.component.html',
-  styleUrl: './invaid-text.component.css'
+  styleUrl: './invaid-text.component.css',
 })
 export class InvaidTextComponent {
   @Input() text!: string;

@@ -8,10 +8,9 @@ describe('AnouncementMapCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AnouncementMapCardComponent]
-    })
-    .compileComponents();
-    
+      imports: [AnouncementMapCardComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(AnouncementMapCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -16,7 +16,7 @@ p {
   height: 85px !important;
 }
 .active {
-  background: rgba(0,0,0,0.08);
+  background: rgba(0, 0, 0, 0.08);
   pointer-events: none;
   /*color: #fff;*/
 }

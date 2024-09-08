@@ -1,51 +1,35 @@
-import {AfterViewInit, Component, OnInit, QueryList, ViewChildren} from '@angular/core';
-import {NgClass, NgForOf, NgIf} from "@angular/common";
-import {Router} from "@angular/router";
-import {FilterComponent} from "@components/announcement/filter/filter.component";
-import {AngularYandexMapsModule} from "angular8-yandex-maps";
-import {
-  AnouncementMapCardComponent
-} from "@components/announcement/anouncement-map-card/anouncement-map-card.component";
-import {QueryService} from "@services/query";
-import {finalize} from "rxjs";
-import {ButtonModule} from "primeng/button";
-import {StyleClassModule} from "primeng/styleclass";
-import {SubwayIconComponent} from "@/shared/icons/subway-icon/subway-icon.component";
-import {BusIconComponent} from "@/shared/icons/bus-icon/bus-icon.component";
-import {MiniBusIconComponent} from "@/shared/icons/mini-bus-icon/mini-bus-icon.component";
-import {BadgeModule} from "primeng/badge";
-import {TOP_COLORS} from "@/core/constants/map";
-import {CryptoService} from "@services/crypto";
-import {BottomSheetComponent} from "@components/modals/bottom-sheet/bottom-sheet.component";
-import {RequestService} from "@services/request";
-import {environment} from "@environments";
-import {IAnnouncement} from "@services/interfaces";
+import { AfterViewInit, Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { NgClass, NgForOf, NgIf } from '@angular/common';
+import { Router } from '@angular/router';
+import { FilterComponent } from '@components/announcement/filter/filter.component';
+import { AngularYandexMapsModule } from 'angular8-yandex-maps';
+import { AnouncementMapCardComponent } from '@components/announcement/anouncement-map-card/anouncement-map-card.component';
+import { QueryService } from '@services/query';
+import { finalize } from 'rxjs';
+import { ButtonModule } from 'primeng/button';
+import { StyleClassModule } from 'primeng/styleclass';
+import { SubwayIconComponent } from '@/shared/icons/subway-icon/subway-icon.component';
+import { BusIconComponent } from '@/shared/icons/bus-icon/bus-icon.component';
+import { MiniBusIconComponent } from '@/shared/icons/mini-bus-icon/mini-bus-icon.component';
+import { BadgeModule } from 'primeng/badge';
+import { TOP_COLORS } from '@/core/constants/map';
+import { CryptoService } from '@services/crypto';
+import { BottomSheetComponent } from '@components/modals/bottom-sheet/bottom-sheet.component';
+import { RequestService } from '@services/request';
+import { environment } from '@environments';
+import { IAnnouncementList } from '@services/interfaces';
 
 @Component({
   selector: 'app-map',
   standalone: true,
-  imports: [
-    NgClass,
-    FilterComponent,
-    AngularYandexMapsModule,
-    AnouncementMapCardComponent,
-    NgIf,
-    NgForOf,
-    ButtonModule,
-    StyleClassModule,
-    SubwayIconComponent,
-    BusIconComponent,
-    MiniBusIconComponent,
-    BadgeModule,
-    BottomSheetComponent
-  ],
+  imports: [NgClass, FilterComponent, AngularYandexMapsModule, AnouncementMapCardComponent, NgIf, NgForOf, ButtonModule, StyleClassModule, SubwayIconComponent, BusIconComponent, MiniBusIconComponent, BadgeModule, BottomSheetComponent],
   templateUrl: './map.component.html',
-  styleUrl: './map.component.css'
+  styleUrl: './map.component.css',
 })
 export class MapComponent implements OnInit, AfterViewInit {
-
   // @ViewChild(BottomSheetComponent) bottomSheetComponent!: BottomSheetComponent
-  @ViewChildren(BottomSheetComponent) bottomSheetComponents!: QueryList<BottomSheetComponent>;
+  @ViewChildren(BottomSheetComponent)
+  bottomSheetComponents!: QueryList<BottomSheetComponent>;
 
   bottomSheetFilter!: BottomSheetComponent;
   bottomSheetTransports!: BottomSheetComponent;
@@ -59,11 +43,11 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   public showBus: boolean = false;
-  public selectedTransports: { bus: any, miniBus: any, subway: any } = {
+  public selectedTransports: { bus: any; miniBus: any; subway: any } = {
     bus: [],
     miniBus: [],
-    subway: []
-  }
+    subway: [],
+  };
   public showSubway: boolean = false;
   public showMiniBus: boolean = false;
   public showInfo: boolean = false;
@@ -73,45 +57,40 @@ export class MapComponent implements OnInit, AfterViewInit {
   public mapCenter: number[] = [41.31340266251607, 69.28703784942628];
   public marshutka: any = [];
   public subways: any = [];
-  public buses: any = []
+  public buses: any = [];
   public transports: any = [];
-  public transportLoading: boolean = false
-  public selectRoutes: any = []
-  public routeTransports: any = []
-  public announcements: any = []
-  public currentAnnouce: any = {}
-  public zoom: any = 10
+  public transportLoading: boolean = false;
+  public selectRoutes: any = [];
+  public routeTransports: any = [];
+  public announcements: any = [];
+  public currentAnnouce: any = {};
+  public zoom: any = 10;
 
   constructor(
     public router: Router,
     private queryService: QueryService,
     private cryptoService: CryptoService,
     private requestService: RequestService,
-
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     this.__GET_TRANSPORTS();
-    this.__GET_ANNOUNCEMENTS()
-    if (typeof window !== "undefined") {
-      this.activeTransports()
+    this.__GET_ANNOUNCEMENTS();
+    if (typeof window !== 'undefined') {
+      this.activeTransports();
     }
   }
 
   filterSend = (e: any) => {
-    this.queryService.updateCustomQuery(e, this.__GET_ANNOUNCEMENTS).then(() => {
-    })
-  }
+    this.queryService.updateCustomQuery(e, this.__GET_ANNOUNCEMENTS).then(() => {});
+  };
 
   clearFilter = () => {
-    this.queryService.clearFilterWithOutDefault(this.__GET_ANNOUNCEMENTS).then(() => {
-    })
-  }
+    this.queryService.clearFilterWithOutDefault(this.__GET_ANNOUNCEMENTS).then(() => {});
+  };
 
   toggleBus(showType: string) {
-    if (showType === 'showBus' || showType === 'showSubway' || showType === 'showMiniBus')
-      this[showType] = !this[showType]
+    if (showType === 'showBus' || showType === 'showSubway' || showType === 'showMiniBus') this[showType] = !this[showType];
     if (showType === 'showBus') {
       this.showSubway = false;
       this.showMiniBus = false;
@@ -124,61 +103,58 @@ export class MapComponent implements OnInit, AfterViewInit {
       this.showBus = false;
       this.showMiniBus = false;
     }
-
   }
 
   toggleToolbar() {
     this.showToolbar = !this.showToolbar;
-    if (this.showToolbar) this.showInfo = false
-
+    if (this.showToolbar) this.showInfo = false;
   }
 
   closeAnnouncementInfo = () => {
     this.showInfo = false;
-    this.closeBShInfo()
-  }
+    this.closeBShInfo();
+  };
 
   handleAnnounce(id: number) {
     this.showInfo = true;
-    this.openBShInfo()
-    if (this.showInfo)  this.showToolbar = false
+    this.openBShInfo();
+    if (this.showInfo) this.showToolbar = false;
 
-    this.currentAnnouce.id === id ? this.showInfo = false : this.currentAnnouce = this.announcements.find((elem: any) => elem.id == id);
+    this.currentAnnouce.id === id ? (this.showInfo = false) : (this.currentAnnouce = this.announcements.find((elem: any) => elem.id == id));
   }
 
   activeTransports() {
     if (typeof this.queryService.activeQueryList()['transports'] === 'string') {
-      this.routeTransports = [this.queryService.activeQueryList()['transports']] || []
+      this.routeTransports = [this.queryService.activeQueryList()['transports']] || [];
     } else {
-      this.routeTransports = this.queryService.activeQueryList()['transports'] || []
+      this.routeTransports = this.queryService.activeQueryList()['transports'] || [];
     }
-    if (Object.keys(this.queryService.activeQueryList()).length > 0)
-      this.queryService.updateCustomQuery(this.queryService.activeQueryList(), this.__GET_ANNOUNCEMENTS)
+    if (Object.keys(this.queryService.activeQueryList()).length > 0) this.queryService.updateCustomQuery(this.queryService.activeQueryList(), this.__GET_ANNOUNCEMENTS);
     if (this.routeTransports?.length > 0) {
       Promise.all([this.routeTransports.map((elem: any) => this.handleBusRoute(elem))]);
     }
-    this.selectedTransportsGenerateFirst()
+    this.selectedTransportsGenerateFirst();
   }
 
   checkTransports(transport: any) {
-    let query: any = {...this.queryService.activeQueryList()};
+    let query: any = { ...this.queryService.activeQueryList() };
     if (typeof query.transports === 'string') {
-      query.transports = [query.transports]
+      query.transports = [query.transports];
     }
     if (query.transports && query.transports.includes(transport.ri)) {
       query.transports = query.transports.filter((elem: any) => Number(elem) !== Number(transport.ri));
       this.selectRoutes = this.selectRoutes.filter((elem: any) => Number(elem.ri) !== Number(transport.ri));
-      this.selectedTransportsGenerateDelete(transport)
-      this.deleteMapLine(transport)
+      this.selectedTransportsGenerateDelete(transport);
+      this.deleteMapLine(transport);
     } else {
-      if (!query.transports) query.transports = []
-      query.transports.push(transport.ri)
-      this.selectedTransportsGenerateUpdate(transport)
+      if (!query.transports) query.transports = [];
+      query.transports.push(transport.ri);
+      this.selectedTransportsGenerateUpdate(transport);
     }
     if (query.transports.length == 0 && typeof query.transports === 'string') {
-      delete query.transports
+      delete query.transports;
     }
-    return query
+    return query;
   }
 
   deleteMapLine(transport: any) {
@@ -187,28 +163,26 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   filterTransport(obj: any) {
-
     let cQuery = this.checkTransports(obj);
     if (cQuery?.transports.length === 0) {
-      delete cQuery.transports
+      delete cQuery.transports;
     }
     if (Object.keys(cQuery).length > 0) {
       this.queryService.updateCustomQuery(cQuery, this.__GET_ANNOUNCEMENTS).then(() => {
         if (cQuery.transports?.length > 0) {
           let newQuery = cQuery.transports.filter((elem: any) => !this.selectRoutes.find((item: any) => Number(item.ri) === Number(elem)));
-          Promise.all([newQuery.map((elem: any) => this.handleBusRoute(elem))]).then(r => {
-          });
+          Promise.all([newQuery.map((elem: any) => this.handleBusRoute(elem))]).then((r) => {});
         }
-      })
+      });
     } else {
       this.queryService.clearFilterWithOutDefault(() => {
         if (typeof this.queryService.activeQueryList()['transports'] === 'string') {
-          this.routeTransports = [this.queryService.activeQueryList()['transports']] || []
+          this.routeTransports = [this.queryService.activeQueryList()['transports']] || [];
         } else {
-          this.routeTransports = this.queryService.activeQueryList()['transports'] || []
+          this.routeTransports = this.queryService.activeQueryList()['transports'] || [];
         }
 
-        this.announcements = []
+        this.announcements = [];
       });
     }
   }
@@ -260,7 +234,7 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   handleBusRoute(number: any) {
-    const secretKey = this.cryptoService.getKey()
+    const secretKey = this.cryptoService.getKey();
     const formData = {
       id: number,
       key: secretKey,
@@ -269,95 +243,93 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   __GET_BUS_ROUTE = async (formData: any, number: any) => {
-    this.transportLoading = true
-    this.requestService.requestData(environment.urls.POST_BUSROUTES,"POST",formData)
-      .pipe(finalize(() => {
-      this.transportLoading = false
-    })).subscribe(async (data: any) => {
-      if (typeof this.queryService.activeQueryList()['transports'] === 'string') {
-        this.routeTransports = [this.queryService.activeQueryList()['transports']] || []
-      } else {
-        this.routeTransports = this.queryService.activeQueryList()['transports'] || []
-      }
-
-      let busRoutes: any = {};
-      busRoutes.x = data.scheme.forward.split(" ").map((elem: any) => {
-        return {
-          lat: elem.split(",")[0],
-          lng: elem.split(",")[1],
-        };
-      });
-      busRoutes.y = data.scheme.backward.split(" ").map((elem: any) => {
-        return {
-          lat: elem.split(",")[0],
-          lng: elem.split(",")[1],
-        };
-      });
-      let color: any = TOP_COLORS.filter(
-        (elem: any) => !this.transports.map((item: any) => item.color).includes(elem)
-      )[0];
-      busRoutes.color = color;
-      busRoutes.ri = number;
-      let currentTransport = this.transports.find((elem: any) => elem.ri == number);
-      currentTransport.color = color;
-      this.transports = [...this.transports];
-      this.selectRoutes.push(busRoutes);
-      let selectedRies: any = this.routeTransports
-      this.selectRoutes = this.selectRoutes.filter((elem: any) =>
-        selectedRies.includes(elem.ri)
-      ).map((item: any) => {
-        return {
-          ...item,
-          x: item.x.map((item2: any) => {
-            if (item2.lat) {
-              return [item2.lat, item2.lng]
-            } else {
-              return item2
-            }
-          })
+    this.transportLoading = true;
+    this.requestService
+      .requestData(environment.urls.POST_BUSROUTES, 'POST', formData)
+      .pipe(
+        finalize(() => {
+          this.transportLoading = false;
+        }),
+      )
+      .subscribe(async (data: any) => {
+        if (typeof this.queryService.activeQueryList()['transports'] === 'string') {
+          this.routeTransports = [this.queryService.activeQueryList()['transports']] || [];
+        } else {
+          this.routeTransports = this.queryService.activeQueryList()['transports'] || [];
         }
-      });
-    })
 
+        let busRoutes: any = {};
+        busRoutes.x = data.scheme.forward.split(' ').map((elem: any) => {
+          return {
+            lat: elem.split(',')[0],
+            lng: elem.split(',')[1],
+          };
+        });
+        busRoutes.y = data.scheme.backward.split(' ').map((elem: any) => {
+          return {
+            lat: elem.split(',')[0],
+            lng: elem.split(',')[1],
+          };
+        });
+        let color: any = TOP_COLORS.filter((elem: any) => !this.transports.map((item: any) => item.color).includes(elem))[0];
+        busRoutes.color = color;
+        busRoutes.ri = number;
+        let currentTransport = this.transports.find((elem: any) => elem.ri == number);
+        currentTransport.color = color;
+        this.transports = [...this.transports];
+        this.selectRoutes.push(busRoutes);
+        let selectedRies: any = this.routeTransports;
+        this.selectRoutes = this.selectRoutes
+          .filter((elem: any) => selectedRies.includes(elem.ri))
+          .map((item: any) => {
+            return {
+              ...item,
+              x: item.x.map((item2: any) => {
+                if (item2.lat) {
+                  return [item2.lat, item2.lng];
+                } else {
+                  return item2;
+                }
+              }),
+            };
+          });
+      });
   };
   __GET_ANNOUNCEMENTS = () => {
     // if (Object.keys(this.queryService.generatorHttpParams(this.queryService.activeQueryList())).length > 0) {
-      this.requestService.getData<IAnnouncement>(environment.urls.GET_ANNONCEMENTS,this.queryService.generatorHttpParams(this.queryService.activeQueryList()))
-        .subscribe((response:IAnnouncement) => {
-        if (typeof this.queryService.activeQueryList()['transports'] === 'string') {
-          this.routeTransports = [this.queryService.activeQueryList()['transports']] || []
-        } else {
-          this.routeTransports = this.queryService.activeQueryList()['transports'] || []
-        }
-        this.announcements = response?.results.filter((elem: any) => Number(elem.location_x)).map((item: any) => {
+    this.requestService.getData<IAnnouncementList>(environment.urls.GET_ANNONCEMENTS, this.queryService.generatorHttpParams(this.queryService.activeQueryList())).subscribe((response: IAnnouncementList) => {
+      if (typeof this.queryService.activeQueryList()['transports'] === 'string') {
+        this.routeTransports = [this.queryService.activeQueryList()['transports']] || [];
+      } else {
+        this.routeTransports = this.queryService.activeQueryList()['transports'] || [];
+      }
+      this.announcements = response?.results
+        .filter((elem: any) => Number(elem.location_x))
+        .map((item: any) => {
           return {
             ...item,
-            geometry: [item.location_x, item.location_y]
-          }
+            geometry: [item.location_x, item.location_y],
+          };
         });
-          console.log(this.announcements)
-        if (this.announcements.length > 0)
-          this.mapCenter = [
-            this.announcements[0].location_x,
-            this.announcements[0].location_y,
-          ];
-      })
+      console.log(this.announcements);
+      if (this.announcements.length > 0) this.mapCenter = [this.announcements[0].location_x, this.announcements[0].location_y];
+    });
     // }
-
-  }
+  };
 
   __GET_TRANSPORTS() {
-    this.requestService.getData<any>(environment.urls.GET_TRANSPORTS)
-      .subscribe((response: any) => {
+    this.requestService.getData<any>(environment.urls.GET_TRANSPORTS).subscribe((response: any) => {
       this.transports = response;
-      this.buses = response.filter((item: any) => item.type == 'BUS').sort((a: any, b: any) => {
-        const nameA: number = parseInt(a.name);
-        const nameB: number = parseInt(b.name);
-        return nameA - nameB;
-      });
+      this.buses = response
+        .filter((item: any) => item.type == 'BUS')
+        .sort((a: any, b: any) => {
+          const nameA: number = parseInt(a.name);
+          const nameB: number = parseInt(b.name);
+          return nameA - nameB;
+        });
       this.subways = response.filter((item: any) => item.type == 'METRO');
       this.marshutka = response.filter((item: any) => item.type == 'MARSHUTKA');
-    })
+    });
   }
 
   // openBottomSheet() {
@@ -370,10 +342,10 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   closeBShFilter = () => {
     this.bottomSheetFilter.close();
-  }
+  };
 
   openBShTransport() {
-    this.toggleBus('showBus')
+    this.toggleBus('showBus');
     this.bottomSheetTransports.open();
   }
 
@@ -381,17 +353,17 @@ export class MapComponent implements OnInit, AfterViewInit {
     this.bottomSheetTransports.close();
     this.showSubway = false;
     this.showMiniBus = false;
-    this.showBus = false
+    this.showBus = false;
   }
 
   openBShInfo() {
-    this.bottomSheetInfo.open()
+    this.bottomSheetInfo.open();
   }
   closeBShInfo() {
-    this.bottomSheetInfo.close()
+    this.bottomSheetInfo.close();
   }
   handleClusterClick(e: any) {
-    console.log(e)
-    console.log("asdajsieyuqwy4328y8433284")
+    console.log(e);
+    console.log('asdajsieyuqwy4328y8433284');
   }
 }

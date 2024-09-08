@@ -8,10 +8,9 @@ describe('CommentDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CommentDialogComponent]
-    })
-    .compileComponents();
-    
+      imports: [CommentDialogComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(CommentDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

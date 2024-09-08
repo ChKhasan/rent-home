@@ -53,11 +53,15 @@
   height: 100vh;
 }
 .search {
-  box-shadow: 0 0 2px rgb(0 0 0/20%), 0 -1px 0 rgb(0 0 0/2%);
+  box-shadow:
+    0 0 2px rgb(0 0 0/20%),
+    0 -1px 0 rgb(0 0 0/2%);
 }
 .buses {
   transition: 0.2s;
-  box-shadow: 0 0 2px rgb(0 0 0/20%), 0 -1px 0 rgb(0 0 0/2%);
+  box-shadow:
+    0 0 2px rgb(0 0 0/20%),
+    0 -1px 0 rgb(0 0 0/2%);
 }
 .buses:hover {
   background-color: rgb(0 0 0/5%);

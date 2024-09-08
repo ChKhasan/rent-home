@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{html,ts}",],
+  content: ["./src/**/*.{html,ts}"],
   // prefix: 'tw-',
   // corePlugins: {
   //   preflight: false,
@@ -26,6 +26,11 @@ module.exports = {
       transparent: "transparent",
       current: "currentColor",
       white: "#ffffff",
+    },
+    extend: {
+      fontFamily: {
+        gilroy: ["Gilroy", "sans-serif"],
+      },
     },
   },
 };

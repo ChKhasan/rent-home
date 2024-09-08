@@ -18,10 +18,9 @@
 }
 @media (max-width: 768px) {
   :host ::ng-deep .count-input {
-    max-width: 30%
+    max-width: 30%;
   }
   :host ::ng-deep .count-input input {
-    width: 30%
+    width: 30%;
   }
-
 }

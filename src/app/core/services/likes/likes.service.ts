@@ -1,21 +1,15 @@
-import {Injectable} from '@angular/core';
-import {
-  HttpClient,
-  HttpResponse,
-} from "@angular/common/http";
-import {debounceTime, distinctUntilChanged, map, Observable} from "rxjs";
-import {environment} from "@environments";
-import {Announcement, Likes} from "@services/interfaces";
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { debounceTime, distinctUntilChanged, map, Observable } from 'rxjs';
+import { environment } from '@environments';
+import { IAnnouncementListItem, Likes } from '@services/interfaces';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LikesService {
-
-  public likes: any = []
-  constructor(
-    private _httpsClient: HttpClient,
-  ) { };
+  public likes: any = [];
+  constructor(private _httpsClient: HttpClient) {}
   likeHandle(payload: number) {
     let oldLikes = JSON.parse(localStorage.getItem(environment.storeLikes) as string) || [];
     if (!oldLikes.includes(payload)) {
@@ -34,27 +28,16 @@ export class LikesService {
     this.likes = payload;
   }
   get(): Observable<any> {
-    return this._httpsClient
-      .get<any>(environment.authUrls.GET_LIKES)
-      .pipe(
-        debounceTime(300),
-        distinctUntilChanged(),
-      );
+    return this._httpsClient.get<any>(environment.authUrls.GET_LIKES).pipe(debounceTime(300), distinctUntilChanged());
   }
-  post(payload: { announcement: number }): Observable<Announcement[] | null> {
-    return this._httpsClient
-      .post<Announcement[]>(environment.authUrls.POST_LIKES,payload,{ observe: 'response' })
-      .pipe(
-        debounceTime(300),
-        distinctUntilChanged(),
-        map((response: HttpResponse<Announcement[]>) => response.body)
-      );
+  post(payload: { announcement: number }): Observable<IAnnouncementListItem[] | null> {
+    return this._httpsClient.post<IAnnouncementListItem[]>(environment.authUrls.POST_LIKES, payload, { observe: 'response' }).pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      map((response: HttpResponse<IAnnouncementListItem[]>) => response.body),
+    );
   }
-  delete(payload: { id: number }): Observable<Announcement[]> {
-    return this._httpsClient
-      .delete<Announcement[]>(environment.authUrls.DELETE_LIKES + '/' + payload.id)
-      .pipe(
-        debounceTime(300),
-      );
+  delete(payload: { id: number }): Observable<IAnnouncementListItem[]> {
+    return this._httpsClient.delete<IAnnouncementListItem[]>(environment.authUrls.DELETE_LIKES + '/' + payload.id).pipe(debounceTime(300));
   }
 }

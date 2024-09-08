@@ -1,19 +1,16 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {PaginatorModule, PaginatorState} from "primeng/paginator";
-import {ActivatedRoute, Router} from "@angular/router";
-import {QueryService} from "@services/query";
-import {log} from "@angular-devkit/build-angular/src/builders/ssr-dev-server";
-import {NgIf} from "@angular/common";
+import { Component, Input, OnInit } from '@angular/core';
+import { PaginatorModule, PaginatorState } from 'primeng/paginator';
+import { ActivatedRoute, Router } from '@angular/router';
+import { QueryService } from '@services/query';
+import { log } from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-pagination',
   standalone: true,
-  imports: [
-    PaginatorModule,
-    NgIf
-  ],
+  imports: [PaginatorModule, NgIf],
   templateUrl: './pagination.component.html',
-  styleUrl: './pagination.component.css'
+  styleUrl: './pagination.component.css',
 })
 export class PaginationComponent implements OnInit {
   public first: number = 0;
@@ -25,23 +22,26 @@ export class PaginationComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private queryService: QueryService
-  ) {
-  }
+    private queryService: QueryService,
+  ) {}
 
   ngOnInit() {
-    if (typeof window !== 'undefined') this.firstPaginationQuery().then(() => console.log("ase324322"))
+    if (typeof window !== 'undefined') this.firstPaginationQuery().then(() => console.log('ase324322'));
   }
   async firstPaginationQuery() {
-    console.log("aaaa",!this.route.snapshot.queryParams['page'])
-    const activeQuery = {page: this.page + 1, page_size: this.rows,...this.queryService.activeQueryList()}
+    console.log('aaaa', !this.route.snapshot.queryParams['page']);
+    const activeQuery = {
+      page: this.page + 1,
+      page_size: this.rows,
+      ...this.queryService.activeQueryList(),
+    };
     if (!this.route.snapshot.queryParams['page'] || !this.route.snapshot.queryParams['page_size']) {
       await this.router.navigate([], {
         relativeTo: this.route,
         queryParams: activeQuery,
-      })
+      });
     }
-    this.generateParametries()
+    this.generateParametries();
   }
 
   generateParametries() {
@@ -51,12 +51,14 @@ export class PaginationComponent implements OnInit {
   }
 
   changePaginationQuery() {
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: {page: this.page + 1, page_size: this.rows},
-    }).then(() => {
-      this.invokeFunction()
-    })
+    this.router
+      .navigate([], {
+        relativeTo: this.route,
+        queryParams: { page: this.page + 1, page_size: this.rows },
+      })
+      .then(() => {
+        this.invokeFunction();
+      });
   }
 
   onPageChange(event: PaginatorState) {
@@ -68,5 +70,5 @@ export class PaginationComponent implements OnInit {
 
   invokeFunction = () => {
     if (this.getData) this.getData();
-  }
+  };
 }

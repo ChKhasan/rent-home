@@ -1,17 +1,9 @@
 <div class="relative flex justify-center dropdown" [ngClass]="dropName">
-  <button
-    (click)="profileDrop = !profileDrop"
-    class="border-[1px] border-[color:var(--gray-2)] rounded-[8px] border-solid px-[10px] py-[8px] bg-transparent"
-  >
+  <div (click)="profileDrop = !profileDrop">
     <ng-content select=".dbtn"></ng-content>
-  </button>
+  </div>
 
-  <div
-    [@errorAnimation]
-    *ngIf="profileDrop"
-
-    class="top-[100%] footer z-[10] absolute rounded-[12px] bg-white profile px-[24px] py-[24px] right-0 overflow-hidden"
-  >
+  <div [@errorAnimation] *ngIf="profileDrop" class="shadow-md top-[100%] footer z-50 absolute rounded-[12px] bg-white profile px-[24px] py-[24px] right-0 overflow-hidden">
     <ng-content select=".dbody"></ng-content>
   </div>
 </div>

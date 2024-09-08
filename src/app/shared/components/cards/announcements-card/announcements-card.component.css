@@ -1,7 +1,6 @@
-.card {
+/* .card {
   box-shadow: 0px 9px 18px 0px rgba(0, 0, 0, 0.08);
-}
-
+} */
 
 .body h3 {
   font-family: var(--semiBold);
@@ -10,8 +9,7 @@
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 1;
-  transition: .3s
-
+  transition: 0.3s;
 }
 
 .body .location p {
@@ -30,11 +28,10 @@
 
 .title:hover h3 {
   color: var(--green);
-
 }
 
 .card img {
-  transition: .3s linear;
+  transition: 0.3s linear;
 }
 
 .card:hover img {

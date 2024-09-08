@@ -1,6 +1,3 @@
-
 // import 'jasmine';
 
-describe('AuthDialogComponent', () => {
-
-});
+describe('AuthDialogComponent', () => {});

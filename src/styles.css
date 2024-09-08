@@ -1,6 +1,7 @@
 @import "primeng/resources/primeng.css";
-@import 'primeng/resources/themes/saga-green/theme.css';
+@import "primeng/resources/themes/saga-green/theme.css";
 @import "primeicons/primeicons.css";
+@import "./assets/fonts/style.css";
 
 @tailwind components;
 @tailwind utilities;
@@ -57,8 +58,9 @@
 
   /* colors */
   --primary-color: #ff0000; /* Change to your desired color */
-  --el-color-primary: #00a000 !important;
-  --green: #00a000;
+  --el-color-primary: #5fc381 !important;
+  --green: #5fc381;
+  --green-100: #91d6a8;
   --gray-5: #aeaeb2;
   --gray-1: #fafafc;
   --grey-1: #f2f2f7;
@@ -70,11 +72,16 @@
   --dark-3: #3a3a3c;
   --dark-4: #2c2c2e;
   --dark-5: #1c1c1e;
+  --grey-300: #d0d5dd;
+  --grey-400: #98a2b3;
+  --grey-600: #667185;
+  --grey-900: #101928;
   --input-stroke: #d1ddd1;
   --btn-blue: #3a75ce;
   --red: #f50000;
-  --ant-primary-color: #00ff00; /* Change this to your desired primary color */
-  --input-color: #fafafc
+  --ant-primary-color: #5fc381; /* Change this to your desired primary color */
+  --input-color: #fafafc;
+  --brown-900: #3e3838;
 }
 
 .font-100 {
@@ -114,9 +121,10 @@ html {
 }
 
 body {
-  font-family: var(--regular);
+  font-family: "Inter", sans-serif;
   font-style: normal;
   line-height: normal;
+  font-weight: 400;
 }
 
 body {
@@ -138,7 +146,6 @@ h6 {
   margin: 0;
   font-size: inherit;
   font-weight: inherit;
-
 }
 
 .container {
@@ -175,7 +182,7 @@ button {
 
 ul {
   margin: 0;
-  padding: 0
+  padding: 0;
 }
 .no-scroll {
   overflow: hidden;

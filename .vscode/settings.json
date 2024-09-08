@@ -1,0 +1,20 @@
+{
+  "prettier.printWidth": 1000,
+  "prettier.singleAttributePerLine": false,
+  "prettier.htmlWhitespaceSensitivity": "ignore",
+  "prettier.plugins": ["prettier-plugin-html"], // Ensure HTML plugins are included
+  "overrides": [
+    {
+      "files": "*.svg",
+      "options": {
+        "singleAttributePerLine": false
+      }
+    },
+    {
+      "files": "*.html",
+      "options": {
+        "htmlWhitespaceSensitivity": "ignore"
+      }
+    }
+  ]
+}

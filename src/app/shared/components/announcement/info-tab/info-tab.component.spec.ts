@@ -8,10 +8,9 @@ describe('InfoTabComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [InfoTabComponent]
-    })
-    .compileComponents();
-    
+      imports: [InfoTabComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(InfoTabComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

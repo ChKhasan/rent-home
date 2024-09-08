@@ -16,7 +16,7 @@ export const environment = {
     GET_COMMENTS: '/api/comment/',
     GET_ALLTRANSPORTS: '/api/proxy/',
     POST_LOCATIONBUSES: '/api/buses/',
-    POST_BUSROUTES: '/api/bus/'
+    POST_BUSROUTES: '/api/bus/',
   },
   authUrls: {
     POST_ANNONCEMENTS: '/api/announcement/',
@@ -32,7 +32,6 @@ export const environment = {
     DELETE_COMMENTS: '/api/comment/',
     PUT_USER: '/api/users/',
     GET_USERROOMS: '/api/user-rooms/',
-    GET_USERMESSAGES: '/api/user-rooms/'
-
-  }
+    GET_USERMESSAGES: '/api/user-rooms/',
+  },
 };

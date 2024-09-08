@@ -8,10 +8,9 @@ describe('SmsDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SmsDialogComponent]
-    })
-    .compileComponents();
-    
+      imports: [SmsDialogComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(SmsDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

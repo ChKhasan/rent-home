@@ -1,32 +1,36 @@
 <div class="mb-12">
   <h4 class="font-600 text-black text-1.5xl pb-7.5 text-[26px] pb-7">О квартире</h4>
   <div class="grid grid-cols-2">
-
     <ul class="list-none grid grid-cols-2">
       <li class="font-500 text-[#818181] text-[18px] border-[0] border-b border-[#b2b2b2] border-solid pb-1 pt-4">Комнат</li>
-      <li class="font-500 text-[18px] border-[0] border-b border-[#b2b2b2] border-solid pb-1 pt-4 border-r flex justify-center">{{announcement.room_count}}</li>
-      <li class="font-500 text-[#818181] text-[18px] border-[0] border-b border-[#b2b2b2] border-solid pb-1 pt-4">Этаж</li>
-      <li class="font-500 text-[18px] border-[0] border-b border-[#b2b2b2] border-solid pb-1 pt-4 border-r flex justify-center">{{announcement.room_count}}</li>
-      <li class="font-500 text-[#818181] text-[18px] border-[0] border-b border-[#b2b2b2] border-solid pb-1 pt-4">Число людей</li>
-      <li class="font-500 text-[18px] border-[0] border-b border-[#b2b2b2] border-solid pb-1 pt-4 border-r flex justify-center">{{announcement.need_people_count}}</li>
-    </ul>
-    <ul class="list-none grid grid-cols-2 ">
-      <li class="pl-5 font-500 text-[#818181] text-[18px] border-[0] border-b border-[#b2b2b2] border-solid pb-1 pt-4">
-        Кондиционер
-
+      <li class="font-500 text-[18px] border-[0] border-b border-[#b2b2b2] border-solid pb-1 pt-4 border-r flex justify-center">
+        {{ announcement.room_count }}
       </li>
+      <li class="font-500 text-[#818181] text-[18px] border-[0] border-b border-[#b2b2b2] border-solid pb-1 pt-4">Этаж</li>
+      <li class="font-500 text-[18px] border-[0] border-b border-[#b2b2b2] border-solid pb-1 pt-4 border-r flex justify-center">
+        {{ announcement.room_count }}
+      </li>
+      <li class="font-500 text-[#818181] text-[18px] border-[0] border-b border-[#b2b2b2] border-solid pb-1 pt-4">Число людей</li>
+      <li class="font-500 text-[18px] border-[0] border-b border-[#b2b2b2] border-solid pb-1 pt-4 border-r flex justify-center">
+        {{ announcement.need_people_count }}
+      </li>
+    </ul>
+    <ul class="list-none grid grid-cols-2">
+      <li class="pl-5 font-500 text-[#818181] text-[18px] border-[0] border-b border-[#b2b2b2] border-solid pb-1 pt-4">Кондиционер</li>
       <li class="font-500 text-[#818181] text-[18px] border-[0] border-b border-[#b2b2b2] border-solid pb-1 pt-4 flex justify-center">
-        <i *ngIf="announcement.conditioner" class="pi pi-check  md:text-[14px]" style="color: var(--green)"></i>
+        <i *ngIf="announcement.conditioner" class="pi pi-check md:text-[14px]" style="color: var(--green)"></i>
         <i *ngIf="!announcement.conditioner" class="pi pi-times md:text-[14px]" style="color: red"></i>
       </li>
-      <li class="pl-5 font-500 text-[#818181] text-[18px] border-[0] border-b border-[#b2b2b2] border-solid pb-1 pt-4">Стиральная машина
+      <li class="pl-5 font-500 text-[#818181] text-[18px] border-[0] border-b border-[#b2b2b2] border-solid pb-1 pt-4">Стиральная машина</li>
+      <li class="font-500 text-[#818181] text-[18px] border-[0] border-b border-[#b2b2b2] border-solid pb-1 pt-4 flex justify-center">
+        <i *ngIf="announcement.washing_machine" class="pi pi-check md:text-[14px]" style="color: var(--green)"></i>
+        <i *ngIf="!announcement.washing_machine" class="pi pi-times md:text-[14px]" style="color: red"></i>
       </li>
-      <li class="font-500 text-[#818181] text-[18px] border-[0] border-b border-[#b2b2b2] border-solid pb-1 pt-4 flex justify-center"><i *ngIf="announcement.washing_machine" class="pi pi-check md:text-[14px]" style="color: var(--green)"></i>
-        <i *ngIf="!announcement.washing_machine" class="pi pi-times md:text-[14px]" style="color: red"></i></li>
       <li class="pl-5 font-500 text-[#818181] text-[18px] border-[0] border-b border-[#b2b2b2] border-solid pb-1 pt-4">Холодильник</li>
-      <li class="font-500 text-[#818181] text-[18px] border-[0] border-b border-[#b2b2b2] border-solid pb-1 pt-4 flex justify-center"><i *ngIf="announcement.washing_machine" class="pi pi-check md:text-[14px]" style="color: var(--green)"></i>
-        <i *ngIf="!announcement.washing_machine" class="pi pi-times md:text-[14px]" style="color: red"></i></li>
+      <li class="font-500 text-[#818181] text-[18px] border-[0] border-b border-[#b2b2b2] border-solid pb-1 pt-4 flex justify-center">
+        <i *ngIf="announcement.washing_machine" class="pi pi-check md:text-[14px]" style="color: var(--green)"></i>
+        <i *ngIf="!announcement.washing_machine" class="pi pi-times md:text-[14px]" style="color: red"></i>
+      </li>
     </ul>
   </div>
-
 </div>

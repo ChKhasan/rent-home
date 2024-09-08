@@ -8,10 +8,9 @@ describe('ThumbCarouselComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ThumbCarouselComponent]
-    })
-    .compileComponents();
-    
+      imports: [ThumbCarouselComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(ThumbCarouselComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

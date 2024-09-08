@@ -28,12 +28,12 @@
 }
 :host ::ng-deep .p-placeholder,
 :host ::ng-deep .p-cascadeselect-label {
-padding: 0 !important;
+  padding: 0 !important;
   font-family: var(--regular);
   font-size: 16px;
   line-height: 19.2px;
   text-align: left;
-  color: var(--dark-5)
+  color: var(--dark-5);
 }
 :host ::ng-deep .p-cascadeselect {
   border: 0 !important;

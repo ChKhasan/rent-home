@@ -1,144 +1,137 @@
-
-
-<p-dialog [(visible)]="visible"
-          [dismissableMask]="true"
-          [modal]="true"
-          [style]="{ width: '100%',height: '100vh',maxHeight: '100%',borderRadius: '12px',overflow: 'hidden',padding: 0 }"
-          [showHeader]="false"
-
+<p-dialog
+  [(visible)]="visible"
+  [dismissableMask]="true"
+  [modal]="true"
+  [style]="{
+    width: '100%',
+    height: '100vh',
+    maxHeight: '100%',
+    borderRadius: '12px',
+    overflow: 'hidden',
+    padding: 0,
+  }"
+  [showHeader]="false"
 >
- <div>
-   <div class="map" *ngIf="visible">
-     <ya-map [center]="coords"  (yaclick)="handleMapClick($event)" [zoom]="12">
-       <ya-placemark [geometry]="coords"></ya-placemark>
-       <ya-geoobject
-         *ngIf="busRoute.x"
-                     [feature]="{ geometry: { type: 'LineString', coordinates: busRoute.x,} }"
-                     [options]="{ strokeColor: 'rgb(1,190,1)', strokeWidth: 5,draggable: false }">
-       </ya-geoobject>
-       <ya-geoobject
-         *ngIf="busRoute.y"
-                     [feature]="{ geometry: { type: 'LineString', coordinates: busRoute.y,} }"
-                     [options]="{ strokeColor: 'rgb(1,190,1)', strokeWidth: 5,draggable: false }">
-       </ya-geoobject>
-     </ya-map>
-   </div>
-   <div
-     class="toolbar fixed h-[100vh] w-[450px] z-[1000] top-0 right-0 flex flex-col gap-6"
-   >
-     <p-button class="w-full" styleClass="w-full flex justify-center"  severity="danger" (click)="hideDialog()">Close</p-button>
-     <div class="search rounded-2xl bg-white">
-       <div class="search-input px-3 py-3 flex items-center pr-4">
-<!--         <el-input-->
-<!--           placeholder="Поиск на Картах"-->
-<!--           class="border-[0] w-full"-->
-<!--           v-model="search"-->
-<!--           @keyup.enter="onChange"-->
-<!--         />-->
-<!--         <div-->
-<!--           @click="startRecognition"-->
-<!--           class="recButton"-->
-<!--           :class="{ Rec: isRecording }"-->
-<!--         ></div>-->
-       </div>
-       <div
-         class="search-results"
-         :class="{ 'pb-4': searchLocations.length > 0 || loadingBus }"
-       >
-<!--         <ul class="flex flex-col max-h-48 overflow-y-scroll" v-if="loadingBus">-->
-<!--           <li-->
-<!--             v-for="loadCard in loadList"-->
-<!--             :key="loadCard"-->
-<!--             class="flex gap-4 px-3 leading-8 cursor-pointer items-center"-->
-<!--           >-->
-<!--             <el-skeleton :rows="0" width="100%" class="w-full truncate" />-->
-<!--           </li>-->
-<!--         </ul>-->
-<!--         <ul class="flex flex-col gap-1 max-h-48 overflow-y-scroll" v-else>-->
-<!--           <li-->
-<!--             v-for="location in searchLocations"-->
-<!--             :key="location?.osm_id"-->
-<!--             @click="handleLocation(location)"-->
-<!--             class="flex gap-4 px-3 py-[6px] leading-8 cursor-pointer items-center"-->
-<!--           >-->
-<!--             <svg-->
-<!--               xmlns="http://www.w3.org/2000/svg"-->
-<!--               xmlns:xlink="http://www.w3.org/1999/xlink"-->
-<!--               fill="#000000"-->
-<!--               height="21px"-->
-<!--               width="21px"-->
-<!--               version="1.1"-->
-<!--               id="Capa_1"-->
-<!--               viewBox="0 0 297 297"-->
-<!--               xml:space="preserve"-->
-<!--             >-->
-<!--                    <g>-->
-<!--                      <path-->
-<!--                        d="M148.5,0C87.43,0,37.747,49.703,37.747,110.797c0,91.026,99.729,179.905,103.976,183.645   c1.936,1.705,4.356,2.559,6.777,2.559c2.421,0,4.841-0.853,6.778-2.559c4.245-3.739,103.975-92.618,103.975-183.645   C259.253,49.703,209.57,0,148.5,0z M148.5,272.689c-22.049-21.366-90.243-93.029-90.243-161.892   c0-49.784,40.483-90.287,90.243-90.287s90.243,40.503,90.243,90.287C238.743,179.659,170.549,251.322,148.5,272.689z"-->
-<!--                      />-->
-<!--                      <path-->
-<!--                        d="M148.5,59.183c-28.273,0-51.274,23.154-51.274,51.614c0,28.461,23.001,51.614,51.274,51.614   c28.273,0,51.274-23.153,51.274-51.614C199.774,82.337,176.773,59.183,148.5,59.183z M148.5,141.901   c-16.964,0-30.765-13.953-30.765-31.104c0-17.15,13.801-31.104,30.765-31.104c16.964,0,30.765,13.953,30.765,31.104   C179.265,127.948,165.464,141.901,148.5,141.901z"-->
-<!--                      />-->
-<!--                    </g>-->
-<!--                  </svg>-->
-<!--             <p class="w-full truncate whitespace-nowrap">-->
-<!--               {{ location?.display_name }}-->
-<!--             </p>-->
-<!--           </li>-->
-<!--         </ul>-->
-       </div>
-     </div>
-     <div
-       class="transports px-3 py-3 rounded-2xl bg-white flex flex-col gap-4"
-       *ngIf="routes.length > 0 || metroWays.length > 0"
-     >
-       <div *ngIf="routes.length > 0">
-         <h4 class="text-black font-semibold mb-4 text-[16]">Автобусы поблизости</h4>
-         <ul class="bus-list flex flex-wrap gap-2">
-           <li
-             *ngFor="let bus of busRoutes"
-             (click)="handleBusRoute(bus.ri)"
-             class="rounded-[5px] w-8 h-8 flex items-center justify-center buses cursor-pointer"
-             [class]="{ active: activeBus === bus.ri,'pointer-events-none opacity-0': transportLoading }"
-           >
-             {{ bus.name }}
-           </li>
-         </ul>
-       </div>
-       <div *ngIf="metroWays.length > 0">
-         <h4 class="text-black font-semibold mb-4 text-[16]">
-           Метро рядом с адресом
-         </h4>
-         <ul class="metro-list flex flex-wrap gap-2">
-           <li
-             *ngFor="let metro of metroWays"
-             class="rounded-[5px] min-w-8 px-1 h-8 flex items-center justify-center cursor-pointer gap-3"
-           >
-             <svg
-               xmlns="http://www.w3.org/2000/svg"
-               xmlns:xlink="http://www.w3.org/1999/xlink"
-               fill="#000000"
-               height="21px"
-               width="21px"
-               version="1.1"
-               id="Capa_1"
-               viewBox="0 0 297 297"
-               xml:space="preserve"
-             >
-                    <g>
-                      <path
-                        d="M148.5,0C87.43,0,37.747,49.703,37.747,110.797c0,91.026,99.729,179.905,103.976,183.645   c1.936,1.705,4.356,2.559,6.777,2.559c2.421,0,4.841-0.853,6.778-2.559c4.245-3.739,103.975-92.618,103.975-183.645   C259.253,49.703,209.57,0,148.5,0z M148.5,272.689c-22.049-21.366-90.243-93.029-90.243-161.892   c0-49.784,40.483-90.287,90.243-90.287s90.243,40.503,90.243,90.287C238.743,179.659,170.549,251.322,148.5,272.689z"
-                      />
-                      <path
-                        d="M148.5,59.183c-28.273,0-51.274,23.154-51.274,51.614c0,28.461,23.001,51.614,51.274,51.614   c28.273,0,51.274-23.153,51.274-51.614C199.774,82.337,176.773,59.183,148.5,59.183z M148.5,141.901   c-16.964,0-30.765-13.953-30.765-31.104c0-17.15,13.801-31.104,30.765-31.104c16.964,0,30.765,13.953,30.765,31.104   C179.265,127.948,165.464,141.901,148.5,141.901z"
-                      />
-                    </g>
-                  </svg>
-             {{ metro.name }}
-           </li>
-         </ul>
-       </div>
-     </div>
-   </div>
- </div>
+  <div>
+    <div class="map" *ngIf="visible">
+      <ya-map [center]="coords" (yaclick)="handleMapClick($event)" [zoom]="12">
+        <ya-placemark [geometry]="coords"></ya-placemark>
+        <ya-geoobject
+          *ngIf="busRoute.x"
+          [feature]="{
+            geometry: { type: 'LineString', coordinates: busRoute.x },
+          }"
+          [options]="{
+            strokeColor: 'rgb(1,190,1)',
+            strokeWidth: 5,
+            draggable: false,
+          }"
+        ></ya-geoobject>
+        <ya-geoobject
+          *ngIf="busRoute.y"
+          [feature]="{
+            geometry: { type: 'LineString', coordinates: busRoute.y },
+          }"
+          [options]="{
+            strokeColor: 'rgb(1,190,1)',
+            strokeWidth: 5,
+            draggable: false,
+          }"
+        ></ya-geoobject>
+      </ya-map>
+    </div>
+    <div class="toolbar fixed h-[100vh] w-[450px] z-[1000] top-0 right-0 flex flex-col gap-6">
+      <p-button class="w-full" styleClass="w-full flex justify-center" severity="danger" (click)="hideDialog()">Close</p-button>
+      <div class="search rounded-2xl bg-white">
+        <div class="search-input px-3 py-3 flex items-center pr-4">
+          <!--         <el-input-->
+          <!--           placeholder="Поиск на Картах"-->
+          <!--           class="border-[0] w-full"-->
+          <!--           v-model="search"-->
+          <!--           @keyup.enter="onChange"-->
+          <!--         />-->
+          <!--         <div-->
+          <!--           @click="startRecognition"-->
+          <!--           class="recButton"-->
+          <!--           :class="{ Rec: isRecording }"-->
+          <!--         ></div>-->
+        </div>
+        <div class="search-results" :class="{ 'pb-4': searchLocations.length > 0 || loadingBus }">
+          <!--         <ul class="flex flex-col max-h-48 overflow-y-scroll" v-if="loadingBus">-->
+          <!--           <li-->
+          <!--             v-for="loadCard in loadList"-->
+          <!--             :key="loadCard"-->
+          <!--             class="flex gap-4 px-3 leading-8 cursor-pointer items-center"-->
+          <!--           >-->
+          <!--             <el-skeleton :rows="0" width="100%" class="w-full truncate" />-->
+          <!--           </li>-->
+          <!--         </ul>-->
+          <!--         <ul class="flex flex-col gap-1 max-h-48 overflow-y-scroll" v-else>-->
+          <!--           <li-->
+          <!--             v-for="location in searchLocations"-->
+          <!--             :key="location?.osm_id"-->
+          <!--             @click="handleLocation(location)"-->
+          <!--             class="flex gap-4 px-3 py-[6px] leading-8 cursor-pointer items-center"-->
+          <!--           >-->
+          <!--             <svg-->
+          <!--               xmlns="http://www.w3.org/2000/svg"-->
+          <!--               xmlns:xlink="http://www.w3.org/1999/xlink"-->
+          <!--               fill="#000000"-->
+          <!--               height="21px"-->
+          <!--               width="21px"-->
+          <!--               version="1.1"-->
+          <!--               id="Capa_1"-->
+          <!--               viewBox="0 0 297 297"-->
+          <!--               xml:space="preserve"-->
+          <!--             >-->
+          <!--                    <g>-->
+          <!--                      <path-->
+          <!--                        d="M148.5,0C87.43,0,37.747,49.703,37.747,110.797c0,91.026,99.729,179.905,103.976,183.645   c1.936,1.705,4.356,2.559,6.777,2.559c2.421,0,4.841-0.853,6.778-2.559c4.245-3.739,103.975-92.618,103.975-183.645   C259.253,49.703,209.57,0,148.5,0z M148.5,272.689c-22.049-21.366-90.243-93.029-90.243-161.892   c0-49.784,40.483-90.287,90.243-90.287s90.243,40.503,90.243,90.287C238.743,179.659,170.549,251.322,148.5,272.689z"-->
+          <!--                      />-->
+          <!--                      <path-->
+          <!--                        d="M148.5,59.183c-28.273,0-51.274,23.154-51.274,51.614c0,28.461,23.001,51.614,51.274,51.614   c28.273,0,51.274-23.153,51.274-51.614C199.774,82.337,176.773,59.183,148.5,59.183z M148.5,141.901   c-16.964,0-30.765-13.953-30.765-31.104c0-17.15,13.801-31.104,30.765-31.104c16.964,0,30.765,13.953,30.765,31.104   C179.265,127.948,165.464,141.901,148.5,141.901z"-->
+          <!--                      />-->
+          <!--                    </g>-->
+          <!--                  </svg>-->
+          <!--             <p class="w-full truncate whitespace-nowrap">-->
+          <!--               {{ location?.display_name }}-->
+          <!--             </p>-->
+          <!--           </li>-->
+          <!--         </ul>-->
+        </div>
+      </div>
+      <div class="transports px-3 py-3 rounded-2xl bg-white flex flex-col gap-4" *ngIf="routes.length > 0 || metroWays.length > 0">
+        <div *ngIf="routes.length > 0">
+          <h4 class="text-black font-semibold mb-4 text-[16]">Автобусы поблизости</h4>
+          <ul class="bus-list flex flex-wrap gap-2">
+            <li
+              *ngFor="let bus of busRoutes"
+              (click)="handleBusRoute(bus.ri)"
+              class="rounded-[5px] w-8 h-8 flex items-center justify-center buses cursor-pointer"
+              [class]="{
+                active: activeBus === bus.ri,
+                'pointer-events-none opacity-0': transportLoading,
+              }"
+            >
+              {{ bus.name }}
+            </li>
+          </ul>
+        </div>
+        <div *ngIf="metroWays.length > 0">
+          <h4 class="text-black font-semibold mb-4 text-[16]">Метро рядом с адресом</h4>
+          <ul class="metro-list flex flex-wrap gap-2">
+            <li *ngFor="let metro of metroWays" class="rounded-[5px] min-w-8 px-1 h-8 flex items-center justify-center cursor-pointer gap-3">
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000" height="21px" width="21px" version="1.1" id="Capa_1" viewBox="0 0 297 297" xml:space="preserve">
+                <g>
+                  <path d="M148.5,0C87.43,0,37.747,49.703,37.747,110.797c0,91.026,99.729,179.905,103.976,183.645   c1.936,1.705,4.356,2.559,6.777,2.559c2.421,0,4.841-0.853,6.778-2.559c4.245-3.739,103.975-92.618,103.975-183.645   C259.253,49.703,209.57,0,148.5,0z M148.5,272.689c-22.049-21.366-90.243-93.029-90.243-161.892   c0-49.784,40.483-90.287,90.243-90.287s90.243,40.503,90.243,90.287C238.743,179.659,170.549,251.322,148.5,272.689z" />
+                  <path d="M148.5,59.183c-28.273,0-51.274,23.154-51.274,51.614c0,28.461,23.001,51.614,51.274,51.614   c28.273,0,51.274-23.153,51.274-51.614C199.774,82.337,176.773,59.183,148.5,59.183z M148.5,141.901   c-16.964,0-30.765-13.953-30.765-31.104c0-17.15,13.801-31.104,30.765-31.104c16.964,0,30.765,13.953,30.765,31.104   C179.265,127.948,165.464,141.901,148.5,141.901z" />
+                </g>
+              </svg>
+              {{ metro.name }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 </p-dialog>

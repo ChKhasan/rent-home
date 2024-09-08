@@ -8,10 +8,9 @@ describe('ProfileLayoutComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ProfileLayoutComponent]
-    })
-    .compileComponents();
-    
+      imports: [ProfileLayoutComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(ProfileLayoutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

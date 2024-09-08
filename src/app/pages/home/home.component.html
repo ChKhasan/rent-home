@@ -1,14 +1,24 @@
 <div class="pb-6">
-  <app-banner></app-banner>
+  <div class="my-4">
+    <app-banner></app-banner>
+  </div>
 
-  <div class="2xl:container mx-auto px-4">
-    <h3 class="font-600 text-[48px] md:text-[20px]"> <span class="text-[--green]">Популярные </span>объявления</h3>
-    <div
-      class="grid grid-cols-3 md:grid-cols-2 gap-[30px] md:gap-3 mt-[15px]"
-      *ngIf="loading, else carouselList"
-    >
-      <p-skeleton *ngFor="let item of [1,2,3]" class="w-full" styleClass="ng_skeleton"></p-skeleton>
+  <div class="max-w-[1120px] mx-auto px-4 flex flex-col gap-8">
+    <div>
+      <h3 class="font-medium text-[40px] text-[--green] md:text-[20px]">Top E`lonlar</h3>
+      <p class="text-[28px] text-[--brown-900] mt-2">Uy kerarmi? Unda Biz yordam beramiz!</p>
     </div>
+    <div class="grid grid-cols-3 md:grid-cols-2 gap-[10px] md:gap-3 mt-[15px]" *ngIf="loading; else announcementsList">
+      <p-skeleton *ngFor="let item of [1, 2, 3]" class="w-full" styleClass="ng_skeleton"></p-skeleton>
+    </div>
+    <ng-template #announcementsList>
+      <div class="grid grid-cols-3 md:grid-cols-2 gap-[10px] md:gap-3">
+        <ng-container *ngFor="let announcement of announcements">
+          <app-announcements-card [announcement]="announcement"></app-announcements-card>
+        </ng-container>
+      </div>
+    </ng-template>
+    <!--     
     <ng-template #carouselList>
       <div class="relative ">
         <div class="mr-[-15px] ml-[-15px] "  #owlCarousel>
@@ -16,38 +26,28 @@
         </div>
       </div>
 
-    </ng-template>
-    <h3 class="font-600 text-[48px] md:text-[20px] mt-6"> <span class="text-[--green]">Новые </span>объявления</h3>
-    <div
-      class="grid grid-cols-3 md:grid-cols-2 gap-[30px] md:gap-3 mt-[15px]"
-      *ngIf="loading, else carouselList"
-    >
-      <p-skeleton *ngFor="let item of [1,2,3]" class="w-full" styleClass="ng_skeleton"></p-skeleton>
+    </ng-template> -->
+    <div>
+      <h3 class="font-medium text-[40px] text-[--green] md:text-[20px]">Boshqa E`lonlar</h3>
+      <p class="text-[28px] text-[--brown-900] mt-2">Uy kerarmi? Unda Biz yordam beramiz!</p>
     </div>
-    <ng-template #carouselList>
+    <div class="grid grid-cols-3 md:grid-cols-2 gap-[10px] md:gap-3 mt-[15px]" *ngIf="loading; else announcementsList">
+      <p-skeleton *ngFor="let item of [1, 2, 3]" class="w-full" styleClass="ng_skeleton"></p-skeleton>
+    </div>
+    <ng-template #announcementsList>
+      <div class="grid grid-cols-3 md:grid-cols-2 gap-[10px] md:gap-3">
+        <ng-container *ngFor="let announcement of announcements">
+          <app-announcements-card [announcement]="announcement"></app-announcements-card>
+        </ng-container>
+      </div>
+    </ng-template>
+    <!-- <ng-template #carouselList>
       <div class="relative ">
       <div class="mr-[-15px] ml-[-15px] "  #owlCarousel>
         <app-list-carousel [announcements]="announcements"></app-list-carousel>
       </div>
       </div>
 
-    </ng-template>
-
-    <div class="my-6">
-      <app-banner-template></app-banner-template>
-    </div>
-    <div
-      class="grid grid-cols-3 md:grid-cols-2 gap-[30px] md:gap-3 mt-[15px]"
-      *ngIf="loading, else announcementsList"
-    >
-      <p-skeleton *ngFor="let item of skeletonList" class="w-full" styleClass="ng_skeleton"></p-skeleton>
-    </div>
-    <ng-template #announcementsList>
-      <div class="grid grid-cols-3 md:grid-cols-2 gap-[30px] md:gap-3" >
-        <ng-container *ngFor="let announcement of announcements">
-          <app-announcements-card [announcement]="announcement"></app-announcements-card>
-        </ng-container>
-      </div>
-    </ng-template>
+    </ng-template> -->
   </div>
 </div>

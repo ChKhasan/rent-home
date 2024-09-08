@@ -8,10 +8,9 @@ describe('InvaidTextComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [InvaidTextComponent]
-    })
-    .compileComponents();
-    
+      imports: [InvaidTextComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(InvaidTextComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

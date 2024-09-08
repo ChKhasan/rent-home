@@ -37,10 +37,7 @@
       "@services/interfaces": ["app/core/interfaces/common.interface"],
       "@services/webSocket": ["app/core/services/webSocket/web-socket.service"]
     },
-    "lib": [
-      "ES2022",
-      "dom"
-    ]
+    "lib": ["ES2022", "dom"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

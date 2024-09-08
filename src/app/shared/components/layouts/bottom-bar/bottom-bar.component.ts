@@ -1,47 +1,38 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {Location, NgClass, NgForOf, NgIf} from "@angular/common";
-import {DomSanitizer} from "@angular/platform-browser";
-import {NavigationEnd, Router, RouterLink, RouterLinkActive} from "@angular/router";
-import {AuthDialogComponent} from "../../modals/auth-dialog/auth-dialog.component";
-import {AuthService} from "@services/auth";
-import {RegisterDialogComponent} from "../../modals/register-dialog/register-dialog.component";
-import {filter} from "rxjs";
-import { NumberDialogComponent } from "../../modals/number-dialog/number-dialog.component";
-import { SmsDialogComponent } from "../../modals/sms-dialog/sms-dialog.component";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Location, NgClass, NgForOf, NgIf } from '@angular/common';
+import { DomSanitizer } from '@angular/platform-browser';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthDialogComponent } from '../../modals/auth-dialog/auth-dialog.component';
+import { AuthService } from '@services/auth';
+import { RegisterDialogComponent } from '../../modals/register-dialog/register-dialog.component';
+import { filter } from 'rxjs';
+import { NumberDialogComponent } from '../../modals/number-dialog/number-dialog.component';
+import { SmsDialogComponent } from '../../modals/sms-dialog/sms-dialog.component';
 
 @Component({
   selector: 'app-bottom-bar',
   standalone: true,
-  imports: [
-    NgForOf,
-    AuthDialogComponent,
-    NgClass,
-    RouterLinkActive,
-    RouterLink,
-    NgIf,
-    RegisterDialogComponent,
-    NumberDialogComponent,
-    SmsDialogComponent
-],
+  imports: [NgForOf, AuthDialogComponent, NgClass, RouterLinkActive, RouterLink, NgIf, RegisterDialogComponent, NumberDialogComponent, SmsDialogComponent],
   templateUrl: './bottom-bar.component.html',
-  styleUrl: './bottom-bar.component.css'
+  styleUrl: './bottom-bar.component.css',
 })
-export class BottomBarComponent implements OnInit{
-  @ViewChild(RegisterDialogComponent) registerDialogComponent!: RegisterDialogComponent;
+export class BottomBarComponent implements OnInit {
+  @ViewChild(RegisterDialogComponent)
+  registerDialogComponent!: RegisterDialogComponent;
   @ViewChild(AuthDialogComponent) authDialogComponent!: AuthDialogComponent;
-  @ViewChild(NumberDialogComponent) numberDialogComponent!: NumberDialogComponent;
+  @ViewChild(NumberDialogComponent)
+  numberDialogComponent!: NumberDialogComponent;
   @ViewChild(SmsDialogComponent) smsDialogComponent!: SmsDialogComponent;
-  public isPath: string = ''
+  public isPath: string = '';
   public menuList = [
     {
       title: 'Asosiy',
       icon: `<svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 16 16"><path fill="#8E8E93" d="M7.313 1.262a1 1 0 0 1 1.374 0l4.844 4.579c.3.283.469.678.469 1.09v5.57a1.5 1.5 0 0 1-1.5 1.5h-2A1.5 1.5 0 0 1 9 12.5V10a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v2.5A1.5 1.5 0 0 1 5.5 14h-2A1.5 1.5 0 0 1 2 12.5V6.93c0-.412.17-.807.47-1.09zM8 1.988l-4.844 4.58A.5.5 0 0 0 3 6.93v5.57a.5.5 0 0 0 .5.5h2a.5.5 0 0 0 .5-.5V10a1.5 1.5 0 0 1 1.5-1.5h1A1.5 1.5 0 0 1 10 10v2.5a.5.5 0 0 0 .5.5h2a.5.5 0 0 0 .5-.5V6.93a.5.5 0 0 0-.156-.363z"/></svg>`,
       action: () => {
-        console.log(this, 'log')
-        this.router.navigate(['/']).then(() => {
-        })
+        console.log(this, 'log');
+        this.router.navigate(['/']).then(() => {});
       },
-      isPath: '/'
+      isPath: '/',
     },
     {
       title: 'Saqlanganlar',
@@ -51,9 +42,9 @@ export class BottomBarComponent implements OnInit{
                   fill="#8E8E93"/>
           </svg>`,
       action: () => {
-        this.router.navigate(['/likes'])
+        this.router.navigate(['/likes']);
       },
-      isPath: '/likes'
+      isPath: '/likes',
     },
     {
       title: 'Aloqa',
@@ -63,10 +54,9 @@ export class BottomBarComponent implements OnInit{
                   fill="#8E8E93"/>
             </svg> `,
       action: () => {
-        this.router.navigate(['/announcements'])
+        this.router.navigate(['/announcements']);
       },
-      isPath: '/announcements'
-
+      isPath: '/announcements',
     },
     {
       title: 'Profil',
@@ -79,28 +69,23 @@ export class BottomBarComponent implements OnInit{
                   fill="#8E8E93"/>
           </svg>`,
       action: () => {
-        this.authService.auth ?
-          this.router.navigate(['/profile']):
-          this.openAuthDialog()
+        this.authService.auth ? this.router.navigate(['/profile']) : this.openAuthDialog();
       },
-      isPath: '/profile'
+      isPath: '/profile',
+    },
+  ];
 
-    }
-  ]
-
-  constructor(private sanitizer: DomSanitizer,
-              private router: Router,
-              private authService: AuthService,
-              private location: Location,
+  constructor(
+    private sanitizer: DomSanitizer,
+    private router: Router,
+    private authService: AuthService,
+    private location: Location,
   ) {
-    this.isPath = this.location.path()
+    this.isPath = this.location.path();
   }
   ngOnInit() {
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe(() => {
-
-      this.isPath = this.location.path()
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
+      this.isPath = this.location.path();
     });
   }
   openAuthDialog() {
@@ -113,31 +98,31 @@ export class BottomBarComponent implements OnInit{
     this.authDialogComponent.closeDialog();
   }
   openSmsDialog() {
-    this.smsDialogComponent.showDialog()
+    this.smsDialogComponent.showDialog();
   }
   closeSmsDialog() {
-    this.smsDialogComponent.closeDialog()
+    this.smsDialogComponent.closeDialog();
   }
   sanitize(html: string) {
     return this.sanitizer.bypassSecurityTrustHtml(html);
   }
   completeCallback = () => {
-    this.numberDialogComponent.closeDialog()
-    this.openSmsDialog()
-  }
-   openNumberDialog() {
-    this.numberDialogComponent.showDialog()
+    this.numberDialogComponent.closeDialog();
+    this.openSmsDialog();
+  };
+  openNumberDialog() {
+    this.numberDialogComponent.showDialog();
   }
   completeSmsCallback = () => {
     this.closeSmsDialog();
-    this.openRegisterDialog()
-  }
+    this.openRegisterDialog();
+  };
   openRegister = () => {
-    this.closeAuthDialog()
-    this.openNumberDialog()
-  }
+    this.closeAuthDialog();
+    this.openNumberDialog();
+  };
   anotherPhoneNumber = () => {
     this.closeSmsDialog();
-    this.openNumberDialog()
-  }
+    this.openNumberDialog();
+  };
 }

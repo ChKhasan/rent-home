@@ -8,10 +8,9 @@ describe('ChatUserListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ChatUserListComponent]
-    })
-    .compileComponents();
-    
+      imports: [ChatUserListComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(ChatUserListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

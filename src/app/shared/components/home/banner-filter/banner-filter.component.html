@@ -1,0 +1,48 @@
+<div>
+  <div class="flex flex-col gap-4">
+    <div class="flex justify-content-center">
+      <form [formGroup]="formGroup" class="w-full">
+        <p-selectButton styleClass="!rounded-2xl !w-full" [options]="stateOptions" formControlName="value" optionLabel="label" optionValue="value">
+          <ng-template let-item pTemplate>
+            <div class="flex gap-2 items-center">
+              <i [class]="item.icon"></i>
+              <p>{{ item.label }}</p>
+            </div>
+          </ng-template>
+        </p-selectButton>
+      </form>
+    </div>
+    <div class="flex flex-col gap-1 relative">
+      <label class="font-medium text-[--grey-900] text-[14px]" for="name">Shahar</label>
+      <div class="relative w-full flex items-center form-input">
+        <p-dropdown class="w-full" [options]="cities" [(ngModel)]="selectedCity" optionLabel="name" placeholder="Shahar" />
+      </div>
+    </div>
+    <div class="flex flex-col gap-1 relative">
+      <label class="font-medium text-[--grey-900] text-[14px]" for="name">Tuman</label>
+      <div class="relative w-full flex items-center form-input">
+        <p-dropdown class="w-full" [options]="cities" [(ngModel)]="selectedCity" optionLabel="name" placeholder="Tuman" />
+      </div>
+    </div>
+    <div class="grid gap-4 grid-cols-2">
+      <div class="flex flex-col gap-1 relative">
+        <label class="font-medium text-[--grey-900] text-[14px]" for="name">Xonalar soni</label>
+        <div class="relative w-full flex items-center form-input">
+          <input pInputText type="text" />
+        </div>
+      </div>
+      <div class="flex flex-col gap-1 relative">
+        <label class="font-medium text-[--grey-900] text-[14px]" for="name">Qavat</label>
+        <div class="relative w-full flex items-center form-input">
+          <input pInputText type="text" />
+        </div>
+      </div>
+    </div>
+    <p-button (click)="toFilter()" pButton styleClass="py-[14px] w-100 w-full  bg-[color:var(--green)] text-base gap-2 rounded-[8px] text-white font-semibold flex justify-center px-0" class="px-0 py-0 rounded-[8px] bg-[transparent] border-0">
+      <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.5 0.5C4.52944 0.5 0.5 4.52944 0.5 9.5C0.5 14.4706 4.52944 18.5 9.5 18.5C11.625 18.5 13.578 17.7635 15.1177 16.5319L18.7929 20.2071C19.1834 20.5976 19.8166 20.5976 20.2071 20.2071C20.5976 19.8166 20.5976 19.1834 20.2071 18.7929L16.5319 15.1177C17.7635 13.578 18.5 11.625 18.5 9.5C18.5 4.52944 14.4706 0.5 9.5 0.5ZM2.5 9.5C2.5 5.63401 5.63401 2.5 9.5 2.5C13.366 2.5 16.5 5.63401 16.5 9.5C16.5 13.366 13.366 16.5 9.5 16.5C5.63401 16.5 2.5 13.366 2.5 9.5Z" fill="white" />
+      </svg>
+      Qidirish
+    </p-button>
+  </div>
+</div>

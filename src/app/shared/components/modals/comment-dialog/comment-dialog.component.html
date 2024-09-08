@@ -1,49 +1,44 @@
-<p-dialog [(visible)]="visible"
-          [dismissableMask]="true"
-          [modal]="true"
-          [style]="{ width: '536px',borderRadius: '12px',overflow: 'hidden',padding: 0 }"
-          [showHeader]="false"
+<p-dialog
+  [(visible)]="visible"
+  [dismissableMask]="true"
+  [modal]="true"
+  [style]="{
+    width: '536px',
+    borderRadius: '12px',
+    overflow: 'hidden',
+    padding: 0,
+  }"
+  [showHeader]="false"
 >
   <div class="flex flex-col gap-[24px]">
     <div class="flex justify-center">
-      <h2 class="font-600 text-[20px]">
-        E'lon borasida izoh
-      </h2>
+      <h2 class="font-600 text-[20px]">E'lon borasida izoh</h2>
     </div>
     <div>
       <div [formGroup]="ruleForm" class="flex flex-col gap-[18px]">
         <div class="flex flex-col gap-2 relative">
-<!--          <label class="font-400 text-[&#45;&#45;gray-6] text-base" for="comment">Ism</label>-->
+          <!--          <label class="font-400 text-[&#45;&#45;gray-6] text-base" for="comment">Ism</label>-->
           <div class="relative w-full flex items-center password-input">
             <textarea
               pInputTextarea
-              [ngClass]="{'ng-invalid ng-dirty': ruleForm.controls.comment.touched &&ruleForm.controls.comment.errors && ruleForm.controls.comment.errors['required'] }"
+              [ngClass]="{
+                'ng-invalid ng-dirty': ruleForm.controls.comment.touched && ruleForm.controls.comment.errors && ruleForm.controls.comment.errors['required'],
+              }"
               rows="5"
-              class=" w-full  rounded-[8px] border-[2px] border-solid border-[--input-stroke] bg-[--gray-1]"
+              class="w-full rounded-[8px] border-[2px] border-solid border-[--input-stroke] bg-[--gray-1]"
               id="comment"
               placeholder="Izohingizni qoldiring..."
               formControlName="comment"
             ></textarea>
           </div>
 
-          <div
-            *ngIf="ruleForm.controls.comment.invalid && (ruleForm.controls.comment.dirty  || ruleForm.controls.comment.touched)"
-          >
-            <app-invaid-text [text]="'Name is required.'"  *ngIf="ruleForm.controls.comment.errors && ruleForm.controls.comment.errors['required']"></app-invaid-text>
-            <app-invaid-text [text]="'Password must be at least 4 characters long.'"  *ngIf="ruleForm.controls.comment.errors && ruleForm.controls.comment.errors['minlength']"></app-invaid-text>
+          <div *ngIf="ruleForm.controls.comment.invalid && (ruleForm.controls.comment.dirty || ruleForm.controls.comment.touched)">
+            <app-invaid-text [text]="'Name is required.'" *ngIf="ruleForm.controls.comment.errors && ruleForm.controls.comment.errors['required']"></app-invaid-text>
+            <app-invaid-text [text]="'Password must be at least 4 characters long.'" *ngIf="ruleForm.controls.comment.errors && ruleForm.controls.comment.errors['minlength']"></app-invaid-text>
           </div>
-
         </div>
       </div>
-      <button
-        pButton
-        [loading]="loading"
-        (click)="onSubmit()"
-        class="w-full mt-[18px] h-12 items-center text-[17px] bg-[color:var(--green)] rounded-[8px] text-white font-600 flex justify-center"
-      >
-        Yuborish
-      </button>
+      <button pButton [loading]="loading" (click)="onSubmit()" class="w-full mt-[18px] h-12 items-center text-[17px] bg-[color:var(--green)] rounded-[8px] text-white font-600 flex justify-center">Yuborish</button>
     </div>
-
   </div>
 </p-dialog>

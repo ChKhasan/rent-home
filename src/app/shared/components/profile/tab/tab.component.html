@@ -1,14 +1,6 @@
 <div class="profile-tab">
-  <div
-    class="tab gap-[10px] flex px-[4px] rounded-[12px] items-center border border-[color:#EAEAEA] border-solid py-[4px] md:py-0 md:px-0 md:border-0"
-  >
-    <button
-      *ngFor="let link of linkOptions"
-      [routerLink]="link.to"
-      [routerLinkActiveOptions]="{ exact: link.to === '/profile' }"
-      routerLinkActive="active"
-      class="px-[20px] md:px-0 md:bg-[transparent] md:rounded-none whitespace-nowrap py-[10px] rounded-[12px] text-[color:var(--dark-1)] text-[16px] md:text-[12px] font-500 flex items-center gap-[10px]"
-    >
+  <div class="tab gap-[10px] flex px-[4px] rounded-[12px] items-center border border-[color:#EAEAEA] border-solid py-[4px] md:py-0 md:px-0 md:border-0">
+    <button *ngFor="let link of linkOptions" [routerLink]="link.to" [routerLinkActiveOptions]="{ exact: link.to === '/profile' }" routerLinkActive="active" class="px-[20px] md:px-0 md:bg-[transparent] md:rounded-none whitespace-nowrap py-[10px] rounded-[12px] text-[color:var(--dark-1)] text-[16px] md:text-[12px] font-500 flex items-center gap-[10px]">
       {{ link.title }}
     </button>
   </div>

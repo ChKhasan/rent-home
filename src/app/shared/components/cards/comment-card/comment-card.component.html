@@ -1,19 +1,18 @@
 <!--<div-->
 <!--  class="comment-card"-->
 <!--&gt;-->
-  <p-fieldset  class="relative">
-    <ng-template pTemplate="header">
-      <div class="flex align-items-center gap-2 px-2">
-        <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" />
-        <span class="font-bold">{{comment.user.name}}</span>
-      </div>
-    </ng-template>
-    <p class="m-0">
-      {{comment.comment}}
-
-    </p>
-    <span class="font-500 text-[--green] text-[12px] absolute bottom-3 right-4">{{comment.created | date:dateFormat}}</span>
-  </p-fieldset>
+<p-fieldset class="relative">
+  <ng-template pTemplate="header">
+    <div class="flex align-items-center gap-2 px-2">
+      <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" />
+      <span class="font-bold">{{ comment.user.name }}</span>
+    </div>
+  </ng-template>
+  <p class="m-0">
+    {{ comment.comment }}
+  </p>
+  <span class="font-500 text-[--green] text-[12px] absolute bottom-3 right-4">{{ comment.created | date: dateFormat }}</span>
+</p-fieldset>
 <!--  <div class="flex flex-col justify-end">-->
 <!--    <div class="image h-[45px] w-[45px] overflow-hidden rounded-full">-->
 <!--      <img-->

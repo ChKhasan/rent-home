@@ -3,7 +3,6 @@
   display: grid;
   grid-template-columns: 294px 1fr;
   grid-gap: 24px;
-
 }
 .img {
   overflow: hidden;
@@ -15,9 +14,9 @@ a,
   display: -webkit-box;
   overflow: hidden;
   text-overflow: ellipsis;
-  transition: .3s;
+  transition: 0.3s;
   color: #000;
-  w:al
+  w: al;
 }
 a:hover {
   color: var(--green);

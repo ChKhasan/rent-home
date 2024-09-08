@@ -1,113 +1,70 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  HostListener,
-  OnInit,
-  QueryList,
-  ViewChild,
-  ViewChildren
-} from '@angular/core';
-import {
-  MyAnnouncementsCardComponent
-} from "@components/cards/my-announcements-card/my-announcements-card.component";
-import {DatePipe, NgClass, NgForOf, NgIf, NgTemplateOutlet} from "@angular/common";
-import {PaginationComponent} from "@components/pagination/pagination.component";
-import {SkeletonModule} from "primeng/skeleton";
-import {NavigationExtras, Router, RouterLink} from "@angular/router";
-import {ChatUserListComponent} from "@components/profile/chat-user-list/chat-user-list.component";
-import {AuthDialogComponent} from "@components/modals/auth-dialog/auth-dialog.component";
-import {ButtonModule} from "primeng/button";
-import {FormsModule} from "@angular/forms";
-import {RegisterDialogComponent} from "@components/modals/register-dialog/register-dialog.component";
-import {IMessage, IMessageObj, IUserRooms} from "@services/interfaces";
-import {QueryService} from "@services/query";
-import {AuthService} from "@services/auth";
-import {BadgeModule} from "primeng/badge";
-import {ToastModule} from "primeng/toast";
-import {RippleModule} from "primeng/ripple";
-import {AvatarModule} from "primeng/avatar";
-import {ChatService} from "@services/chat";
-import {debounceTime, finalize, fromEvent} from "rxjs";
-import {TabComponent} from "@components/profile/tab/tab.component";
-import {animate, style, transition, trigger} from "@angular/animations";
+import { AfterViewInit, Component, ElementRef, HostListener, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { MyAnnouncementsCardComponent } from '@components/cards/my-announcements-card/my-announcements-card.component';
+import { DatePipe, NgClass, NgForOf, NgIf, NgTemplateOutlet } from '@angular/common';
+import { PaginationComponent } from '@components/pagination/pagination.component';
+import { SkeletonModule } from 'primeng/skeleton';
+import { NavigationExtras, Router, RouterLink } from '@angular/router';
+import { ChatUserListComponent } from '@components/profile/chat-user-list/chat-user-list.component';
+import { AuthDialogComponent } from '@components/modals/auth-dialog/auth-dialog.component';
+import { ButtonModule } from 'primeng/button';
+import { FormsModule } from '@angular/forms';
+import { RegisterDialogComponent } from '@components/modals/register-dialog/register-dialog.component';
+import { IMessage, IMessageObj, IUserRooms } from '@services/interfaces';
+import { QueryService } from '@services/query';
+import { AuthService } from '@services/auth';
+import { BadgeModule } from 'primeng/badge';
+import { ToastModule } from 'primeng/toast';
+import { RippleModule } from 'primeng/ripple';
+import { AvatarModule } from 'primeng/avatar';
+import { ChatService } from '@services/chat';
+import { debounceTime, finalize, fromEvent } from 'rxjs';
+import { TabComponent } from '@components/profile/tab/tab.component';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [
-    MyAnnouncementsCardComponent,
-    NgForOf,
-    NgIf,
-    PaginationComponent,
-    SkeletonModule,
-    RouterLink,
-    ChatUserListComponent,
-    AuthDialogComponent,
-    ButtonModule,
-    DatePipe,
-    FormsModule,
-    RegisterDialogComponent,
-    BadgeModule,
-    ToastModule,
-    RippleModule,
-    AvatarModule,
-    NgClass,
-    NgTemplateOutlet,
-    TabComponent
-  ],
+  imports: [MyAnnouncementsCardComponent, NgForOf, NgIf, PaginationComponent, SkeletonModule, RouterLink, ChatUserListComponent, AuthDialogComponent, ButtonModule, DatePipe, FormsModule, RegisterDialogComponent, BadgeModule, ToastModule, RippleModule, AvatarModule, NgClass, NgTemplateOutlet, TabComponent],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css',
-  animations: [
-    trigger('slideInOut', [
-      transition(':enter', [
-        style({ transform: 'translateX(100%)' }),
-        animate('200ms ease-in', style({ transform: 'translateX(0%)' }))
-      ]),
-      transition(':leave', [
-        animate('200ms ease-in', style({ transform: 'translateX(100%)' }))
-      ])
-    ])
-  ]
-
-
+  animations: [trigger('slideInOut', [transition(':enter', [style({ transform: 'translateX(100%)' }), animate('200ms ease-in', style({ transform: 'translateX(0%)' }))]), transition(':leave', [animate('200ms ease-in', style({ transform: 'translateX(100%)' }))])])],
 })
 export class ChatComponent implements OnInit, AfterViewInit {
   @ViewChildren('childRef') childRefs!: QueryList<ElementRef>;
   @ViewChild('parentDiv') parentDiv!: ElementRef;
   public comments: IMessage[] = [];
-  public pendingComments: any = []
+  public pendingComments: any = [];
   public loading: boolean = false;
   public loadingRooms: boolean = false;
   public message: string = '';
-  public dateFormat: string = 'dd.MM.YYYY'
+  public dateFormat: string = 'dd.MM.YYYY';
   public url: string = '';
-  public loadingMessages: boolean = false
+  public loadingMessages: boolean = false;
   public skeletonList = [1, 2, 3, 4, 1, 2, 3];
-  public isRoom: any = {}
+  public isRoom: any = {};
   public userRooms: any = [];
   public allUserRooms: any = [];
   public newGroup: boolean = false;
-  public showBoard: boolean = false
+  public showBoard: boolean = false;
 
-  constructor(public authService: AuthService,
-              private chatService: ChatService,
-              private queryService: QueryService,
-              private router: Router
-  ) {
-  }
+  constructor(
+    public authService: AuthService,
+    private chatService: ChatService,
+    private queryService: QueryService,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
     if (typeof window !== 'undefined') {
       this.authService.getBooleanValue().subscribe((value) => {
-        if (value) this.firstConnection()
-      })
+        if (value) this.firstConnection();
+      });
     }
   }
 
   userSearch = (name: string) => {
-    this.userRooms = this.allUserRooms.filter((elem: any) => elem.user && elem.user.name.toLocaleUpperCase().includes(name.toLocaleUpperCase()))
-  }
+    this.userRooms = this.allUserRooms.filter((elem: any) => elem.user && elem.user.name.toLocaleUpperCase().includes(name.toLocaleUpperCase()));
+  };
 
   firstConnection() {
     setTimeout(() => {
@@ -115,52 +72,54 @@ export class ChatComponent implements OnInit, AfterViewInit {
         this.loading = false;
         this.commandController(message);
       });
-    }, 100)
-    this.__GET_USER_ROOMS()
+    }, 100);
+    this.__GET_USER_ROOMS();
   }
 
   __GET_USER_ROOMS() {
-    this.loadingRooms = true
-    this.chatService.getUserRooms()
-      .pipe(finalize(() => this.loadingRooms = false))
+    this.loadingRooms = true;
+    this.chatService
+      .getUserRooms()
+      .pipe(finalize(() => (this.loadingRooms = false)))
       .subscribe((response: IUserRooms[]) => {
         if (response.length > 0) {
-          this.userRooms = response.filter((item: any) => item.users.find((elem: any) => elem.id !== this.authService.user?.id)?.id && item.users.find((elem: any) => elem.id !== this.authService.user?.id)?.id !== this.authService.user.id).map((elem: IUserRooms) => {
-            return {
-              ...elem,
-              message: elem.messages.length > 0 ? elem.messages[elem.messages.length - 1].message : '',
-              user: elem.users.find((elem: any) => elem.id !== this.authService.user.id)
-            }
-          })
+          this.userRooms = response
+            .filter((item: any) => item.users.find((elem: any) => elem.id !== this.authService.user?.id)?.id && item.users.find((elem: any) => elem.id !== this.authService.user?.id)?.id !== this.authService.user.id)
+            .map((elem: IUserRooms) => {
+              return {
+                ...elem,
+                message: elem.messages.length > 0 ? elem.messages[elem.messages.length - 1].message : '',
+                user: elem.users.find((elem: any) => elem.id !== this.authService.user.id),
+              };
+            });
           this.allUserRooms = [...this.userRooms];
         }
-        if(this.userRooms.length)
-        this.findCurrentRoom()
-      })
+        if (this.userRooms.length) this.findCurrentRoom();
+      });
   }
 
   findCurrentRoom() {
     let room = this.userRooms.find((elem: any) => elem.users.find((elem: any) => elem.id !== this.authService.user?.id)?.id === Number(this.queryService.activeQueryList()['userId']));
     if (this.queryService.activeQueryList()['userId'] && !room) {
-      this.loadingMessages = false
-      return
+      this.loadingMessages = false;
+      return;
     }
     if (!this.queryService.activeQueryList()['roomId']) {
-      this.isRoom = room || this.userRooms[0]
-      this.roomIdMergeQuery(this.isRoom)
+      this.isRoom = room || this.userRooms[0];
+      this.roomIdMergeQuery(this.isRoom);
     } else {
-      this.isRoom = this.userRooms.find((elem: any) => elem.id === Number(this.queryService.activeQueryList()['roomId']))
-      Promise.resolve().then(() => this.__GET_MESSAGES())
+      this.isRoom = this.userRooms.find((elem: any) => elem.id === Number(this.queryService.activeQueryList()['roomId']));
+      Promise.resolve().then(() => this.__GET_MESSAGES());
     }
   }
 
   roomIdMergeQuery(room: any) {
     let navigationExtras: NavigationExtras = {
-      queryParams: {roomId: room.id},
+      queryParams: { roomId: room.id },
     };
     this.router.navigate([], navigationExtras).then(() => {
-      Promise.resolve().then(() => this.__GET_MESSAGES())
-    })
+      Promise.resolve().then(() => this.__GET_MESSAGES());
+    });
   }
 
   sendMessage(): void {
@@ -175,11 +134,11 @@ export class ChatComponent implements OnInit, AfterViewInit {
         receiver: this.isRoom.id,
         room: this.isRoom.receiver,
         sender: this.authService.user.id,
-        pending: true
-      })
-      const data = {message: this.message, receiver: receiver}
-      this.socketSender(data)
-      this.message = ''
+        pending: true,
+      });
+      const data = { message: this.message, receiver: receiver };
+      this.socketSender(data);
+      this.message = '';
     } else {
     }
   }
@@ -210,29 +169,28 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   userOnlineOffline(message: any) {
     let currentRoom = this.userRooms.find((elem: any) => {
-      return elem.users.find((item: any) => item.id === message.message.user_id)
-    })
-    let currentUser = currentRoom.users.find((item: any) => item.id === message.message.user_id)
-    currentUser.is_online = message.type === 'online'
+      return elem.users.find((item: any) => item.id === message.message.user_id);
+    });
+    let currentUser = currentRoom.users.find((item: any) => item.id === message.message.user_id);
+    currentUser.is_online = message.type === 'online';
   }
 
   createGroup(message: any) {
     let newGroup = {
       ...message,
       message: '',
-      user: message.users.find((elem: any) => elem.id !== this.authService.user.id)
-    }
+      user: message.users.find((elem: any) => elem.id !== this.authService.user.id),
+    };
     this.isRoom = newGroup;
-    this.newGroup = true
-    if (this.queryService.activeQueryList()['userId'])
-      this.removeNewUserInUrl(this.isRoom)
-    this.userRooms.unshift(newGroup)
+    this.newGroup = true;
+    if (this.queryService.activeQueryList()['userId']) this.removeNewUserInUrl(this.isRoom);
+    this.userRooms.unshift(newGroup);
   }
 
   removeNewUserInUrl(isRoom: IUserRooms) {
     let urlTree = this.router.parseUrl(this.router.url);
     delete urlTree.queryParams['userId'];
-    urlTree.queryParams['roomId'] = isRoom.id
+    urlTree.queryParams['roomId'] = isRoom.id;
     let navigationExtras: NavigationExtras = {
       queryParams: urlTree.queryParams,
     };
@@ -244,72 +202,71 @@ export class ChatComponent implements OnInit, AfterViewInit {
       if (elem.id === message.room) {
         return {
           ...elem,
-          message: message.message || "message",
-        }
+          message: message.message || 'message',
+        };
       } else {
-        return elem
+        return elem;
       }
     });
-    this.pendingComments = []
+    this.pendingComments = [];
     if (Number(this.queryService.activeQueryList()['roomId']) === message.room) {
       this.comments.unshift(message);
-      this.scrollToTop()
+      this.scrollToTop();
       this.readNewMessage(message);
     } else {
       let curentRoom = this.userRooms.find((elem: any) => elem.id === message.room);
       curentRoom.message = message.message;
-      curentRoom.messages.unshift(message)
-      
+      curentRoom.messages.unshift(message);
     }
   }
 
   handlerRoom = (room: IUserRooms) => {
     let navigationExtras: NavigationExtras = {
-      queryParams: {roomId: room.id},
+      queryParams: { roomId: room.id },
     };
     this.router.navigate([], navigationExtras).then(() => {
       this.__GET_MESSAGES();
     });
     this.isRoom = room;
     // this.toggleBoad(true)
-  }
+  };
   __GET_MESSAGES = () => {
-    let id = Number(this.queryService.activeQueryList()['roomId'])
+    let id = Number(this.queryService.activeQueryList()['roomId']);
     if (id) {
-      this.loadingMessages = true
-      this.chatService.getMessages(id)
-        .pipe(finalize(() => this.loadingMessages = false))
+      this.loadingMessages = true;
+      this.chatService
+        .getMessages(id)
+        .pipe(finalize(() => (this.loadingMessages = false)))
         .subscribe((response: IMessageObj) => {
-          let isFirstUnread = false
-          this.comments = response.messages.map((elem: any) => {
-            if (!elem.is_read && !isFirstUnread && elem.sender !== this.authService.user.id) {
-              isFirstUnread = true
-              return {
-                ...elem,
-                is_first: true
+          let isFirstUnread = false;
+          this.comments = response.messages
+            .map((elem: any) => {
+              if (!elem.is_read && !isFirstUnread && elem.sender !== this.authService.user.id) {
+                isFirstUnread = true;
+                return {
+                  ...elem,
+                  is_first: true,
+                };
+              } else {
+                return {
+                  ...elem,
+                  is_first: false,
+                };
               }
-            } else {
-              return {
-                ...elem,
-                is_first: false
-              }
-            }
-          }).reverse();
+            })
+            .reverse();
           if (this.comments.length > 0)
             setTimeout(() => {
               this.scrollCall();
-            }, 0)
-        })
-    } 
-
-  }
+            }, 0);
+        });
+    }
+  };
 
   ngAfterViewInit() {
     if (this.parentDiv) {
       const scroll$ = fromEvent(this.parentDiv.nativeElement, 'scroll');
-      scroll$.pipe(
-        debounceTime(1000) // Adjust the debounce time as needed (in milliseconds)
-      ).subscribe(() => {
+      scroll$.pipe(debounceTime(1000)).subscribe(() => {
         this.onParentDivScrolled();
       });
     }
@@ -321,9 +278,9 @@ export class ChatComponent implements OnInit, AfterViewInit {
   onParentDivScrolled(): void {
     if (this.scrollAccess)
       setTimeout(() => {
-        this.scrollCall()
-      }, 1000)
-    this.scrollAccess = false
+        this.scrollCall();
+      }, 1000);
+    this.scrollAccess = false;
   }
 
   readNewMessage(message: any) {
@@ -333,66 +290,64 @@ export class ChatComponent implements OnInit, AfterViewInit {
         receiver: message.receiver,
         sender: message.sender,
         ids: [message.id],
-        room_id: this.isRoom.id
-      }
-      this.socketSender(data)
+        room_id: this.isRoom.id,
+      };
+      this.socketSender(data);
     }
-
   }
 
   scrollCall() {
     const unreadMessage = this.parentDiv.nativeElement.querySelector('.unread');
     const parentDivRect = this.parentDiv.nativeElement.getBoundingClientRect();
     let unreads = this.comments.filter((elem: any) => !elem.is_read && elem.sender !== this.authService.user.id);
-    let unreadMessageIds: any[] = []
+    let unreadMessageIds: any[] = [];
     unreads.forEach((item: any) => {
       const unreadMessage = this.parentDiv.nativeElement.querySelector('#child_' + item.id);
       const unreadMessageRect = unreadMessage?.getBoundingClientRect();
       const scrollTopOffset = unreadMessageRect.top - parentDivRect.top;
       if (scrollTopOffset - this.parentDiv.nativeElement.offsetHeight < 0) {
-        if (!unreadMessageIds.find((elem: any) => elem.id === item.id)) unreadMessageIds.push(item)
+        if (!unreadMessageIds.find((elem: any) => elem.id === item.id)) unreadMessageIds.push(item);
       }
-    })
+    });
     if (unreadMessageIds.length > 0) {
       const data = {
         type: 'read',
         receiver: unreadMessageIds[0].receiver,
         sender: unreadMessageIds[0].sender,
         ids: unreadMessageIds.map((elem: any) => elem.id),
-        room_id: this.isRoom.id
-      }
-      this.socketSender(data)
+        room_id: this.isRoom.id,
+      };
+      this.socketSender(data);
     }
-    this.scrollAccess = true
+    this.scrollAccess = true;
   }
 
   handleReadMessages(message: any) {
     let room = this.userRooms.find((elem: any) => elem.id === message.message.room_id);
-    this.unreadToRead(message, this.comments, true)
-    this.unreadToRead(message, room.messages, false)
+    this.unreadToRead(message, this.comments, true);
+    this.unreadToRead(message, room.messages, false);
   }
 
   unreadToRead(message: any, rooms: any, userAccess: boolean) {
     rooms.forEach((elem: any) => {
-      let access = userAccess ? elem.sender === this.authService.user.id : elem.sender !== this.authService.user.id
+      let access = userAccess ? elem.sender === this.authService.user.id : elem.sender !== this.authService.user.id;
       if (!elem.is_read && access) {
         if (message.message.room_id === this.isRoom.id) {
           if (message.message.ids.includes(elem.id)) {
-            elem.is_read = true
+            elem.is_read = true;
           }
         }
       }
-    })
+    });
   }
 
   toggleBoad = (value: boolean) => {
-     this.showBoard = value
-  }
+    this.showBoard = value;
+  };
 
   @ViewChild('scrollableDiv') scrollableDiv!: ElementRef;
 
   scrollToTop() {
-    console.log('calll')
     this.scrollableDiv.nativeElement.scrollTop = 0;
   }
 }

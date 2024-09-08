@@ -1,21 +1,25 @@
 <div class="gallery-container">
   <div class="product-gallery__featured max-w-[991px]">
-    <owl-carousel-o [options]="{items: 1, dots:false, margin:8}" #owlCar>
-      <ng-container *ngFor="let image of images" >
-        <ng-template carouselSlide [id]="image.image"  [width]="430">
-          <img [src]="image.image" class="h-[500px] object-contain">
+    <owl-carousel-o [options]="{ items: 1, dots: false, margin: 8 }" #owlCar>
+      <ng-container *ngFor="let image of images">
+        <ng-template carouselSlide [id]="image.image" [width]="430">
+          <img [src]="image.image" class="h-[500px] object-contain" />
         </ng-template>
       </ng-container>
     </owl-carousel-o>
   </div>
 
   <div class="product-gallery__carousel">
-    <owl-carousel-o [options]="{items:3, dots:false, margin:5, autoWidth: true}">
+    <owl-carousel-o [options]="{ items: 3, dots: false, margin: 5, autoWidth: true }">
       <ng-container *ngFor="let image of images; let i = index">
-        <ng-template carouselSlide [id]="image.image+i" [width]="80">
-          <a (click)="owlCar.to(image.image); changeImage(image.image+i)">
-            <img [src]="image.image"
-                 [ngClass]="{'product-gallery__carousel-item--active': selectedImage === image.image+i || (i === 0 && !selectedImage)}">
+        <ng-template carouselSlide [id]="image.image + i" [width]="80">
+          <a (click)="owlCar.to(image.image); changeImage(image.image + i)">
+            <img
+              [src]="image.image"
+              [ngClass]="{
+                'product-gallery__carousel-item--active': selectedImage === image.image + i || (i === 0 && !selectedImage),
+              }"
+            />
           </a>
         </ng-template>
       </ng-container>

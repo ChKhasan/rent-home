@@ -8,10 +8,9 @@ describe('LikesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LikesComponent]
-    })
-    .compileComponents();
-    
+      imports: [LikesComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(LikesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

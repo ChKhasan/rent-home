@@ -5,8 +5,6 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './banner-template.component.html',
-  styleUrl: './banner-template.component.css'
+  styleUrl: './banner-template.component.css',
 })
-export class BannerTemplateComponent {
-
-}
+export class BannerTemplateComponent {}

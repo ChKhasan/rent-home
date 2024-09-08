@@ -1,5 +1,5 @@
 import { CounterComponent } from './counter.component';
-import "jasmine"
+import 'jasmine';
 describe('CounterComponent', () => {
   let component: CounterComponent;
 

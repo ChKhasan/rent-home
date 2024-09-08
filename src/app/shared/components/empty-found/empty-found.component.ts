@@ -5,10 +5,10 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './empty-found.component.html',
-  styleUrl: './empty-found.component.css'
+  styleUrl: './empty-found.component.css',
 })
 export class EmptyFoundComponent {
-constructor() {
-  console.log("turmoq")
-}
+  constructor() {
+    console.log('turmoq');
+  }
 }

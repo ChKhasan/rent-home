@@ -1,24 +1,18 @@
-import {Component, Input} from '@angular/core';
-import {CommentResponse} from "@services/interfaces";
-import {DatePipe, NgForOf} from "@angular/common";
-import {AvatarModule} from "primeng/avatar";
-import {FieldsetModule} from "primeng/fieldset";
-import {SharedModule} from "primeng/api";
+import { Component, Input } from '@angular/core';
+import { ICommentInfo } from '@services/interfaces';
+import { DatePipe, NgForOf } from '@angular/common';
+import { AvatarModule } from 'primeng/avatar';
+import { FieldsetModule } from 'primeng/fieldset';
+import { SharedModule } from 'primeng/api';
 
 @Component({
   selector: 'app-comment-card',
   standalone: true,
-  imports: [
-    DatePipe,
-    AvatarModule,
-    FieldsetModule,
-    NgForOf,
-    SharedModule
-  ],
+  imports: [DatePipe, AvatarModule, FieldsetModule, NgForOf, SharedModule],
   templateUrl: './comment-card.component.html',
-  styleUrl: './comment-card.component.css'
+  styleUrl: './comment-card.component.css',
 })
 export class CommentCardComponent {
- @Input() comment!: CommentResponse;
- public dateFormat: string = 'dd.MM.YYYY'
+  @Input() comment!: ICommentInfo;
+  public dateFormat: string = 'dd.MM.YYYY';
 }

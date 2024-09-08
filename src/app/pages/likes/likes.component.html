@@ -1,14 +1,11 @@
 <div class="likes py-[60px] md:py-[18px]">
   <div class="2xl:container mx-auto px-4">
     <h1 class="font-600 text-[60px] mb-[30px] md:mb-4 flex items-center gap-[24px] md:text-[20px]">Saqlanganlar</h1>
-    <div
-      class="grid grid-cols-3 gap-[30px] md:grid-cols-2 md:gap-3"
-      *ngIf="loading, else announcementsList"
-    >
+    <div class="grid grid-cols-3 gap-[30px] md:grid-cols-2 md:gap-3" *ngIf="loading; else announcementsList">
       <p-skeleton *ngFor="let item of skeletonList" class="w-full" styleClass="ng_skeleton"></p-skeleton>
     </div>
     <ng-template #announcementsList>
-      <div class="grid grid-cols-3 gap-[30px] md:grid-cols-2 md:gap-3" >
+      <div class="grid grid-cols-3 gap-[30px] md:grid-cols-2 md:gap-3">
         <ng-container *ngFor="let announcement of announcements">
           <app-announcements-card [announcement]="announcement"></app-announcements-card>
         </ng-container>
