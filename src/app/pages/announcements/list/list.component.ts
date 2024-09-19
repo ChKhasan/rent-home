@@ -14,10 +14,11 @@ import { SORT_OPTIONS } from '@/core/constants/filter';
 import { RequestService } from '@services/request';
 import { environment } from '@environments';
 import { IAnnouncementList } from '@services/interfaces';
+import { AnnouncementsCardComponent } from "@components/cards/announcements-card/announcements-card.component";
 @Component({
   selector: 'app-list',
   standalone: true,
-  imports: [PaginationComponent, NgForOf, SkeletonModule, NgIf, MyAnnouncementsCardComponent, FilterComponent, SearchComponent, RouterLink, BottomSheetComponent, EmptyFoundComponent],
+  imports: [PaginationComponent, NgForOf, SkeletonModule, NgIf, MyAnnouncementsCardComponent, FilterComponent, SearchComponent, RouterLink, BottomSheetComponent, EmptyFoundComponent, AnnouncementsCardComponent],
   templateUrl: './list.component.html',
   styleUrl: './list.component.css',
 })

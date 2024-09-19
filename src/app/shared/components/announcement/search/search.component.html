@@ -1,20 +1,19 @@
-<div class="shadow rounded-[12px] bg-white px-[30px] py-[30px] md:px-[18px] md:py-[18px] border-[1px] border-[color:var(--input-stroke)] border-solid">
-  <div>
+<div >
+  <!-- <div>
     <h5 class="font-600 text-[24px] flex gap-[5px] md:text-[20px]">
       Qayerdan
       <span class="flex items-center text-[color:var(--green)]">izlamoqdasiz?</span>
     </h5>
-  </div>
-  <div class="shadow rounded-[8px] border-[1px] border-[color:var(--input-stroke)] border-solid mt-[18px]">
-    <div class="px-[18px] py-[18px]">
+  </div> -->
+  <div >
+    <div>
       <p class="font-400 flex items-center gap-[8px] text-[color:var(--gray-5)] text-[14px] mb-[12px]">
-        <i class="pi pi-car" style="font-size: 1rem"></i>
-        Transport bo'yicha qidirish
+        Avtobus
       </p>
 
       <p-multiSelect styleClass="w-full" (onClear)="onClear()" [showClear]="true" (onRemove)="onChange($event)" class="w-full" placeholder="Выберите транспорт" inputId="float-label" [options]="transports" [(ngModel)]="selectedCities" optionLabel="name"></p-multiSelect>
     </div>
   </div>
 
-  <p-button [loading]="loading" (click)="filterSend()" styleClass="mt-[18px] w-full py-[14px] bg-[color:var(--green)] rounded-[8px] text-white font-600 flex justify-center md:text-[17px]" class="px-0 py-0 rounded-[8px] bg-[transparent] border-0">Qayta qidirish</p-button>
+  <!-- <p-button [loading]="loading" (click)="filterSend()" styleClass="mt-[18px] w-full py-[14px] bg-[color:var(--green)] rounded-[8px] text-white font-600 flex justify-center md:text-[17px]" class="px-0 py-0 rounded-[8px] bg-[transparent] border-0">Qayta qidirish</p-button> -->
 </div>

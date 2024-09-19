@@ -39,12 +39,14 @@ export interface QueryList {
 
 export interface FilterForm {
   conditioner: Boolean;
-  partnership: Boolean;
   washing_machine: Boolean;
+  fridge: Boolean;
+  partnership: Boolean;
   need_people_count: Number;
   total_price__gte: Number;
   total_price__lte: Number;
   room_count: Number;
+  transports: []
 }
 
 export interface IUserRooms {

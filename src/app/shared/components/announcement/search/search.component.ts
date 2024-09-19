@@ -62,8 +62,6 @@ export class SearchComponent implements OnInit {
   }
 
   filterSend() {
-    let params = new HttpParams();
-
     let query = { ...this.queryService.activeQueryList() };
     query['transports'] = this.selectedCities.map((elem: any) => elem.ri);
     if (this.url) {

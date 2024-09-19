@@ -187,3 +187,6 @@ ul {
 .no-scroll {
   overflow: hidden;
 }
+.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
+  background-color: var(--green);
+}
