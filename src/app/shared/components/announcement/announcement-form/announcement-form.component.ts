@@ -21,7 +21,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MapDialogComponent } from '../../modals/map-dialog/map-dialog.component';
 import { RequestService } from '@services/request';
 import { IAnnouncementInfo, Transport } from '@services/interfaces';
-
+import { InputSwitchModule } from 'primeng/inputswitch';
 interface UploadEvent {
   originalEvent: Event;
   files: File[];
@@ -30,7 +30,7 @@ interface UploadEvent {
 @Component({
   selector: 'app-announcement-form',
   standalone: true,
-  imports: [FormsModule, InputTextModule, InvaidTextComponent, NgIf, ReactiveFormsModule, NgClass, TooltipModule, NgOptimizedImage, ButtonModule, ToastModule, FileUploadModule, InputTextareaModule, CheckboxModule, InputMaskModule, InputNumberModule, NgForOf, ImageModule, RippleModule, RouterLink, MapDialogComponent],
+  imports: [FormsModule, InputTextModule,InputSwitchModule, InvaidTextComponent, NgIf, ReactiveFormsModule, NgClass, TooltipModule, NgOptimizedImage, ButtonModule, ToastModule, FileUploadModule, InputTextareaModule, CheckboxModule, InputMaskModule, InputNumberModule, NgForOf, ImageModule, RippleModule, RouterLink, MapDialogComponent],
   templateUrl: './announcement-form.component.html',
   styleUrl: './announcement-form.component.css',
 })
@@ -95,6 +95,7 @@ export class AnnouncementFormComponent implements OnInit {
           appartment_status: response.appartment_status,
           description: response.description,
           conditioner: response.conditioner,
+          fridge: response.fridge,
           washing_machine: response.washing_machine,
           user: response.user,
         });

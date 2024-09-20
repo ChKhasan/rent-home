@@ -28,6 +28,7 @@ export class FormService {
     appartment_status: new FormControl(10),
     description: descControl,
     conditioner: new FormControl(false),
+    fridge: new FormControl(false),
     washing_machine: new FormControl(false),
     user: new FormControl({}),
   });
