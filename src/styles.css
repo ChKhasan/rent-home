@@ -58,6 +58,7 @@
 
   /* colors */
   --primary-color: #ff0000; /* Change to your desired color */
+  --error-400: #D42620;
   --el-color-primary: #5fc381 !important;
   --green: #5fc381;
   --green-100: #91d6a8;

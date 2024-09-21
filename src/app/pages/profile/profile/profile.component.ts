@@ -17,11 +17,13 @@ import { environment } from '@environments';
 import { HttpHeaders } from '@angular/common/http';
 import { RequestService } from '@services/request';
 import { finalize } from 'rxjs';
-
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { LikesComponent } from "../../likes/likes.component";
+import { AnnouncementsComponent } from "../announcements/announcements.component";
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [TabComponent, InputMaskModule, InputNumberModule, InputTextModule, InvaidTextComponent, NgIf, PaginatorModule, ReactiveFormsModule, NgClass, ButtonModule, FileUploadModule],
+  imports: [TabComponent, SelectButtonModule, InputMaskModule, InputNumberModule, InputTextModule, InvaidTextComponent, NgIf, PaginatorModule, ReactiveFormsModule, NgClass, ButtonModule, FileUploadModule, LikesComponent, AnnouncementsComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
 })
@@ -31,6 +33,8 @@ export class ProfileComponent implements OnInit {
   public headers: any;
   uploadedFiles: any[] = [];
   public avatar: string = '';
+  public tab: string = 'announcements';
+  public isEdit: boolean = false;
   public ruleForm = new FormGroup({
     name: nameControl,
     first_name: firstControl,
@@ -38,7 +42,10 @@ export class ProfileComponent implements OnInit {
     email: emailControl,
     images: new FormControl<any>([]),
   });
-
+  stateOptions: any[] = [
+    { label: 'Mening E`lonlarim', value: 'announcements', icon: 'pi pi-home' },
+    { label: 'Saqlangan E`lonlar', value: 'likes', icon: 'pi pi-heart' },
+  ];
   constructor(
     public authService: AuthService,
     private toastService: ToastService,
@@ -121,5 +128,9 @@ export class ProfileComponent implements OnInit {
     return {
       ...this.ruleForm.value,
     };
+  }
+  logout() {
+    this.authService.logout();
+    this.authService.user = {}
   }
 }

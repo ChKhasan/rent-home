@@ -22,10 +22,7 @@ export class LikesComponent {
   public announcements?: any;
   public totalPage: number = 0;
 
-  constructor(
-    private queryConfig: QueryService,
-    private requestService: RequestService,
-  ) {}
+  constructor(private queryConfig: QueryService, private requestService: RequestService) {}
   ngOnInit(): void {
     if (typeof window !== 'undefined') {
       this.__GET_ANNOUNCEMENTS();
@@ -35,11 +32,14 @@ export class LikesComponent {
   __GET_ANNOUNCEMENTS = () => {
     this.loading = true;
     this.requestService
-      .getData<IAnnouncementList>(environment.urls.GET_ANNONCEMENTS, this.queryConfig.generatorHttpParamsWithDefault())
+      .getData<IAnnouncementList>(environment.authUrls.GET_LIKES, this.queryConfig.generatorHttpParamsWithDefault())
       .pipe(finalize(() => (this.loading = false)))
-      .subscribe((response: IAnnouncementList) => {
-        this.announcements = response?.results;
-        this.totalPage = response.count;
+      .subscribe((response: any) => {
+        this.announcements = response.map((elem: any) => {
+          return {
+            ...elem.announcement,
+          };
+        });
       });
   };
 }

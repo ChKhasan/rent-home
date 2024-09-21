@@ -10,11 +10,12 @@ import { QueryService } from '@services/query';
 import { TabComponent } from '@components/profile/tab/tab.component';
 import { RequestService } from '@services/request';
 import { environment } from '@environments';
+import { AnnouncementsCardComponent } from "@components/cards/announcements-card/announcements-card.component";
 
 @Component({
   selector: 'app-announcements',
   standalone: true,
-  imports: [RouterLink, MyAnnouncementsCardComponent, NgForOf, SkeletonModule, NgIf, PaginationComponent, TabComponent],
+  imports: [RouterLink, MyAnnouncementsCardComponent, NgForOf, SkeletonModule, NgIf, PaginationComponent, TabComponent, AnnouncementsCardComponent],
   templateUrl: './announcements.component.html',
   styleUrl: './announcements.component.css',
 })
