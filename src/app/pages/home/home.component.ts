@@ -18,11 +18,12 @@ import { BannerTemplateComponent } from '@components/home/banner-template/banner
 import { environment } from '@environments';
 import { RequestService } from '@services/request';
 import { ListCarouselComponent } from '@components/announcement/list-carousel/list-carousel.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [HeaderComponent, ButtonModule, NgIf, PaginatorModule, ReactiveFormsModule, NgClass, NgForOf, AsyncPipe, ToastModule, BannerComponent, AnnouncementsCardComponent, SkeletonModule, PaginationComponent, TagModule, BannerTemplateComponent, ListCarouselComponent],
+  imports: [HeaderComponent, RouterLink, ButtonModule, NgIf, PaginatorModule, ReactiveFormsModule, NgClass, NgForOf, AsyncPipe, ToastModule, BannerComponent, AnnouncementsCardComponent, SkeletonModule, PaginationComponent, TagModule, BannerTemplateComponent, ListCarouselComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   animations: [ValidationErrorAnimation],

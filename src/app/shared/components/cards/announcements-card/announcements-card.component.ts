@@ -1,16 +1,17 @@
 import { Component, Input } from '@angular/core';
-import { NgIf, NgOptimizedImage } from '@angular/common';
+import { NgFor, NgIf, NgOptimizedImage } from '@angular/common';
 import { LikesService } from '@services/likes';
 import { AuthService } from '@services/auth';
 import { RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { finalize } from 'rxjs';
 import { TooltipModule } from 'primeng/tooltip';
+import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 
 @Component({
   selector: 'app-announcements-card',
   standalone: true,
-  imports: [NgIf, RouterLink, NgOptimizedImage, ButtonModule, TooltipModule],
+  imports: [NgIf, NgFor, CarouselModule, RouterLink, NgOptimizedImage, ButtonModule, TooltipModule],
   templateUrl: './announcements-card.component.html',
   styleUrl: './announcements-card.component.css',
 })
@@ -21,7 +22,23 @@ export class AnnouncementsCardComponent {
     public likesService: LikesService,
     private authService: AuthService,
   ) {}
-
+  public customOptions: OwlOptions = {
+    loop: true,
+    mouseDrag: true,
+    touchDrag: true,
+    pullDrag: true,
+    dots: false,
+    autoplay: true,
+    navSpeed: 700,
+    autoplaySpeed: 600,
+    lazyLoad: true,
+    responsive: {
+      0: {
+        items: 1,
+      }
+    },
+    nav: false,
+  };
   check_auth(id: number) {
     this.authService.auth ? this.check_likes(id) : this.likesService.likeHandle(id);
   }

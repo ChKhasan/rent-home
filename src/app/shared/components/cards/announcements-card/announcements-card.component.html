@@ -1,10 +1,15 @@
 <div class="card bg-white px-5 py-5 md:px-3 md:py-3 rounded-2xl md:rounded-[8px] border border-solid border-[--grey-300]">
   <div class="image mb-6 md:mb-3 relative cursor-pointer h-[275px] md:h-[125px] overflow-hidden">
-    <img *ngIf="announcement.images[0]?.image; else showImage" class="w-full h-full object-cover" [src]="announcement.images[0]?.image" alt="" />
+    <owl-carousel-o *ngIf="announcement.images[0]?.image; else showImage" [options]="customOptions">
+      <ng-template carouselSlide *ngFor="let announcement of announcement.images; let i = index">
+          <img class="w-full object-cover h-[275px]" [src]="announcement.image" alt="" />
+      </ng-template>
+    </owl-carousel-o>
+    <!-- <img *ngIf="announcement.images[0]?.image; else showImage" class="w-full h-full object-cover" [src]="announcement.images[0]?.image" alt="" /> -->
     <ng-template #showImage>
       <img class="w-full h-full object-cover" src="./assets/images/big.jpg" alt="" height="455" width="845" />
     </ng-template>
-    <div class="absolute top-3 left-3 md:left-2 md:top-[7px] flex gap-3">
+    <div class="absolute top-3 left-3 z-50 md:left-2 md:top-[7px] flex gap-3">
       <button *ngIf="announcement.conditioner" pButton pTooltip="Konditsioner" tooltipPosition="top"  class="w-10 h-10 p-0 flex items-center justify-center rounded-full border border-solid border-[--green-100] bg-[--green]">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g clip-path="url(#clip0_306_5022)">
