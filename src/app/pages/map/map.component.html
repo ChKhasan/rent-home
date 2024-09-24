@@ -1,5 +1,151 @@
-<div>
-  <!--  <MapLoader v-if="loading" />-->
+<div class="p-6 max-w-[1440px] mx-auto">
+  <div class="flex flex-col gap-4">
+    <div class="flex flex-col gap-3">
+      <h4 class="text-[40px] font-medium text-[--green]">Xatira Orqal Uy Toping</h4>
+      <p class="text-[28px]">Uy kerarmi? Unda Biz yordam beramiz!</p>
+    </div>
+      <div class="grid map-grid gap-4">
+        <div class="map border border-solid border-[--grey-300] rounded-2xl p-4">
+          <ya-map [center]="coords" [zoom]="zoom" style="width: 100%; height: 400px">
+            <ya-clusterer
+              [options]="{
+                minClusterSize: 2,
+              
+                hasBalloon: false,
+              }"
+              (click)="handleClusterClick($event)"
+            >
+              <ya-placemark
+                *ngFor="let announcement of announcements"
+                [geometry]="announcement.geometry"
+                (yaclick)="handleAnnounce(announcement?.id)"
+                [properties]="{
+                  balloonContent: '<strong>' + announcement.title + '</strong>',
+                  iconCaption: announcement.total_price.toLocaleString() + ' ' + announcement.currency,
+                }"
+                [options]="{
+                  preset: 'islands#blueHomeIcon',
+                  iconColor: '#00a000',
+                }"
+              ></ya-placemark>
+            </ya-clusterer>
+            <ya-geoobject
+              *ngFor="let route of selectRoutes; let index = index"
+              [feature]="{ geometry: { type: 'LineString', coordinates: route.x } }"
+              [options]="{
+                strokeColor: route.color,
+                strokeWidth: 5,
+                draggable: false,
+              }"
+            ></ya-geoobject>
+            <ya-geoobject
+              *ngFor="let route of selectRoutes; let index = index"
+              [feature]="{ geometry: { type: 'LineString', coordinates: route.y } }"
+              [options]="{
+                strokeColor: route.color,
+                strokeWidth: 5,
+                draggable: false,
+              }"
+            ></ya-geoobject>
+          </ya-map>
+        </div>
+        <div class="border border-solid border-[--grey-300] rounded-2xl p-4">
+          <p-selectButton styleClass="!rounded-2xl !w-full" [options]="stateOptions" [(ngModel)]="tab" optionLabel="label" optionValue="value">
+            <ng-template let-item pTemplate>
+              <div class="flex gap-2 items-center">
+                <i [class]="item.icon"></i>
+                <p>{{ item.label }}</p>
+              </div>
+            </ng-template>
+          </p-selectButton>
+          <div>
+        
+            <div class="max-h-[100vh] overflow-y-scroll" *ngIf="tab === 'bus'">
+              <div *ngIf="transports.length > 0" class="bg-white px-4 py-4 rounded-xl min-h-[200px]">
+                <h4 class="text-black font-semibold mb-4 text-[16]">Маршруты поблизости</h4>
+                <ul class="bus-list flex flex-wrap gap-2">
+                  <li
+                    *ngFor="let transport of marshutka"
+                    [style.background]="transport?.color"
+                    class="rounded-[5px] block"
+                    [class]="{
+                      active: routeTransports.includes(transport.ri) && !transportLoading,
+                      'pointer-events-none opacity-50': loading,
+                    }"
+                  >
+                    <p-button [loading]="transportLoading" (click)="filterTransport(transport)" class="px-0" styleClass="relative min-w-8 px-1 bg-[transparent] border border-solid border-[var(--grey-1)]  h-8 flex justify-center items-center  buses cursor-pointer text-[14px]">
+                      <span
+                        class="text-[#000000]"
+                        [class]="{
+                          active: routeTransports.includes(transport.ri) && !transportLoading,
+                        }"
+                      >
+                        {{ transport?.name }}
+                      </span>
+                    </p-button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="max-h-[100vh] overflow-y-scroll" *ngIf="tab === 'mashrutka'">
+              <div *ngIf="transports.length > 0" class="bg-white px-4 py-4 rounded-xl min-h-[200px]">
+                <h4 class="text-black font-semibold mb-4 text-[16]">Автобусы поблизости</h4>
+                <ul class="bus-list flex flex-wrap gap-2">
+                  <li
+                    *ngFor="let transport of buses"
+                    [style.background]="transport?.color"
+                    class="rounded-[5px]"
+                    [class]="{
+                      active: routeTransports.includes(transport.ri) && !transportLoading,
+                      'pointer-events-none opacity-50': loading,
+                    }"
+                  >
+                    <p-button [loading]="transportLoading" (click)="filterTransport(transport)" class="px-0" styleClass=" px-1 bg-[transparent] border border-solid border-[var(--grey-1)] min-w-8 h-8 flex items-center justify-center buses cursor-pointer text-[14px]">
+                      <span
+                        class="text-[#000000]"
+                        [class]="{
+                          active: routeTransports.includes(transport.ri) && !transportLoading,
+                        }"
+                      >
+                        {{ transport?.name }}
+                      </span>
+                    </p-button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="max-h-[100vh] overflow-y-scroll" *ngIf="tab === 'metro'">
+              <div *ngIf="transports.length > 0" class="bg-white px-4 py-4 rounded-xl min-h-[200px]">
+                <h4 class="text-black font-semibold mb-4 text-[16]">Линии метро поблизости</h4>
+                <ul class="bus-list flex flex-wrap gap-2">
+                  <li
+                    *ngFor="let transport of subways"
+                    [style.background]="transport?.color"
+                    class="rounded-[5px]"
+                    [class]="{
+                      active: routeTransports.includes(transport.ri) && !transportLoading,
+                      'pointer-events-none opacity-50': loading,
+                    }"
+                  >
+                    <p-button [loading]="transportLoading" (click)="filterTransport(transport)" class="px-0" styleClass=" px-1 bg-[transparent] border border-solid border-[var(--grey-1)] min-w-8 h-8 flex items-center justify-center buses cursor-pointer text-[14px]">
+                      <span
+                        class="text-[#000000]"
+                        [class]="{
+                          active: routeTransports.includes(transport.ri) && !transportLoading,
+                        }"
+                      >
+                        {{ transport?.name }}
+                      </span>
+                    </p-button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+   <!-- <MapLoader v-if="loading" />-->
   <div class="navbar w-full fixed top-1 md:bottom-1 md:top-auto md:justify-end md:pr-2 flex justify-center left-0 z-[2000] md:z-[100]">
     <ul class="px-3 py-3 rounded-xl open-tab bg-white flex md:flex-col gap-3">
       <li>
@@ -161,50 +307,7 @@
       </div>
     </div>
   </div>
-  <div class="map">
-    <ya-map [center]="coords" [zoom]="zoom" style="width: 100%; height: 400px">
-      <ya-clusterer
-        [options]="{
-          minClusterSize: 2,
-          clusterDisableClickZoom: true,
-          hasBalloon: false,
-        }"
-        (click)="handleClusterClick($event)"
-      >
-        <ya-placemark
-          *ngFor="let announcement of announcements"
-          [geometry]="announcement.geometry"
-          (yaclick)="handleAnnounce(announcement?.id)"
-          [properties]="{
-            balloonContent: '<strong>' + announcement.title + '</strong>',
-            iconCaption: announcement.total_price.toLocaleString() + ' ' + announcement.currency,
-          }"
-          [options]="{
-            preset: 'islands#blueHomeIcon',
-            iconColor: '#00a000',
-          }"
-        ></ya-placemark>
-      </ya-clusterer>
-      <ya-geoobject
-        *ngFor="let route of selectRoutes; let index = index"
-        [feature]="{ geometry: { type: 'LineString', coordinates: route.x } }"
-        [options]="{
-          strokeColor: route.color,
-          strokeWidth: 5,
-          draggable: false,
-        }"
-      ></ya-geoobject>
-      <ya-geoobject
-        *ngFor="let route of selectRoutes; let index = index"
-        [feature]="{ geometry: { type: 'LineString', coordinates: route.y } }"
-        [options]="{
-          strokeColor: route.color,
-          strokeWidth: 5,
-          draggable: false,
-        }"
-      ></ya-geoobject>
-    </ya-map>
-  </div>
+
 </div>
 <div class="md:block hidden">
   <app-bottom-sheet>

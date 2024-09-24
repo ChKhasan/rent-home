@@ -18,11 +18,13 @@ import { BottomSheetComponent } from '@components/modals/bottom-sheet/bottom-she
 import { RequestService } from '@services/request';
 import { environment } from '@environments';
 import { IAnnouncementList } from '@services/interfaces';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-map',
   standalone: true,
-  imports: [NgClass, FilterComponent, AngularYandexMapsModule, AnouncementMapCardComponent, NgIf, NgForOf, ButtonModule, StyleClassModule, SubwayIconComponent, BusIconComponent, MiniBusIconComponent, BadgeModule, BottomSheetComponent],
+  imports: [NgClass, FilterComponent, FormsModule, SelectButtonModule, AngularYandexMapsModule, AnouncementMapCardComponent, NgIf, NgForOf, ButtonModule, StyleClassModule, SubwayIconComponent, BusIconComponent, MiniBusIconComponent, BadgeModule, BottomSheetComponent],
   templateUrl: './map.component.html',
   styleUrl: './map.component.css',
 })
@@ -30,7 +32,12 @@ export class MapComponent implements OnInit, AfterViewInit {
   // @ViewChild(BottomSheetComponent) bottomSheetComponent!: BottomSheetComponent
   @ViewChildren(BottomSheetComponent)
   bottomSheetComponents!: QueryList<BottomSheetComponent>;
-
+  public tab: string = 'bus';
+  stateOptions: any[] = [
+    { label: 'Avtobus', value: 'bus' },
+    { label: 'Mashrutka', value: 'mashrutka' },
+    { label: 'Metro', value: 'metro' },
+  ];
   bottomSheetFilter!: BottomSheetComponent;
   bottomSheetTransports!: BottomSheetComponent;
   bottomSheetInfo!: BottomSheetComponent;
@@ -364,6 +371,5 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
   handleClusterClick(e: any) {
     console.log(e);
-    console.log('asdajsieyuqwy4328y8433284');
   }
 }

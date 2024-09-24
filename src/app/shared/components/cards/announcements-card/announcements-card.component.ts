@@ -27,7 +27,7 @@ export class AnnouncementsCardComponent {
     mouseDrag: true,
     touchDrag: true,
     pullDrag: true,
-    dots: false,
+    dots: true,
     autoplay: true,
     navSpeed: 700,
     autoplaySpeed: 600,

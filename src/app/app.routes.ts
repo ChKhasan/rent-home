@@ -23,13 +23,14 @@ export const routes: Routes = [
       { path: 'announcements', component: ListComponent },
       { path: 'announcements/:id', component: ViewComponent },
       { path: 'likes', component: LikesComponent },
+      {
+        path: 'map',
+        component: MapLayoutComponent,
+        children: [{ path: '', component: MapComponent }],
+      },
     ],
   },
-  {
-    path: 'map',
-    component: MapLayoutComponent,
-    children: [{ path: '', component: MapComponent }],
-  },
+ 
   {
     path: 'profile',
     component: ProfileLayoutComponent,

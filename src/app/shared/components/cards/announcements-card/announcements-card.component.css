@@ -40,3 +40,16 @@
 :host ::ng-deep .p-button-loading-icon {
   color: var(--green);
 }
+
+:host ::ng-deep .owl-carousel {
+  display: flex !important;
+  justify-content: center;
+}
+:host ::ng-deep .owl-dots {
+  position: absolute;
+  bottom: 0;
+} 
+
+:host ::ng-deep .owl-dots .active span {
+  background-color: var(--green) !important;
+}
