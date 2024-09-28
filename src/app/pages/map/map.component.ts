@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, OnInit, QueryList, ViewChildren, HostListener } from '@angular/core';
 import { NgClass, NgForOf, NgIf } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FilterComponent } from '@components/announcement/filter/filter.component';
 import { AngularYandexMapsModule } from 'angular8-yandex-maps';
 import { AnouncementMapCardComponent } from '@components/announcement/anouncement-map-card/anouncement-map-card.component';
@@ -20,11 +20,15 @@ import { environment } from '@environments';
 import { IAnnouncementList } from '@services/interfaces';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { FormsModule } from '@angular/forms';
-
+import { AnnouncementsCardComponent } from "../../shared/components/cards/announcements-card/announcements-card.component";
+import { HttpClient } from '@angular/common/http';
+import { DialogModule } from 'primeng/dialog';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-map',
   standalone: true,
-  imports: [NgClass, FilterComponent, FormsModule, SelectButtonModule, AngularYandexMapsModule, AnouncementMapCardComponent, NgIf, NgForOf, ButtonModule, StyleClassModule, SubwayIconComponent, BusIconComponent, MiniBusIconComponent, BadgeModule, BottomSheetComponent],
+  imports: [NgClass, FilterComponent, RouterLink, OverlayPanelModule, DialogModule, FormsModule, SelectButtonModule, AngularYandexMapsModule, AnouncementMapCardComponent, NgIf, NgForOf, ButtonModule, StyleClassModule, SubwayIconComponent, BusIconComponent, MiniBusIconComponent, BadgeModule, BottomSheetComponent, AnnouncementsCardComponent],
   templateUrl: './map.component.html',
   styleUrl: './map.component.css',
 })
@@ -78,6 +82,8 @@ export class MapComponent implements OnInit, AfterViewInit {
     private queryService: QueryService,
     private cryptoService: CryptoService,
     private requestService: RequestService,
+    private _httpRequest: HttpClient,
+    public location: Location
   ) {}
 
   ngOnInit() {
@@ -85,6 +91,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     this.__GET_ANNOUNCEMENTS();
     if (typeof window !== 'undefined') {
       this.activeTransports();
+      this.__POST_TRANSPORTS()
     }
   }
 
@@ -124,10 +131,10 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   handleAnnounce(id: number) {
     this.showInfo = true;
-    this.openBShInfo();
+    // this.openBShInfo();
     if (this.showInfo) this.showToolbar = false;
-
-    this.currentAnnouce.id === id ? (this.showInfo = false) : (this.currentAnnouce = this.announcements.find((elem: any) => elem.id == id));
+    this.currentAnnouce = this.announcements.find((elem: any) => elem.id == id)
+    // this.currentAnnouce.id === id ? (this.showInfo = false) : (this.currentAnnouce = this.announcements.find((elem: any) => elem.id == id));
   }
 
   activeTransports() {
@@ -371,5 +378,13 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
   handleClusterClick(e: any) {
     console.log(e);
+  }
+
+  __POST_TRANSPORTS() {
+    this._httpRequest.get('https://new.rent-home.uz/api/proxy/?urls=https://uz.easyway.info/en/cities/tashkent/routes').subscribe((res: any) => {
+      console.log(res)
+    })
+   
+    // this.requestService.requestData(environment.authUrls.POST_ALLTRANSPORTS,'POST')
   }
 }

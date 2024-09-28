@@ -1,6 +1,6 @@
 .body-container {
   display: grid;
-  grid-template-columns: 1fr 393px;
+  grid-template-columns: 1fr 412px;
   gap: 24px;
 }
 :host ::ng-deep .primeng-carousel .p-galleria-thumbnail-container {
@@ -10,6 +10,11 @@
 :host ::ng-deep .primeng-carousel .p-galleria .p-galleria-thumbnail-container .p-galleria-thumbnail-prev,
 :host ::ng-deep .primeng-carousel .p-galleria .p-galleria-thumbnail-container .p-galleria-thumbnail-next {
   background-color: var(--green) !important;
+}
+.custom-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-rows: 1fr 312px;
 }
 @keyframes jump {
   0% {

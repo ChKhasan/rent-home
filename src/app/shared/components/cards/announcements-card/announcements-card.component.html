@@ -1,8 +1,8 @@
 <div class="card bg-white px-5 py-5 md:px-3 md:py-3 rounded-2xl md:rounded-[8px] border border-solid border-[--grey-300]">
   <div class="image mb-6 md:mb-3 relative cursor-pointer h-[275px] md:h-[125px] overflow-hidden">
-    <owl-carousel-o *ngIf="announcement.images[0]?.image; else showImage" [options]="customOptions">
+    <owl-carousel-o *ngIf="announcement.images[0]?.image && showCarousel; else showImage" [options]="customOptions">
       <ng-template carouselSlide *ngFor="let announcement of announcement.images; let i = index">
-          <img class="w-full object-cover h-[275px]" [src]="announcement.image" alt="" />
+        <img class="w-full object-cover h-[275px]" [src]="announcement.image" alt="" />
       </ng-template>
     </owl-carousel-o>
     <!-- <img *ngIf="announcement.images[0]?.image; else showImage" class="w-full h-full object-cover" [src]="announcement.images[0]?.image" alt="" /> -->
@@ -10,7 +10,7 @@
       <img class="w-full h-full object-cover" src="./assets/images/big.jpg" alt="" height="455" width="845" />
     </ng-template>
     <div class="absolute top-3 left-3 z-50 md:left-2 md:top-[7px] flex gap-3">
-      <button *ngIf="announcement.conditioner" pButton pTooltip="Konditsioner" tooltipPosition="top"  class="w-10 h-10 p-0 flex items-center justify-center rounded-full border border-solid border-[--green-100] bg-[--green]">
+      <button *ngIf="announcement.conditioner" pButton pTooltip="Konditsioner" tooltipPosition="top" class="w-10 h-10 p-0 flex items-center justify-center rounded-full border border-solid border-[--green-100] bg-[--green]">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g clip-path="url(#clip0_306_5022)">
             <path d="M19.8577 2.71436H4.14342C3.76453 2.71436 3.40117 2.86487 3.13326 3.13277C2.86535 3.40068 2.71484 3.76405 2.71484 4.14293V11.2858C2.71484 11.6647 2.86535 12.028 3.13326 12.2959C3.40117 12.5638 3.76453 12.7144 4.14342 12.7144H19.8577C20.2366 12.7144 20.5999 12.5638 20.8679 12.2959C21.1358 12.028 21.2863 11.6647 21.2863 11.2858V4.14293C21.2863 3.76405 21.1358 3.40068 20.8679 3.13277C20.5999 2.86487 20.2366 2.71436 19.8577 2.71436Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -23,7 +23,7 @@
           </defs>
         </svg>
       </button>
-      <button *ngIf="announcement.fridge" pButton pTooltip="Muzalatgich" tooltipPosition="top"  class="w-10 h-10 p-0 flex items-center justify-center rounded-full border border-solid border-[--green-100] bg-[--green]">
+      <button *ngIf="announcement.fridge" pButton pTooltip="Muzalatgich" tooltipPosition="top" class="w-10 h-10 p-0 flex items-center justify-center rounded-full border border-solid border-[--green-100] bg-[--green]">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M11.6605 1C12.2128 1 12.6605 1.44772 12.6605 2V4.13148L14.1058 3.16795C14.5653 2.8616 15.1862 2.98577 15.4926 3.4453C15.7989 3.90483 15.6747 4.5257 15.2152 4.83205L12.6605 6.53518V10.2679L15.8797 8.40937L16.001 5.4126C16.0233 4.86077 16.4888 4.43153 17.0406 4.45387C17.5924 4.47621 18.0217 4.94167 17.9993 5.4935L17.9292 7.22607L19.8207 6.13403C20.299 5.85789 20.9106 6.02176 21.1867 6.50005C21.4628 6.97835 21.299 7.58994 20.8207 7.86608L18.9748 8.93182L20.5319 9.70172C21.0269 9.94651 21.2298 10.5463 20.985 11.0414C20.7402 11.5364 20.1405 11.7393 19.6454 11.4945L16.8931 10.1337L13.6604 12.0001L16.8797 13.8587L19.5356 12.4654C20.0247 12.2088 20.6291 12.3973 20.8857 12.8863C21.1423 13.3754 20.9538 13.9799 20.4647 14.2364L18.9292 15.042L20.8207 16.134C21.299 16.4102 21.4628 17.0218 21.1867 17.5001C20.9106 17.9783 20.299 18.1422 19.8207 17.8661L17.9748 16.8003L18.0866 18.5338C18.1221 19.0849 17.7041 19.5605 17.153 19.5961C16.6018 19.6316 16.1262 19.2136 16.0907 18.6625L15.8931 15.5985L12.6605 13.7322V17.4648L15.2152 19.1679C15.6747 19.4743 15.7989 20.0952 15.4926 20.5547C15.1862 21.0142 14.5653 21.1384 14.1058 20.8321L12.6605 19.8685V22C12.6605 22.5523 12.2128 23 11.6605 23C11.1082 23 10.6605 22.5523 10.6605 22V19.8685L9.21522 20.8321C8.75569 21.1384 8.13482 21.0142 7.82847 20.5547C7.52212 20.0952 7.64629 19.4743 8.10582 19.1679L10.6605 17.4648V13.732L7.42775 15.5985L7.23014 18.6625C7.1946 19.2136 6.719 19.6316 6.16786 19.5961C5.61672 19.5605 5.19875 19.0849 5.23429 18.5338L5.34609 16.8003L3.50017 17.8661C3.02187 18.1422 2.41028 17.9783 2.13414 17.5001C1.858 17.0218 2.02187 16.4102 2.50017 16.134L4.34609 15.0683L2.78899 14.2984C2.29392 14.0536 2.09102 13.4538 2.33581 12.9588C2.5806 12.4637 3.18037 12.2608 3.67544 12.5056L6.42775 13.8664L9.66042 12.0001L6.42775 10.1337L3.67545 11.4945C3.18037 11.7393 2.5806 11.5364 2.33581 11.0414C2.09102 10.5463 2.29392 9.94651 2.78899 9.70172L4.34609 8.93182L2.50017 7.86608C2.02188 7.58994 1.858 6.97834 2.13414 6.50005C2.41028 6.02176 3.02188 5.85788 3.50017 6.13403L5.34609 7.19977L5.23429 5.46634C5.19875 4.9152 5.61672 4.43959 6.16786 4.40405C6.719 4.36851 7.1946 4.78648 7.23015 5.33762L7.42775 8.40162L10.6605 10.2681V6.55068L8.1259 4.94723C7.65917 4.65197 7.52016 4.03425 7.81543 3.56752C8.11069 3.10079 8.72841 2.96179 9.19514 3.25705L10.6605 4.18408V2C10.6605 1.44772 11.1082 1 11.6605 1Z"
@@ -31,7 +31,7 @@
           />
         </svg>
       </button>
-      <button *ngIf="announcement.washing_machine" pButton pTooltip="Kir yuvish mashinasi" tooltipPosition="top"  class="w-10 h-10 p-0 flex items-center justify-center rounded-full border border-solid border-[--green-100] bg-[--green]">
+      <button *ngIf="announcement.washing_machine" pButton pTooltip="Kir yuvish mashinasi" tooltipPosition="top" class="w-10 h-10 p-0 flex items-center justify-center rounded-full border border-solid border-[--green-100] bg-[--green]">
         <div class="w-10 h-10 flex items-center justify-center rounded-full border border-solid border-[--green-100] bg-[--green]">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -97,6 +97,12 @@
           </span>
         </button>
       </div>
+      <a *ngIf="more" [routerLink]="'/announcements/' + announcement?.id" class="ml-auto flex items-center gap-1 font-medium text-lg text-[#000]">
+        Batafsil
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16.0832 13.3707C16.808 12.6006 16.808 11.3994 16.0832 10.6293L8.7282 2.81464C8.34969 2.41246 7.71681 2.39329 7.31464 2.7718C6.91246 3.15032 6.89329 3.78319 7.2718 4.18537L14.6268 12L7.2718 19.8146C6.89329 20.2168 6.91247 20.8497 7.31464 21.2282C7.71681 21.6067 8.34969 21.5875 8.7282 21.1854L16.0832 13.3707Z" fill="#475367" />
+        </svg>
+      </a>
     </div>
   </div>
 </div>

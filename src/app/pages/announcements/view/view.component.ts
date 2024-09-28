@@ -14,11 +14,12 @@ import { environment } from '@environments';
 import { RequestService } from '@services/request';
 import { ThumbCarouselComponent } from '@components/announcement/thumb-carousel/thumb-carousel.component';
 import { AboutComponent } from '@components/announcement/about/about.component';
+import { UserCardComponent } from "../../../shared/components/announcement/user-card/user-card.component";
 
 @Component({
   selector: 'app-view',
   standalone: true,
-  imports: [GalleriaModule, TagModule, InfoTabComponent, SearchComponent, ButtonModule, PriceBlockComponent, SkeletonModule, StyleClassModule, ThumbCarouselComponent, AboutComponent],
+  imports: [GalleriaModule, TagModule, InfoTabComponent, SearchComponent, ButtonModule, PriceBlockComponent, SkeletonModule, StyleClassModule, ThumbCarouselComponent, AboutComponent, UserCardComponent],
   templateUrl: './view.component.html',
   styleUrl: './view.component.css',
   animations: [trigger('fadeAnimation', [transition('void => *', [style({ opacity: 0 }), animate('300ms', style({ opacity: 1 }))]), transition('* => void', [animate('300ms', style({ opacity: 0 }))])])],

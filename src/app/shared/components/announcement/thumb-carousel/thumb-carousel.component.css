@@ -1,7 +1,7 @@
 .product-gallery__featured {
   border-radius: 8px;
   border: solid 1px #f0f3f4;
-  background-color: #fff;
+  background-color: #ececec;
 }
 
 .product-gallery__carousel {
@@ -10,6 +10,8 @@
 .product-gallery__carousel owl-carousel-o img {
   border-radius: 8px;
   border: solid 1px #f0f3f4;
+  height: 160px !important;
+  object-fit: cover;
 }
 .product-gallery__carousel-item--active {
   border: solid 1px #459ad4 !important;
@@ -17,4 +19,16 @@
 
 owl-carousel-o::ng-deep img {
   border-radius: 8px;
+}
+:host ::ng-deep .owl-dots .owl-dot span {
+  width: 12px !important;
+  height: 12px !important;
+  background: #fff;
+}
+:host ::ng-deep .owl-dots .owl-dot:hover span {
+  background: var(--green);
+}
+:host ::ng-deep .owl-dots .owl-dot.active span {
+  width: 36px !important;
+  background: var(--green);
 }

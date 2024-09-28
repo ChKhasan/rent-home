@@ -15,11 +15,11 @@ export class BottomSheetComponent {
   startY!: number;
   open() {
     this.bottomSheetVisible = true;
-    document.body.classList.add('no-scroll');
+    // document.body.classList.add('no-scroll');
   }
   close() {
     this.bottomSheetVisible = false;
-    document.body.classList.remove('no-scroll');
+    // document.body.classList.remove('no-scroll');
   }
   onTouchStart(event: TouchEvent) {
     // this.startY = event.touches[0].clientY;

@@ -12,7 +12,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   let router: Router = inject(Router);
 
   const modifiedRequest = req.clone({
-    url: baseUrl + req.url,
+    url: req.url.includes('http') ? req.url:baseUrl + req.url,
   });
   return next(modifiedRequest).pipe(
     catchError((error: HttpErrorResponse) => {

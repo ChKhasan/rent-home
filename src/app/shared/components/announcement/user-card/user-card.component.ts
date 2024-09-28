@@ -1,33 +1,24 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
-import { IAnnouncementInfo } from '@services/interfaces';
 import { CurrencyPipe, NgIf } from '@angular/common';
 import { PricePipe } from '../../../pipes/price/price.pipe';
 import { SkeletonModule } from 'primeng/skeleton';
-import { Router, RouterLink } from '@angular/router';
 import { AuthDialogComponent } from '../../modals/auth-dialog/auth-dialog.component';
-import { AuthService } from '@services/auth';
 import { AngularYandexMapsModule } from 'angular8-yandex-maps';
-
+import { AuthService } from '@/core/services/auth/auth.service';
+import { Router } from '@angular/router';
 @Component({
-  selector: 'app-price-block',
+  selector: 'app-user-card',
   standalone: true,
-  imports: [ButtonModule, AngularYandexMapsModule, RouterLink, CurrencyPipe, PricePipe, NgIf, SkeletonModule, AuthDialogComponent],
-  templateUrl: './price-block.component.html',
-  styleUrl: './price-block.component.css',
+  imports: [ButtonModule, AngularYandexMapsModule, CurrencyPipe, PricePipe, NgIf, SkeletonModule, AuthDialogComponent],
+  templateUrl: './user-card.component.html',
+  styleUrl: './user-card.component.css',
 })
-export class PriceBlockComponent {
+export class UserCardComponent {
   @Input() announcement!: any;
-  @Input() loading!: boolean;
+  public loading: boolean = false;
   @ViewChild(AuthDialogComponent) authDialogComponent!: AuthDialogComponent;
-  public zoom = 10;
-  constructor(
-    private router: Router,
-    public authService: AuthService,
-  ) {}
-  openAuthDialog() {
-    this.authDialogComponent.showDialog();
-  }
+  constructor(public authService: AuthService, private router: Router) {}
   toChat() {
     if (this.authService.auth && this.authService.user.id) {
       const query = {
@@ -41,5 +32,8 @@ export class PriceBlockComponent {
     } else {
       this.openAuthDialog();
     }
+  }
+  openAuthDialog() {
+    this.authDialogComponent.showDialog();
   }
 }

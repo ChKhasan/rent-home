@@ -129,6 +129,12 @@ ul button {
   border-top-right-radius: 16px;
   border-bottom-right-radius: 16px;
 }
+:host ::ng-deep .p-dialog-content {
+  padding: 0 !important;
+}
+:host ::ng-deep .p-dialog {
+  box-shadow: none !important;
+}
 @media (max-width: 768px) {
   .open-transport-btn {
     position: relative;

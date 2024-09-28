@@ -1,152 +1,154 @@
 <div class="p-6 max-w-[1440px] mx-auto">
   <div class="flex flex-col gap-4">
-    <div class="flex flex-col gap-3">
-      <h4 class="text-[40px] font-medium text-[--green]">Xatira Orqal Uy Toping</h4>
-      <p class="text-[28px]">Uy kerarmi? Unda Biz yordam beramiz!</p>
+    <div class="flex justify-between items-end">
+      <div class="flex flex-col gap-3">
+        <h4 class="text-[40px] font-medium text-[--green]">Xatira Orqal Uy Toping</h4>
+        <p class="text-[28px]">Uy kerarmi? Unda Biz yordam beramiz!</p>
+      </div>
+      <a [routerLink]="'/announcements'" class="px-[20px] cursor-pointer bg-transparent whitespace-nowrap py-[10px] rounded-[12px] text-black border border-solid border-[--grey-300] text-[16px] font-500 flex items-center gap-[10px]">
+        <svg class="rotate-180" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path _ngcontent-ng-c4129422631="" d="M16.0832 13.3707C16.808 12.6006 16.808 11.3994 16.0832 10.6293L8.7282 2.81464C8.34969 2.41246 7.71681 2.39329 7.31464 2.7718C6.91246 3.15032 6.89329 3.78319 7.2718 4.18537L14.6268 12L7.2718 19.8146C6.89329 20.2168 6.91247 20.8497 7.31464 21.2282C7.71681 21.6067 8.34969 21.5875 8.7282 21.1854L16.0832 13.3707Z" fill="#475367"></path></svg>
+        Ortga
+      </a>
     </div>
-      <div class="grid map-grid gap-4">
-        <div class="map border border-solid border-[--grey-300] rounded-2xl p-4">
-          <ya-map [center]="coords" [zoom]="zoom" style="width: 100%; height: 400px">
-            <ya-clusterer
-              [options]="{
+
+    <div class="grid map-grid gap-4">
+      <div class="map border border-solid border-[--grey-300] rounded-2xl p-4">
+        <ya-map [center]="coords" [zoom]="zoom" style="width: 100%; height: 400px">
+          <ya-clusterer
+            [options]="{
                 minClusterSize: 2,
               
                 hasBalloon: false,
               }"
-              (click)="handleClusterClick($event)"
-            >
-              <ya-placemark
-                *ngFor="let announcement of announcements"
-                [geometry]="announcement.geometry"
-                (yaclick)="handleAnnounce(announcement?.id)"
-                [properties]="{
-                  balloonContent: '<strong>' + announcement.title + '</strong>',
-                  iconCaption: announcement.total_price.toLocaleString() + ' ' + announcement.currency,
-                }"
-                [options]="{
+            (click)="handleClusterClick($event)"
+          >
+            <ya-placemark
+              *ngFor="let announcement of announcements"
+              [geometry]="announcement.geometry"
+              (yaclick)="handleAnnounce(announcement?.id)"
+              [options]="{
                   preset: 'islands#blueHomeIcon',
                   iconColor: '#00a000',
                 }"
-              ></ya-placemark>
-            </ya-clusterer>
-            <ya-geoobject
-              *ngFor="let route of selectRoutes; let index = index"
-              [feature]="{ geometry: { type: 'LineString', coordinates: route.x } }"
-              [options]="{
+            ></ya-placemark>
+          </ya-clusterer>
+          <ya-geoobject
+            *ngFor="let route of selectRoutes; let index = index"
+            [feature]="{ geometry: { type: 'LineString', coordinates: route.x } }"
+            [options]="{
                 strokeColor: route.color,
                 strokeWidth: 5,
                 draggable: false,
               }"
-            ></ya-geoobject>
-            <ya-geoobject
-              *ngFor="let route of selectRoutes; let index = index"
-              [feature]="{ geometry: { type: 'LineString', coordinates: route.y } }"
-              [options]="{
+          ></ya-geoobject>
+          <ya-geoobject
+            *ngFor="let route of selectRoutes; let index = index"
+            [feature]="{ geometry: { type: 'LineString', coordinates: route.y } }"
+            [options]="{
                 strokeColor: route.color,
                 strokeWidth: 5,
                 draggable: false,
               }"
-            ></ya-geoobject>
-          </ya-map>
-        </div>
-        <div class="border border-solid border-[--grey-300] rounded-2xl p-4">
-          <p-selectButton styleClass="!rounded-2xl !w-full" [options]="stateOptions" [(ngModel)]="tab" optionLabel="label" optionValue="value">
-            <ng-template let-item pTemplate>
-              <div class="flex gap-2 items-center">
-                <i [class]="item.icon"></i>
-                <p>{{ item.label }}</p>
-              </div>
-            </ng-template>
-          </p-selectButton>
-          <div>
-        
-            <div class="max-h-[100vh] overflow-y-scroll" *ngIf="tab === 'bus'">
-              <div *ngIf="transports.length > 0" class="bg-white px-4 py-4 rounded-xl min-h-[200px]">
-                <h4 class="text-black font-semibold mb-4 text-[16]">Маршруты поблизости</h4>
-                <ul class="bus-list flex flex-wrap gap-2">
-                  <li
-                    *ngFor="let transport of marshutka"
-                    [style.background]="transport?.color"
-                    class="rounded-[5px] block"
-                    [class]="{
-                      active: routeTransports.includes(transport.ri) && !transportLoading,
-                      'pointer-events-none opacity-50': loading,
-                    }"
-                  >
-                    <p-button [loading]="transportLoading" (click)="filterTransport(transport)" class="px-0" styleClass="relative min-w-8 px-1 bg-[transparent] border border-solid border-[var(--grey-1)]  h-8 flex justify-center items-center  buses cursor-pointer text-[14px]">
-                      <span
-                        class="text-[#000000]"
-                        [class]="{
-                          active: routeTransports.includes(transport.ri) && !transportLoading,
-                        }"
-                      >
-                        {{ transport?.name }}
-                      </span>
-                    </p-button>
-                  </li>
-                </ul>
-              </div>
+          ></ya-geoobject>
+        </ya-map>
+      </div>
+      <div class="border border-solid border-[--grey-300] rounded-2xl p-4">
+        <p-selectButton styleClass="!rounded-2xl !w-full" [options]="stateOptions" [(ngModel)]="tab" optionLabel="label" optionValue="value">
+          <ng-template let-item pTemplate>
+            <div class="flex gap-2 items-center">
+              <i [class]="item.icon"></i>
+              <p>{{ item.label }}</p>
             </div>
-            <div class="max-h-[100vh] overflow-y-scroll" *ngIf="tab === 'mashrutka'">
-              <div *ngIf="transports.length > 0" class="bg-white px-4 py-4 rounded-xl min-h-[200px]">
-                <h4 class="text-black font-semibold mb-4 text-[16]">Автобусы поблизости</h4>
-                <ul class="bus-list flex flex-wrap gap-2">
-                  <li
-                    *ngFor="let transport of buses"
-                    [style.background]="transport?.color"
-                    class="rounded-[5px]"
-                    [class]="{
+          </ng-template>
+        </p-selectButton>
+        <div>
+          <div class="max-h-[100vh] overflow-y-scroll" *ngIf="tab === 'bus'">
+            <div *ngIf="transports.length > 0" class="bg-white px-4 py-4 rounded-xl min-h-[200px]">
+              <h4 class="text-black font-semibold mb-4 text-[16]">Маршруты поблизости</h4>
+              <ul class="bus-list flex flex-wrap gap-2">
+                <li
+                  *ngFor="let transport of marshutka"
+                  [style.background]="transport?.color"
+                  class="rounded-[5px] block"
+                  [class]="{
                       active: routeTransports.includes(transport.ri) && !transportLoading,
                       'pointer-events-none opacity-50': loading,
                     }"
-                  >
-                    <p-button [loading]="transportLoading" (click)="filterTransport(transport)" class="px-0" styleClass=" px-1 bg-[transparent] border border-solid border-[var(--grey-1)] min-w-8 h-8 flex items-center justify-center buses cursor-pointer text-[14px]">
-                      <span
-                        class="text-[#000000]"
-                        [class]="{
+                >
+                  <p-button [loading]="transportLoading" (click)="filterTransport(transport)" class="px-0" styleClass="relative min-w-8 px-1 bg-[transparent] border border-solid border-[var(--grey-1)]  h-8 flex justify-center items-center  buses cursor-pointer text-[14px]">
+                    <span
+                      class="text-[#000000]"
+                      [class]="{
                           active: routeTransports.includes(transport.ri) && !transportLoading,
                         }"
-                      >
-                        {{ transport?.name }}
-                      </span>
-                    </p-button>
-                  </li>
-                </ul>
-              </div>
+                    >
+                      {{ transport?.name }}
+                    </span>
+                  </p-button>
+                </li>
+              </ul>
             </div>
-            <div class="max-h-[100vh] overflow-y-scroll" *ngIf="tab === 'metro'">
-              <div *ngIf="transports.length > 0" class="bg-white px-4 py-4 rounded-xl min-h-[200px]">
-                <h4 class="text-black font-semibold mb-4 text-[16]">Линии метро поблизости</h4>
-                <ul class="bus-list flex flex-wrap gap-2">
-                  <li
-                    *ngFor="let transport of subways"
-                    [style.background]="transport?.color"
-                    class="rounded-[5px]"
-                    [class]="{
+          </div>
+          <div class="max-h-[100vh] overflow-y-scroll" *ngIf="tab === 'mashrutka'">
+            <div *ngIf="transports.length > 0" class="bg-white px-4 py-4 rounded-xl min-h-[200px]">
+              <h4 class="text-black font-semibold mb-4 text-[16]">Автобусы поблизости</h4>
+              <ul class="bus-list flex flex-wrap gap-2">
+                <li
+                  *ngFor="let transport of buses"
+                  [style.background]="transport?.color"
+                  class="rounded-[5px]"
+                  [class]="{
                       active: routeTransports.includes(transport.ri) && !transportLoading,
                       'pointer-events-none opacity-50': loading,
                     }"
-                  >
-                    <p-button [loading]="transportLoading" (click)="filterTransport(transport)" class="px-0" styleClass=" px-1 bg-[transparent] border border-solid border-[var(--grey-1)] min-w-8 h-8 flex items-center justify-center buses cursor-pointer text-[14px]">
-                      <span
-                        class="text-[#000000]"
-                        [class]="{
+                >
+                  <p-button [loading]="transportLoading" (click)="filterTransport(transport)" class="px-0" styleClass=" px-1 bg-[transparent] border border-solid border-[var(--grey-1)] min-w-8 h-8 flex items-center justify-center buses cursor-pointer text-[14px]">
+                    <span
+                      class="text-[#000000]"
+                      [class]="{
                           active: routeTransports.includes(transport.ri) && !transportLoading,
                         }"
-                      >
-                        {{ transport?.name }}
-                      </span>
-                    </p-button>
-                  </li>
-                </ul>
-              </div>
+                    >
+                      {{ transport?.name }}
+                    </span>
+                  </p-button>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="max-h-[100vh] overflow-y-scroll" *ngIf="tab === 'metro'">
+            <div *ngIf="transports.length > 0" class="bg-white px-4 py-4 rounded-xl min-h-[200px]">
+              <h4 class="text-black font-semibold mb-4 text-[16]">Линии метро поблизости</h4>
+              <ul class="bus-list flex flex-wrap gap-2">
+                <li
+                  *ngFor="let transport of subways"
+                  [style.background]="transport?.color"
+                  class="rounded-[5px]"
+                  [class]="{
+                      active: routeTransports.includes(transport.ri) && !transportLoading,
+                      'pointer-events-none opacity-50': loading,
+                    }"
+                >
+                  <p-button [loading]="transportLoading" (click)="filterTransport(transport)" class="px-0" styleClass=" px-1 bg-[transparent] border border-solid border-[var(--grey-1)] min-w-8 h-8 flex items-center justify-center buses cursor-pointer text-[14px]">
+                    <span
+                      class="text-[#000000]"
+                      [class]="{
+                          active: routeTransports.includes(transport.ri) && !transportLoading,
+                        }"
+                    >
+                      {{ transport?.name }}
+                    </span>
+                  </p-button>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
       </div>
     </div>
-   <!-- <MapLoader v-if="loading" />-->
-  <div class="navbar w-full fixed top-1 md:bottom-1 md:top-auto md:justify-end md:pr-2 flex justify-center left-0 z-[2000] md:z-[100]">
+  </div>
+  <!-- <MapLoader v-if="loading" />-->
+  <!-- <div class="navbar w-full fixed top-1 md:bottom-1 md:top-auto md:justify-end md:pr-2 flex justify-center left-0 z-[2000] md:z-[100]">
     <ul class="px-3 py-3 rounded-xl open-tab bg-white flex md:flex-col gap-3">
       <li>
         <button class="md:hidden block" (click)="toggleToolbar()" [ngClass]="{ active: showToolbar }">
@@ -196,7 +198,7 @@
         </button>
       </li>
     </ul>
-  </div>
+  </div> -->
   <div class="flex flex-col gap-6 max-w-[400px] fixed top-0 left-1 z-[10000] max-h-[100vh] py-1 filter-toolbar md:hidden" [ngClass]="{ toolbarShow: showToolbar }">
     <div class="relative">
       <button (click)="toggleToolbar()" class="w-10 h-10 bg-[var(--gray-1)] absolute right-[-39px] top-8 rounded-r-[8px] border-[1px] border-l-[0] border-[color:var(--input-stroke)] border-solid">
@@ -205,9 +207,7 @@
       <app-filter [filterAction]="filterSend" [loading]="loading" [clearFilterAction]="clearFilter"></app-filter>
     </div>
   </div>
-  <div class="flex flex-col gap-6 max-w-[500px] w-full fixed top-0 left-1 z-[10000] max-h-[100vh] overflow-y-scroll py-1 filter-toolbar md:hidden" [ngClass]="{ toolbarShow: showInfo }">
-    <app-anouncement-map-card [close]="closeAnnouncementInfo" [announcement]="currentAnnouce"></app-anouncement-map-card>
-  </div>
+
   <div [ngClass]="{ busShow: showBus || showMiniBus || showSubway }" class="flex flex-col gap-6 max-w-[416px] w-[416px] fixed top-0 right-1 z-[10000] py-1 filter-bus md:hidden">
     <div class="relative">
       <div class="absolute left-[-39px] top-9 flex flex-col gap-2">
@@ -308,8 +308,14 @@
     </div>
   </div>
 
+  <p-dialog [draggable]="true" position="topleft" [showHeader]="false" [(visible)]="showInfo" [style]="{ width: '25rem' }">
+    <button (click)="showInfo = false" class="w-10 h-10 bg-[var(--gray-1)] absolute right-[-39px] top-8 rounded-r-[8px] border-[1px] border-l-[0] border-[color:var(--input-stroke)] border-solid">
+      <i class="pi pi-angle-double-right" [ngClass]="{ 'rotate-180': showToolbar }" style="color: #00a000"></i>
+    </button>
+    <app-announcements-card *ngIf="showInfo" [more]="true" [close]="closeAnnouncementInfo" [announcement]="currentAnnouce"></app-announcements-card>
+  </p-dialog>
 </div>
-<div class="md:block hidden">
+<!-- <div class="md:block hidden">
   <app-bottom-sheet>
     <app-filter [close]="closeBShFilter" [filterAction]="filterSend" [loading]="loading" [clearFilterAction]="clearFilter"></app-filter>
   </app-bottom-sheet>
@@ -423,4 +429,4 @@
       <app-anouncement-map-card [close]="closeAnnouncementInfo" [announcement]="currentAnnouce"></app-anouncement-map-card>
     </div>
   </app-bottom-sheet>
-</div>
+</div> -->

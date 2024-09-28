@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgFor, NgIf, NgOptimizedImage } from '@angular/common';
 import { LikesService } from '@services/likes';
 import { AuthService } from '@services/auth';
@@ -15,13 +15,13 @@ import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
   templateUrl: './announcements-card.component.html',
   styleUrl: './announcements-card.component.css',
 })
-export class AnnouncementsCardComponent {
+export class AnnouncementsCardComponent implements OnInit {
+  @Input() close: Function | undefined;
   @Input() announcement: any;
+  @Input() more?: boolean = false;
   public loading: boolean = false;
-  constructor(
-    public likesService: LikesService,
-    private authService: AuthService,
-  ) {}
+  public showCarousel: boolean = false;
+  constructor(public likesService: LikesService, private authService: AuthService) {}
   public customOptions: OwlOptions = {
     loop: true,
     mouseDrag: true,
@@ -35,10 +35,30 @@ export class AnnouncementsCardComponent {
     responsive: {
       0: {
         items: 1,
-      }
+      },
     },
     nav: false,
   };
+  ngOnInit(): void {
+    setTimeout(() => (this.showCarousel = true));
+    this.customOptions = {
+      loop: true,
+      mouseDrag: true,
+      touchDrag: true,
+      pullDrag: true,
+      dots: true,
+      autoplay: true,
+      navSpeed: 700,
+      autoplaySpeed: 600,
+      lazyLoad: true,
+      responsive: {
+        0: {
+          items: 1,
+        },
+      },
+      nav: false,
+    };
+  }
   check_auth(id: number) {
     this.authService.auth ? this.check_likes(id) : this.likesService.likeHandle(id);
   }
@@ -70,5 +90,8 @@ export class AnnouncementsCardComponent {
         const userLikes = response.map((item: any) => item.announcement?.id);
         this.likesService.handleUserLikes(userLikes);
       });
+  }
+  closeBottomSheet() {
+    if (this.close !== undefined) this.close();
   }
 }
