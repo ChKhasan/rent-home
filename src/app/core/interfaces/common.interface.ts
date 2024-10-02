@@ -13,6 +13,11 @@ export type IcommentList = paths['/api/comment/']['get']['responses']['200']['co
 export type UserImages = components['schemas']['Image'];
 export type IUserInfo = components['schemas']['UserMe'];
 export type IUserForChat = components['schemas']['UserForChat'];
+export interface IGendersList {
+  name?: string;
+  description?: string | null;
+  id?: number;
+}
 
 export interface ICommonResponse {
   page: number;
@@ -46,7 +51,7 @@ export interface FilterForm {
   total_price__gte: Number;
   total_price__lte: Number;
   room_count: Number;
-  transports: []
+  transports: [];
 }
 
 export interface IUserRooms {
