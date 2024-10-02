@@ -20,10 +20,11 @@ import { finalize } from 'rxjs';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { LikesComponent } from "../../likes/likes.component";
 import { AnnouncementsComponent } from "../announcements/announcements.component";
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [TabComponent, SelectButtonModule, InputMaskModule, InputNumberModule, InputTextModule, InvaidTextComponent, NgIf, PaginatorModule, ReactiveFormsModule, NgClass, ButtonModule, FileUploadModule, LikesComponent, AnnouncementsComponent],
+  imports: [TabComponent, RouterLink, SelectButtonModule, InputMaskModule, InputNumberModule, InputTextModule, InvaidTextComponent, NgIf, PaginatorModule, ReactiveFormsModule, NgClass, ButtonModule, FileUploadModule, LikesComponent, AnnouncementsComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
 })

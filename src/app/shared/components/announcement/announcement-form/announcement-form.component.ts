@@ -17,11 +17,13 @@ import { ImageModule } from 'primeng/image';
 import { RippleModule } from 'primeng/ripple';
 import { HttpHeaders } from '@angular/common/http';
 import { environment } from '@environments';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MapDialogComponent } from '../../modals/map-dialog/map-dialog.component';
 import { RequestService } from '@services/request';
-import { IAnnouncementInfo, Transport } from '@services/interfaces';
+import { IAnnouncementInfo, IGendersList, Transport } from '@services/interfaces';
 import { InputSwitchModule } from 'primeng/inputswitch';
+import { DropdownModule } from 'primeng/dropdown';
+import { MultiSelectModule } from 'primeng/multiselect';
 interface UploadEvent {
   originalEvent: Event;
   files: File[];
@@ -30,7 +32,7 @@ interface UploadEvent {
 @Component({
   selector: 'app-announcement-form',
   standalone: true,
-  imports: [FormsModule, InputTextModule,InputSwitchModule, InvaidTextComponent, NgIf, ReactiveFormsModule, NgClass, TooltipModule, NgOptimizedImage, ButtonModule, ToastModule, FileUploadModule, InputTextareaModule, CheckboxModule, InputMaskModule, InputNumberModule, NgForOf, ImageModule, RippleModule, RouterLink, MapDialogComponent],
+  imports: [FormsModule, InputTextModule,InputSwitchModule, MultiSelectModule, DropdownModule, InvaidTextComponent, NgIf, ReactiveFormsModule, NgClass, TooltipModule, NgOptimizedImage, ButtonModule, ToastModule, FileUploadModule, InputTextareaModule, CheckboxModule, InputMaskModule, InputNumberModule, NgForOf, ImageModule, RippleModule, RouterLink, MapDialogComponent],
   templateUrl: './announcement-form.component.html',
   styleUrl: './announcement-form.component.css',
 })
@@ -38,6 +40,7 @@ export class AnnouncementFormComponent implements OnInit {
   public ruleForm;
   private token: any;
   public headers: any;
+  public genders: IGendersList[] = []
   uploadedFiles: any[] = [];
   private readonly id: number | string | null;
   formState = {
@@ -47,20 +50,21 @@ export class AnnouncementFormComponent implements OnInit {
   };
   @ViewChild(MapDialogComponent) mapDialogComponent!: MapDialogComponent;
   @Input() isEdit: boolean = false;
-  public announcement!: IAnnouncementInfo;
+  public announcement!: any;
   constructor(
     public _formControl: FormService,
     private messageService: MessageService,
     private route: ActivatedRoute,
     private location: Location,
     private requestService: RequestService,
+    private router: Router
   ) {
     this.ruleForm = _formControl.ruleForm;
     this.id = this.route.snapshot.paramMap.get('id');
   }
 
   goBack() {
-    this.location.back();
+    this.router.navigate(['/profile']).then((r) => {});
   }
 
   fileUploaderHeaders() {
@@ -73,13 +77,15 @@ export class AnnouncementFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.__GET_GENDERS()
     this.fileUploaderHeaders();
     if (this.isEdit) {
-      this.requestService.getData<IAnnouncementInfo>(environment.urls.GET_ANNONCEMENTS + this.id).subscribe((response: IAnnouncementInfo): void => {
+      this.requestService.getData<any>(environment.urls.GET_ANNONCEMENTS + this.id).subscribe((response: any): void => {
         this.announcement = response;
 
         this.uploadedFiles = response.images;
         this.ruleForm.patchValue({
+          lessee_types: response.lessee_types.map((elem: any) => elem.id),
           transports: response.transports as Transport[],
           images: [],
           title: response.title,
@@ -106,7 +112,11 @@ export class AnnouncementFormComponent implements OnInit {
   onSubmit(): void {
     this.imagesPatcher();
   }
-
+  __GET_GENDERS() {
+    this.requestService.getData(environment.urls.GET_GENDERS).subscribe((response: any) => {
+      this.genders = response.results
+    })
+  }
   imagesPatcher() {
     this.uploadedFiles.forEach((elem) => {
       const imagesControl = this.ruleForm.get('images');

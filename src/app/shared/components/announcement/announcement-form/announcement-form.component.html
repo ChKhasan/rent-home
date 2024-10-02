@@ -26,6 +26,27 @@
               </div>
             </div>
             <div class="flex flex-col gap-1 relative">
+              <label class="font-medium text-[14px] text-[--grey-900]" for="name">Ijarachilarning jinsi*</label>
+              <div class="relative w-full flex items-center form-input">
+                <p-multiSelect 
+                [options]="genders" 
+                formControlName="lessee_types"
+                optionLabel="name" 
+                [ngClass]="{
+                  'ng-invalid ng-dirty': ruleForm.controls.lessee_types.touched && ruleForm.controls.lessee_types.errors && ruleForm.controls.lessee_types.errors['required'],
+                }"
+                styleClass="w-full"
+                class="w-full"
+                [filter]="false"
+                optionValue="id"
+                placeholder="Jinsi" />
+              </div>
+              <div *ngIf="ruleForm.controls.lessee_types.invalid && (ruleForm.controls.lessee_types.dirty || ruleForm.controls.lessee_types.touched)">
+                <app-invaid-text [text]="'This field is required.'" *ngIf="ruleForm.controls.lessee_types.errors && ruleForm.controls.lessee_types.errors['required']"></app-invaid-text>
+                <app-invaid-text [text]="'lessee_types must be at least 6 characters long.'" *ngIf="ruleForm.controls.lessee_types.errors && ruleForm.controls.lessee_types.errors['minlength']"></app-invaid-text>
+              </div>
+            </div>
+            <div class="flex flex-col gap-1 relative">
               <label class="font-medium text-[14px] text-[--grey-900]" for="address">Manzil*</label>
               <div class="relative w-full flex items-center form-input">
                 <input

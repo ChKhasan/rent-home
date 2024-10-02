@@ -4,7 +4,7 @@
   </div>
   <div class="body mx-auto max-w-[1200px] grid grid-cols-3 gap-[10px] md:grid-cols-2 md:gap-3">
     <span class="w-full" *ngFor="let announcement of announcements">
-      <app-announcements-card [announcement]="announcement"></app-announcements-card>
+      <app-announcements-card [announcement]="announcement" [edit]="true"></app-announcements-card>
     </span>
   </div>
   <div class="mx-auto max-w-[1200px] flex justify-center mt-6">

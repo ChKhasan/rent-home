@@ -19,6 +19,7 @@ export class AnnouncementsCardComponent implements OnInit {
   @Input() close: Function | undefined;
   @Input() announcement: any;
   @Input() more?: boolean = false;
+  @Input() edit?: boolean = false;
   public loading: boolean = false;
   public showCarousel: boolean = false;
   constructor(public likesService: LikesService, private authService: AuthService) {}

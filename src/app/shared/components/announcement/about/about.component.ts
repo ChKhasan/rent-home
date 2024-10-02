@@ -1,11 +1,11 @@
 import { Component, Input } from '@angular/core';
-import { NgIf } from '@angular/common';
+import { NgForOf, NgIf } from '@angular/common';
 import { IAnnouncementInfo } from '@services/interfaces';
 
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [NgIf],
+  imports: [NgIf, NgForOf],
   templateUrl: './about.component.html',
   styleUrl: './about.component.css',
 })

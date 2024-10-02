@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { addressControl, descControl, titleControl } from '../../common/form-control';
 import { ToastService } from '@services/toast';
 import { Router } from '@angular/router';
@@ -31,13 +31,10 @@ export class FormService {
     fridge: new FormControl(false),
     washing_machine: new FormControl(false),
     user: new FormControl({}),
+    lessee_types: new FormControl([],[Validators.required, Validators.minLength(1)]),
   });
   public loading: boolean = false;
-  constructor(
-    private toastService: ToastService,
-    private router: Router,
-    private requestService: RequestService,
-  ) {}
+  constructor(private toastService: ToastService, private router: Router, private requestService: RequestService) {}
 
   public onSubmit(isEdit: Boolean, id: any) {
     this.ruleForm.markAllAsTouched();
