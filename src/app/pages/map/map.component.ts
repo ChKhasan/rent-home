@@ -25,10 +25,11 @@ import { HttpClient } from '@angular/common/http';
 import { DialogModule } from 'primeng/dialog';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { Location } from '@angular/common';
+import { MultiSelectModule } from 'primeng/multiselect';
 @Component({
   selector: 'app-map',
   standalone: true,
-  imports: [NgClass, FilterComponent, RouterLink, OverlayPanelModule, DialogModule, FormsModule, SelectButtonModule, AngularYandexMapsModule, AnouncementMapCardComponent, NgIf, NgForOf, ButtonModule, StyleClassModule, SubwayIconComponent, BusIconComponent, MiniBusIconComponent, BadgeModule, BottomSheetComponent, AnnouncementsCardComponent],
+  imports: [NgClass, FilterComponent,MultiSelectModule, RouterLink, OverlayPanelModule, DialogModule, FormsModule, SelectButtonModule, AngularYandexMapsModule, AnouncementMapCardComponent, NgIf, NgForOf, ButtonModule, StyleClassModule, SubwayIconComponent, BusIconComponent, MiniBusIconComponent, BadgeModule, BottomSheetComponent, AnnouncementsCardComponent],
   templateUrl: './map.component.html',
   styleUrl: './map.component.css',
 })
@@ -36,7 +37,7 @@ export class MapComponent implements OnInit, AfterViewInit {
   // @ViewChild(BottomSheetComponent) bottomSheetComponent!: BottomSheetComponent
   @ViewChildren(BottomSheetComponent)
   bottomSheetComponents!: QueryList<BottomSheetComponent>;
-  public tab: string = 'bus';
+  public tab: 'bus' | 'mashrutka' | 'metro' = 'bus';
   stateOptions: any[] = [
     { label: 'Avtobus', value: 'bus' },
     { label: 'Mashrutka', value: 'mashrutka' },
@@ -386,5 +387,21 @@ export class MapComponent implements OnInit, AfterViewInit {
     })
    
     // this.requestService.requestData(environment.authUrls.POST_ALLTRANSPORTS,'POST')
+  }
+  onChange(event: any) {
+    console.log(event)
+    if(typeof event.itemValue === 'string'){
+      let transport = this.transports.find((elem: any) => elem.ri === event.itemValue);
+      this.filterTransport(transport)
+
+    } else {
+      this.filterTransport(event.itemValue)
+    }
+  }
+  
+  async onClear() {
+    let query: any = { ...this.queryService.activeQueryList() };
+    if (query['transports']) query.transports = [];
+    // this.queryService.updateCustomQuery(query, this.getData).then(() => {});
   }
 }
