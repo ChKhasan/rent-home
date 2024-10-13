@@ -1,4 +1,4 @@
-<div class="flex flex-col gap-6 justify-between rounded-2xl bg-white px-4 py-4 border-[1px] border-[--grey-300] border-solid md:rounded-none md:px-0 md:border-l-[0] md:border-r-[0]">
+<div class="flex flex-col gap-6 justify-between rounded-2xl bg-white px-4 py-4 border-[1px] border-[--grey-300] border-solid">
   <div class="flex flex-col gap-6 items-center">
     <div class="image w-[96px] h-[96px] rounded-full overflow-hidden">
       <img class="w-full h-full object-cover" src="../../../../../assets/images/avatar.png" alt="" />
@@ -8,9 +8,9 @@
       <p class="text-2xl">Online</p>
     </div>
   </div>
-  <div class="grid grid-cols-2 gap-3">
-    <p-button [disabled]="authService.user.id === announcement?.user" [loading]="loading" (click)="toChat()" styleClass="ripple-button gap-2 w-full items-center py-[14px] bg-[color:var(--green)] rounded-xl text-white font-semibold flex justify-center" class="px-0 py-0 rounded-[8px] bg-[transparent] border-0">
-      <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <div class="grid grid-cols-2 gap-3 md:gap-2">
+    <p-button [disabled]="authService.user.id === announcement?.user" [loading]="loading" (click)="toChat()" styleClass="ripple-button gap-2 w-full items-center py-[14px] md:py-3 bg-[color:var(--green)] rounded-xl text-white font-semibold flex justify-center md:text-[14px]" class="px-0 py-0 rounded-[8px] bg-[transparent] border-0">
+      <svg width="25" height="24" class="md:!w-5 md:!h-5" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M6.5 10C6.5 9.44772 6.94772 9 7.5 9H12.5C13.0523 9 13.5 9.44772 13.5 10C13.5 10.5523 13.0523 11 12.5 11H7.5C6.94772 11 6.5 10.5523 6.5 10Z" fill="white" />
         <path d="M7.5 13C6.94772 13 6.5 13.4477 6.5 14C6.5 14.5523 6.94772 15 7.5 15H16.5C17.0523 15 17.5 14.5523 17.5 14C17.5 13.4477 17.0523 13 16.5 13H7.5Z" fill="white" />
         <path fill-rule="evenodd" clip-rule="evenodd" d="M2.5 12C2.5 6.47715 6.97715 2 12.5 2C18.0228 2 22.5 6.47715 22.5 12C22.5 17.5228 18.0228 22 12.5 22C11.6677 22 10.8578 21.8981 10.0827 21.7056L4.53877 21.0126C3.34049 20.8628 2.50773 19.7459 2.70626 18.5547L3.04915 16.4974C3.05113 16.4854 3.05138 16.4733 3.04988 16.4613L2.79438 14.4173C2.6019 13.6422 2.5 12.8323 2.5 12ZM12.5 4C8.08172 4 4.5 7.58172 4.5 12C4.5 12.6866 4.58625 13.3515 4.74801 13.9853L4.76355 14.0462L5.03444 16.2132C5.05992 16.4171 5.05571 16.6235 5.02193 16.8262L4.67905 18.8835C4.66737 18.9536 4.71635 19.0193 4.78684 19.0281L10.4538 19.7364L10.5147 19.752C11.1485 19.9137 11.8135 20 12.5 20C16.9183 20 20.5 16.4183 20.5 12C20.5 7.58172 16.9183 4 12.5 4Z" fill="white" />
@@ -18,8 +18,8 @@
 
       Chat
     </p-button>
-    <a href="#" class="border border-solid border-[--grey-300] text-[#000] py-[14px] bg-[transparent] rounded-xl font-semibold flex justify-center">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <a href="#" class="border border-solid border-[--grey-300] text-[#000] gap-2 items-center py-[14px] md:py-3 bg-[transparent] rounded-xl font-semibold flex justify-center md:text-[14px]">
+      <svg width="24" height="24" class="md:!w-5 md:!h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
           fill-rule="evenodd"
           clip-rule="evenodd"
