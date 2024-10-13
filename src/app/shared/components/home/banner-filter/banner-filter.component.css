@@ -71,3 +71,10 @@ textarea:focus {
   width: 104px;
   height: 104px;
 }
+
+@media (max-width: 768px) {
+  .form-input input,
+  :host ::ng-deep .p-dropdown {
+    height: 36px;
+  }
+}

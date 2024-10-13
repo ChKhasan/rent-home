@@ -196,16 +196,16 @@
       </li>
     </ul>
   </div> -->
-  <div class="flex flex-col gap-6 max-w-[400px] fixed top-0 left-1 z-[10000] max-h-[100vh] py-1 filter-toolbar md:hidden" [ngClass]="{ toolbarShow: showToolbar }">
+  <!-- <div class="flex flex-col gap-6 max-w-[400px] fixed top-0 left-1 z-[10000] max-h-[100vh] py-1 filter-toolbar md:hidden" [ngClass]="{ toolbarShow: showToolbar }">
     <div class="relative">
       <button (click)="toggleToolbar()" class="w-10 h-10 bg-[var(--gray-1)] absolute right-[-39px] top-8 rounded-r-[8px] border-[1px] border-l-[0] border-[color:var(--input-stroke)] border-solid">
         <i class="pi pi-angle-double-right" [ngClass]="{ 'rotate-180': showToolbar }" style="color: #00a000"></i>
       </button>
       <app-filter [filterAction]="filterSend" [loading]="loading" [clearFilterAction]="clearFilter"></app-filter>
     </div>
-  </div>
+  </div> -->
 
-  <div [ngClass]="{ busShow: showBus || showMiniBus || showSubway }" class="flex flex-col gap-6 max-w-[416px] w-[416px] fixed top-0 right-1 z-[10000] py-1 filter-bus md:hidden">
+  <!-- <div [ngClass]="{ busShow: showBus || showMiniBus || showSubway }" class="flex flex-col gap-6 max-w-[416px] w-[416px] fixed top-0 right-1 z-[10000] py-1 filter-bus md:hidden">
     <div class="relative">
       <div class="absolute left-[-39px] top-9 flex flex-col gap-2">
         <button (click)="toggleBus('showBus')" class="open-transport-btn w-10 h-10 bg-[var(--gray-1)] rounded-l-[8px] border-[1px] border-r-[0] border-[color:var(--input-stroke)] border-solid" [ngClass]="{ 'bg-white': showBus }">
@@ -303,7 +303,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <p-dialog [draggable]="true" position="topleft" [showHeader]="false" [(visible)]="showInfo" [style]="{ width: '25rem' }">
     <button (click)="showInfo = false" class="w-10 h-10 bg-[var(--gray-1)] absolute right-[-39px] top-8 rounded-r-[8px] border-[1px] border-l-[0] border-[color:var(--input-stroke)] border-solid">

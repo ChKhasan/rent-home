@@ -13,6 +13,10 @@ import { QueryService } from '@/core/services/query/query.service';
   imports: [ReactiveFormsModule, SelectButtonModule, DropdownModule, FormsModule, ButtonModule],
 })
 export class BannerFilterComponent implements OnInit {
+  filter: any = {
+    room_count: null,
+    partnership: false
+  }
   cities: any[] | undefined;
 
   selectedCity: any | undefined;
@@ -20,8 +24,8 @@ export class BannerFilterComponent implements OnInit {
   formGroup!: FormGroup;
 
   stateOptions: any[] = [
-    { label: 'Yakka', value: 'off', icon: 'pi pi-user' },
-    { label: 'Sheriklik', value: 'on', icon: 'pi pi-users' },
+    { label: 'Yakka', value: false, icon: 'pi pi-user' },
+    { label: 'Sheriklik', value: true, icon: 'pi pi-users' },
   ];
   constructor(
     private router: Router,
@@ -40,7 +44,7 @@ export class BannerFilterComponent implements OnInit {
     ];
   }
   toFilter() {
-    let query = { ...this.queryService.activeQueryList() };
+    let query = { ...this.filter };
     this.router.navigate(['/announcements'], {
       queryParams: query,
     });

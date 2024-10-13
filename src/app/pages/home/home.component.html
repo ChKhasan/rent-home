@@ -1,9 +1,9 @@
-<div class="pb-[120px]">
-  <div class="my-4">
+<div class="pb-[120px] md:pb-0">
+  <div class="my-4 md:px-4">
     <app-banner></app-banner>
   </div>
 
-  <div class="max-w-[1120px] mx-auto px-4 flex flex-col gap-8">
+  <div class="max-w-[1120px] mx-auto px-4 flex flex-col md:gap-5 gap-8">
     <!-- <div>
       <h3 class="font-medium text-[40px] text-[--green] md:text-[20px]">Top E`lonlar</h3>
       <p class="text-[28px] text-[--brown-900] mt-2">Uy kerarmi? Unda Biz yordam beramiz!</p>
@@ -27,22 +27,22 @@
       </div>
 
     </ng-template> -->
-    <div>
-      <h3 class="font-medium text-[40px] text-[--green] md:text-[20px]">Boshqa E`lonlar</h3>
-      <p class="text-[28px] text-[--brown-900] mt-2">Uy kerarmi? Unda Biz yordam beramiz!</p>
+    <div id="newBlock">
+      <h3 class="font-medium text-[40px] text-[--green] md:text-2xl">Boshqa E`lonlar</h3>
+      <p class="text-[28px] md:text-sm text-[--brown-900] md:mt-0 mt-2">Uy kerarmi? Unda Biz yordam beramiz!</p>
     </div>
-    <div class="grid grid-cols-3 md:grid-cols-2 gap-[10px] md:gap-3 mt-[15px]" *ngIf="loading; else announcementsList">
+    <div class="grid grid-cols-3 md:grid-cols-1 gap-[10px] md:gap-3 md:mt-3 mt-[15px]" *ngIf="loading; else announcementsList">
       <p-skeleton *ngFor="let item of [1, 2, 3]" class="w-full" styleClass="ng_skeleton"></p-skeleton>
     </div>
     <ng-template #announcementsList>
-      <div class="grid grid-cols-3 md:grid-cols-2 gap-[10px] md:gap-3">
+      <div class="grid grid-cols-3 md:grid-cols-1 gap-[10px] md:gap-3">
         <ng-container *ngFor="let announcement of announcements">
           <app-announcements-card [announcement]="announcement"></app-announcements-card>
         </ng-container>
       </div>
     </ng-template>
-    <button [routerLink]="'/announcements'" class="border ml-auto border-[--grey-300] border-solid p-4 font-semibold flex gap-2 items-center bg-transparent rounded-xl">Hamma E`lonlar
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <button [routerLink]="'/announcements'" class="border md:text-sm ml-auto border-[--grey-300] border-solid p-4 md:p-3 font-semibold flex gap-2 items-center bg-transparent rounded-xl">Hamma E`lonlar
+      <svg width="24" height="24" class="md:!w-5 md:!h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M16.0832 13.3707C16.808 12.6006 16.808 11.3994 16.0832 10.6293L8.7282 2.81464C8.34969 2.41246 7.71681 2.39329 7.31464 2.7718C6.91246 3.15032 6.89329 3.78319 7.2718 4.18537L14.6268 12L7.2718 19.8146C6.89329 20.2168 6.91247 20.8497 7.31464 21.2282C7.71681 21.6067 8.34969 21.5875 8.7282 21.1854L16.0832 13.3707Z" fill="black"/>
       </svg>
       </button>

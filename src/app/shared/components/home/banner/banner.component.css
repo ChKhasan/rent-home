@@ -43,8 +43,8 @@
 }
 @media (max-width: 768px) {
   .banner {
-    height: 50vh;
-    margin-bottom: 80px;
+    height: auto;
+    margin-bottom: 20px;
   }
   .img {
     width: 100%;
