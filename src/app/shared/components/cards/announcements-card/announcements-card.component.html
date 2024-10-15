@@ -78,7 +78,13 @@
     <div class="flex flex-col gap-[8px] mt-2 md:2t-1">
       <div class="flex justify-between">
         <h6 class="flex font-medium text-[28px] md:text-xl gap-[4px]">{{ announcement?.total_price }} UZS</h6>
-        <button pButton pTooltip="Добавить в избранное" tooltipPosition="left" [loading]="loading" class="bg-transparent focus:shadow-none flex items-center justify-center px-0 py-0" (click)="check_auth(announcement?.id)">
+        <a *ngIf="edit" [routerLink]="'/profile/announcements/' + announcement?.id" class="ml-auto flex items-center gap-1 font-medium text-lg text-[#000]">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M23.873 1.63749C22.1898 -0.0457475 19.4607 -0.0457484 17.7775 1.63749L7.12063 12.2943C6.35564 13.0593 5.85941 14.0518 5.70641 15.1227L5.3976 17.2845C5.16189 18.9344 6.57611 20.3486 8.22602 20.1129L10.3877 19.8041C11.4587 19.6511 12.4512 19.1548 13.2162 18.3899L23.873 7.73302C25.5562 6.04979 25.5562 3.32072 23.873 1.63749ZM19.8071 3.18814C20.5117 2.70781 21.4802 2.78018 22.1052 3.40525C22.7303 4.03033 22.8027 4.99882 22.3223 5.70341L19.8071 3.18814ZM18.0169 4.93354L20.5769 7.49354L11.4484 16.6221C11.0659 17.0046 10.5697 17.2527 10.0342 17.3292L7.87247 17.638L8.18129 15.4763C8.25778 14.9408 8.5059 14.4446 8.88839 14.0621L18.0169 4.93354Z" fill="#475367"/>
+            <path d="M5.62793 0.500004C2.86651 0.500004 0.62793 2.73858 0.62793 5.5V20.5C0.62793 23.2614 2.86651 25.5 5.62793 25.5H20.6279C23.3894 25.5 25.6279 23.2614 25.6279 20.5V13C25.6279 12.3096 25.0683 11.75 24.3779 11.75C23.6876 11.75 23.1279 12.3096 23.1279 13V20.5C23.1279 21.8807 22.0086 23 20.6279 23H5.62793C4.24722 23 3.12793 21.8807 3.12793 20.5V5.5C3.12793 4.11929 4.24722 3 5.62793 3H8.98319C9.67355 3 10.2332 2.44036 10.2332 1.75C10.2332 1.05965 9.67355 0.500004 8.98319 0.500004H5.62793Z" fill="#475367"/>
+          </svg>
+        </a>
+        <button *ngIf="!edit" pButton pTooltip="Добавить в избранное" tooltipPosition="left" [loading]="loading" class="bg-transparent focus:shadow-none flex items-center justify-center px-0 py-0" (click)="check_auth(announcement?.id)">
           <span *ngIf="!loading">
             <svg class="md:h-[25px] md:w-[27px]" *ngIf="likesService.likes.includes(announcement?.id); else showSvg" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M15.0011 6.25012C15.0011 6.25012 11.2511 1.87512 6.25112 4.37512C3.02818 5.98658 2.02256 9.15255 2.62756 12.7524C3.61638 18.636 10.927 23.736 13.8238 25.5474C14.5509 26.002 15.4514 26.002 16.1784 25.5474C19.0752 23.736 26.3857 18.636 27.3745 12.7524C27.9795 9.15255 26.9739 5.98658 23.751 4.37512C18.7509 1.87512 15.0011 6.25012 15.0011 6.25012Z" fill="#D42620" />
@@ -103,12 +109,7 @@
           <path d="M16.0832 13.3707C16.808 12.6006 16.808 11.3994 16.0832 10.6293L8.7282 2.81464C8.34969 2.41246 7.71681 2.39329 7.31464 2.7718C6.91246 3.15032 6.89329 3.78319 7.2718 4.18537L14.6268 12L7.2718 19.8146C6.89329 20.2168 6.91247 20.8497 7.31464 21.2282C7.71681 21.6067 8.34969 21.5875 8.7282 21.1854L16.0832 13.3707Z" fill="#475367" />
         </svg>
       </a>
-      <a *ngIf="edit" [routerLink]="'/profile/announcements/' + announcement?.id" class="ml-auto flex items-center gap-1 font-medium text-lg text-[#000]">
-        Tahrirlash
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M16.0832 13.3707C16.808 12.6006 16.808 11.3994 16.0832 10.6293L8.7282 2.81464C8.34969 2.41246 7.71681 2.39329 7.31464 2.7718C6.91246 3.15032 6.89329 3.78319 7.2718 4.18537L14.6268 12L7.2718 19.8146C6.89329 20.2168 6.91247 20.8497 7.31464 21.2282C7.71681 21.6067 8.34969 21.5875 8.7282 21.1854L16.0832 13.3707Z" fill="#475367" />
-        </svg>
-      </a>
+    
     </div>
   </div>
 </div>

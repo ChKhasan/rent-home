@@ -3,12 +3,12 @@
     <div class="flex justify-between items-center">
       <h3 class="text-[40px] font-medium text-[--green] md:text-[24px] md:mb-3">Profile</h3>
       <div class="flex gap-4">
-        <a [routerLink]="'/profile/create'" class="border-solid border-[2px] border-[--green] rounded-xl text-[14px] flex items-center gap-2 bg-transparent font-semibold p-3 text-[--green]">
+        <a [routerLink]="'/profile/create'" class="border-solid border-[2px] border-[--green] rounded-xl text-[14px] flex items-center gap-2 bg-transparent font-semibold p-3 md:px-2 md:py-2 md:text-xs md:border-[1px] text-[--green]">
         
           E'lon yaratish
         </a>
-        <button (click)="logout()"  class="border-solid border-[2px] border-[--error-400] rounded-xl text-[14px] flex items-center gap-2 bg-transparent font-semibold p-3 text-[--error-400]">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <button (click)="logout()"  class="border-solid border-[2px] border-[--error-400] rounded-xl text-[14px] flex items-center gap-2 bg-transparent font-semibold p-3  md:px-2 md:py-2 md:text-xs md:border-[1px] text-[--error-400]">
+          <svg class="md:hidden" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M6.25033 3.33332C6.71056 3.33332 7.08366 2.96023 7.08366 2.49999C7.08366 2.03975 6.71056 1.66666 6.25033 1.66666H5.00033C3.15938 1.66666 1.66699 3.15904 1.66699 4.99999V15C1.66699 16.8409 3.15938 18.3333 5.00033 18.3333H6.25033C6.71056 18.3333 7.08366 17.9602 7.08366 17.5C7.08366 17.0398 6.71056 16.6667 6.25033 16.6667H5.00033C4.07985 16.6667 3.33366 15.9205 3.33366 15L3.33366 4.99999C3.33366 4.07952 4.07985 3.33332 5.00033 3.33332H6.25033Z" fill="#D42620" />
             <path d="M18.9229 10.5892C19.2484 10.2638 19.2484 9.73617 18.9229 9.41073L15.5896 6.0774C15.2641 5.75196 14.7365 5.75196 14.4111 6.0774C14.0856 6.40284 14.0856 6.93048 14.4111 7.25591L16.3218 9.16666L6.66699 9.16666C6.20675 9.16666 5.83366 9.53975 5.83366 9.99999C5.83366 10.4602 6.20675 10.8333 6.66699 10.8333L16.3218 10.8333L14.4111 12.7441C14.0856 13.0695 14.0856 13.5971 14.4111 13.9226C14.7365 14.248 15.2641 14.248 15.5896 13.9226L18.9229 10.5892Z" fill="#D42620" />
           </svg>
@@ -16,12 +16,12 @@
         </button>
       </div>
     </div>
-    <div class="border border-solid border-[--grey-300] flex gap-8 rounded-2xl px-[46px] py-[35px]">
+    <div class="border border-solid border-[--grey-300] flex gap-8 md:gap-2 rounded-2xl px-[46px] py-[35px] md:p-4">
       <!-- <div class="image">
         <img *ngIf="authService.user?.images && authService.user?.images[0].image" class="w-[120px] h-[120px] rounded-full object-cover" [src]="authService.user?.images[0].image" alt="" />
       </div> -->
       <div class="image-block md:flex md:justify-center md:flex-col md:items-center">
-        <div class="relative md:mt-[0] w-[120px] h-[120px] md:w-[100px] md:h-[100px] flex items-center">
+        <div class="relative md:mt-[0] w-[120px] h-[120px] md:w-[56px] md:h-[56px] flex items-center">
           <div class="image w-full h-full rounded-full overflow-hidden">
             <img *ngIf="avatar; else defaultImage" class="w-full h-full object-cover" [src]="avatar" alt="" />
             <ng-template #defaultImage>
@@ -31,26 +31,29 @@
           <p-fileUpload *ngIf="isEdit" class="flex items-center absolute right-[-20px]" styleClass="file-upload" mode="basic" name="image" url="https://new.rent-home.uz/api/images/" (onUpload)="onUpload($event)" [auto]="true" method="post" [multiple]="true" accept="image/*" [maxFileSize]="1000000" [headers]="headers"></p-fileUpload>
         </div>
       </div>
-      <div class="body flex flex-col justify-center items-start" >
-        <p class="text-lg text-[--grey-600]">{{ authService.user.email  }}</p>
-        <h5 class="text-[32px] font-medium">{{authService.user.first_name}} {{authService.user.name}} {{authService.user.last_name}}</h5>
-        <button *ngIf="!isEdit" (click)="isEdit = true" class="mt-3 border-solid border-[2px] border-[--grey-300] rounded-xl text-[14px] flex items-center gap-2 bg-transparent font-semibold p-3">
+      <div class="body flex flex-col justify-center items-start md:flex-row md:justify-between md:items-center md:w-full" >
+       <div class="flex flex-col justify-center items-start">
+        <p class="text-lg text-[--grey-600] md:text-lg">{{ authService.user.email  }}</p>
+        <h5 class="text-[32px] font-medium md:text-xl">{{authService.user.first_name}} {{authService.user.name}} {{authService.user.last_name}}</h5>
+       </div>
+        <button *ngIf="!isEdit" (click)="isEdit = true" class="mt-3 md:mt-0 border-solid border-[2px] border-[--grey-300] rounded-xl text-[14px] flex items-center gap-2 bg-transparent font-semibold p-3">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M17.1637 2.42499C16.0415 1.30284 14.2222 1.30283 13.1 2.42499L5.99546 9.52955C5.48547 10.0395 5.15465 10.7012 5.05265 11.4152L4.84677 12.8563C4.68964 13.9563 5.63245 14.8991 6.73239 14.7419L8.17353 14.536C8.88752 14.434 9.54916 14.1032 10.0591 13.5932L17.1637 6.48868C18.2859 5.36653 18.2859 3.54715 17.1637 2.42499ZM14.4531 3.45876C14.9228 3.13854 15.5685 3.18679 15.9852 3.6035C16.4019 4.02022 16.4502 4.66588 16.1299 5.13561L14.4531 3.45876ZM13.2597 4.62236L14.9663 6.32903L8.88064 12.4147C8.62564 12.6697 8.29482 12.8351 7.93783 12.8861L6.49669 13.092L6.70256 11.6509C6.75356 11.2939 6.91897 10.9631 7.17397 10.7081L13.2597 4.62236Z" fill="#475367" />
             <path d="M5.00033 1.66667C3.15938 1.66667 1.66699 3.15905 1.66699 5V15C1.66699 16.841 3.15938 18.3333 5.00033 18.3333H15.0003C16.8413 18.3333 18.3337 16.841 18.3337 15V10C18.3337 9.53977 17.9606 9.16667 17.5003 9.16667C17.0401 9.16667 16.667 9.53977 16.667 10V15C16.667 15.9205 15.9208 16.6667 15.0003 16.6667H5.00033C4.07985 16.6667 3.33366 15.9205 3.33366 15V5C3.33366 4.07953 4.07985 3.33334 5.00033 3.33334H7.23717C7.69741 3.33334 8.0705 2.96024 8.0705 2.5C8.0705 2.03977 7.69741 1.66667 7.23717 1.66667H5.00033Z" fill="#475367" />
           </svg>
-          Tahrirlash
+          <span class="md:hidden">Tahrirlash</span>
         </button>
       </div>
     </div>
     <div class="title flex justify-between items-center md:flex-col mt-4" *ngIf="!isEdit">
       <h3 class="text-[40px] font-medium text-[--green] md:text-[24px] md:mb-3" *ngIf="tab === 'likes'">Saqlangan E`lonlar</h3>
       <h3 class="text-[40px] font-medium text-[--green] md:text-[24px] md:mb-3" *ngIf="tab === 'announcements'">Mening E`lonlarim</h3>
-      <p-selectButton styleClass="!rounded-2xl !w-full" [options]="stateOptions" [(ngModel)]="tab" optionLabel="label" optionValue="value">
+      <p-selectButton styleClass="!rounded-2xl !w-full" [options]="stateOptions" [(ngModel)]="tab" optionValue="value">
         <ng-template let-item pTemplate>
           <div class="flex gap-2 items-center">
             <i [class]="item.icon"></i>
-            <p>{{ item.label }}</p>
+            <p class="hidden md:block">{{ mLabels[item.value] }}</p>
+            <p class="md:hidden">{{ labels[item.value] }}</p>
           </div>
         </ng-template>
       </p-selectButton>

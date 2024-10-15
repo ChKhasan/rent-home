@@ -1,11 +1,11 @@
 <div class="announcements py-[60px] md:py-[18px]">
   <div class="max-w-[1120px] mx-auto px-4">
     <div class="title flex justify-between items-center">
-      <h3 class="text-[40px] font-medium text-[--green] md:text-[20px]">E`lonlar berish</h3>
+      <h3 class="text-[40px] font-medium text-[--green] md:text-2xl">E`lonlar berish</h3>
     </div>
     <div class="body mt-[30px]" [formGroup]="ruleForm">
       <div
-        class="forma md:max-w-full mx-auto md:bg-transparent border-solid border rounded-2xl border-[--grey-300] p-4 md:px-0 md:py-0">
+        class="forma md:max-w-full mx-auto md:bg-transparent border-solid border rounded-2xl border-[--grey-300] p-4 md:p-4">
         <div class="max-w-[552px] md:max-w-full">
           <div class="form-grid flex flex-col gap-4">
             <div class="flex flex-col gap-1 relative">
@@ -268,12 +268,12 @@
           </div>
         </div>
       </div>
-      <div class="flex justify-start  gap-3 mt-4 ">
+      <div class="flex justify-start md:flex-col  gap-3 mt-4 ">
         <p-button pRipple pButton [loading]="_formControl.loading" (click)="onSubmit()"
           class="px-0 py-0 bg-[transparent] w-[128px] rounded-[12px] border-0 md:w-full"
-          styleClass="w-[270px] md:w-full px-0 py-0 p-ripple h-12 rounded-[12px] bg-[var(--green)] text-white flex items-center justify-center">Saqlash</p-button>
+          styleClass="w-[270px] md:w-full px-0 py-0 p-ripple h-12 md:h-11 rounded-[12px] bg-[var(--green)] text-white flex font-semibold md:text-sm items-center justify-center">Saqlash</p-button>
         <button (click)="goBack()"
-          class="px-[20px] cursor-pointer bg-transparent whitespace-nowrap py-[10px] rounded-[12px] text-black border border-solid border-[--grey-300] text-[16px] font-500 flex items-center gap-[10px]">Bekor
+          class="px-[20px] md:h-11 md:justify-center cursor-pointer bg-transparent whitespace-nowrap py-[10px] rounded-[12px] text-black border border-solid border-[--grey-300] text-[16px] md:text-sm font-semibold flex items-center gap-[10px]">Bekor
           qilish</button>
       </div>
     </div>

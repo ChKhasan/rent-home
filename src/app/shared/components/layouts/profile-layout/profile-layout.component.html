@@ -4,9 +4,9 @@
 <div [ngClass]="{ 'md:pb-[80px]': !currentPath.includes('/profile/chat') }">
   <router-outlet></router-outlet>
 </div>
-<div [ngClass]="{ 'md:hidden': currentPath.includes('/profile/chat') }">
+<!-- <div [ngClass]="{ 'md:hidden': currentPath.includes('/profile/chat') }">
   <app-bottom-bar></app-bottom-bar>
-</div>
+</div> -->
 <footer [ngClass]="{ 'md:hidden': currentPath.includes('/profile/chat') }">
   <app-footer></app-footer>
 </footer>

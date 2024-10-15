@@ -43,6 +43,14 @@ export class ProfileComponent implements OnInit {
     email: emailControl,
     images: new FormControl<any>([]),
   });
+  labels: any = {
+    announcements: 'Mening E`lonlarim',
+    likes: 'Saqlangan E`lonlar',
+  }
+  mLabels: any = {
+    announcements: 'E`lonlarim',
+    likes: 'Saqlangan',
+  }
   stateOptions: any[] = [
     { label: 'Mening E`lonlarim', value: 'announcements', icon: 'pi pi-home' },
     { label: 'Saqlangan E`lonlar', value: 'likes', icon: 'pi pi-heart' },
