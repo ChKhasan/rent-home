@@ -27,11 +27,15 @@ export class ChatUserListComponent {
   @Input() userSearch!: Function;
   @Input() toggleBoad: Function | undefined;
   public searchValue: string = '';
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) {
+   
+    
+  }
   getUnreadMessageCount(messages: any): string {
     return messages && messages.length > 0 ? String(messages.filter((elem: any) => !elem.is_read && elem.sender !== this.authService.user.id).length) : '0';
   }
   onChangeSearch(e: any) {
+    console.log('userRooms',this.userRooms);
     if (this.userSearch) this.userSearch(this.searchValue);
   }
 }

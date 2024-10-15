@@ -37,7 +37,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   public loading: boolean = false;
   public loadingRooms: boolean = false;
   public message: string = '';
-  public dateFormat: string = 'dd.MM.YYYY';
+  public dateFormat: string = 'dd.MM.YYYY HH:mm';
   public url: string = '';
   public loadingMessages: boolean = false;
   public skeletonList = [1, 2, 3, 4, 1, 2, 3];

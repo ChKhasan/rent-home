@@ -1,10 +1,17 @@
 <div class="applications py-10 md:py-[18px]">
+  <img class="absolute top-0 z-[-1] hidden md:block" src="../../../../assets/images/image.png" alt="">
   <div class="2xl:container mx-auto px-4">
-    <div class="flex items-center justify-between mb-[30px]">
+    <div class="flex items-center justify-between md:items-start md:gap-3 mb-[30px] md:mb-3 md:flex-col">
       <div>
-        <h3 class="font-medium text-[40px] text-[--green] md:text-[20px]">Filtrlangan E`lonlar</h3>
-        <p class="text-[28px] text-[--brown-900] mt-2">Uy kerarmi? Unda Biz yordam beramiz!</p>
+        <h3 class="font-medium md:font-semibold text-[40px] text-[--green] md:text-2xl">Filtrlangan E`lonlar</h3>
+        <p class="text-[28px] md:text-sm text-[--brown-900] mt-2 md:mt-1">Uy kerarmi? Unda Biz yordam beramiz!</p>
       </div>
+      <p-button pButton (click)="openBottomSheet()" styleClass="py-3 bg-[color:var(--green)] rounded-[8px] text-sm text-white font-600 flex justify-center gap-2 px-0 w-full" class="px-0 hidden md:flex py-0 w-full rounded-[8px] bg-[transparent] border-0">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M4.40017 1.66666C2.89014 1.66666 1.66602 2.89078 1.66602 4.40081C1.66602 4.96178 1.83857 5.50918 2.16026 5.96874L7.19807 13.1656C7.39417 13.4457 7.49935 13.7794 7.49935 14.1214V15.964C7.49935 17.6721 9.29682 18.7829 10.8245 18.0191C11.851 17.5059 12.4993 16.4568 12.4993 15.3092V14.1214C12.4993 13.7794 12.6045 13.4457 12.8006 13.1656L17.8384 5.96874C18.1601 5.50918 18.3327 4.96178 18.3327 4.40081C18.3327 2.89078 17.1086 1.66666 15.5985 1.66666H4.40017ZM10.8327 15.3092C10.8327 15.8255 10.541 16.2975 10.0792 16.5284C9.65963 16.7382 9.16602 16.4331 9.16602 15.964V14.1214C9.16602 13.4375 8.95565 12.7701 8.56346 12.2098L3.52565 5.01297C3.40005 4.83355 3.33268 4.61983 3.33268 4.40081C3.33268 3.81125 3.81061 3.33332 4.40017 3.33332H15.5985C16.1881 3.33332 16.666 3.81125 16.666 4.40081C16.666 4.61983 16.5986 4.83355 16.473 5.01297L11.4352 12.2098C11.043 12.7701 10.8327 13.4375 10.8327 14.1214V15.3092Z" fill="white"/>
+          </svg>
+        Saralash
+      </p-button>
     </div>
     <div class="applications-container grid">
       <div class="flex flex-col gap-6 md:hidden">
@@ -12,6 +19,7 @@
         <app-filter [filterAction]="filterSend" [loading]="loading" [clearFilterAction]="clearFilter"></app-filter>
       </div>
       <div>
+     
         <div class="flex items-center justify-between mb-[30px] md:hidden">
           <h6 class="font-600 text-[color:#C5C6C7] text-[20px]">Tahlash:</h6>
           <div class="tab gap-[10px] flex px-[4px] rounded-[12px] items-center border border-[color:#EAEAEA] border-solid py-[4px]">
@@ -34,12 +42,12 @@
             </button>
           </div>
         </div>
-
-        <div class="grid gap-4 grid-cols-2 md:gap-3" *ngIf="loading; else announcementsList">
+   
+        <div class="grid gap-4 grid-cols-2 md:grid-cols-1 md:gap-3" *ngIf="loading; else announcementsList">
           <p-skeleton *ngFor="let item of skeletonList" class="w-full" styleClass="ng_skeleton"></p-skeleton>
         </div>
         <ng-template #announcementsList>
-          <div class="grid gap-4 grid-cols-2 md:gap-3">
+          <div class="grid gap-4 grid-cols-2 md:grid-cols-1 md:gap-3">
             <ng-container *ngFor="let announcement of announcements">
               <app-announcements-card [announcement]="announcement"></app-announcements-card>
             </ng-container>
@@ -58,8 +66,8 @@
 <app-bottom-sheet>
   <app-filter [close]="closeBottomSheet" [filterAction]="filterSend" [loading]="loading" [clearFilterAction]="clearFilter"></app-filter>
 </app-bottom-sheet>
-<button (click)="openBottomSheet()" class="hidden md:flex w-[56px] h-[56px] rounded-full justify-center items-center bg-[--green] fixed right-[18px] bottom-[84px]">
+<!-- <button (click)="openBottomSheet()" class="hidden md:flex w-[56px] h-[56px] rounded-full justify-center items-center bg-[--green] fixed z-50 right-[18px] bottom-[84px]">
   <svg width="22" height="26" viewBox="0 0 22 26" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path fill-rule="evenodd" clip-rule="evenodd" d="M18.9809 3.2316C13.6768 2.63879 8.32298 2.63879 3.01877 3.2316C2.65987 3.27172 2.48703 3.69259 2.71417 3.97335L7.40353 9.77004C9.08333 11.8466 9.99986 14.4367 9.99986 17.1076V20.9599L11.9999 22.4266V17.1076C11.9999 14.4367 12.9164 11.8466 14.5963 9.77004L19.2856 3.97335C19.5127 3.69259 19.3399 3.27172 18.9809 3.2316ZM2.79662 1.24399C8.24847 0.634654 13.7512 0.634654 19.2031 1.24399C21.1324 1.4596 22.0615 3.72199 20.8405 5.23123L16.1511 11.0279C14.7592 12.7486 13.9999 14.8946 13.9999 17.1076V24.4C13.9999 24.7768 13.788 25.1218 13.4519 25.292C13.1157 25.4624 12.7124 25.4292 12.4085 25.2064L8.40853 22.2731C8.15162 22.0847 7.99986 21.7852 7.99986 21.4667V17.1076C7.99986 14.8946 7.2405 12.7486 5.84861 11.0279L1.15925 5.23123C-0.0616723 3.72199 0.867381 1.4596 2.79662 1.24399Z" fill="white" />
   </svg>
-</button>
+</button> -->

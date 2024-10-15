@@ -9,7 +9,7 @@
 :host ::ng-deep .ng_skeleton {
   width: 100%;
   border-radius: 18px;
-  height: 311px !important;
+  height: 420px !important;
 }
 @media (max-width: 768px) {
   .applications-container {
@@ -17,6 +17,6 @@
     grid-gap: 30px;
   }
   :host ::ng-deep .ng_skeleton {
-    height: 144px !important;
+    height: 420px !important;
   }
 }

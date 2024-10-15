@@ -1,14 +1,24 @@
 .chat-container {
   display: grid;
   grid-template-columns: 400px 1fr;
-  gap: 16px;
+  /* gap: 16px; */
   align-items: flex-start;
 }
 
-.message-block {
-  box-shadow: 0 0 18px #00000014;
+.message {
+  border-radius: 16px;
+  border-bottom-left-radius: 1px;
+  background: #fff;
+}
+.my-message {
+  border-radius: 16px;
+  border-bottom-right-radius: 1px;
+  background: #E7F6EC;
 }
 
+.board {
+  height: calc(100vh - 160px);
+}
 .board::-webkit-scrollbar {
   width: 5px;
 }

@@ -1,4 +1,4 @@
-<div *ngIf="bottomSheetVisible" class="h-[100vh] w-full fixed bottom-0 left-0 bg-[#11311180]" (click)="close()"></div>
-<div class="bottom-sheet rounded-t-[24px] bg-white fixed w-full bottom-0 max-h-[90vh] z-[100]" (touchstart)="onTouchStart($event)" (touchmove)="onTouchMove($event)" *ngIf="bottomSheetVisible" [@slideBottom]>
+<div *ngIf="bottomSheetVisible" class="h-[100vh] w-full wrapper fixed bottom-0 left-0 bg-[#2E2E2E99]" (click)="close()"></div>
+<div class="bottom-sheet rounded-t-[24px] bg-white fixed w-full overflow-y-scroll bottom-0 max-h-[98vh] z-[100]" (touchstart)="onTouchStart($event)" (touchmove)="onTouchMove($event)" *ngIf="bottomSheetVisible" [@slideBottom]>
   <ng-content></ng-content>
 </div>

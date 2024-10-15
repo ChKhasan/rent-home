@@ -98,7 +98,7 @@
     </div>
     <div class="flex md:w-full md:gap-0 lg:gap-3 gap-2 items-center md:justify-between">
       <p-button (click)="authService.auth ? router.navigate(['profile']):openAuthDialog()" styleClass="rounded-xl flex md:gap-0 gap-2 md:px-2 items-center bg-[--green]">
-        <img *ngIf="(authService.user?.images && authService.user?.images[0].image);else showSvg" class="w-6 h-6 rounded-full object-cover" [src]="authService.user?.images[0].image" alt="">
+        <img *ngIf="(authService.user?.images && authService.user?.images[0]?.image);else showSvg" class="w-6 h-6 rounded-full object-cover" [src]="authService.user?.images[0].image" alt="">
         <ng-template   #showSvg>
           <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clip-path="url(#clip0_376_6134)">

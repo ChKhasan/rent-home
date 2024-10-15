@@ -1,6 +1,6 @@
-<div class="announcements py-[60px] md:py-[0]">
-  <div class="2xl:container mx-auto px-4 md:px-0">
-    <div class="title flex justify-between items-center md:flex-col md:hidden">
+<div class="announcements md:py-[0]">
+  <div class="max-w-[1920px] mx-auto border-[0] border-x border-solid border-[--grey-300]">
+    <!-- <div class="title flex justify-between items-center md:flex-col md:hidden">
       <h3 class="text-[60px] font-600 md:text-[24px] md:mb-3">Mening yozishmalarim</h3>
       <div class="hidden md:flex">
         <app-tab></app-tab>
@@ -13,14 +13,14 @@
           Ortga qaytish
         </button>
       </div>
-    </div>
-    <div class="chat-container mx-auto items-center md:h-[100vh] mt-[30px] md:mt-0 flex flex-col gap-4">
+    </div> -->
+    <div class="chat-container mx-auto items-center md:h-[100vh] md:mt-0 flex flex-col">
       <div class="h-full" *ngIf="!showBoard" [@slideInOut]>
         <app-chat-user-list [userSearch]="userSearch" [loading]="loadingRooms" [userRooms]="userRooms" [handlerRoom]="handlerRoom" [isRoom]="isRoom" [toggleBoad]="toggleBoad" class="h-full"></app-chat-user-list>
       </div>
       <div>
-        <div class="message-block md:h-full rounded-[24px] overflow-hidden border border-solid md:border-0 border-[var(--input-stroke)]">
-          <div class="message-block-head overflow-hidden flex items-center px-8 py-4 border-[0] border-b border-solid border-[#EBEBEB]">
+        <div class="message-block md:h-full  overflow-hidden border-[0] border-l border-solid md:border-0 border-[--grey-300]">
+          <!-- <div class="message-block-head overflow-hidden flex items-center px-8 py-4 border-[0] border-b border-solid border-[#EBEBEB]">
             <button (click)="toggleBoad(false)" class="hidden h-[28px] w-[28px] items-center justify-center rounded-[4px] bg-[--gray-1] md:flex">
               <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M5.53033 0.469668C5.2374 0.176777 4.7626 0.176777 4.4697 0.469668L0.469703 4.4697C0.176803 4.7626 0.176803 5.2374 0.469703 5.5303L4.4697 9.5303C4.7626 9.8232 5.2374 9.8232 5.53033 9.5303C5.82322 9.2374 5.82322 8.7626 5.53033 8.4697L2.0607 5L5.53033 1.53033C5.82322 1.23744 5.82322 0.762558 5.53033 0.469668Z" fill="black" />
@@ -40,10 +40,10 @@
             <div class="gap-4 relative flex items-center pl-6 md:hidden">
               <span class="absolute h-[85px] left-0 flex w-[1px] border-[0] border-l border-solid border-[#EBEBEB]"></span>
             </div>
-          </div>
+          </div> -->
 
-          <div class="body px-6 py-6 rounded-b-[12px] md:hidden">
-            <div class="board h-[580px] pr-2 flex flex-col-reverse pb-6 gap-6 overflow-y-scroll" *ngIf="loadingMessages; else messagesList">
+          <div class="body rounded-b-[12px] md:hidden ">
+            <div class="board p-6 bg-[#F9FAFB] pr-2 flex flex-col-reverse pb-6 gap-6 overflow-y-scroll" *ngIf="loadingMessages; else messagesList">
               <div *ngFor="let item of skeletonList" class="flex" [ngClass]="item % 2 == 0 ? 'justify-start' : 'justify-end'">
                 <div class="flex" [ngClass]="item % 2 == 0 ? 'justify-start message-skeleton-' + item : 'justify-end message-skeleton-' + item">
                   <p-skeleton class="w-full" styleClass="ng_skeleton"></p-skeleton>
@@ -51,11 +51,11 @@
               </div>
             </div>
             <ng-template #messagesList>
-              <div #scrollableDiv class="board h-[580px] pr-2 flex flex-col-reverse pb-6 gap-6 overflow-y-scroll" (scroll)="onParentDivScrolled()" #parentDiv>
+              <div #scrollableDiv class="board p-6 bg-[#F9FAFB] pr-2 flex justify-start flex-col-reverse pb-6 gap-6 overflow-y-scroll" (scroll)="onParentDivScrolled()" #parentDiv>
                 <div *ngIf="loading" class="flex flex-col gap-6">
                   <div *ngFor="let comment of pendingComments" class="flex w-full" [class]="comment.sender === authService.user.id ? 'justify-end' : 'justify-start'">
                     <div class="comment-card min-w-[180px] max-w-[90%] flex flex-col gap-2">
-                      <div class="body relative px-[18px] py-[18px] pr-[94px] rounded-[12px] bg-[#F0FBF0] text-[#576657] font-500 text-base">
+                      <div class="body relative px-4 py-4 pb-[27px] text-base" [class]="comment.sender === authService.user.id ? 'my-message' : 'message'">
                         <p>{{ comment.message }}</p>
                         <span *ngIf="comment.pending" class="font-500 text-[--green] text-[8px] absolute bottom-2 right-4"><i class="pi pi-clock text-[12px]"></i></span>
                       </div>
@@ -64,11 +64,11 @@
                 </div>
                 <div *ngFor="let comment of comments">
                   <div class="unread" *ngIf="comment.is_first">Непрочитанные сообщения</div>
-                  <div [attr.id]="'child_' + comment.id" #childRef class="flex w-full" [class]="comment.sender === authService.user.id ? 'justify-end' : 'justify-start'">
+                  <div [attr.id]="'child_' + comment.id" #childRef class="inline-flex w-full" [class]="comment.sender === authService.user.id ? 'justify-end' : 'justify-start'">
                     <div class="comment-card min-w-[180px] max-w-[90%] flex flex-col gap-2">
-                      <div class="body relative px-[18px] py-[18px] pr-6 rounded-[12px] bg-[#F0FBF0] text-[#576657] font-500 text-base">
-                        <p>{{ comment.message }}</p>
-                        <span class="font-500 text-[--green] text-[10px] items-center absolute bottom-[1px] right-4 flex gap-1">
+                      <div class="body relative px-4 py-4 pb-[27px] text-base border border-solid border-[--grey-300]" [class]="comment.sender === authService.user.id ? 'my-message' : 'message'">
+                        <p class="text-base">{{ comment.message }}</p>
+                        <span class="font-500 text-[--grey-300] text-[10px] leading-4 items-center absolute bottom-[9px] right-4 flex gap-1">
                           {{ comment.created_at | date: dateFormat }}
                           <span *ngIf="comment.sender === authService.user.id">
                             <span *ngIf="comment.is_read; else unread"><ng-container *ngTemplateOutlet="readIcon"></ng-container></span>
@@ -82,7 +82,7 @@
               </div>
             </ng-template>
 
-            <div class="input-send md:hidden border border-solid border-[--grey-3] rounded-[12px] px-3 py-3 gap-4 flex justify-between items-center">
+            <div class="input-send md:hidden h-20 bg-white border-[0] border-t border-solid border-[--grey-300] px-3 py-3 gap-4 flex justify-between items-center">
               <input type="text" (keyup.enter)="sendMessage()" [(ngModel)]="message" placeholder="Xabaringizni yozing" class="w-full font-500 text-base border-0 focus:outline-0 h-full placeholder-[--grey-3]" />
               <p-button [disabled]="message.length === 0" (click)="sendMessage()" styleClass="bg-[--green] rounded-[8px] h-11 w-[154px] flex items-center justify-center gap-2">
                 Yuborish
@@ -97,7 +97,7 @@
               </p-button>
             </div>
           </div>
-          <div class="input-send hidden md:flex border border-solid border-[--grey-3] rounded-[12px] md:rounded-none md:border-r-[0] md:border-l-[0] px-3 py-3 gap-4 justify-between items-center">
+          <div class="input-send bg-white hidden md:flex border border-solid border-[--grey-3] rounded-[12px] md:rounded-none md:border-r-[0] md:border-l-[0] px-3 py-3 gap-4 justify-between items-center">
             <input type="text" (keyup.enter)="sendMessage()" [(ngModel)]="message" placeholder="Xabaringizni yozing" class="w-full font-500 text-base border-0 focus:outline-0 h-full placeholder-[--grey-3]" />
             <p-button [disabled]="message.length === 0" (click)="sendMessage()" styleClass="bg-[--green] rounded-[8px] h-11  flex items-center justify-center gap-2">
               <svg *ngIf="!loading" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">

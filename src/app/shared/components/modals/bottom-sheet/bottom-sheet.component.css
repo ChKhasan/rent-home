@@ -1,3 +1,6 @@
 .bottom-sheet {
   touch-action: pan-y;
 }
+.wrapper {
+  backdrop-filter: blur(12px)
+}
