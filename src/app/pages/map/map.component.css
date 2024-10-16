@@ -168,4 +168,7 @@ ul button {
   .active-tab::after {
     background-color: var(--green);
   }
+  .map {
+    height: 481px;
+  }
 }
