@@ -47,3 +47,10 @@
   border-top-right-radius: 16px;
   border-bottom-right-radius: 16px;
 }
+
+@media (max-width: 768px) {
+:host ::ng-deep .file-upload {
+    width: 30px;
+    height: 30px;
+  }
+}

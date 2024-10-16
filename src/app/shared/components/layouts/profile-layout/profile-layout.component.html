@@ -1,7 +1,7 @@
 <header [ngClass]="{ 'md:hidden': currentPath.includes('/profile/chat') }">
   <app-header></app-header>
 </header>
-<div [ngClass]="{ 'md:pb-[80px]': !currentPath.includes('/profile/chat') }">
+<div [ngClass]="{ 'md:pb-16': !currentPath.includes('/profile/chat') }">
   <router-outlet></router-outlet>
 </div>
 <!-- <div [ngClass]="{ 'md:hidden': currentPath.includes('/profile/chat') }">
