@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgForOf, NgIf } from '@angular/common';
 import { IAnnouncementInfo } from '@services/interfaces';
 
@@ -9,6 +9,10 @@ import { IAnnouncementInfo } from '@services/interfaces';
   templateUrl: './about.component.html',
   styleUrl: './about.component.css',
 })
-export class AboutComponent {
+export class AboutComponent implements OnInit{
   @Input() announcement!: IAnnouncementInfo;
+  ngOnInit(): void {
+    console.log("Turmoqbek");
+    
+  }
 }

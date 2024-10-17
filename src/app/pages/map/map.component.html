@@ -53,7 +53,7 @@
         </ya-map>
       </div>
       <div class="border border-solid border-[--grey-300] rounded-2xl p-4">
-        <p-selectButton styleClass="!rounded-2xl !w-full" [options]="stateOptions" [(ngModel)]="tab" optionLabel="label" optionValue="value">
+        <p-selectButton styleClass="!rounded-2xl !w-full md:!hidden" [options]="stateOptions" [(ngModel)]="tab" optionLabel="label" optionValue="value">
           <ng-template let-item pTemplate>
             <div class="flex gap-2 items-center">
               <i [class]="item.icon"></i>
@@ -63,8 +63,10 @@
         </p-selectButton>
         <div>
           <div class="max-h-[100vh]" >
-            <div *ngIf="transports.length > 0" class="bg-white py-4 rounded-xl min-h-[200px] md:min-h-0">
-              <h4 class="text-black font-semibold mb-4 text-[16]" *ngIf="['bus'].includes(tab)">Автобусы поблизости</h4>
+            <div *ngIf="transports.length > 0" class="bg-white py-4 md:py-0 rounded-xl min-h-[200px] md:min-h-0">
+              <h4 class="text-black font-semibold mb-4 text-[16]" *ngIf="['bus'].includes(tab)">
+               <span class="md:hidden block"> Автобусы поблизости </span><span class="md:block hidden">Выберите транспорт</span>
+              </h4>
               <h4 class="text-black font-semibold mb-4 text-[16]" *ngIf="['mashrutka'].includes(tab)">Маршруты поблизости</h4>
               <h4 class="text-black font-semibold mb-4 text-[16]" *ngIf="['metro'].includes(tab)">Линии метро поблизости</h4>
               <p-multiSelect styleClass="w-full border-solid border border-[--grey-300] rounded-[8px] flex items-center" [maxSelectedLabels]="100"  (onClear)="onClear()" [showClear]="false" optionValue="ri" (onChange)="onChange($event)" class="w-full" placeholder="Выберите транспорт" inputId="float-label"   display="chip" [options]="transports" [(ngModel)]="routeTransports" optionLabel="name"></p-multiSelect>
