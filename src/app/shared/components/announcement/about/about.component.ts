@@ -13,6 +13,9 @@ export class AboutComponent implements OnInit{
   @Input() announcement!: IAnnouncementInfo;
   ngOnInit(): void {
     console.log("Turmoqbek");
-    
+
+  }
+  constructor() {
+    console.log("not turmoqbel")
   }
 }
