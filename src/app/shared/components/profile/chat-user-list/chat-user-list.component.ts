@@ -26,10 +26,11 @@ export class ChatUserListComponent {
   @Input() loading!: boolean;
   @Input() userSearch!: Function;
   @Input() toggleUsersList: Function | undefined;
+  @Input() showList!: boolean;
   public searchValue: string = '';
   constructor(private authService: AuthService) {
    
-    
+    console.log("adasdas")
   }
   getUnreadMessageCount(messages: any): string {
     return messages && messages.length > 0 ? String(messages.filter((elem: any) => !elem.is_read && elem.sender !== this.authService.user.id).length) : '0';

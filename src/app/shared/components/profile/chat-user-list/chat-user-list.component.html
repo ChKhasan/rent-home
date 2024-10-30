@@ -18,7 +18,7 @@
     <p-skeleton *ngFor="let item of skeletonList" class="w-full" styleClass="ng_skeleton"></p-skeleton>
   </div>
   <ng-template #messagesList>
-    <div class="list  flex flex-col max-h-[670px] gap-1 md:max-h-fit overflow-y-scroll pb-4" [@listAnimation]="userRooms.length">
+    <div class="list  flex flex-col max-h-[670px] gap-1 md:max-h-fit overflow-y-scroll pb-4" >
       <div (click)="handlerRoom(room)" [ngClass]="{ active: isRoom.id === room.id }" class="user-card px-4 cursor-pointer gap-2 flex py-[10px] rounded-[6px] " *ngFor="let room of userRooms">
         <div class="relative h-12 min-w-12 w-12 bg-white flex justify-center items-center border border-solid border-[--grey-100] rounded-full">
           <div class="image h-10 min-w-10 w-10 rounded-full overflow-hidden">

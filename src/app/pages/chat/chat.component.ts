@@ -282,8 +282,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
   onParentDivScrolled(): void {
     const container = this.parentDiv.nativeElement;
     const currentScrollTop = container.scrollTop;
-    console.log('currentScrollTop',currentScrollTop)
-    console.log('this.lastScrollTop',this.lastScrollTop)
     if (currentScrollTop < this.lastScrollTop) {
       this.showDate = true;
       this.checkVisibleItems();

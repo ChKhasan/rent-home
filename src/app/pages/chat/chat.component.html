@@ -14,7 +14,7 @@
         </div>
         <div class="message-block h-full  overflow-hidden border-[0] border-l border-solid md:border-0 border-[--grey-300]">
           <div class="body rounded-b-[12px] relative">
-            <div class="absolute z-50 flex justify-center top-4 w-full pl-2" *ngIf="showDate">
+            <div class="absolute z-40 flex justify-center top-4 w-full pl-2" *ngIf="showDate">
               <span style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;" class="bg-[#fff] text-[#000] text-[14px] rounded-xl py-1 px-3">{{scrollingCurrentDate | date: topDateFormat}}</span>
             </div>
             <div class="board p-6 bg-[#F9FAFB] pr-2 flex flex-col-reverse pb-6 gap-6 overflow-y-scroll" *ngIf="loadingMessages; else messagesList">
@@ -123,6 +123,6 @@
 <p-dialog [draggable]="true" position="topleft" [showHeader]="false" [(visible)]="showList"
 [style]="{ width: '25rem' }">
 <div class="h-full">
-  <app-chat-user-list [userSearch]="userSearch" [loading]="loadingRooms" [userRooms]="userRooms" [handlerRoom]="handlerRoom" [isRoom]="isRoom" [toggleUsersList]="toggleUsersList" class="h-full"></app-chat-user-list>
+  <app-chat-user-list [showList]="showList" [userSearch]="userSearch" [loading]="loadingRooms" [userRooms]="userRooms" [handlerRoom]="handlerRoom" [isRoom]="isRoom" [toggleUsersList]="toggleUsersList" class="h-full"></app-chat-user-list>
 </div>
 </p-dialog>
