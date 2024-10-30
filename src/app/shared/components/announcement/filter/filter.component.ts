@@ -14,6 +14,7 @@ import { SearchComponent } from "../search/search.component";
 import { RequestService } from '@/core/services/request/request.service';
 import { environment } from '@environments';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { DictionaryService } from '@/core/services/dictionary/dictionary.service';
 @Component({
   selector: 'app-filter',
   standalone: true,
@@ -36,7 +37,8 @@ export class FilterComponent implements OnInit {
     total_price__lte: 4000000,
     room_count: 1,
     fridge: false,
-    transports: []
+    transports: [],
+    region: null
   };
   public tabOptions = [
     {
@@ -59,7 +61,9 @@ export class FilterComponent implements OnInit {
 
   constructor(
     private requestService: RequestService,
-    private queryService: QueryService) {}
+    private queryService: QueryService,
+    public dictionaryService: DictionaryService
+  ) {}
   cities: any[] | undefined;
 
   selectedCity: any | undefined;
@@ -110,7 +114,8 @@ export class FilterComponent implements OnInit {
       total_price__gte: 0,
       total_price__lte: 4000000,
       room_count: 1,
-      transports: []
+      transports: [],
+      region: null
     };
     this.sliderValue = [0, 4000000];
   }

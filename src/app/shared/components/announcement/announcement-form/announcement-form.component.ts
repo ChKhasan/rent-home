@@ -24,6 +24,7 @@ import { IAnnouncementInfo, IGendersList, Transport } from '@services/interfaces
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { DictionaryService } from '@/core/services/dictionary/dictionary.service';
 interface UploadEvent {
   originalEvent: Event;
   files: File[];
@@ -57,7 +58,8 @@ export class AnnouncementFormComponent implements OnInit {
     private route: ActivatedRoute,
     private location: Location,
     private requestService: RequestService,
-    private router: Router
+    private router: Router,
+    public dictionaryService: DictionaryService
   ) {
     this.ruleForm = _formControl.ruleForm;
     this.id = this.route.snapshot.paramMap.get('id');
@@ -104,6 +106,7 @@ export class AnnouncementFormComponent implements OnInit {
           fridge: response.fridge,
           washing_machine: response.washing_machine,
           user: response.user,
+          region: response.region
         });
       });
     }

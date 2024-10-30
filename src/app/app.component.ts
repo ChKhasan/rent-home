@@ -12,7 +12,7 @@ import { MessageService, SharedModule } from 'primeng/api';
 import { ChatComponent } from './pages/chat/chat.component';
 import { AvatarModule } from 'primeng/avatar';
 import { ToastModule } from 'primeng/toast';
-import { CryptoService } from './core/services/crypto/crypto.service';
+import { DictionaryService } from './core/services/dictionary/dictionary.service';
 
 @Component({
   selector: 'app-root',
@@ -32,10 +32,12 @@ export class AppComponent implements OnInit, OnDestroy {
     private chatService: ChatService,
     private messageService: MessageService,
     private router: Router,
+    private dictionaryService: DictionaryService
   ) {}
 
   ngOnInit() {
     if (typeof window !== 'undefined') {
+      this.dictionaryService.__GET_REGIONS()
       this.authService.authHandler().then(() => {});
 
       this.authService.getBooleanValue().subscribe((value) => {
@@ -80,7 +82,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.chatService.disconnect(); // Disconnect WebSocket when component is destroyed
+    this.chatService.disconnect(); 
   }
 
   sokectEventHandler() {

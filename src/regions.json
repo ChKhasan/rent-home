@@ -1,0 +1,142 @@
+[
+    {
+        "id": 14,
+        "name_ru": "ГОРОД ТАШКЕНТ",
+        "name_uz": "TOSHKENT SHAHAR",
+        "created_at": "2024-09-15T20:49:18.638872+05:00",
+        "updated_at": "2024-10-18T20:10:09.047682+05:00",
+        "order_number": 14,
+        "cadastr_id": "10",
+        "shared_id": 10
+    },
+    {
+        "id": 13,
+        "name_ru": "КАШКАДАРЬИНСКАЯ ОБЛАСТЬ",
+        "name_uz": "QASHQADARYO VILOYATI",
+        "created_at": "2024-09-15T20:49:18.585003+05:00",
+        "updated_at": "2024-10-18T20:10:08.989355+05:00",
+        "order_number": 13,
+        "cadastr_id": "18",
+        "shared_id": 18
+    },
+    {
+        "id": 12,
+        "name_ru": "ХОРЕЗМСКАЯ ОБЛАСТЬ",
+        "name_uz": "XORAZM VILOYATI",
+        "created_at": "2024-09-15T20:49:18.538768+05:00",
+        "updated_at": "2024-10-18T20:10:08.944873+05:00",
+        "order_number": 12,
+        "cadastr_id": "22",
+        "shared_id": 22
+    },
+    {
+        "id": 11,
+        "name_ru": "ФЕРГАНСКАЯ ОБЛАСТЬ",
+        "name_uz": "FARG'ONA VILOYATI",
+        "created_at": "2024-09-15T20:49:18.482668+05:00",
+        "updated_at": "2024-10-18T20:10:08.879646+05:00",
+        "order_number": 11,
+        "cadastr_id": "15",
+        "shared_id": 15
+    },
+    {
+        "id": 10,
+        "name_ru": "ТАШКЕНТСКАЯ ОБЛАСТЬ",
+        "name_uz": "TOSHKENT VILOYATI",
+        "created_at": "2024-09-15T20:49:18.411979+05:00",
+        "updated_at": "2024-10-18T20:10:08.803260+05:00",
+        "order_number": 10,
+        "cadastr_id": "11",
+        "shared_id": 11
+    },
+    {
+        "id": 9,
+        "name_ru": "СУРХАНДАРЬИНСКАЯ ОБЛАСТЬ",
+        "name_uz": "SURXONDARYO VILOYATI",
+        "created_at": "2024-09-15T20:49:18.367034+05:00",
+        "updated_at": "2024-10-18T20:10:08.747790+05:00",
+        "order_number": 9,
+        "cadastr_id": "19",
+        "shared_id": 19
+    },
+    {
+        "id": 8,
+        "name_ru": "СЫРДАРЬИНСКАЯ ОБЛАСТЬ",
+        "name_uz": "SIRDARYO VILOYATI",
+        "created_at": "2024-09-15T20:49:18.334117+05:00",
+        "updated_at": "2024-10-18T20:10:08.707133+05:00",
+        "order_number": 8,
+        "cadastr_id": "12",
+        "shared_id": 12
+    },
+    {
+        "id": 7,
+        "name_ru": "САМАРКАНДСКАЯ ОБЛАСТЬ",
+        "name_uz": "SAMARQAND VILOYATI",
+        "created_at": "2024-09-15T20:49:18.286803+05:00",
+        "updated_at": "2024-10-18T20:10:08.649490+05:00",
+        "order_number": 7,
+        "cadastr_id": "14",
+        "shared_id": 14
+    },
+    {
+        "id": 6,
+        "name_ru": "НАМАНГАНСКАЯ ОБЛАСТЬ",
+        "name_uz": "NAMANGAN VILOYATI",
+        "created_at": "2024-09-15T20:49:18.245304+05:00",
+        "updated_at": "2024-10-18T20:10:08.599193+05:00",
+        "order_number": 6,
+        "cadastr_id": "16",
+        "shared_id": 16
+    },
+    {
+        "id": 5,
+        "name_ru": "НАВОИЙСКАЯ ОБЛАСТЬ",
+        "name_uz": "NAVOIY VILOYATI",
+        "created_at": "2024-09-15T20:49:18.211319+05:00",
+        "updated_at": "2024-10-18T20:10:08.544283+05:00",
+        "order_number": 5,
+        "cadastr_id": "21",
+        "shared_id": 21
+    },
+    {
+        "id": 4,
+        "name_ru": "ДЖИЗАКСКАЯ ОБЛАСТЬ",
+        "name_uz": "JIZZAX VILOYATI",
+        "created_at": "2024-09-15T20:49:18.174191+05:00",
+        "updated_at": "2024-10-18T20:10:08.498404+05:00",
+        "order_number": 4,
+        "cadastr_id": "13",
+        "shared_id": 13
+    },
+    {
+        "id": 3,
+        "name_ru": "БУХАРСКАЯ ОБЛАСТЬ",
+        "name_uz": "BUXORO VILOYATI",
+        "created_at": "2024-09-15T20:49:18.137690+05:00",
+        "updated_at": "2024-10-18T20:10:08.453412+05:00",
+        "order_number": 3,
+        "cadastr_id": "20",
+        "shared_id": 20
+    },
+    {
+        "id": 2,
+        "name_ru": "АНДИЖАНСКАЯ ОБЛАСТЬ",
+        "name_uz": "ANDIJON VILOYATI",
+        "created_at": "2024-09-15T20:49:18.083526+05:00",
+        "updated_at": "2024-10-18T20:10:08.396422+05:00",
+        "order_number": 2,
+        "cadastr_id": "17",
+        "shared_id": 17
+    },
+    {
+        "id": 1,
+        "name_ru": "РЕСПУБЛИКА КАРАКАЛПАКСТАН",
+        "name_uz": "QORAQALPOG'ISTON RESPUBLIKASI",
+        "created_at": "2024-09-15T20:49:18.014910+05:00",
+        "updated_at": "2024-10-18T20:10:08.332402+05:00",
+        "order_number": 1,
+        "cadastr_id": "23",
+        "shared_id": 23
+    }
+]

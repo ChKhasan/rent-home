@@ -4,7 +4,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
-import { QueryService } from '@/core/services/query/query.service';
+import { DictionaryService } from './../../../../core/services/dictionary/dictionary.service';
 @Component({
   selector: 'app-banner-filter',
   standalone: true,
@@ -12,10 +12,13 @@ import { QueryService } from '@/core/services/query/query.service';
   styleUrl: './banner-filter.component.css',
   imports: [ReactiveFormsModule, SelectButtonModule, DropdownModule, FormsModule, ButtonModule],
 })
+
 export class BannerFilterComponent implements OnInit {
+  public regions: Array<any> = []
   filter: any = {
     room_count: null,
-    partnership: false
+    partnership: false,
+    region: null
   }
   cities: any[] | undefined;
 
@@ -29,8 +32,10 @@ export class BannerFilterComponent implements OnInit {
   ];
   constructor(
     private router: Router,
-    private queryService: QueryService,
-  ) {}
+    public dictionaryService: DictionaryService
+  ) {
+    this.regions = this.dictionaryService.regions
+  }
   ngOnInit() {
     this.formGroup = new FormGroup({
       value: new FormControl('on'),

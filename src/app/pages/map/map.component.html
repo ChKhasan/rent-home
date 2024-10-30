@@ -5,55 +5,50 @@
         <h4 class="text-[40px] font-medium text-[--green] md:text-2xl">Xatira Orqal Uy Toping</h4>
         <p class="text-[28px] md:text-lg">Uy kerarmi? Unda Biz yordam beramiz!</p>
       </div>
-      <a [routerLink]="'/announcements'" class="px-[20px] md:hidden cursor-pointer bg-transparent whitespace-nowrap py-[10px] rounded-[12px] text-black border border-solid border-[--grey-300] text-[16px] font-500 flex items-center gap-[10px]">
-        <svg class="rotate-180" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path _ngcontent-ng-c4129422631="" d="M16.0832 13.3707C16.808 12.6006 16.808 11.3994 16.0832 10.6293L8.7282 2.81464C8.34969 2.41246 7.71681 2.39329 7.31464 2.7718C6.91246 3.15032 6.89329 3.78319 7.2718 4.18537L14.6268 12L7.2718 19.8146C6.89329 20.2168 6.91247 20.8497 7.31464 21.2282C7.71681 21.6067 8.34969 21.5875 8.7282 21.1854L16.0832 13.3707Z" fill="#475367"></path></svg>
+      <a [routerLink]="'/announcements'"
+        class="px-[20px] md:hidden cursor-pointer bg-transparent whitespace-nowrap py-[10px] rounded-[12px] text-black border border-solid border-[--grey-300] text-[16px] font-500 flex items-center gap-[10px]">
+        <svg class="rotate-180" width="24" height="24" viewBox="0 0 24 24" fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path _ngcontent-ng-c4129422631=""
+            d="M16.0832 13.3707C16.808 12.6006 16.808 11.3994 16.0832 10.6293L8.7282 2.81464C8.34969 2.41246 7.71681 2.39329 7.31464 2.7718C6.91246 3.15032 6.89329 3.78319 7.2718 4.18537L14.6268 12L7.2718 19.8146C6.89329 20.2168 6.91247 20.8497 7.31464 21.2282C7.71681 21.6067 8.34969 21.5875 8.7282 21.1854L16.0832 13.3707Z"
+            fill="#475367"></path>
+        </svg>
         Ortga
       </a>
     </div>
 
     <div class="grid map-grid gap-4 max-h-[1000px] md:flex flex-col-reverse">
       <div class="map border border-solid border-[--grey-300] rounded-2xl p-4">
-        <ya-map [center]="coords" [zoom]="zoom" style="width: 100%; height: 400px; max-height: 400px" class="md:w-[481px]">
-          <ya-clusterer
-            [options]="{
+        <ya-map [center]="coords" [zoom]="zoom" style="width: 100%; height: 400px; max-height: 400px"
+          class="md:w-[481px]">
+          <ya-clusterer [options]="{
                 minClusterSize: 2,
               
                 hasBalloon: false,
-              }"
-            (click)="handleClusterClick($event)"
-          >
-            <ya-placemark
-              *ngFor="let announcement of announcements"
-              [geometry]="announcement.geometry"
-              (yaclick)="handleAnnounce(announcement?.id)"
-              [options]="{
+              }" (click)="handleClusterClick($event)">
+            <ya-placemark *ngFor="let announcement of announcements" [geometry]="announcement.geometry"
+              (yaclick)="handleAnnounce(announcement?.id)" [options]="{
                   preset: 'islands#blueHomeIcon',
                   iconColor: '#00a000',
-                }"
-            ></ya-placemark>
+                }"></ya-placemark>
           </ya-clusterer>
-          <ya-geoobject
-            *ngFor="let route of selectRoutes; let index = index"
-            [feature]="{ geometry: { type: 'LineString', coordinates: route.x } }"
-            [options]="{
+          <ya-geoobject *ngFor="let route of selectRoutes; let index = index"
+            [feature]="{ geometry: { type: 'LineString', coordinates: route.x } }" [options]="{
                 strokeColor: route.color,
                 strokeWidth: 5,
                 draggable: false,
-              }"
-          ></ya-geoobject>
-          <ya-geoobject
-            *ngFor="let route of selectRoutes; let index = index"
-            [feature]="{ geometry: { type: 'LineString', coordinates: route.y } }"
-            [options]="{
+              }"></ya-geoobject>
+          <ya-geoobject *ngFor="let route of selectRoutes; let index = index"
+            [feature]="{ geometry: { type: 'LineString', coordinates: route.y } }" [options]="{
                 strokeColor: route.color,
                 strokeWidth: 5,
                 draggable: false,
-              }"
-          ></ya-geoobject>
+              }"></ya-geoobject>
         </ya-map>
       </div>
       <div class="border border-solid border-[--grey-300] rounded-2xl p-4">
-        <p-selectButton styleClass="!rounded-2xl !w-full md:!hidden" [options]="stateOptions" [(ngModel)]="tab" optionLabel="label" optionValue="value">
+        <p-selectButton styleClass="!rounded-2xl !w-full md:!hidden" [options]="stateOptions" [(ngModel)]="tab"
+          optionLabel="label" optionValue="value">
           <ng-template let-item pTemplate>
             <div class="flex gap-2 items-center">
               <i [class]="item.icon"></i>
@@ -62,77 +57,65 @@
           </ng-template>
         </p-selectButton>
         <div>
-          <div class="max-h-[100vh]" >
+          <div class="max-h-[100vh]">
             <div *ngIf="transports.length > 0" class="bg-white py-4 md:py-0 rounded-xl min-h-[200px] md:min-h-0">
               <h4 class="text-black font-semibold mb-4 text-[16]" *ngIf="['bus'].includes(tab)">
-               <span class="md:hidden block"> Автобусы поблизости </span><span class="md:block hidden">Выберите транспорт</span>
+                <span class="md:hidden block"> Автобусы поблизости </span><span class="md:block hidden">Выберите
+                  транспорт</span>
               </h4>
-              <h4 class="text-black font-semibold mb-4 text-[16]" *ngIf="['mashrutka'].includes(tab)">Маршруты поблизости</h4>
-              <h4 class="text-black font-semibold mb-4 text-[16]" *ngIf="['metro'].includes(tab)">Линии метро поблизости</h4>
-              <p-multiSelect styleClass="w-full border-solid border border-[--grey-300] rounded-[8px] flex items-center" [maxSelectedLabels]="100"  (onClear)="onClear()" [showClear]="false" optionValue="ri" (onChange)="onChange($event)" class="w-full" placeholder="Выберите транспорт" inputId="float-label"   display="chip" [options]="transports" [(ngModel)]="routeTransports" optionLabel="name"></p-multiSelect>
-      
-              <ul class="bus-list flex flex-col gap-2 overflow-y-scroll max-h-[700px] mt-4 md:hidden" >
+              <h4 class="text-black font-semibold mb-4 text-[16]" *ngIf="['mashrutka'].includes(tab)">Маршруты
+                поблизости</h4>
+              <h4 class="text-black font-semibold mb-4 text-[16]" *ngIf="['metro'].includes(tab)">Линии метро поблизости
+              </h4>
+              <p-multiSelect styleClass="w-full border-solid border border-[--grey-300] rounded-[8px] flex items-center"
+                [maxSelectedLabels]="100" (onClear)="onClear()" [showClear]="false" optionValue="ri"
+                (onChange)="onChange($event)" class="w-full" placeholder="Выберите транспорт" inputId="float-label"
+                display="chip" [options]="transports" [(ngModel)]="routeTransports" optionLabel="name"></p-multiSelect>
+
+              <ul class="bus-list flex flex-col gap-2 overflow-y-scroll max-h-[700px] mt-4 md:hidden">
                 <span *ngIf="['mashrutka'].includes(tab)">
-                  <li
-                  *ngFor="let transport of marshutka"
-                  class="rounded-[5px] block"
-                  [class]="{
+                  <li *ngFor="let transport of marshutka" class="rounded-[5px] block" [class]="{
                       active: routeTransports.includes(transport.ri) && !transportLoading,
                       'pointer-events-none opacity-50': loading,
-                    }"
-                >
-                <p-button [loading]="transportLoading" (click)="filterTransport(transport)" class="px-0" styleClass="w-full px-2 gap-2 bg-[transparent] border border-solid border-[var(--grey-1)] py-[10px] flex font-medium items-center justify-start buses cursor-pointer text-base">
-                  <span class="w-3 h-3 rounded-full" [style.background]="transport?.color"></span>
-                  <span
-                    class="text-[#000000]"
-                    [class]="{
+                    }">
+                    <p-button [loading]="transportLoading" (click)="filterTransport(transport)" class="px-0"
+                      styleClass="w-full px-2 gap-2 bg-[transparent] border border-solid border-[var(--grey-1)] py-[10px] flex font-medium items-center justify-start buses cursor-pointer text-base">
+                      <span class="w-3 h-3 rounded-full" [style.background]="transport?.color"></span>
+                      <span class="text-[#000000]" [class]="{
                         active: routeTransports.includes(transport.ri) && !transportLoading,
-                      }"
-                  >
-                    Mashrutka - {{ transport?.name }}
-                  </span>
-                </p-button>
-                </li>
+                      }">
+                        Mashrutka - {{ transport?.name }}
+                      </span>
+                    </p-button>
+                  </li>
                 </span>
                 <span *ngIf="['metro'].includes(tab)">
-                  <li
-                  *ngFor="let transport of subways"
-                  class="rounded-[5px]"
-                  [class]="{
+                  <li *ngFor="let transport of subways" class="rounded-[5px]" [class]="{
                       active: routeTransports.includes(transport.ri) && !transportLoading,
                       'pointer-events-none opacity-50': loading,
-                    }"
-                >
-                <p-button [loading]="transportLoading" (click)="filterTransport(transport)" class="px-0" styleClass="w-full px-2 gap-2 bg-[transparent] border border-solid border-[var(--grey-1)] py-[10px] flex font-medium items-center justify-start buses cursor-pointer text-base">
-                  <span class="w-3 h-3 rounded-full" [style.background]="transport?.color"></span>
-                  <span
-                    class="text-[#000000]"
-                    [class]="{
+                    }">
+                    <p-button [loading]="transportLoading" (click)="filterTransport(transport)" class="px-0"
+                      styleClass="w-full px-2 gap-2 bg-[transparent] border border-solid border-[var(--grey-1)] py-[10px] flex font-medium items-center justify-start buses cursor-pointer text-base">
+                      <span class="w-3 h-3 rounded-full" [style.background]="transport?.color"></span>
+                      <span class="text-[#000000]" [class]="{
                         active: routeTransports.includes(transport.ri) && !transportLoading,
-                      }"
-                  >
-                    Metro - {{ transport?.name }}
-                  </span>
-                </p-button>
-                </li>
+                      }">
+                        Metro - {{ transport?.name }}
+                      </span>
+                    </p-button>
+                  </li>
                 </span>
                 <span *ngIf="['bus'].includes(tab)">
-                    <li
-                    *ngFor="let transport of buses"
-                    class="rounded-[5px]"
-                    [class]="{
+                  <li *ngFor="let transport of buses" class="rounded-[5px]" [class]="{
                         active: routeTransports.includes(transport.ri) && !transportLoading,
                         'pointer-events-none opacity-50': loading,
-                      }"
-                  >
-                    <p-button [loading]="transportLoading" (click)="filterTransport(transport)" class="px-0" styleClass="w-full px-2 gap-2 bg-[transparent] border border-solid border-[var(--grey-1)] py-[10px] flex font-medium items-center justify-start buses cursor-pointer text-base">
+                      }">
+                    <p-button [loading]="transportLoading" (click)="filterTransport(transport)" class="px-0"
+                      styleClass="w-full px-2 gap-2 bg-[transparent] border border-solid border-[var(--grey-1)] py-[10px] flex font-medium items-center justify-start buses cursor-pointer text-base">
                       <span class="w-3 h-3 rounded-full" [style.background]="transport?.color"></span>
-                      <span
-                        class="text-[#000000]"
-                        [class]="{
+                      <span class="text-[#000000]" [class]="{
                             active: routeTransports.includes(transport.ri) && !transportLoading,
-                          }"
-                      >
+                          }">
                         Avtobus - {{ transport?.name }}
                       </span>
                     </p-button>
@@ -141,291 +124,18 @@
               </ul>
             </div>
           </div>
-        
+
         </div>
       </div>
     </div>
   </div>
-  <!-- <MapLoader v-if="loading" />-->
-  <!-- <div class="navbar w-full fixed top-1 md:bottom-1 md:top-auto md:justify-end md:pr-2 flex justify-center left-0 z-[2000] md:z-[100]">
-    <ul class="px-3 py-3 rounded-xl open-tab bg-white flex md:flex-col gap-3">
-      <li>
-        <button class="md:hidden block" (click)="toggleToolbar()" [ngClass]="{ active: showToolbar }">
-          <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon" style="width: 24px; height: 24px; vertical-align: middle; overflow: hidden" viewBox="0 0 1024 1024" version="1.1">
-            <path d="M859.02 234.524l0.808-0.756 0.749-0.813c27.047-29.356 33.876-70.34 17.823-106.957-15.942-36.366-50.416-58.957-89.968-58.957H163.604c-38.83 0-73.043 22.012-89.29 57.444-16.361 35.683-10.632 76.301 14.949 106.004l0.97 1.126 280.311 266.85 2.032 312.074c0.107 16.502 13.517 29.805 29.995 29.805l0.2-0.001c16.568-0.107 29.912-13.626 29.804-30.194l-2.198-337.564-296.478-282.241c-9.526-11.758-11.426-26.933-5.044-40.851 6.446-14.059 19.437-22.452 34.75-22.452h624.828c15.6 0 28.69 8.616 35.017 23.047 6.31 14.391 3.924 29.831-6.354 41.497l-304.13 284.832 1.302 458.63c0.047 16.54 13.469 29.916 29.998 29.915h0.087c16.568-0.047 29.962-13.517 29.915-30.085L573.04 502.36l285.98-267.836z" fill="black" />
-            <path d="M657.265 595.287c0 16.498 13.499 29.997 29.997 29.997h243.897c16.498 0 29.997-13.498 29.997-29.997 0-16.498-13.499-29.997-29.997-29.997H687.262c-16.498 0-29.997 13.499-29.997 29.997z m273.894 138.882H687.262c-16.498 0-29.997 13.499-29.997 29.997s13.499 29.997 29.997 29.997h243.897c16.498 0 29.997-13.499 29.997-29.997 0-16.498-13.499-29.997-29.997-29.997z m0 168.878H687.262c-16.498 0-29.997 13.499-29.997 29.997s13.499 29.997 29.997 29.997h243.897c16.498 0 29.997-13.499 29.997-29.997 0-16.498-13.499-29.997-29.997-29.997z" fill="black" />
-          </svg>
-        </button>
-        <button class="hidden md:block" (click)="openBShFilter()" [ngClass]="{ active: showToolbar }">
-          <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon" style="width: 24px; height: 24px; vertical-align: middle; overflow: hidden" viewBox="0 0 1024 1024" version="1.1">
-            <path d="M859.02 234.524l0.808-0.756 0.749-0.813c27.047-29.356 33.876-70.34 17.823-106.957-15.942-36.366-50.416-58.957-89.968-58.957H163.604c-38.83 0-73.043 22.012-89.29 57.444-16.361 35.683-10.632 76.301 14.949 106.004l0.97 1.126 280.311 266.85 2.032 312.074c0.107 16.502 13.517 29.805 29.995 29.805l0.2-0.001c16.568-0.107 29.912-13.626 29.804-30.194l-2.198-337.564-296.478-282.241c-9.526-11.758-11.426-26.933-5.044-40.851 6.446-14.059 19.437-22.452 34.75-22.452h624.828c15.6 0 28.69 8.616 35.017 23.047 6.31 14.391 3.924 29.831-6.354 41.497l-304.13 284.832 1.302 458.63c0.047 16.54 13.469 29.916 29.998 29.915h0.087c16.568-0.047 29.962-13.517 29.915-30.085L573.04 502.36l285.98-267.836z" fill="black" />
-            <path d="M657.265 595.287c0 16.498 13.499 29.997 29.997 29.997h243.897c16.498 0 29.997-13.498 29.997-29.997 0-16.498-13.499-29.997-29.997-29.997H687.262c-16.498 0-29.997 13.499-29.997 29.997z m273.894 138.882H687.262c-16.498 0-29.997 13.499-29.997 29.997s13.499 29.997 29.997 29.997h243.897c16.498 0 29.997-13.499 29.997-29.997 0-16.498-13.499-29.997-29.997-29.997z m0 168.878H687.262c-16.498 0-29.997 13.499-29.997 29.997s13.499 29.997 29.997 29.997h243.897c16.498 0 29.997-13.499 29.997-29.997 0-16.498-13.499-29.997-29.997-29.997z" fill="black" />
-          </svg>
-        </button>
-      </li>
-      <li>
-        <button class="md:hidden block" (click)="toggleBus('showBus')" [ngClass]="{ active: showBus }">
-          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 453.543 453.543" overflow="visible" enable-background="new 0 0 453.543 453.543" xml:space="preserve">
-            <g id="Bus">
-              <path
-                fill="black"
-                d="M367.524,92.122c-4.208-21.045-17.678-29.463-37.882-37.882c-19.918-8.299-67.648-18.229-102.872-18.507      C191.548,36.012,143.819,45.941,123.9,54.24c-20.204,8.418-33.673,16.836-37.882,37.882L70.866,208.794V369.56h26.096v25.211      c0,30.739,44.984,30.739,44.984,0V369.56h83.048h0.263h86.341v25.211c0,30.739,44.983,30.739,44.983,0V369.56h26.096V208.794      L367.524,92.122z M162.625,65.184h62.631h65.662c12.628,0,12.628,18.941,0,18.941h-65.815h-62.478      C149.997,84.125,149.997,65.184,162.625,65.184z M119.472,319.162c-11.918,0-21.58-9.662-21.58-21.58s9.662-21.579,21.58-21.579      s21.58,9.661,21.58,21.579S131.39,319.162,119.472,319.162z M225.256,221.09H110.797c-11.206,0-13.552-8.051-12.452-16.162      l11.793-84.621c1.62-10.281,5.105-17.059,18.444-17.059h96.521h99.857c13.34,0,16.824,6.778,18.443,17.059l11.795,84.621      c1.1,8.111-1.246,16.162-12.452,16.162H225.256z M334.07,319.162c-11.918,0-21.579-9.662-21.579-21.58      s9.661-21.579,21.579-21.579s21.579,9.661,21.579,21.579S345.988,319.162,334.07,319.162z"
-              />
-              <rect fill="none" width="453.543" height="453.543" />
-            </g>
-          </svg>
-        </button>
-        <button class="md:block hidden" (click)="openBShTransport()" [ngClass]="{ active: showBus }">
-          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 453.543 453.543" overflow="visible" enable-background="new 0 0 453.543 453.543" xml:space="preserve">
-            <g id="Bus">
-              <path
-                fill="black"
-                d="M367.524,92.122c-4.208-21.045-17.678-29.463-37.882-37.882c-19.918-8.299-67.648-18.229-102.872-18.507      C191.548,36.012,143.819,45.941,123.9,54.24c-20.204,8.418-33.673,16.836-37.882,37.882L70.866,208.794V369.56h26.096v25.211      c0,30.739,44.984,30.739,44.984,0V369.56h83.048h0.263h86.341v25.211c0,30.739,44.983,30.739,44.983,0V369.56h26.096V208.794      L367.524,92.122z M162.625,65.184h62.631h65.662c12.628,0,12.628,18.941,0,18.941h-65.815h-62.478      C149.997,84.125,149.997,65.184,162.625,65.184z M119.472,319.162c-11.918,0-21.58-9.662-21.58-21.58s9.662-21.579,21.58-21.579      s21.58,9.661,21.58,21.579S131.39,319.162,119.472,319.162z M225.256,221.09H110.797c-11.206,0-13.552-8.051-12.452-16.162      l11.793-84.621c1.62-10.281,5.105-17.059,18.444-17.059h96.521h99.857c13.34,0,16.824,6.778,18.443,17.059l11.795,84.621      c1.1,8.111-1.246,16.162-12.452,16.162H225.256z M334.07,319.162c-11.918,0-21.579-9.662-21.579-21.58      s9.661-21.579,21.579-21.579s21.579,9.661,21.579,21.579S345.988,319.162,334.07,319.162z"
-              />
-              <rect fill="none" width="453.543" height="453.543" />
-            </g>
-          </svg>
-        </button>
-      </li>
-      <li>
-        <button (click)="router.navigate(['announcements'])">
-          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000" version="1.1" id="Capa_1" width="24" height="24" viewBox="0 0 45.58 45.58" xml:space="preserve">
-            <g>
-              <path d="M45.506,33.532c-1.741-7.42-7.161-17.758-23.554-19.942V7.047c0-1.364-0.826-2.593-2.087-3.113   c-1.261-0.521-2.712-0.229-3.675,0.737L1.305,19.63c-1.739,1.748-1.74,4.572-0.001,6.32L16.19,40.909   c0.961,0.966,2.415,1.258,3.676,0.737c1.261-0.521,2.087-1.75,2.087-3.113v-6.331c5.593,0.007,13.656,0.743,19.392,4.313   c0.953,0.594,2.168,0.555,3.08-0.101C45.335,35.762,45.763,34.624,45.506,33.532z" />
-            </g>
-          </svg>
-        </button>
-      </li>
-    </ul>
-  </div> -->
-  <!-- <div class="flex flex-col gap-6 max-w-[400px] fixed top-0 left-1 z-[10000] max-h-[100vh] py-1 filter-toolbar md:hidden" [ngClass]="{ toolbarShow: showToolbar }">
-    <div class="relative">
-      <button (click)="toggleToolbar()" class="w-10 h-10 bg-[var(--gray-1)] absolute right-[-39px] top-8 rounded-r-[8px] border-[1px] border-l-[0] border-[color:var(--input-stroke)] border-solid">
-        <i class="pi pi-angle-double-right" [ngClass]="{ 'rotate-180': showToolbar }" style="color: #00a000"></i>
-      </button>
-      <app-filter [filterAction]="filterSend" [loading]="loading" [clearFilterAction]="clearFilter"></app-filter>
-    </div>
-  </div> -->
-
-  <!-- <div [ngClass]="{ busShow: showBus || showMiniBus || showSubway }" class="flex flex-col gap-6 max-w-[416px] w-[416px] fixed top-0 right-1 z-[10000] py-1 filter-bus md:hidden">
-    <div class="relative">
-      <div class="absolute left-[-39px] top-9 flex flex-col gap-2">
-        <button (click)="toggleBus('showBus')" class="open-transport-btn w-10 h-10 bg-[var(--gray-1)] rounded-l-[8px] border-[1px] border-r-[0] border-[color:var(--input-stroke)] border-solid" [ngClass]="{ 'bg-white': showBus }">
-          <p-badge class="absolute top-[-10px] left-[-10px]" *ngIf="selectedTransports.bus.length > 0" [value]="selectedTransports.bus.length" severity="success"></p-badge>
-          <app-bus-icon [showBus]="showBus"></app-bus-icon>
-        </button>
-        <button (click)="toggleBus('showMiniBus')" class="open-transport-btn w-10 h-10 bg-[var(--gray-1)] rounded-l-[8px] border-[1px] border-r-[0] border-[color:var(--input-stroke)] border-solid" [ngClass]="{ 'bg-white': showMiniBus }">
-          <p-badge class="absolute top-[-10px] left-[-10px]" *ngIf="selectedTransports.miniBus.length > 0" [value]="selectedTransports.miniBus.length" severity="success"></p-badge>
-          <app-mini-bus-icon [showMiniBus]="showMiniBus"></app-mini-bus-icon>
-        </button>
-        <button (click)="toggleBus('showSubway')" class="open-transport-btn w-10 h-10 bg-[var(--gray-1)] rounded-l-[8px] border-[1px] border-r-[0] border-[color:var(--input-stroke)] border-solid" [ngClass]="{ 'bg-white': showSubway }">
-          <p-badge class="absolute top-[-10px] left-[-10px]" *ngIf="selectedTransports.subway.length > 0" [value]="selectedTransports.subway.length" severity="success"></p-badge>
-          <app-subway-icon [showSubway]="showSubway"></app-subway-icon>
-        </button>
-      </div>
-      <div class="max-h-[100vh] overflow-y-scroll" *ngIf="showMiniBus">
-        <div *ngIf="transports.length > 0" class="bg-white px-4 py-4 rounded-xl min-h-[200px]">
-          <h4 class="text-black font-semibold mb-4 text-[16]">Маршруты поблизости</h4>
-          <ul class="bus-list flex flex-wrap gap-2">
-            <li
-              *ngFor="let transport of marshutka"
-              [style.background]="transport?.color"
-              class="rounded-[5px] block"
-              [class]="{
-                active: routeTransports.includes(transport.ri) && !transportLoading,
-                'pointer-events-none opacity-50': loading,
-              }"
-            >
-              <p-button [loading]="transportLoading" (click)="filterTransport(transport)" class="px-0" styleClass="relative min-w-8 px-1 bg-[transparent] border border-solid border-[var(--grey-1)]  h-8 flex justify-center items-center  buses cursor-pointer text-[14px]">
-                <span
-                  class="text-[#000000]"
-                  [class]="{
-                    active: routeTransports.includes(transport.ri) && !transportLoading,
-                  }"
-                >
-                  {{ transport?.name }}
-                </span>
-              </p-button>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="max-h-[100vh] overflow-y-scroll" *ngIf="showBus">
-        <div *ngIf="transports.length > 0" class="bg-white px-4 py-4 rounded-xl min-h-[200px]">
-          <h4 class="text-black font-semibold mb-4 text-[16]">Автобусы поблизости</h4>
-          <ul class="bus-list flex flex-wrap gap-2">
-            <li
-              *ngFor="let transport of buses"
-              [style.background]="transport?.color"
-              class="rounded-[5px]"
-              [class]="{
-                active: routeTransports.includes(transport.ri) && !transportLoading,
-                'pointer-events-none opacity-50': loading,
-              }"
-            >
-              <p-button [loading]="transportLoading" (click)="filterTransport(transport)" class="px-0" styleClass=" px-1 bg-[transparent] border border-solid border-[var(--grey-1)] min-w-8 h-8 flex items-center justify-center buses cursor-pointer text-[14px]">
-                <span
-                  class="text-[#000000]"
-                  [class]="{
-                    active: routeTransports.includes(transport.ri) && !transportLoading,
-                  }"
-                >
-                  {{ transport?.name }}
-                </span>
-              </p-button>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="max-h-[100vh] overflow-y-scroll" *ngIf="showSubway">
-        <div *ngIf="transports.length > 0" class="bg-white px-4 py-4 rounded-xl min-h-[200px]">
-          <h4 class="text-black font-semibold mb-4 text-[16]">Линии метро поблизости</h4>
-          <ul class="bus-list flex flex-wrap gap-2">
-            <li
-              *ngFor="let transport of subways"
-              [style.background]="transport?.color"
-              class="rounded-[5px]"
-              [class]="{
-                active: routeTransports.includes(transport.ri) && !transportLoading,
-                'pointer-events-none opacity-50': loading,
-              }"
-            >
-              <p-button [loading]="transportLoading" (click)="filterTransport(transport)" class="px-0" styleClass=" px-1 bg-[transparent] border border-solid border-[var(--grey-1)] min-w-8 h-8 flex items-center justify-center buses cursor-pointer text-[14px]">
-                <span
-                  class="text-[#000000]"
-                  [class]="{
-                    active: routeTransports.includes(transport.ri) && !transportLoading,
-                  }"
-                >
-                  {{ transport?.name }}
-                </span>
-              </p-button>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div> -->
-
-  <p-dialog [draggable]="true" position="topleft" [showHeader]="false" [(visible)]="showInfo" [style]="{ width: '25rem' }">
-    <button (click)="showInfo = false" class="w-10 h-10 bg-[var(--gray-1)] absolute right-[-39px] top-8 rounded-r-[8px] border-[1px] border-l-[0] border-[color:var(--input-stroke)] border-solid">
+  <p-dialog [draggable]="true" position="topleft" [showHeader]="false" [(visible)]="showInfo"
+    [style]="{ width: '25rem' }">
+    <button (click)="showInfo = false"
+      class="w-10 h-10 bg-[var(--gray-1)] absolute right-[-39px] top-8 rounded-r-[8px] border-[1px] border-l-[0] border-[color:var(--input-stroke)] border-solid">
       <i class="pi pi-angle-double-right" [ngClass]="{ 'rotate-180': showToolbar }" style="color: #00a000"></i>
     </button>
-    <app-announcements-card *ngIf="showInfo" [more]="true" [close]="closeAnnouncementInfo" [announcement]="currentAnnouce"></app-announcements-card>
+    <app-announcements-card *ngIf="showInfo" [more]="true" [close]="closeAnnouncementInfo"
+      [announcement]="currentAnnouce"></app-announcements-card>
   </p-dialog>
 </div>
-<!-- <div class="md:block hidden">
-  <app-bottom-sheet>
-    <app-filter [close]="closeBShFilter" [filterAction]="filterSend" [loading]="loading" [clearFilterAction]="clearFilter"></app-filter>
-  </app-bottom-sheet>
-  <app-bottom-sheet>
-    <div class="relative px-4 py-6">
-      <div class="flex justify-between mb-4">
-        <h5 class="font-600 text-[24px]">Транспорт</h5>
-        <button (click)="closeBShTransport()" class="p-2 bg-[transparent]">
-          <i class="pi pi-times" style="font-size: 1.2rem"></i>
-        </button>
-      </div>
-      <div class="flex pb-1 justify-center gap-2 border-[0] border-b border-[var(--gray-4)] border-solid mx-[-20px]">
-        <button (click)="toggleBus('showBus')" class="open-transport-btn bg-[transparent] font-500 font-bold" [ngClass]="{ 'active-tab ': showBus }">
-          Автобусы
-          <p-badge *ngIf="selectedTransports.bus.length > 0" [value]="selectedTransports.bus.length" severity="success"></p-badge>
-        </button>
-        <button (click)="toggleBus('showMiniBus')" class="open-transport-btn bg-[transparent] font-bold" [ngClass]="{ 'active-tab': showMiniBus }">
-          Машрутки
-          <p-badge *ngIf="selectedTransports.miniBus.length > 0" [value]="selectedTransports.miniBus.length" severity="success"></p-badge>
-        </button>
-        <button (click)="toggleBus('showSubway')" class="open-transport-btn bg-[transparent] font-bold" [ngClass]="{ 'active-tab': showSubway }">
-          Линии метро
-          <p-badge *ngIf="selectedTransports.subway.length > 0" [value]="selectedTransports.subway.length" severity="success"></p-badge>
-        </button>
-      </div>
-      <div class="max-h-[100vh] overflow-y-scroll" *ngIf="showMiniBus">
-        <div *ngIf="transports.length > 0" class="bg-white py-4 rounded-xl">
-          <h4 class="text-black font-semibold mb-4 text-[16]">Маршруты поблизости</h4>
-          <ul class="bus-list flex flex-wrap gap-2 overflow-y-scroll h-[400px] items-start">
-            <li
-              *ngFor="let transport of marshutka"
-              [style.background]="transport?.color"
-              class="rounded-[5px] block"
-              [class]="{
-                active: routeTransports.includes(transport.ri) && !transportLoading,
-                'pointer-events-none opacity-50': loading,
-              }"
-            >
-              <p-button [loading]="transportLoading" (click)="filterTransport(transport)" class="px-0" styleClass="relative min-w-8 px-1 bg-[transparent] border border-solid border-[var(--grey-1)]  h-8 flex justify-center items-center  buses cursor-pointer text-[14px]">
-                <span
-                  class="text-[#000000]"
-                  [class]="{
-                    active: routeTransports.includes(transport.ri) && !transportLoading,
-                  }"
-                >
-                  {{ transport?.name }}
-                </span>
-              </p-button>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="max-h-[100vh] overflow-y-scroll" *ngIf="showBus">
-        <div *ngIf="transports.length > 0" class="bg-white py-4 rounded-xl">
-          <h4 class="text-black font-semibold mb-4 text-[16]">Автобусы поблизости</h4>
-          <ul class="bus-list flex flex-wrap gap-2 overflow-y-scroll h-[400px] items-start">
-            <li
-              *ngFor="let transport of buses"
-              [style.background]="transport?.color"
-              class="rounded-[5px]"
-              [class]="{
-                active: routeTransports.includes(transport.ri) && !transportLoading,
-                'pointer-events-none opacity-50': loading,
-              }"
-            >
-              <p-button [loading]="transportLoading" (click)="filterTransport(transport)" class="px-0" styleClass=" px-1 bg-[transparent] border border-solid border-[var(--grey-1)] min-w-8 h-8 flex items-center justify-center buses cursor-pointer text-[14px]">
-                <span
-                  class="text-[#000000]"
-                  [class]="{
-                    active: routeTransports.includes(transport.ri) && !transportLoading,
-                  }"
-                >
-                  {{ transport?.name }}
-                </span>
-              </p-button>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="max-h-[100vh] overflow-y-scroll" *ngIf="showSubway">
-        <div *ngIf="transports.length > 0" class="bg-white py-4 rounded-xl">
-          <h4 class="text-black font-semibold mb-4 text-[16]">Линии метро поблизости</h4>
-          <ul class="bus-list flex flex-wrap gap-2 overflow-y-scroll h-[400px] items-start">
-            <li
-              *ngFor="let transport of subways"
-              [style.background]="transport?.color"
-              class="rounded-[5px]"
-              [class]="{
-                active: routeTransports.includes(transport.ri) && !transportLoading,
-                'pointer-events-none opacity-50': loading,
-              }"
-            >
-              <p-button [loading]="transportLoading" (click)="filterTransport(transport)" class="px-0" styleClass=" px-1 bg-[transparent] border border-solid border-[var(--grey-1)] min-w-8 h-8 flex items-center justify-center buses cursor-pointer text-[14px]">
-                <span
-                  class="text-[#000000]"
-                  [class]="{
-                    active: routeTransports.includes(transport.ri) && !transportLoading,
-                  }"
-                >
-                  {{ transport?.name }}
-                </span>
-              </p-button>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </app-bottom-sheet>
-  <app-bottom-sheet>
-    <div class="pt-3 overflow-y-scroll h-[70vh] info">
-      <app-anouncement-map-card [close]="closeAnnouncementInfo" [announcement]="currentAnnouce"></app-anouncement-map-card>
-    </div>
-  </app-bottom-sheet>
-</div> -->

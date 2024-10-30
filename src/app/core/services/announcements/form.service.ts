@@ -31,6 +31,7 @@ export class FormService {
     fridge: new FormControl(false),
     washing_machine: new FormControl(false),
     user: new FormControl({}),
+    region: new FormControl(null),
     lessee_types: new FormControl([],[Validators.required, Validators.minLength(1)]),
   });
   public loading: boolean = false;

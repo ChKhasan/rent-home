@@ -25,7 +25,7 @@ export class ChatUserListComponent {
   @Input() userRooms!: IUserRooms[];
   @Input() loading!: boolean;
   @Input() userSearch!: Function;
-  @Input() toggleBoad: Function | undefined;
+  @Input() toggleUsersList: Function | undefined;
   public searchValue: string = '';
   constructor(private authService: AuthService) {
    
@@ -35,7 +35,10 @@ export class ChatUserListComponent {
     return messages && messages.length > 0 ? String(messages.filter((elem: any) => !elem.is_read && elem.sender !== this.authService.user.id).length) : '0';
   }
   onChangeSearch(e: any) {
-    console.log('userRooms',this.userRooms);
     if (this.userSearch) this.userSearch(this.searchValue);
+  }
+
+  toggleUsers(value: boolean) {
+    if(this.toggleUsersList) this.toggleUsersList(value)
   }
 }

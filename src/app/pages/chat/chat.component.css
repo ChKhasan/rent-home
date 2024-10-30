@@ -45,7 +45,13 @@
   border-radius: 4px;
   height: 85px !important;
 }
-
+:host ::ng-deep .p-dialog-draggable {
+  margin: 0;
+  max-height: 100%;
+}
+:host ::ng-deep .p-dialog-content {
+  padding: 0
+}
 .message-skeleton-1 {
   max-width: 80%;
   width: 100%;
@@ -85,7 +91,9 @@
   .chat-container {
     grid-template-columns: 1fr;
   }
-
+  .board {
+    height: calc(100vh - 70px);
+  }
   .message-block {
     box-shadow: none;
     display: grid;

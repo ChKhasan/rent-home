@@ -24,6 +24,12 @@
               </div>
             </div>
             <div class="flex flex-col gap-1 relative">
+              <label class="font-medium text-[--grey-900] text-[14px]" for="name">Viloyat</label>
+              <div class="relative w-full flex items-center form-input">
+                <p-dropdown class="w-full" styleClass="w-full" [options]="dictionaryService.regions" formControlName="region" optionLabel="name" optionValue="id" placeholder="Shahar" />
+              </div>
+            </div>
+            <div class="flex flex-col gap-1 relative">
               <label class="font-medium text-[14px] text-[--grey-900]" for="name">Ijarachilarning jinsi*</label>
               <div class="relative w-full flex items-center form-input">
                 <p-multiSelect [options]="genders" formControlName="lessee_types" optionLabel="name" [ngClass]="{

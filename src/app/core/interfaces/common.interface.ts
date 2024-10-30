@@ -52,6 +52,7 @@ export interface FilterForm {
   total_price__lte: Number;
   room_count: Number;
   transports: [];
+  region: null | number
 }
 
 export interface IUserRooms {

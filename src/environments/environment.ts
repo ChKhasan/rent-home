@@ -17,7 +17,8 @@ export const environment = {
     GET_ALLTRANSPORTS: '/api/proxy/',
     POST_LOCATIONBUSES: '/api/buses/',
     POST_BUSROUTES: '/api/bus/',
-    GET_GENDERS: '/api/lessee-types/'
+    GET_GENDERS: '/api/lessee-types/',
+    GET_REGIONS: '/api/regions/'
   },
   authUrls: {
     POST_ANNONCEMENTS: '/api/announcement/',

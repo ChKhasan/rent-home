@@ -16,6 +16,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   });
   return next(modifiedRequest).pipe(
     catchError((error: HttpErrorResponse) => {
+      console.log(error)
       if (error.status == 401 && router.url.includes('profile')) {
         router.navigate(['/']).then((r) => {});
         toast.showMessage('error', 'Error', error.statusText);

@@ -20,11 +20,12 @@ import { ChatService } from '@services/chat';
 import { debounceTime, finalize, fromEvent } from 'rxjs';
 import { TabComponent } from '@components/profile/tab/tab.component';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { DialogModule } from 'primeng/dialog';
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [MyAnnouncementsCardComponent, NgForOf, NgIf, PaginationComponent, SkeletonModule, RouterLink, ChatUserListComponent, AuthDialogComponent, ButtonModule, DatePipe, FormsModule, RegisterDialogComponent, BadgeModule, ToastModule, RippleModule, AvatarModule, NgClass, NgTemplateOutlet, TabComponent],
+  imports: [MyAnnouncementsCardComponent,DialogModule, NgForOf, NgIf, PaginationComponent, SkeletonModule, RouterLink, ChatUserListComponent, AuthDialogComponent, ButtonModule, DatePipe, FormsModule, RegisterDialogComponent, BadgeModule, ToastModule, RippleModule, AvatarModule, NgClass, NgTemplateOutlet, TabComponent],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css',
   animations: [trigger('slideInOut', [transition(':enter', [style({ transform: 'translateX(100%)' }), animate('200ms ease-in', style({ transform: 'translateX(0%)' }))]), transition(':leave', [animate('200ms ease-in', style({ transform: 'translateX(100%)' }))])])],
@@ -32,12 +33,13 @@ import { animate, style, transition, trigger } from '@angular/animations';
 export class ChatComponent implements OnInit, AfterViewInit {
   @ViewChildren('childRef') childRefs!: QueryList<ElementRef>;
   @ViewChild('parentDiv') parentDiv!: ElementRef;
-  public comments: IMessage[] = [];
-  public pendingComments: any = [];
+  public messages: IMessage[] = [];
+  public pendingMessages: any = [];
   public loading: boolean = false;
   public loadingRooms: boolean = false;
   public message: string = '';
   public dateFormat: string = 'dd.MM.YYYY HH:mm';
+  public topDateFormat: string = 'dd MMMM';
   public url: string = '';
   public loadingMessages: boolean = false;
   public skeletonList = [1, 2, 3, 4, 1, 2, 3];
@@ -46,7 +48,9 @@ export class ChatComponent implements OnInit, AfterViewInit {
   public allUserRooms: any = [];
   public newGroup: boolean = false;
   public showBoard: boolean = false;
-
+  public showDate: boolean = false;
+  public scrollingCurrentDate: string = '';
+  public showList = false
   constructor(
     public authService: AuthService,
     private chatService: ChatService,
@@ -126,7 +130,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
     let receiver = Number(this.queryService.activeQueryList()['userId']) || this.isRoom.user.id;
     if (this.authService.auth && this.authService.user.id && this.message.length > 0 && (this.userRooms.length || receiver)) {
       this.loading = true;
-      this.pendingComments.push({
+      this.pendingMessages.push({
         created_at: `${new Date()}`,
         id: 1,
         is_read: false,
@@ -208,9 +212,9 @@ export class ChatComponent implements OnInit, AfterViewInit {
         return elem;
       }
     });
-    this.pendingComments = [];
+    this.pendingMessages = [];
     if (Number(this.queryService.activeQueryList()['roomId']) === message.room) {
-      this.comments.unshift(message);
+      this.messages.unshift(message);
       this.scrollToTop();
       this.readNewMessage(message);
     } else {
@@ -228,7 +232,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
       this.__GET_MESSAGES();
     });
     this.isRoom = room;
-    // this.toggleBoad(true)
+    this.toggleUsersList(false)
   };
   __GET_MESSAGES = () => {
     let id = Number(this.queryService.activeQueryList()['roomId']);
@@ -239,7 +243,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
         .pipe(finalize(() => (this.loadingMessages = false)))
         .subscribe((response: IMessageObj) => {
           let isFirstUnread = false;
-          this.comments = response.messages
+          this.messages = response.messages
             .map((elem: any) => {
               if (!elem.is_read && !isFirstUnread && elem.sender !== this.authService.user.id) {
                 isFirstUnread = true;
@@ -255,7 +259,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
               }
             })
             .reverse();
-          if (this.comments.length > 0)
+          if (this.messages.length > 0)
             setTimeout(() => {
               this.scrollCall();
             }, 0);
@@ -271,15 +275,24 @@ export class ChatComponent implements OnInit, AfterViewInit {
       });
     }
   }
-
+  private lastScrollTop = 0;
   @HostListener('scroll', ['$event'])
   private scrollAccess = true;
 
   onParentDivScrolled(): void {
-    if (this.scrollAccess)
-      setTimeout(() => {
-        this.scrollCall();
-      }, 1000);
+    const container = this.parentDiv.nativeElement;
+    const currentScrollTop = container.scrollTop;
+    console.log('currentScrollTop',currentScrollTop)
+    console.log('this.lastScrollTop',this.lastScrollTop)
+    if (currentScrollTop < this.lastScrollTop) {
+      this.showDate = true;
+      this.checkVisibleItems();
+    } else {
+      this.showDate = false;
+    }
+    
+    this.lastScrollTop = currentScrollTop; 
+    if (this.scrollAccess) setTimeout(() => this.scrollCall(),1000);
     this.scrollAccess = false;
   }
 
@@ -295,11 +308,27 @@ export class ChatComponent implements OnInit, AfterViewInit {
       this.socketSender(data);
     }
   }
+  private checkVisibleItems() {
+    const container = this.parentDiv.nativeElement;
+    const items = container.querySelectorAll('.message-item');
+    const visibleDataInfo: string[] = [];
+    items.forEach((item: HTMLElement) => {
+      const rect = item.getBoundingClientRect();
 
+      // Проверяем, находится ли элемент в видимой области
+      if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
+        visibleDataInfo.push(item.getAttribute('data-info') as string)
+      }
+    });
+    const dates = visibleDataInfo.map(dateStr => new Date(dateStr));
+
+    const minDate = new Date(Math.min(...dates.map(date => date.getTime())));
+    this.scrollingCurrentDate = minDate.toISOString()
+  }
   scrollCall() {
     const unreadMessage = this.parentDiv.nativeElement.querySelector('.unread');
     const parentDivRect = this.parentDiv.nativeElement.getBoundingClientRect();
-    let unreads = this.comments.filter((elem: any) => !elem.is_read && elem.sender !== this.authService.user.id);
+    let unreads = this.messages.filter((elem: any) => !elem.is_read && elem.sender !== this.authService.user.id);
     let unreadMessageIds: any[] = [];
     unreads.forEach((item: any) => {
       const unreadMessage = this.parentDiv.nativeElement.querySelector('#child_' + item.id);
@@ -324,7 +353,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   handleReadMessages(message: any) {
     let room = this.userRooms.find((elem: any) => elem.id === message.message.room_id);
-    this.unreadToRead(message, this.comments, true);
+    this.unreadToRead(message, this.messages, true);
     this.unreadToRead(message, room.messages, false);
   }
 
@@ -341,13 +370,23 @@ export class ChatComponent implements OnInit, AfterViewInit {
     });
   }
 
-  toggleBoad = (value: boolean) => {
-    this.showBoard = value;
-  };
+  toggleUsersList = (value: boolean) => {
+    this.showList = value;
+  }
+  
 
   @ViewChild('scrollableDiv') scrollableDiv!: ElementRef;
 
   scrollToTop() {
     this.scrollableDiv.nativeElement.scrollTop = 0;
+  }
+  compareDate(arg1?: string, arg2?: string) {
+    const date = new Date()
+    let date1 = new Date(arg1 || date).getTime();
+    let date2 = new Date(arg2 || date).getTime();
+    let day1 = Math.floor(date1 / 86400000)
+    let day2 = Math.floor(date2 / 86400000);
+  
+    return day1 > day2
   }
 }

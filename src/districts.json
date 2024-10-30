@@ -1,0 +1,4162 @@
+[
+    {
+        "id": 208,
+        "region": {
+            "id": 14,
+            "name_ru": "ГОРОД ТАШКЕНТ",
+            "name_uz": "TOSHKENT SHAHAR",
+            "created_at": "2024-09-15T20:49:18.638872+05:00",
+            "updated_at": "2024-10-18T20:10:09.047682+05:00",
+            "order_number": 14,
+            "cadastr_id": "10",
+            "shared_id": 10
+        },
+        "name_ru": "Янгихаятский район",
+        "name_uz": "Yangihayot tumani",
+        "created_at": "2024-09-15T20:49:18.674314+05:00",
+        "updated_at": "2024-10-18T20:10:09.086196+05:00",
+        "cadastr_id": "1012",
+        "order_number": 12,
+        "shared_id": 1012
+    },
+    {
+        "id": 207,
+        "region": {
+            "id": 14,
+            "name_ru": "ГОРОД ТАШКЕНТ",
+            "name_uz": "TOSHKENT SHAHAR",
+            "created_at": "2024-09-15T20:49:18.638872+05:00",
+            "updated_at": "2024-10-18T20:10:09.047682+05:00",
+            "order_number": 14,
+            "cadastr_id": "10",
+            "shared_id": 10
+        },
+        "name_ru": "Яккасарайский район",
+        "name_uz": "Yakkasaroy tumani",
+        "created_at": "2024-09-15T20:49:18.671505+05:00",
+        "updated_at": "2024-10-18T20:10:09.082990+05:00",
+        "cadastr_id": "1005",
+        "order_number": 10,
+        "shared_id": 1005
+    },
+    {
+        "id": 206,
+        "region": {
+            "id": 14,
+            "name_ru": "ГОРОД ТАШКЕНТ",
+            "name_uz": "TOSHKENT SHAHAR",
+            "created_at": "2024-09-15T20:49:18.638872+05:00",
+            "updated_at": "2024-10-18T20:10:09.047682+05:00",
+            "order_number": 14,
+            "cadastr_id": "10",
+            "shared_id": 10
+        },
+        "name_ru": "Юнусабадский район",
+        "name_uz": "Yunusobod tumani",
+        "created_at": "2024-09-15T20:49:18.668620+05:00",
+        "updated_at": "2024-10-18T20:10:09.079906+05:00",
+        "cadastr_id": "1007",
+        "order_number": 9,
+        "shared_id": 1007
+    },
+    {
+        "id": 205,
+        "region": {
+            "id": 14,
+            "name_ru": "ГОРОД ТАШКЕНТ",
+            "name_uz": "TOSHKENT SHAHAR",
+            "created_at": "2024-09-15T20:49:18.638872+05:00",
+            "updated_at": "2024-10-18T20:10:09.047682+05:00",
+            "order_number": 14,
+            "cadastr_id": "10",
+            "shared_id": 10
+        },
+        "name_ru": "Чиланзарский район",
+        "name_uz": "Chilonzor tumani",
+        "created_at": "2024-09-15T20:49:18.665511+05:00",
+        "updated_at": "2024-10-18T20:10:09.076623+05:00",
+        "cadastr_id": "1003",
+        "order_number": 7,
+        "shared_id": 1003
+    },
+    {
+        "id": 204,
+        "region": {
+            "id": 14,
+            "name_ru": "ГОРОД ТАШКЕНТ",
+            "name_uz": "TOSHKENT SHAHAR",
+            "created_at": "2024-09-15T20:49:18.638872+05:00",
+            "updated_at": "2024-10-18T20:10:09.047682+05:00",
+            "order_number": 14,
+            "cadastr_id": "10",
+            "shared_id": 10
+        },
+        "name_ru": "Яшнободский район",
+        "name_uz": "Yashnobod tumani",
+        "created_at": "2024-09-15T20:49:18.662748+05:00",
+        "updated_at": "2024-10-18T20:10:09.073408+05:00",
+        "cadastr_id": "1004",
+        "order_number": 11,
+        "shared_id": 1004
+    },
+    {
+        "id": 203,
+        "region": {
+            "id": 14,
+            "name_ru": "ГОРОД ТАШКЕНТ",
+            "name_uz": "TOSHKENT SHAHAR",
+            "created_at": "2024-09-15T20:49:18.638872+05:00",
+            "updated_at": "2024-10-18T20:10:09.047682+05:00",
+            "order_number": 14,
+            "cadastr_id": "10",
+            "shared_id": 10
+        },
+        "name_ru": "Шайхантахурский район",
+        "name_uz": "Shayxontohur tumani",
+        "created_at": "2024-09-15T20:49:18.659849+05:00",
+        "updated_at": "2024-10-18T20:10:09.070279+05:00",
+        "cadastr_id": "1010",
+        "order_number": 8,
+        "shared_id": 1010
+    },
+    {
+        "id": 202,
+        "region": {
+            "id": 14,
+            "name_ru": "ГОРОД ТАШКЕНТ",
+            "name_uz": "TOSHKENT SHAHAR",
+            "created_at": "2024-09-15T20:49:18.638872+05:00",
+            "updated_at": "2024-10-18T20:10:09.047682+05:00",
+            "order_number": 14,
+            "cadastr_id": "10",
+            "shared_id": 10
+        },
+        "name_ru": "Учтепинский район",
+        "name_uz": "Uchtepa tumani",
+        "created_at": "2024-09-15T20:49:18.656975+05:00",
+        "updated_at": "2024-10-18T20:10:09.066986+05:00",
+        "cadastr_id": "1001",
+        "order_number": 6,
+        "shared_id": 1001
+    },
+    {
+        "id": 201,
+        "region": {
+            "id": 14,
+            "name_ru": "ГОРОД ТАШКЕНТ",
+            "name_uz": "TOSHKENT SHAHAR",
+            "created_at": "2024-09-15T20:49:18.638872+05:00",
+            "updated_at": "2024-10-18T20:10:09.047682+05:00",
+            "order_number": 14,
+            "cadastr_id": "10",
+            "shared_id": 10
+        },
+        "name_ru": "Алмазарский район",
+        "name_uz": "Olmazor tumani",
+        "created_at": "2024-09-15T20:49:18.654041+05:00",
+        "updated_at": "2024-10-18T20:10:09.063823+05:00",
+        "cadastr_id": "1008",
+        "order_number": 4,
+        "shared_id": 1008
+    },
+    {
+        "id": 200,
+        "region": {
+            "id": 14,
+            "name_ru": "ГОРОД ТАШКЕНТ",
+            "name_uz": "TOSHKENT SHAHAR",
+            "created_at": "2024-09-15T20:49:18.638872+05:00",
+            "updated_at": "2024-10-18T20:10:09.047682+05:00",
+            "order_number": 14,
+            "cadastr_id": "10",
+            "shared_id": 10
+        },
+        "name_ru": "Сергелийский район",
+        "name_uz": "Sergeli tumani",
+        "created_at": "2024-09-15T20:49:18.651128+05:00",
+        "updated_at": "2024-10-18T20:10:09.060448+05:00",
+        "cadastr_id": "1006",
+        "order_number": 5,
+        "shared_id": 1006
+    },
+    {
+        "id": 199,
+        "region": {
+            "id": 14,
+            "name_ru": "ГОРОД ТАШКЕНТ",
+            "name_uz": "TOSHKENT SHAHAR",
+            "created_at": "2024-09-15T20:49:18.638872+05:00",
+            "updated_at": "2024-10-18T20:10:09.047682+05:00",
+            "order_number": 14,
+            "cadastr_id": "10",
+            "shared_id": 10
+        },
+        "name_ru": "Мирзо-Улугбекский район",
+        "name_uz": "Mirzo-Ulug'bek tumani",
+        "created_at": "2024-09-15T20:49:18.648200+05:00",
+        "updated_at": "2024-10-18T20:10:09.057149+05:00",
+        "cadastr_id": "1009",
+        "order_number": 2,
+        "shared_id": 1009
+    },
+    {
+        "id": 198,
+        "region": {
+            "id": 14,
+            "name_ru": "ГОРОД ТАШКЕНТ",
+            "name_uz": "TOSHKENT SHAHAR",
+            "created_at": "2024-09-15T20:49:18.638872+05:00",
+            "updated_at": "2024-10-18T20:10:09.047682+05:00",
+            "order_number": 14,
+            "cadastr_id": "10",
+            "shared_id": 10
+        },
+        "name_ru": "Мирабадский район",
+        "name_uz": "Mirobod tumani",
+        "created_at": "2024-09-15T20:49:18.645242+05:00",
+        "updated_at": "2024-10-18T20:10:09.054046+05:00",
+        "cadastr_id": "1011",
+        "order_number": 3,
+        "shared_id": 1011
+    },
+    {
+        "id": 197,
+        "region": {
+            "id": 14,
+            "name_ru": "ГОРОД ТАШКЕНТ",
+            "name_uz": "TOSHKENT SHAHAR",
+            "created_at": "2024-09-15T20:49:18.638872+05:00",
+            "updated_at": "2024-10-18T20:10:09.047682+05:00",
+            "order_number": 14,
+            "cadastr_id": "10",
+            "shared_id": 10
+        },
+        "name_ru": "Бектемирский район",
+        "name_uz": "Bektemir tumani",
+        "created_at": "2024-09-15T20:49:18.641963+05:00",
+        "updated_at": "2024-10-18T20:10:09.050880+05:00",
+        "cadastr_id": "1002",
+        "order_number": 1,
+        "shared_id": 1002
+    },
+    {
+        "id": 196,
+        "region": {
+            "id": 13,
+            "name_ru": "КАШКАДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "QASHQADARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.585003+05:00",
+            "updated_at": "2024-10-18T20:10:08.989355+05:00",
+            "order_number": 13,
+            "cadastr_id": "18",
+            "shared_id": 18
+        },
+        "name_ru": "Яккабагский район",
+        "name_uz": "Yakkabog' tumani",
+        "created_at": "2024-09-15T20:49:18.635853+05:00",
+        "updated_at": "2024-10-18T20:10:09.044500+05:00",
+        "cadastr_id": "1811",
+        "order_number": 16,
+        "shared_id": 1811
+    },
+    {
+        "id": 195,
+        "region": {
+            "id": 13,
+            "name_ru": "КАШКАДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "QASHQADARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.585003+05:00",
+            "updated_at": "2024-10-18T20:10:08.989355+05:00",
+            "order_number": 13,
+            "cadastr_id": "18",
+            "shared_id": 18
+        },
+        "name_ru": "город Шахрисабз",
+        "name_uz": "Shahrisabz shahar",
+        "created_at": "2024-09-15T20:49:18.632371+05:00",
+        "updated_at": "2024-10-18T20:10:09.041192+05:00",
+        "cadastr_id": "1816",
+        "order_number": 2,
+        "shared_id": 1816
+    },
+    {
+        "id": 194,
+        "region": {
+            "id": 13,
+            "name_ru": "КАШКАДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "QASHQADARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.585003+05:00",
+            "updated_at": "2024-10-18T20:10:08.989355+05:00",
+            "order_number": 13,
+            "cadastr_id": "18",
+            "shared_id": 18
+        },
+        "name_ru": "Шахрисабзский район",
+        "name_uz": "Shahrisabz tumani",
+        "created_at": "2024-09-15T20:49:18.629014+05:00",
+        "updated_at": "2024-10-18T20:10:09.037772+05:00",
+        "cadastr_id": "1810",
+        "order_number": 15,
+        "shared_id": 1810
+    },
+    {
+        "id": 193,
+        "region": {
+            "id": 13,
+            "name_ru": "КАШКАДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "QASHQADARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.585003+05:00",
+            "updated_at": "2024-10-18T20:10:08.989355+05:00",
+            "order_number": 13,
+            "cadastr_id": "18",
+            "shared_id": 18
+        },
+        "name_ru": "Кукдалинский район",
+        "name_uz": "Ko‘kdala tumani",
+        "created_at": "2024-09-15T20:49:18.625779+05:00",
+        "updated_at": "2024-10-18T20:10:09.033682+05:00",
+        "cadastr_id": "1808",
+        "order_number": 14,
+        "shared_id": 1808
+    },
+    {
+        "id": 192,
+        "region": {
+            "id": 13,
+            "name_ru": "КАШКАДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "QASHQADARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.585003+05:00",
+            "updated_at": "2024-10-18T20:10:08.989355+05:00",
+            "order_number": 13,
+            "cadastr_id": "18",
+            "shared_id": 18
+        },
+        "name_ru": "Чиракчинский район",
+        "name_uz": "Chiroqchi tumani",
+        "created_at": "2024-09-15T20:49:18.622893+05:00",
+        "updated_at": "2024-10-18T20:10:09.030467+05:00",
+        "cadastr_id": "1809",
+        "order_number": 13,
+        "shared_id": 1809
+    },
+    {
+        "id": 191,
+        "region": {
+            "id": 13,
+            "name_ru": "КАШКАДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "QASHQADARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.585003+05:00",
+            "updated_at": "2024-10-18T20:10:08.989355+05:00",
+            "order_number": 13,
+            "cadastr_id": "18",
+            "shared_id": 18
+        },
+        "name_ru": "Нишанский район",
+        "name_uz": "Nishon tumani",
+        "created_at": "2024-09-15T20:49:18.620006+05:00",
+        "updated_at": "2024-10-18T20:10:09.027029+05:00",
+        "cadastr_id": "1807",
+        "order_number": 12,
+        "shared_id": 1807
+    },
+    {
+        "id": 190,
+        "region": {
+            "id": 13,
+            "name_ru": "КАШКАДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "QASHQADARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.585003+05:00",
+            "updated_at": "2024-10-18T20:10:08.989355+05:00",
+            "order_number": 13,
+            "cadastr_id": "18",
+            "shared_id": 18
+        },
+        "name_ru": "Мубарекский район",
+        "name_uz": "Muborak tumani",
+        "created_at": "2024-09-15T20:49:18.616947+05:00",
+        "updated_at": "2024-10-18T20:10:09.021392+05:00",
+        "cadastr_id": "1806",
+        "order_number": 11,
+        "shared_id": 1806
+    },
+    {
+        "id": 189,
+        "region": {
+            "id": 13,
+            "name_ru": "КАШКАДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "QASHQADARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.585003+05:00",
+            "updated_at": "2024-10-18T20:10:08.989355+05:00",
+            "order_number": 13,
+            "cadastr_id": "18",
+            "shared_id": 18
+        },
+        "name_ru": "Миришкорский район",
+        "name_uz": "Mirishkor tumani",
+        "created_at": "2024-09-15T20:49:18.614114+05:00",
+        "updated_at": "2024-10-18T20:10:09.018225+05:00",
+        "cadastr_id": "1801",
+        "order_number": 10,
+        "shared_id": 1801
+    },
+    {
+        "id": 188,
+        "region": {
+            "id": 13,
+            "name_ru": "КАШКАДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "QASHQADARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.585003+05:00",
+            "updated_at": "2024-10-18T20:10:08.989355+05:00",
+            "order_number": 13,
+            "cadastr_id": "18",
+            "shared_id": 18
+        },
+        "name_ru": "Касанский район",
+        "name_uz": "Koson tumani",
+        "created_at": "2024-09-15T20:49:18.609501+05:00",
+        "updated_at": "2024-10-18T20:10:09.015081+05:00",
+        "cadastr_id": "1805",
+        "order_number": 9,
+        "shared_id": 1805
+    },
+    {
+        "id": 187,
+        "region": {
+            "id": 13,
+            "name_ru": "КАШКАДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "QASHQADARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.585003+05:00",
+            "updated_at": "2024-10-18T20:10:08.989355+05:00",
+            "order_number": 13,
+            "cadastr_id": "18",
+            "shared_id": 18
+        },
+        "name_ru": "Китабский район",
+        "name_uz": "Kitob tumani",
+        "created_at": "2024-09-15T20:49:18.605296+05:00",
+        "updated_at": "2024-10-18T20:10:09.011926+05:00",
+        "cadastr_id": "1804",
+        "order_number": 8,
+        "shared_id": 1804
+    },
+    {
+        "id": 186,
+        "region": {
+            "id": 13,
+            "name_ru": "КАШКАДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "QASHQADARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.585003+05:00",
+            "updated_at": "2024-10-18T20:10:08.989355+05:00",
+            "order_number": 13,
+            "cadastr_id": "18",
+            "shared_id": 18
+        },
+        "name_ru": "Касбийский район",
+        "name_uz": "Kasbi tumani",
+        "created_at": "2024-09-15T20:49:18.601756+05:00",
+        "updated_at": "2024-10-18T20:10:09.008464+05:00",
+        "cadastr_id": "1803",
+        "order_number": 7,
+        "shared_id": 1803
+    },
+    {
+        "id": 185,
+        "region": {
+            "id": 13,
+            "name_ru": "КАШКАДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "QASHQADARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.585003+05:00",
+            "updated_at": "2024-10-18T20:10:08.989355+05:00",
+            "order_number": 13,
+            "cadastr_id": "18",
+            "shared_id": 18
+        },
+        "name_ru": "Каршинский район",
+        "name_uz": "Qarshi tumani",
+        "created_at": "2024-09-15T20:49:18.599077+05:00",
+        "updated_at": "2024-10-18T20:10:09.005149+05:00",
+        "cadastr_id": "1813",
+        "order_number": 6,
+        "shared_id": 1813
+    },
+    {
+        "id": 184,
+        "region": {
+            "id": 13,
+            "name_ru": "КАШКАДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "QASHQADARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.585003+05:00",
+            "updated_at": "2024-10-18T20:10:08.989355+05:00",
+            "order_number": 13,
+            "cadastr_id": "18",
+            "shared_id": 18
+        },
+        "name_ru": "Камашинский район",
+        "name_uz": "Qamashi tumani",
+        "created_at": "2024-09-15T20:49:18.596159+05:00",
+        "updated_at": "2024-10-18T20:10:09.001994+05:00",
+        "cadastr_id": "1812",
+        "order_number": 5,
+        "shared_id": 1812
+    },
+    {
+        "id": 183,
+        "region": {
+            "id": 13,
+            "name_ru": "КАШКАДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "QASHQADARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.585003+05:00",
+            "updated_at": "2024-10-18T20:10:08.989355+05:00",
+            "order_number": 13,
+            "cadastr_id": "18",
+            "shared_id": 18
+        },
+        "name_ru": "Дехканабадский район",
+        "name_uz": "Dehqonobod tumani",
+        "created_at": "2024-09-15T20:49:18.593337+05:00",
+        "updated_at": "2024-10-18T20:10:08.998666+05:00",
+        "cadastr_id": "1802",
+        "order_number": 4,
+        "shared_id": 1802
+    },
+    {
+        "id": 182,
+        "region": {
+            "id": 13,
+            "name_ru": "КАШКАДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "QASHQADARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.585003+05:00",
+            "updated_at": "2024-10-18T20:10:08.989355+05:00",
+            "order_number": 13,
+            "cadastr_id": "18",
+            "shared_id": 18
+        },
+        "name_ru": "Гузарский район",
+        "name_uz": "G'uzor tumani",
+        "created_at": "2024-09-15T20:49:18.590588+05:00",
+        "updated_at": "2024-10-18T20:10:08.995552+05:00",
+        "cadastr_id": "1814",
+        "order_number": 3,
+        "shared_id": 1814
+    },
+    {
+        "id": 181,
+        "region": {
+            "id": 13,
+            "name_ru": "КАШКАДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "QASHQADARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.585003+05:00",
+            "updated_at": "2024-10-18T20:10:08.989355+05:00",
+            "order_number": 13,
+            "cadastr_id": "18",
+            "shared_id": 18
+        },
+        "name_ru": "город Карши",
+        "name_uz": "Qarshi shahar",
+        "created_at": "2024-09-15T20:49:18.587763+05:00",
+        "updated_at": "2024-10-18T20:10:08.992375+05:00",
+        "cadastr_id": "1815",
+        "order_number": 1,
+        "shared_id": 1815
+    },
+    {
+        "id": 180,
+        "region": {
+            "id": 12,
+            "name_ru": "ХОРЕЗМСКАЯ ОБЛАСТЬ",
+            "name_uz": "XORAZM VILOYATI",
+            "created_at": "2024-09-15T20:49:18.538768+05:00",
+            "updated_at": "2024-10-18T20:10:08.944873+05:00",
+            "order_number": 12,
+            "cadastr_id": "22",
+            "shared_id": 22
+        },
+        "name_ru": "Янгибазарский район",
+        "name_uz": "Yangibozor tumani",
+        "created_at": "2024-09-15T20:49:18.582353+05:00",
+        "updated_at": "2024-10-18T20:10:08.986464+05:00",
+        "cadastr_id": "2208",
+        "order_number": 12,
+        "shared_id": 2208
+    },
+    {
+        "id": 179,
+        "region": {
+            "id": 12,
+            "name_ru": "ХОРЕЗМСКАЯ ОБЛАСТЬ",
+            "name_uz": "XORAZM VILOYATI",
+            "created_at": "2024-09-15T20:49:18.538768+05:00",
+            "updated_at": "2024-10-18T20:10:08.944873+05:00",
+            "order_number": 12,
+            "cadastr_id": "22",
+            "shared_id": 22
+        },
+        "name_ru": "Янгиарыкский район",
+        "name_uz": "Yangiariq tumani",
+        "created_at": "2024-09-15T20:49:18.578920+05:00",
+        "updated_at": "2024-10-18T20:10:08.983334+05:00",
+        "cadastr_id": "2207",
+        "order_number": 11,
+        "shared_id": 2207
+    },
+    {
+        "id": 178,
+        "region": {
+            "id": 12,
+            "name_ru": "ХОРЕЗМСКАЯ ОБЛАСТЬ",
+            "name_uz": "XORAZM VILOYATI",
+            "created_at": "2024-09-15T20:49:18.538768+05:00",
+            "updated_at": "2024-10-18T20:10:08.944873+05:00",
+            "order_number": 12,
+            "cadastr_id": "22",
+            "shared_id": 22
+        },
+        "name_ru": "Шаватский район",
+        "name_uz": "Shovot tumani",
+        "created_at": "2024-09-15T20:49:18.575692+05:00",
+        "updated_at": "2024-10-18T20:10:08.980187+05:00",
+        "cadastr_id": "2206",
+        "order_number": 10,
+        "shared_id": 2206
+    },
+    {
+        "id": 177,
+        "region": {
+            "id": 12,
+            "name_ru": "ХОРЕЗМСКАЯ ОБЛАСТЬ",
+            "name_uz": "XORAZM VILOYATI",
+            "created_at": "2024-09-15T20:49:18.538768+05:00",
+            "updated_at": "2024-10-18T20:10:08.944873+05:00",
+            "order_number": 12,
+            "cadastr_id": "22",
+            "shared_id": 22
+        },
+        "name_ru": "город Хивa",
+        "name_uz": "Xiva shahar",
+        "created_at": "2024-09-15T20:49:18.572630+05:00",
+        "updated_at": "2024-10-18T20:10:08.976998+05:00",
+        "cadastr_id": "2212",
+        "order_number": 2,
+        "shared_id": 2212
+    },
+    {
+        "id": 176,
+        "region": {
+            "id": 12,
+            "name_ru": "ХОРЕЗМСКАЯ ОБЛАСТЬ",
+            "name_uz": "XORAZM VILOYATI",
+            "created_at": "2024-09-15T20:49:18.538768+05:00",
+            "updated_at": "2024-10-18T20:10:08.944873+05:00",
+            "order_number": 12,
+            "cadastr_id": "22",
+            "shared_id": 22
+        },
+        "name_ru": "Хивинский район",
+        "name_uz": "Xiva tumani",
+        "created_at": "2024-09-15T20:49:18.569570+05:00",
+        "updated_at": "2024-10-18T20:10:08.973971+05:00",
+        "cadastr_id": "2205",
+        "order_number": 8,
+        "shared_id": 2205
+    },
+    {
+        "id": 175,
+        "region": {
+            "id": 12,
+            "name_ru": "ХОРЕЗМСКАЯ ОБЛАСТЬ",
+            "name_uz": "XORAZM VILOYATI",
+            "created_at": "2024-09-15T20:49:18.538768+05:00",
+            "updated_at": "2024-10-18T20:10:08.944873+05:00",
+            "order_number": 12,
+            "cadastr_id": "22",
+            "shared_id": 22
+        },
+        "name_ru": "Ханкинский район",
+        "name_uz": "Xonqa tumani",
+        "created_at": "2024-09-15T20:49:18.565902+05:00",
+        "updated_at": "2024-10-18T20:10:08.970844+05:00",
+        "cadastr_id": "2204",
+        "order_number": 9,
+        "shared_id": 2204
+    },
+    {
+        "id": 174,
+        "region": {
+            "id": 12,
+            "name_ru": "ХОРЕЗМСКАЯ ОБЛАСТЬ",
+            "name_uz": "XORAZM VILOYATI",
+            "created_at": "2024-09-15T20:49:18.538768+05:00",
+            "updated_at": "2024-10-18T20:10:08.944873+05:00",
+            "order_number": 12,
+            "cadastr_id": "22",
+            "shared_id": 22
+        },
+        "name_ru": "Хазараспский район ",
+        "name_uz": "Xazorasp tumani",
+        "created_at": "2024-09-15T20:49:18.562688+05:00",
+        "updated_at": "2024-10-18T20:10:08.967740+05:00",
+        "cadastr_id": "2210",
+        "order_number": 7,
+        "shared_id": 2210
+    },
+    {
+        "id": 173,
+        "region": {
+            "id": 12,
+            "name_ru": "ХОРЕЗМСКАЯ ОБЛАСТЬ",
+            "name_uz": "XORAZM VILOYATI",
+            "created_at": "2024-09-15T20:49:18.538768+05:00",
+            "updated_at": "2024-10-18T20:10:08.944873+05:00",
+            "order_number": 12,
+            "cadastr_id": "22",
+            "shared_id": 22
+        },
+        "name_ru": "Ургенчский район",
+        "name_uz": "Urganch tumani",
+        "created_at": "2024-09-15T20:49:18.559237+05:00",
+        "updated_at": "2024-10-18T20:10:08.964401+05:00",
+        "cadastr_id": "2203",
+        "order_number": 6,
+        "shared_id": 2203
+    },
+    {
+        "id": 172,
+        "region": {
+            "id": 12,
+            "name_ru": "ХОРЕЗМСКАЯ ОБЛАСТЬ",
+            "name_uz": "XORAZM VILOYATI",
+            "created_at": "2024-09-15T20:49:18.538768+05:00",
+            "updated_at": "2024-10-18T20:10:08.944873+05:00",
+            "order_number": 12,
+            "cadastr_id": "22",
+            "shared_id": 22
+        },
+        "name_ru": "Кошкупырский район",
+        "name_uz": "Qo'shko'pir tumani",
+        "created_at": "2024-09-15T20:49:18.555860+05:00",
+        "updated_at": "2024-10-18T20:10:08.960988+05:00",
+        "cadastr_id": "2209",
+        "order_number": 5,
+        "shared_id": 2209
+    },
+    {
+        "id": 171,
+        "region": {
+            "id": 12,
+            "name_ru": "ХОРЕЗМСКАЯ ОБЛАСТЬ",
+            "name_uz": "XORAZM VILOYATI",
+            "created_at": "2024-09-15T20:49:18.538768+05:00",
+            "updated_at": "2024-10-18T20:10:08.944873+05:00",
+            "order_number": 12,
+            "cadastr_id": "22",
+            "shared_id": 22
+        },
+        "name_ru": "Гурленский район",
+        "name_uz": "Gurlan tumani",
+        "created_at": "2024-09-15T20:49:18.552368+05:00",
+        "updated_at": "2024-10-18T20:10:08.957911+05:00",
+        "cadastr_id": "2202",
+        "order_number": 4,
+        "shared_id": 2202
+    },
+    {
+        "id": 170,
+        "region": {
+            "id": 12,
+            "name_ru": "ХОРЕЗМСКАЯ ОБЛАСТЬ",
+            "name_uz": "XORAZM VILOYATI",
+            "created_at": "2024-09-15T20:49:18.538768+05:00",
+            "updated_at": "2024-10-18T20:10:08.944873+05:00",
+            "order_number": 12,
+            "cadastr_id": "22",
+            "shared_id": 22
+        },
+        "name_ru": "Багатский район",
+        "name_uz": "Bog'ot tumani",
+        "created_at": "2024-09-15T20:49:18.549107+05:00",
+        "updated_at": "2024-10-18T20:10:08.954359+05:00",
+        "cadastr_id": "2201",
+        "order_number": 3,
+        "shared_id": 2201
+    },
+    {
+        "id": 169,
+        "region": {
+            "id": 12,
+            "name_ru": "ХОРЕЗМСКАЯ ОБЛАСТЬ",
+            "name_uz": "XORAZM VILOYATI",
+            "created_at": "2024-09-15T20:49:18.538768+05:00",
+            "updated_at": "2024-10-18T20:10:08.944873+05:00",
+            "order_number": 12,
+            "cadastr_id": "22",
+            "shared_id": 22
+        },
+        "name_ru": "город Ургенч",
+        "name_uz": "Urganch shahar",
+        "created_at": "2024-09-15T20:49:18.545831+05:00",
+        "updated_at": "2024-10-18T20:10:08.951160+05:00",
+        "cadastr_id": "2211",
+        "order_number": 1,
+        "shared_id": 2211
+    },
+    {
+        "id": 168,
+        "region": {
+            "id": 12,
+            "name_ru": "ХОРЕЗМСКАЯ ОБЛАСТЬ",
+            "name_uz": "XORAZM VILOYATI",
+            "created_at": "2024-09-15T20:49:18.538768+05:00",
+            "updated_at": "2024-10-18T20:10:08.944873+05:00",
+            "order_number": 12,
+            "cadastr_id": "22",
+            "shared_id": 22
+        },
+        "name_ru": "Тупраккалинский район",
+        "name_uz": "Tuproqqal’a tumani",
+        "created_at": "2024-09-15T20:49:18.542624+05:00",
+        "updated_at": "2024-10-18T20:10:08.948068+05:00",
+        "cadastr_id": "2213",
+        "order_number": 13,
+        "shared_id": 2213
+    },
+    {
+        "id": 167,
+        "region": {
+            "id": 11,
+            "name_ru": "ФЕРГАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "FARG'ONA VILOYATI",
+            "created_at": "2024-09-15T20:49:18.482668+05:00",
+            "updated_at": "2024-10-18T20:10:08.879646+05:00",
+            "order_number": 11,
+            "cadastr_id": "15",
+            "shared_id": 15
+        },
+        "name_ru": "Ферганский район",
+        "name_uz": "Farg'ona tumani",
+        "created_at": "2024-09-15T20:49:18.535801+05:00",
+        "updated_at": "2024-10-18T20:10:08.941954+05:00",
+        "cadastr_id": "1513",
+        "order_number": 18,
+        "shared_id": 1513
+    },
+    {
+        "id": 166,
+        "region": {
+            "id": 11,
+            "name_ru": "ФЕРГАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "FARG'ONA VILOYATI",
+            "created_at": "2024-09-15T20:49:18.482668+05:00",
+            "updated_at": "2024-10-18T20:10:08.879646+05:00",
+            "order_number": 11,
+            "cadastr_id": "15",
+            "shared_id": 15
+        },
+        "name_ru": "Фуркатский район",
+        "name_uz": "Furqat tumani",
+        "created_at": "2024-09-15T20:49:18.532461+05:00",
+        "updated_at": "2024-10-18T20:10:08.938746+05:00",
+        "cadastr_id": "1514",
+        "order_number": 19,
+        "shared_id": 1514
+    },
+    {
+        "id": 165,
+        "region": {
+            "id": 11,
+            "name_ru": "ФЕРГАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "FARG'ONA VILOYATI",
+            "created_at": "2024-09-15T20:49:18.482668+05:00",
+            "updated_at": "2024-10-18T20:10:08.879646+05:00",
+            "order_number": 11,
+            "cadastr_id": "15",
+            "shared_id": 15
+        },
+        "name_ru": "Узбекистанский район",
+        "name_uz": "O'zbekiston tumani",
+        "created_at": "2024-09-15T20:49:18.528936+05:00",
+        "updated_at": "2024-10-18T20:10:08.935516+05:00",
+        "cadastr_id": "1515",
+        "order_number": 16,
+        "shared_id": 1515
+    },
+    {
+        "id": 164,
+        "region": {
+            "id": 11,
+            "name_ru": "ФЕРГАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "FARG'ONA VILOYATI",
+            "created_at": "2024-09-15T20:49:18.482668+05:00",
+            "updated_at": "2024-10-18T20:10:08.879646+05:00",
+            "order_number": 11,
+            "cadastr_id": "15",
+            "shared_id": 15
+        },
+        "name_ru": "Учкуприкский район",
+        "name_uz": "Uchko'prik tumani",
+        "created_at": "2024-09-15T20:49:18.526037+05:00",
+        "updated_at": "2024-10-18T20:10:08.932303+05:00",
+        "cadastr_id": "1512",
+        "order_number": 17,
+        "shared_id": 1512
+    },
+    {
+        "id": 163,
+        "region": {
+            "id": 11,
+            "name_ru": "ФЕРГАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "FARG'ONA VILOYATI",
+            "created_at": "2024-09-15T20:49:18.482668+05:00",
+            "updated_at": "2024-10-18T20:10:08.879646+05:00",
+            "order_number": 11,
+            "cadastr_id": "15",
+            "shared_id": 15
+        },
+        "name_ru": "Ташлакский район",
+        "name_uz": "Toshloq tumani",
+        "created_at": "2024-09-15T20:49:18.523234+05:00",
+        "updated_at": "2024-10-18T20:10:08.929110+05:00",
+        "cadastr_id": "1511",
+        "order_number": 15,
+        "shared_id": 1511
+    },
+    {
+        "id": 162,
+        "region": {
+            "id": 11,
+            "name_ru": "ФЕРГАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "FARG'ONA VILOYATI",
+            "created_at": "2024-09-15T20:49:18.482668+05:00",
+            "updated_at": "2024-10-18T20:10:08.879646+05:00",
+            "order_number": 11,
+            "cadastr_id": "15",
+            "shared_id": 15
+        },
+        "name_ru": "Сохский район",
+        "name_uz": "So'x tumani",
+        "created_at": "2024-09-15T20:49:18.520307+05:00",
+        "updated_at": "2024-10-18T20:10:08.926013+05:00",
+        "cadastr_id": "1510",
+        "order_number": 14,
+        "shared_id": 1510
+    },
+    {
+        "id": 161,
+        "region": {
+            "id": 11,
+            "name_ru": "ФЕРГАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "FARG'ONA VILOYATI",
+            "created_at": "2024-09-15T20:49:18.482668+05:00",
+            "updated_at": "2024-10-18T20:10:08.879646+05:00",
+            "order_number": 11,
+            "cadastr_id": "15",
+            "shared_id": 15
+        },
+        "name_ru": "Риштанский район",
+        "name_uz": "Rishton tumani",
+        "created_at": "2024-09-15T20:49:18.517122+05:00",
+        "updated_at": "2024-10-18T20:10:08.922857+05:00",
+        "cadastr_id": "1509",
+        "order_number": 13,
+        "shared_id": 1509
+    },
+    {
+        "id": 160,
+        "region": {
+            "id": 11,
+            "name_ru": "ФЕРГАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "FARG'ONA VILOYATI",
+            "created_at": "2024-09-15T20:49:18.482668+05:00",
+            "updated_at": "2024-10-18T20:10:08.879646+05:00",
+            "order_number": 11,
+            "cadastr_id": "15",
+            "shared_id": 15
+        },
+        "name_ru": "Куштепинский район",
+        "name_uz": "Qo'shtepa tumani",
+        "created_at": "2024-09-15T20:49:18.513996+05:00",
+        "updated_at": "2024-10-18T20:10:08.919628+05:00",
+        "cadastr_id": "1508",
+        "order_number": 12,
+        "shared_id": 1508
+    },
+    {
+        "id": 159,
+        "region": {
+            "id": 11,
+            "name_ru": "ФЕРГАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "FARG'ONA VILOYATI",
+            "created_at": "2024-09-15T20:49:18.482668+05:00",
+            "updated_at": "2024-10-18T20:10:08.879646+05:00",
+            "order_number": 11,
+            "cadastr_id": "15",
+            "shared_id": 15
+        },
+        "name_ru": "Алтыарыкский район",
+        "name_uz": "Oltiariq tumani",
+        "created_at": "2024-09-15T20:49:18.511307+05:00",
+        "updated_at": "2024-10-18T20:10:08.916451+05:00",
+        "cadastr_id": "1507",
+        "order_number": 11,
+        "shared_id": 1507
+    },
+    {
+        "id": 158,
+        "region": {
+            "id": 11,
+            "name_ru": "ФЕРГАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "FARG'ONA VILOYATI",
+            "created_at": "2024-09-15T20:49:18.482668+05:00",
+            "updated_at": "2024-10-18T20:10:08.879646+05:00",
+            "order_number": 11,
+            "cadastr_id": "15",
+            "shared_id": 15
+        },
+        "name_ru": "Кувинский район",
+        "name_uz": "Quva tumani",
+        "created_at": "2024-09-15T20:49:18.508796+05:00",
+        "updated_at": "2024-10-18T20:10:08.913193+05:00",
+        "cadastr_id": "1506",
+        "order_number": 10,
+        "shared_id": 1506
+    },
+    {
+        "id": 157,
+        "region": {
+            "id": 11,
+            "name_ru": "ФЕРГАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "FARG'ONA VILOYATI",
+            "created_at": "2024-09-15T20:49:18.482668+05:00",
+            "updated_at": "2024-10-18T20:10:08.879646+05:00",
+            "order_number": 11,
+            "cadastr_id": "15",
+            "shared_id": 15
+        },
+        "name_ru": "Язъяванский район",
+        "name_uz": "Yozyovon tumani",
+        "created_at": "2024-09-15T20:49:18.506185+05:00",
+        "updated_at": "2024-10-18T20:10:08.909738+05:00",
+        "cadastr_id": "1505",
+        "order_number": 9,
+        "shared_id": 1505
+    },
+    {
+        "id": 156,
+        "region": {
+            "id": 11,
+            "name_ru": "ФЕРГАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "FARG'ONA VILOYATI",
+            "created_at": "2024-09-15T20:49:18.482668+05:00",
+            "updated_at": "2024-10-18T20:10:08.879646+05:00",
+            "order_number": 11,
+            "cadastr_id": "15",
+            "shared_id": 15
+        },
+        "name_ru": "Дангаринский район",
+        "name_uz": "Dang'ara tumani",
+        "created_at": "2024-09-15T20:49:18.503491+05:00",
+        "updated_at": "2024-10-18T20:10:08.906472+05:00",
+        "cadastr_id": "1504",
+        "order_number": 8,
+        "shared_id": 1504
+    },
+    {
+        "id": 155,
+        "region": {
+            "id": 11,
+            "name_ru": "ФЕРГАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "FARG'ONA VILOYATI",
+            "created_at": "2024-09-15T20:49:18.482668+05:00",
+            "updated_at": "2024-10-18T20:10:08.879646+05:00",
+            "order_number": 11,
+            "cadastr_id": "15",
+            "shared_id": 15
+        },
+        "name_ru": "Багдадский район",
+        "name_uz": "Bog'dod tumani",
+        "created_at": "2024-09-15T20:49:18.500900+05:00",
+        "updated_at": "2024-10-18T20:10:08.903210+05:00",
+        "cadastr_id": "1501",
+        "order_number": 6,
+        "shared_id": 1501
+    },
+    {
+        "id": 154,
+        "region": {
+            "id": 11,
+            "name_ru": "ФЕРГАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "FARG'ONA VILOYATI",
+            "created_at": "2024-09-15T20:49:18.482668+05:00",
+            "updated_at": "2024-10-18T20:10:08.879646+05:00",
+            "order_number": 11,
+            "cadastr_id": "15",
+            "shared_id": 15
+        },
+        "name_ru": "Бувайдинский район",
+        "name_uz": "Buvayda tumani",
+        "created_at": "2024-09-15T20:49:18.498362+05:00",
+        "updated_at": "2024-10-18T20:10:08.899252+05:00",
+        "cadastr_id": "1503",
+        "order_number": 7,
+        "shared_id": 1503
+    },
+    {
+        "id": 153,
+        "region": {
+            "id": 11,
+            "name_ru": "ФЕРГАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "FARG'ONA VILOYATI",
+            "created_at": "2024-09-15T20:49:18.482668+05:00",
+            "updated_at": "2024-10-18T20:10:08.879646+05:00",
+            "order_number": 11,
+            "cadastr_id": "15",
+            "shared_id": 15
+        },
+        "name_ru": "Бешарыкский район",
+        "name_uz": "Beshariq tumani",
+        "created_at": "2024-09-15T20:49:18.495918+05:00",
+        "updated_at": "2024-10-18T20:10:08.895956+05:00",
+        "cadastr_id": "1502",
+        "order_number": 5,
+        "shared_id": 1502
+    },
+    {
+        "id": 152,
+        "region": {
+            "id": 11,
+            "name_ru": "ФЕРГАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "FARG'ONA VILOYATI",
+            "created_at": "2024-09-15T20:49:18.482668+05:00",
+            "updated_at": "2024-10-18T20:10:08.879646+05:00",
+            "order_number": 11,
+            "cadastr_id": "15",
+            "shared_id": 15
+        },
+        "name_ru": "город Коканд",
+        "name_uz": "Qo'qon shahar",
+        "created_at": "2024-09-15T20:49:18.493373+05:00",
+        "updated_at": "2024-10-18T20:10:08.892234+05:00",
+        "cadastr_id": "1516",
+        "order_number": 4,
+        "shared_id": 1516
+    },
+    {
+        "id": 151,
+        "region": {
+            "id": 11,
+            "name_ru": "ФЕРГАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "FARG'ONA VILOYATI",
+            "created_at": "2024-09-15T20:49:18.482668+05:00",
+            "updated_at": "2024-10-18T20:10:08.879646+05:00",
+            "order_number": 11,
+            "cadastr_id": "15",
+            "shared_id": 15
+        },
+        "name_ru": "город Кувасай",
+        "name_uz": "Quvasoy shahar",
+        "created_at": "2024-09-15T20:49:18.490644+05:00",
+        "updated_at": "2024-10-18T20:10:08.889049+05:00",
+        "cadastr_id": "1518",
+        "order_number": 3,
+        "shared_id": 1518
+    },
+    {
+        "id": 150,
+        "region": {
+            "id": 11,
+            "name_ru": "ФЕРГАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "FARG'ONA VILOYATI",
+            "created_at": "2024-09-15T20:49:18.482668+05:00",
+            "updated_at": "2024-10-18T20:10:08.879646+05:00",
+            "order_number": 11,
+            "cadastr_id": "15",
+            "shared_id": 15
+        },
+        "name_ru": "город Маргилан",
+        "name_uz": "Marg'ilon shahar",
+        "created_at": "2024-09-15T20:49:18.487963+05:00",
+        "updated_at": "2024-10-18T20:10:08.885933+05:00",
+        "cadastr_id": "1519",
+        "order_number": 2,
+        "shared_id": 1519
+    },
+    {
+        "id": 149,
+        "region": {
+            "id": 11,
+            "name_ru": "ФЕРГАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "FARG'ONA VILOYATI",
+            "created_at": "2024-09-15T20:49:18.482668+05:00",
+            "updated_at": "2024-10-18T20:10:08.879646+05:00",
+            "order_number": 11,
+            "cadastr_id": "15",
+            "shared_id": 15
+        },
+        "name_ru": "город Фергана",
+        "name_uz": "Farg'ona shahar",
+        "created_at": "2024-09-15T20:49:18.485216+05:00",
+        "updated_at": "2024-10-18T20:10:08.882740+05:00",
+        "cadastr_id": "1520",
+        "order_number": 1,
+        "shared_id": 1520
+    },
+    {
+        "id": 148,
+        "region": {
+            "id": 10,
+            "name_ru": "ТАШКЕНТСКАЯ ОБЛАСТЬ",
+            "name_uz": "TOSHKENT VILOYATI",
+            "created_at": "2024-09-15T20:49:18.411979+05:00",
+            "updated_at": "2024-10-18T20:10:08.803260+05:00",
+            "order_number": 10,
+            "cadastr_id": "11",
+            "shared_id": 11
+        },
+        "name_ru": "Янгиюльский район",
+        "name_uz": "Yangiyo'l tumani",
+        "created_at": "2024-09-15T20:49:18.480056+05:00",
+        "updated_at": "2024-10-18T20:10:08.876684+05:00",
+        "cadastr_id": "1115",
+        "order_number": 22,
+        "shared_id": 1115
+    },
+    {
+        "id": 147,
+        "region": {
+            "id": 10,
+            "name_ru": "ТАШКЕНТСКАЯ ОБЛАСТЬ",
+            "name_uz": "TOSHKENT VILOYATI",
+            "created_at": "2024-09-15T20:49:18.411979+05:00",
+            "updated_at": "2024-10-18T20:10:08.803260+05:00",
+            "order_number": 10,
+            "cadastr_id": "11",
+            "shared_id": 11
+        },
+        "name_ru": "город Янгийул",
+        "name_uz": "Yangiyo'l Shahar",
+        "created_at": "2024-09-15T20:49:18.477338+05:00",
+        "updated_at": "2024-10-18T20:10:08.873349+05:00",
+        "cadastr_id": "1122",
+        "order_number": 7,
+        "shared_id": 1122
+    },
+    {
+        "id": 146,
+        "region": {
+            "id": 10,
+            "name_ru": "ТАШКЕНТСКАЯ ОБЛАСТЬ",
+            "name_uz": "TOSHKENT VILOYATI",
+            "created_at": "2024-09-15T20:49:18.411979+05:00",
+            "updated_at": "2024-10-18T20:10:08.803260+05:00",
+            "order_number": 10,
+            "cadastr_id": "11",
+            "shared_id": 11
+        },
+        "name_ru": "Юкоричирчикский район",
+        "name_uz": "Yuqori Chirchiq tumani",
+        "created_at": "2024-09-15T20:49:18.473953+05:00",
+        "updated_at": "2024-10-18T20:10:08.870049+05:00",
+        "cadastr_id": "1114",
+        "order_number": 21,
+        "shared_id": 1114
+    },
+    {
+        "id": 145,
+        "region": {
+            "id": 10,
+            "name_ru": "ТАШКЕНТСКАЯ ОБЛАСТЬ",
+            "name_uz": "TOSHKENT VILOYATI",
+            "created_at": "2024-09-15T20:49:18.411979+05:00",
+            "updated_at": "2024-10-18T20:10:08.803260+05:00",
+            "order_number": 10,
+            "cadastr_id": "11",
+            "shared_id": 11
+        },
+        "name_ru": "Чиназский район",
+        "name_uz": "Chinoz tumani",
+        "created_at": "2024-09-15T20:49:18.471228+05:00",
+        "updated_at": "2024-10-18T20:10:08.866765+05:00",
+        "cadastr_id": "1113",
+        "order_number": 20,
+        "shared_id": 1113
+    },
+    {
+        "id": 144,
+        "region": {
+            "id": 10,
+            "name_ru": "ТАШКЕНТСКАЯ ОБЛАСТЬ",
+            "name_uz": "TOSHKENT VILOYATI",
+            "created_at": "2024-09-15T20:49:18.411979+05:00",
+            "updated_at": "2024-10-18T20:10:08.803260+05:00",
+            "order_number": 10,
+            "cadastr_id": "11",
+            "shared_id": 11
+        },
+        "name_ru": "Уртачирчикский район",
+        "name_uz": "O'rta Chirchiq tumani",
+        "created_at": "2024-09-15T20:49:18.468555+05:00",
+        "updated_at": "2024-10-18T20:10:08.863401+05:00",
+        "cadastr_id": "1112",
+        "order_number": 19,
+        "shared_id": 1112
+    },
+    {
+        "id": 143,
+        "region": {
+            "id": 10,
+            "name_ru": "ТАШКЕНТСКАЯ ОБЛАСТЬ",
+            "name_uz": "TOSHKENT VILOYATI",
+            "created_at": "2024-09-15T20:49:18.411979+05:00",
+            "updated_at": "2024-10-18T20:10:08.803260+05:00",
+            "order_number": 10,
+            "cadastr_id": "11",
+            "shared_id": 11
+        },
+        "name_ru": "Зангиатинский район",
+        "name_uz": "Zangiota tumani",
+        "created_at": "2024-09-15T20:49:18.465868+05:00",
+        "updated_at": "2024-10-18T20:10:08.860175+05:00",
+        "cadastr_id": "1104",
+        "order_number": 18,
+        "shared_id": 1104
+    },
+    {
+        "id": 142,
+        "region": {
+            "id": 10,
+            "name_ru": "ТАШКЕНТСКАЯ ОБЛАСТЬ",
+            "name_uz": "TOSHKENT VILOYATI",
+            "created_at": "2024-09-15T20:49:18.411979+05:00",
+            "updated_at": "2024-10-18T20:10:08.803260+05:00",
+            "order_number": 10,
+            "cadastr_id": "11",
+            "shared_id": 11
+        },
+        "name_ru": "Пскентский район",
+        "name_uz": "Piskent tumani",
+        "created_at": "2024-09-15T20:49:18.463268+05:00",
+        "updated_at": "2024-10-18T20:10:08.856944+05:00",
+        "cadastr_id": "1110",
+        "order_number": 16,
+        "shared_id": 1110
+    },
+    {
+        "id": 141,
+        "region": {
+            "id": 10,
+            "name_ru": "ТАШКЕНТСКАЯ ОБЛАСТЬ",
+            "name_uz": "TOSHKENT VILOYATI",
+            "created_at": "2024-09-15T20:49:18.411979+05:00",
+            "updated_at": "2024-10-18T20:10:08.803260+05:00",
+            "order_number": 10,
+            "cadastr_id": "11",
+            "shared_id": 11
+        },
+        "name_ru": "Паркентский район",
+        "name_uz": "Parkent tumani",
+        "created_at": "2024-09-15T20:49:18.459194+05:00",
+        "updated_at": "2024-10-18T20:10:08.853784+05:00",
+        "cadastr_id": "1109",
+        "order_number": 15,
+        "shared_id": 1109
+    },
+    {
+        "id": 140,
+        "region": {
+            "id": 10,
+            "name_ru": "ТАШКЕНТСКАЯ ОБЛАСТЬ",
+            "name_uz": "TOSHKENT VILOYATI",
+            "created_at": "2024-09-15T20:49:18.411979+05:00",
+            "updated_at": "2024-10-18T20:10:08.803260+05:00",
+            "order_number": 10,
+            "cadastr_id": "11",
+            "shared_id": 11
+        },
+        "name_ru": "Ахангаранский район",
+        "name_uz": "Ohangaron tumani",
+        "created_at": "2024-09-15T20:49:18.456282+05:00",
+        "updated_at": "2024-10-18T20:10:08.850491+05:00",
+        "cadastr_id": "1108",
+        "order_number": 14,
+        "shared_id": 1108
+    },
+    {
+        "id": 139,
+        "region": {
+            "id": 10,
+            "name_ru": "ТАШКЕНТСКАЯ ОБЛАСТЬ",
+            "name_uz": "TOSHKENT VILOYATI",
+            "created_at": "2024-09-15T20:49:18.411979+05:00",
+            "updated_at": "2024-10-18T20:10:08.803260+05:00",
+            "order_number": 10,
+            "cadastr_id": "11",
+            "shared_id": 11
+        },
+        "name_ru": "Аккурганский район",
+        "name_uz": "Oqqo'rg'on tumani",
+        "created_at": "2024-09-15T20:49:18.453573+05:00",
+        "updated_at": "2024-10-18T20:10:08.847339+05:00",
+        "cadastr_id": "1107",
+        "order_number": 13,
+        "shared_id": 1107
+    },
+    {
+        "id": 138,
+        "region": {
+            "id": 10,
+            "name_ru": "ТАШКЕНТСКАЯ ОБЛАСТЬ",
+            "name_uz": "TOSHKENT VILOYATI",
+            "created_at": "2024-09-15T20:49:18.411979+05:00",
+            "updated_at": "2024-10-18T20:10:08.803260+05:00",
+            "order_number": 10,
+            "cadastr_id": "11",
+            "shared_id": 11
+        },
+        "name_ru": "Куйичирчикский район",
+        "name_uz": "Quyi Chirchiq tumani",
+        "created_at": "2024-09-15T20:49:18.451014+05:00",
+        "updated_at": "2024-10-18T20:10:08.844174+05:00",
+        "cadastr_id": "1106",
+        "order_number": 12,
+        "shared_id": 1106
+    },
+    {
+        "id": 137,
+        "region": {
+            "id": 10,
+            "name_ru": "ТАШКЕНТСКАЯ ОБЛАСТЬ",
+            "name_uz": "TOSHKENT VILOYATI",
+            "created_at": "2024-09-15T20:49:18.411979+05:00",
+            "updated_at": "2024-10-18T20:10:08.803260+05:00",
+            "order_number": 10,
+            "cadastr_id": "11",
+            "shared_id": 11
+        },
+        "name_ru": "Кибрайский район",
+        "name_uz": "Qibray tumani",
+        "created_at": "2024-09-15T20:49:18.448091+05:00",
+        "updated_at": "2024-10-18T20:10:08.840974+05:00",
+        "cadastr_id": "1105",
+        "order_number": 11,
+        "shared_id": 1105
+    },
+    {
+        "id": 136,
+        "region": {
+            "id": 10,
+            "name_ru": "ТАШКЕНТСКАЯ ОБЛАСТЬ",
+            "name_uz": "TOSHKENT VILOYATI",
+            "created_at": "2024-09-15T20:49:18.411979+05:00",
+            "updated_at": "2024-10-18T20:10:08.803260+05:00",
+            "order_number": 10,
+            "cadastr_id": "11",
+            "shared_id": 11
+        },
+        "name_ru": "Бостанлыкский район",
+        "name_uz": "Bo'stonliq tumani",
+        "created_at": "2024-09-15T20:49:18.445230+05:00",
+        "updated_at": "2024-10-18T20:10:08.837814+05:00",
+        "cadastr_id": "1103",
+        "order_number": 10,
+        "shared_id": 1103
+    },
+    {
+        "id": 135,
+        "region": {
+            "id": 10,
+            "name_ru": "ТАШКЕНТСКАЯ ОБЛАСТЬ",
+            "name_uz": "TOSHKENT VILOYATI",
+            "created_at": "2024-09-15T20:49:18.411979+05:00",
+            "updated_at": "2024-10-18T20:10:08.803260+05:00",
+            "order_number": 10,
+            "cadastr_id": "11",
+            "shared_id": 11
+        },
+        "name_ru": "Букинский район ",
+        "name_uz": "Bo'ka tumani",
+        "created_at": "2024-09-15T20:49:18.442443+05:00",
+        "updated_at": "2024-10-18T20:10:08.834608+05:00",
+        "cadastr_id": "1102",
+        "order_number": 9,
+        "shared_id": 1102
+    },
+    {
+        "id": 134,
+        "region": {
+            "id": 10,
+            "name_ru": "ТАШКЕНТСКАЯ ОБЛАСТЬ",
+            "name_uz": "TOSHKENT VILOYATI",
+            "created_at": "2024-09-15T20:49:18.411979+05:00",
+            "updated_at": "2024-10-18T20:10:08.803260+05:00",
+            "order_number": 10,
+            "cadastr_id": "11",
+            "shared_id": 11
+        },
+        "name_ru": "Бекабадский район",
+        "name_uz": "Bekobod tumani",
+        "created_at": "2024-09-15T20:49:18.439947+05:00",
+        "updated_at": "2024-10-18T20:10:08.830792+05:00",
+        "cadastr_id": "1101",
+        "order_number": 8,
+        "shared_id": 1101
+    },
+    {
+        "id": 133,
+        "region": {
+            "id": 10,
+            "name_ru": "ТАШКЕНТСКАЯ ОБЛАСТЬ",
+            "name_uz": "TOSHKENT VILOYATI",
+            "created_at": "2024-09-15T20:49:18.411979+05:00",
+            "updated_at": "2024-10-18T20:10:08.803260+05:00",
+            "order_number": 10,
+            "cadastr_id": "11",
+            "shared_id": 11
+        },
+        "name_ru": "город Ташкент",
+        "name_uz": "Toshkent tumani",
+        "created_at": "2024-09-15T20:49:18.437156+05:00",
+        "updated_at": "2024-10-18T20:10:08.827440+05:00",
+        "cadastr_id": "1111",
+        "order_number": 17,
+        "shared_id": 1111
+    },
+    {
+        "id": 132,
+        "region": {
+            "id": 10,
+            "name_ru": "ТАШКЕНТСКАЯ ОБЛАСТЬ",
+            "name_uz": "TOSHKENT VILOYATI",
+            "created_at": "2024-09-15T20:49:18.411979+05:00",
+            "updated_at": "2024-10-18T20:10:08.803260+05:00",
+            "order_number": 10,
+            "cadastr_id": "11",
+            "shared_id": 11
+        },
+        "name_ru": "город Ахангаран",
+        "name_uz": "Ohangaron shahar",
+        "created_at": "2024-09-15T20:49:18.434551+05:00",
+        "updated_at": "2024-10-18T20:10:08.823917+05:00",
+        "cadastr_id": "1119",
+        "order_number": 4,
+        "shared_id": 1119
+    },
+    {
+        "id": 131,
+        "region": {
+            "id": 10,
+            "name_ru": "ТАШКЕНТСКАЯ ОБЛАСТЬ",
+            "name_uz": "TOSHKENT VILOYATI",
+            "created_at": "2024-09-15T20:49:18.411979+05:00",
+            "updated_at": "2024-10-18T20:10:08.803260+05:00",
+            "order_number": 10,
+            "cadastr_id": "11",
+            "shared_id": 11
+        },
+        "name_ru": "город Чирчик",
+        "name_uz": "Chirchiq shahar",
+        "created_at": "2024-09-15T20:49:18.431776+05:00",
+        "updated_at": "2024-10-18T20:10:08.820582+05:00",
+        "cadastr_id": "1120",
+        "order_number": 6,
+        "shared_id": 1120
+    },
+    {
+        "id": 130,
+        "region": {
+            "id": 10,
+            "name_ru": "ТАШКЕНТСКАЯ ОБЛАСТЬ",
+            "name_uz": "TOSHKENT VILOYATI",
+            "created_at": "2024-09-15T20:49:18.411979+05:00",
+            "updated_at": "2024-10-18T20:10:08.803260+05:00",
+            "order_number": 10,
+            "cadastr_id": "11",
+            "shared_id": 11
+        },
+        "name_ru": "город Алмалык",
+        "name_uz": "Olmaliq shahar",
+        "created_at": "2024-09-15T20:49:18.428923+05:00",
+        "updated_at": "2024-10-18T20:10:08.816884+05:00",
+        "cadastr_id": "1118",
+        "order_number": 3,
+        "shared_id": 1118
+    },
+    {
+        "id": 129,
+        "region": {
+            "id": 10,
+            "name_ru": "ТАШКЕНТСКАЯ ОБЛАСТЬ",
+            "name_uz": "TOSHKENT VILOYATI",
+            "created_at": "2024-09-15T20:49:18.411979+05:00",
+            "updated_at": "2024-10-18T20:10:08.803260+05:00",
+            "order_number": 10,
+            "cadastr_id": "11",
+            "shared_id": 11
+        },
+        "name_ru": "город Бекабад",
+        "name_uz": "Bekobod shahar",
+        "created_at": "2024-09-15T20:49:18.421506+05:00",
+        "updated_at": "2024-10-18T20:10:08.813547+05:00",
+        "cadastr_id": "1117",
+        "order_number": 2,
+        "shared_id": 1117
+    },
+    {
+        "id": 128,
+        "region": {
+            "id": 10,
+            "name_ru": "ТАШКЕНТСКАЯ ОБЛАСТЬ",
+            "name_uz": "TOSHKENT VILOYATI",
+            "created_at": "2024-09-15T20:49:18.411979+05:00",
+            "updated_at": "2024-10-18T20:10:08.803260+05:00",
+            "order_number": 10,
+            "cadastr_id": "11",
+            "shared_id": 11
+        },
+        "name_ru": "город Нурафшан",
+        "name_uz": "Nurafshon shahar",
+        "created_at": "2024-09-15T20:49:18.418159+05:00",
+        "updated_at": "2024-10-18T20:10:08.810066+05:00",
+        "cadastr_id": "1121",
+        "order_number": 5,
+        "shared_id": 1121
+    },
+    {
+        "id": 127,
+        "region": {
+            "id": 10,
+            "name_ru": "ТАШКЕНТСКАЯ ОБЛАСТЬ",
+            "name_uz": "TOSHKENT VILOYATI",
+            "created_at": "2024-09-15T20:49:18.411979+05:00",
+            "updated_at": "2024-10-18T20:10:08.803260+05:00",
+            "order_number": 10,
+            "cadastr_id": "11",
+            "shared_id": 11
+        },
+        "name_ru": "город Ангрен",
+        "name_uz": "Angren shahar",
+        "created_at": "2024-09-15T20:49:18.415038+05:00",
+        "updated_at": "2024-10-18T20:10:08.806696+05:00",
+        "cadastr_id": "1116",
+        "order_number": 1,
+        "shared_id": 1116
+    },
+    {
+        "id": 126,
+        "region": {
+            "id": 9,
+            "name_ru": "СУРХАНДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "SURXONDARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.367034+05:00",
+            "updated_at": "2024-10-18T20:10:08.747790+05:00",
+            "order_number": 9,
+            "cadastr_id": "19",
+            "shared_id": 19
+        },
+        "name_ru": "Шурчинский район",
+        "name_uz": "Sho'rchi tumani",
+        "created_at": "2024-09-15T20:49:18.408954+05:00",
+        "updated_at": "2024-10-18T20:10:08.800115+05:00",
+        "cadastr_id": "1914",
+        "order_number": 14,
+        "shared_id": 1914
+    },
+    {
+        "id": 125,
+        "region": {
+            "id": 9,
+            "name_ru": "СУРХАНДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "SURXONDARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.367034+05:00",
+            "updated_at": "2024-10-18T20:10:08.747790+05:00",
+            "order_number": 9,
+            "cadastr_id": "19",
+            "shared_id": 19
+        },
+        "name_ru": "Шерабадский район",
+        "name_uz": "Sherobod tumani",
+        "created_at": "2024-09-15T20:49:18.406092+05:00",
+        "updated_at": "2024-10-18T20:10:08.796876+05:00",
+        "cadastr_id": "1913",
+        "order_number": 13,
+        "shared_id": 1913
+    },
+    {
+        "id": 124,
+        "region": {
+            "id": 9,
+            "name_ru": "СУРХАНДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "SURXONDARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.367034+05:00",
+            "updated_at": "2024-10-18T20:10:08.747790+05:00",
+            "order_number": 9,
+            "cadastr_id": "19",
+            "shared_id": 19
+        },
+        "name_ru": "Узунский район",
+        "name_uz": "Uzun tumani",
+        "created_at": "2024-09-15T20:49:18.403130+05:00",
+        "updated_at": "2024-10-18T20:10:08.793694+05:00",
+        "cadastr_id": "1912",
+        "order_number": 12,
+        "shared_id": 1912
+    },
+    {
+        "id": 123,
+        "region": {
+            "id": 9,
+            "name_ru": "СУРХАНДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "SURXONDARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.367034+05:00",
+            "updated_at": "2024-10-18T20:10:08.747790+05:00",
+            "order_number": 9,
+            "cadastr_id": "19",
+            "shared_id": 19
+        },
+        "name_ru": "Термезский район",
+        "name_uz": "Termiz tumani",
+        "created_at": "2024-09-15T20:49:18.400423+05:00",
+        "updated_at": "2024-10-18T20:10:08.790596+05:00",
+        "cadastr_id": "1911",
+        "order_number": 10,
+        "shared_id": 1911
+    },
+    {
+        "id": 122,
+        "region": {
+            "id": 9,
+            "name_ru": "СУРХАНДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "SURXONDARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.367034+05:00",
+            "updated_at": "2024-10-18T20:10:08.747790+05:00",
+            "order_number": 9,
+            "cadastr_id": "19",
+            "shared_id": 19
+        },
+        "name_ru": "Сариасийский район",
+        "name_uz": "Sariosiyo tumani",
+        "created_at": "2024-09-15T20:49:18.397640+05:00",
+        "updated_at": "2024-10-18T20:10:08.787355+05:00",
+        "cadastr_id": "1910",
+        "order_number": 9,
+        "shared_id": 1910
+    },
+    {
+        "id": 121,
+        "region": {
+            "id": 9,
+            "name_ru": "СУРХАНДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "SURXONDARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.367034+05:00",
+            "updated_at": "2024-10-18T20:10:08.747790+05:00",
+            "order_number": 9,
+            "cadastr_id": "19",
+            "shared_id": 19
+        },
+        "name_ru": "Алтынсайский район",
+        "name_uz": "Oltinsoy tumani",
+        "created_at": "2024-09-15T20:49:18.394939+05:00",
+        "updated_at": "2024-10-18T20:10:08.784205+05:00",
+        "cadastr_id": "1909",
+        "order_number": 8,
+        "shared_id": 1909
+    },
+    {
+        "id": 120,
+        "region": {
+            "id": 9,
+            "name_ru": "СУРХАНДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "SURXONDARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.367034+05:00",
+            "updated_at": "2024-10-18T20:10:08.747790+05:00",
+            "order_number": 9,
+            "cadastr_id": "19",
+            "shared_id": 19
+        },
+        "name_ru": "Музрабадский район",
+        "name_uz": "Muzrabot tumani",
+        "created_at": "2024-09-15T20:49:18.392155+05:00",
+        "updated_at": "2024-10-18T20:10:08.780991+05:00",
+        "cadastr_id": "1908",
+        "order_number": 7,
+        "shared_id": 1908
+    },
+    {
+        "id": 119,
+        "region": {
+            "id": 9,
+            "name_ru": "СУРХАНДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "SURXONDARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.367034+05:00",
+            "updated_at": "2024-10-18T20:10:08.747790+05:00",
+            "order_number": 9,
+            "cadastr_id": "19",
+            "shared_id": 19
+        },
+        "name_ru": "Кумкурганский район",
+        "name_uz": "Qumqo'rg'on tumani",
+        "created_at": "2024-09-15T20:49:18.389487+05:00",
+        "updated_at": "2024-10-18T20:10:08.777748+05:00",
+        "cadastr_id": "1907",
+        "order_number": 6,
+        "shared_id": 1907
+    },
+    {
+        "id": 118,
+        "region": {
+            "id": 9,
+            "name_ru": "СУРХАНДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "SURXONDARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.367034+05:00",
+            "updated_at": "2024-10-18T20:10:08.747790+05:00",
+            "order_number": 9,
+            "cadastr_id": "19",
+            "shared_id": 19
+        },
+        "name_ru": "Кизирикский район",
+        "name_uz": "Qiziriq tumani",
+        "created_at": "2024-09-15T20:49:18.386605+05:00",
+        "updated_at": "2024-10-18T20:10:08.771268+05:00",
+        "cadastr_id": "1906",
+        "order_number": 5,
+        "shared_id": 1906
+    },
+    {
+        "id": 117,
+        "region": {
+            "id": 9,
+            "name_ru": "СУРХАНДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "SURXONDARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.367034+05:00",
+            "updated_at": "2024-10-18T20:10:08.747790+05:00",
+            "order_number": 9,
+            "cadastr_id": "19",
+            "shared_id": 19
+        },
+        "name_ru": "Джаркурганский район",
+        "name_uz": "Jarqo'rg'on tumani",
+        "created_at": "2024-09-15T20:49:18.383731+05:00",
+        "updated_at": "2024-10-18T20:10:08.767901+05:00",
+        "cadastr_id": "1905",
+        "order_number": 4,
+        "shared_id": 1905
+    },
+    {
+        "id": 116,
+        "region": {
+            "id": 9,
+            "name_ru": "СУРХАНДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "SURXONDARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.367034+05:00",
+            "updated_at": "2024-10-18T20:10:08.747790+05:00",
+            "order_number": 9,
+            "cadastr_id": "19",
+            "shared_id": 19
+        },
+        "name_ru": "Денауский район",
+        "name_uz": "Denov tumani",
+        "created_at": "2024-09-15T20:49:18.380872+05:00",
+        "updated_at": "2024-10-18T20:10:08.764612+05:00",
+        "cadastr_id": "1904",
+        "order_number": 3,
+        "shared_id": 1904
+    },
+    {
+        "id": 115,
+        "region": {
+            "id": 9,
+            "name_ru": "СУРХАНДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "SURXONDARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.367034+05:00",
+            "updated_at": "2024-10-18T20:10:08.747790+05:00",
+            "order_number": 9,
+            "cadastr_id": "19",
+            "shared_id": 19
+        },
+        "name_ru": "Бандиханский район",
+        "name_uz": "Bandixon tumani",
+        "created_at": "2024-09-15T20:49:18.378131+05:00",
+        "updated_at": "2024-10-18T20:10:08.761423+05:00",
+        "cadastr_id": "1902",
+        "order_number": 15,
+        "shared_id": 1902
+    },
+    {
+        "id": 114,
+        "region": {
+            "id": 9,
+            "name_ru": "СУРХАНДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "SURXONDARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.367034+05:00",
+            "updated_at": "2024-10-18T20:10:08.747790+05:00",
+            "order_number": 9,
+            "cadastr_id": "19",
+            "shared_id": 19
+        },
+        "name_ru": "Байсунский  район",
+        "name_uz": "Boysun tumani",
+        "created_at": "2024-09-15T20:49:18.375165+05:00",
+        "updated_at": "2024-10-18T20:10:08.757811+05:00",
+        "cadastr_id": "1903",
+        "order_number": 2,
+        "shared_id": 1903
+    },
+    {
+        "id": 113,
+        "region": {
+            "id": 9,
+            "name_ru": "СУРХАНДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "SURXONDARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.367034+05:00",
+            "updated_at": "2024-10-18T20:10:08.747790+05:00",
+            "order_number": 9,
+            "cadastr_id": "19",
+            "shared_id": 19
+        },
+        "name_ru": "Ангорский район",
+        "name_uz": "Angor tumani",
+        "created_at": "2024-09-15T20:49:18.372467+05:00",
+        "updated_at": "2024-10-18T20:10:08.754380+05:00",
+        "cadastr_id": "1901",
+        "order_number": 1,
+        "shared_id": 1901
+    },
+    {
+        "id": 112,
+        "region": {
+            "id": 9,
+            "name_ru": "СУРХАНДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "SURXONDARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.367034+05:00",
+            "updated_at": "2024-10-18T20:10:08.747790+05:00",
+            "order_number": 9,
+            "cadastr_id": "19",
+            "shared_id": 19
+        },
+        "name_ru": "город Термиз",
+        "name_uz": "Termiz shahar",
+        "created_at": "2024-09-15T20:49:18.369647+05:00",
+        "updated_at": "2024-10-18T20:10:08.750986+05:00",
+        "cadastr_id": "1915",
+        "order_number": 11,
+        "shared_id": 1915
+    },
+    {
+        "id": 111,
+        "region": {
+            "id": 8,
+            "name_ru": "СЫРДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "SIRDARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.334117+05:00",
+            "updated_at": "2024-10-18T20:10:08.707133+05:00",
+            "order_number": 8,
+            "cadastr_id": "12",
+            "shared_id": 12
+        },
+        "name_ru": "Хавастский район",
+        "name_uz": "Xovos tumani",
+        "created_at": "2024-09-15T20:49:18.364458+05:00",
+        "updated_at": "2024-10-18T20:10:08.744336+05:00",
+        "cadastr_id": "1208",
+        "order_number": 11,
+        "shared_id": 1208
+    },
+    {
+        "id": 110,
+        "region": {
+            "id": 8,
+            "name_ru": "СЫРДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "SIRDARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.334117+05:00",
+            "updated_at": "2024-10-18T20:10:08.707133+05:00",
+            "order_number": 8,
+            "cadastr_id": "12",
+            "shared_id": 12
+        },
+        "name_ru": "Сырдарьинский район",
+        "name_uz": "Sirdaryo tumani",
+        "created_at": "2024-09-15T20:49:18.361552+05:00",
+        "updated_at": "2024-10-18T20:10:08.741058+05:00",
+        "cadastr_id": "1207",
+        "order_number": 6,
+        "shared_id": 1207
+    },
+    {
+        "id": 109,
+        "region": {
+            "id": 8,
+            "name_ru": "СЫРДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "SIRDARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.334117+05:00",
+            "updated_at": "2024-10-18T20:10:08.707133+05:00",
+            "order_number": 8,
+            "cadastr_id": "12",
+            "shared_id": 12
+        },
+        "name_ru": "Сайхунабадский район",
+        "name_uz": "Sayxunobod tumani",
+        "created_at": "2024-09-15T20:49:18.358902+05:00",
+        "updated_at": "2024-10-18T20:10:08.737704+05:00",
+        "cadastr_id": "1206",
+        "order_number": 7,
+        "shared_id": 1206
+    },
+    {
+        "id": 108,
+        "region": {
+            "id": 8,
+            "name_ru": "СЫРДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "SIRDARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.334117+05:00",
+            "updated_at": "2024-10-18T20:10:08.707133+05:00",
+            "order_number": 8,
+            "cadastr_id": "12",
+            "shared_id": 12
+        },
+        "name_ru": "Сардобский район",
+        "name_uz": "Sardoba tumani",
+        "created_at": "2024-09-15T20:49:18.355947+05:00",
+        "updated_at": "2024-10-18T20:10:08.734358+05:00",
+        "cadastr_id": "1205",
+        "order_number": 10,
+        "shared_id": 1205
+    },
+    {
+        "id": 107,
+        "region": {
+            "id": 8,
+            "name_ru": "СЫРДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "SIRDARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.334117+05:00",
+            "updated_at": "2024-10-18T20:10:08.707133+05:00",
+            "order_number": 8,
+            "cadastr_id": "12",
+            "shared_id": 12
+        },
+        "name_ru": "Акалтынский район",
+        "name_uz": "Oqoltin tumani",
+        "created_at": "2024-09-15T20:49:18.353180+05:00",
+        "updated_at": "2024-10-18T20:10:08.730982+05:00",
+        "cadastr_id": "1204",
+        "order_number": 9,
+        "shared_id": 1204
+    },
+    {
+        "id": 106,
+        "region": {
+            "id": 8,
+            "name_ru": "СЫРДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "SIRDARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.334117+05:00",
+            "updated_at": "2024-10-18T20:10:08.707133+05:00",
+            "order_number": 8,
+            "cadastr_id": "12",
+            "shared_id": 12
+        },
+        "name_ru": "Мирзаабадский район",
+        "name_uz": "Mirzaobod tumani",
+        "created_at": "2024-09-15T20:49:18.350423+05:00",
+        "updated_at": "2024-10-18T20:10:08.727690+05:00",
+        "cadastr_id": "1203",
+        "order_number": 8,
+        "shared_id": 1203
+    },
+    {
+        "id": 105,
+        "region": {
+            "id": 8,
+            "name_ru": "СЫРДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "SIRDARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.334117+05:00",
+            "updated_at": "2024-10-18T20:10:08.707133+05:00",
+            "order_number": 8,
+            "cadastr_id": "12",
+            "shared_id": 12
+        },
+        "name_ru": "Гулистанский район",
+        "name_uz": "Guliston tumani",
+        "created_at": "2024-09-15T20:49:18.347702+05:00",
+        "updated_at": "2024-10-18T20:10:08.724396+05:00",
+        "cadastr_id": "1202",
+        "order_number": 5,
+        "shared_id": 1202
+    },
+    {
+        "id": 104,
+        "region": {
+            "id": 8,
+            "name_ru": "СЫРДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "SIRDARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.334117+05:00",
+            "updated_at": "2024-10-18T20:10:08.707133+05:00",
+            "order_number": 8,
+            "cadastr_id": "12",
+            "shared_id": 12
+        },
+        "name_ru": "Баяутский район",
+        "name_uz": "Boyovut tumani",
+        "created_at": "2024-09-15T20:49:18.344930+05:00",
+        "updated_at": "2024-10-18T20:10:08.721073+05:00",
+        "cadastr_id": "1201",
+        "order_number": 4,
+        "shared_id": 1201
+    },
+    {
+        "id": 103,
+        "region": {
+            "id": 8,
+            "name_ru": "СЫРДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "SIRDARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.334117+05:00",
+            "updated_at": "2024-10-18T20:10:08.707133+05:00",
+            "order_number": 8,
+            "cadastr_id": "12",
+            "shared_id": 12
+        },
+        "name_ru": "город Ширин",
+        "name_uz": "Shirin shahar",
+        "created_at": "2024-09-15T20:49:18.342201+05:00",
+        "updated_at": "2024-10-18T20:10:08.717741+05:00",
+        "cadastr_id": "1209",
+        "order_number": 3,
+        "shared_id": 1209
+    },
+    {
+        "id": 102,
+        "region": {
+            "id": 8,
+            "name_ru": "СЫРДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "SIRDARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.334117+05:00",
+            "updated_at": "2024-10-18T20:10:08.707133+05:00",
+            "order_number": 8,
+            "cadastr_id": "12",
+            "shared_id": 12
+        },
+        "name_ru": "город Янгиер",
+        "name_uz": "Yangiyer shahar",
+        "created_at": "2024-09-15T20:49:18.339465+05:00",
+        "updated_at": "2024-10-18T20:10:08.714467+05:00",
+        "cadastr_id": "1211",
+        "order_number": 2,
+        "shared_id": 1211
+    },
+    {
+        "id": 101,
+        "region": {
+            "id": 8,
+            "name_ru": "СЫРДАРЬИНСКАЯ ОБЛАСТЬ",
+            "name_uz": "SIRDARYO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.334117+05:00",
+            "updated_at": "2024-10-18T20:10:08.707133+05:00",
+            "order_number": 8,
+            "cadastr_id": "12",
+            "shared_id": 12
+        },
+        "name_ru": "город Гулистан",
+        "name_uz": "Guliston shahar",
+        "created_at": "2024-09-15T20:49:18.336756+05:00",
+        "updated_at": "2024-10-18T20:10:08.710558+05:00",
+        "cadastr_id": "1210",
+        "order_number": 1,
+        "shared_id": 1210
+    },
+    {
+        "id": 100,
+        "region": {
+            "id": 7,
+            "name_ru": "САМАРКАНДСКАЯ ОБЛАСТЬ",
+            "name_uz": "SAMARQAND VILOYATI",
+            "created_at": "2024-09-15T20:49:18.286803+05:00",
+            "updated_at": "2024-10-18T20:10:08.649490+05:00",
+            "order_number": 7,
+            "cadastr_id": "14",
+            "shared_id": 14
+        },
+        "name_ru": "Кошрабадский район",
+        "name_uz": "Qo'shrabot tumani",
+        "created_at": "2024-09-15T20:49:18.331355+05:00",
+        "updated_at": "2024-10-18T20:10:08.704112+05:00",
+        "cadastr_id": "1404",
+        "order_number": 7,
+        "shared_id": 1404
+    },
+    {
+        "id": 99,
+        "region": {
+            "id": 7,
+            "name_ru": "САМАРКАНДСКАЯ ОБЛАСТЬ",
+            "name_uz": "SAMARQAND VILOYATI",
+            "created_at": "2024-09-15T20:49:18.286803+05:00",
+            "updated_at": "2024-10-18T20:10:08.649490+05:00",
+            "order_number": 7,
+            "cadastr_id": "14",
+            "shared_id": 14
+        },
+        "name_ru": "Ургутский район",
+        "name_uz": "Urgut tumani",
+        "created_at": "2024-09-15T20:49:18.328570+05:00",
+        "updated_at": "2024-10-18T20:10:08.700499+05:00",
+        "cadastr_id": "1414",
+        "order_number": 14,
+        "shared_id": 1414
+    },
+    {
+        "id": 98,
+        "region": {
+            "id": 7,
+            "name_ru": "САМАРКАНДСКАЯ ОБЛАСТЬ",
+            "name_uz": "SAMARQAND VILOYATI",
+            "created_at": "2024-09-15T20:49:18.286803+05:00",
+            "updated_at": "2024-10-18T20:10:08.649490+05:00",
+            "order_number": 7,
+            "cadastr_id": "14",
+            "shared_id": 14
+        },
+        "name_ru": "Тайлакский район",
+        "name_uz": "Tayloq tumani",
+        "created_at": "2024-09-15T20:49:18.325720+05:00",
+        "updated_at": "2024-10-18T20:10:08.696822+05:00",
+        "cadastr_id": "1413",
+        "order_number": 3,
+        "shared_id": 1413
+    },
+    {
+        "id": 97,
+        "region": {
+            "id": 7,
+            "name_ru": "САМАРКАНДСКАЯ ОБЛАСТЬ",
+            "name_uz": "SAMARQAND VILOYATI",
+            "created_at": "2024-09-15T20:49:18.286803+05:00",
+            "updated_at": "2024-10-18T20:10:08.649490+05:00",
+            "order_number": 7,
+            "cadastr_id": "14",
+            "shared_id": 14
+        },
+        "name_ru": "Самаркандский район",
+        "name_uz": "Samarqand tumani",
+        "created_at": "2024-09-15T20:49:18.322941+05:00",
+        "updated_at": "2024-10-18T20:10:08.693666+05:00",
+        "cadastr_id": "1412",
+        "order_number": 13,
+        "shared_id": 1412
+    },
+    {
+        "id": 96,
+        "region": {
+            "id": 7,
+            "name_ru": "САМАРКАНДСКАЯ ОБЛАСТЬ",
+            "name_uz": "SAMARQAND VILOYATI",
+            "created_at": "2024-09-15T20:49:18.286803+05:00",
+            "updated_at": "2024-10-18T20:10:08.649490+05:00",
+            "order_number": 7,
+            "cadastr_id": "14",
+            "shared_id": 14
+        },
+        "name_ru": "Пахтачийский район",
+        "name_uz": "Paxtachi tumani",
+        "created_at": "2024-09-15T20:49:18.320186+05:00",
+        "updated_at": "2024-10-18T20:10:08.689331+05:00",
+        "cadastr_id": "1411",
+        "order_number": 15,
+        "shared_id": 1411
+    },
+    {
+        "id": 95,
+        "region": {
+            "id": 7,
+            "name_ru": "САМАРКАНДСКАЯ ОБЛАСТЬ",
+            "name_uz": "SAMARQAND VILOYATI",
+            "created_at": "2024-09-15T20:49:18.286803+05:00",
+            "updated_at": "2024-10-18T20:10:08.649490+05:00",
+            "order_number": 7,
+            "cadastr_id": "14",
+            "shared_id": 14
+        },
+        "name_ru": "Пастдаргомский район",
+        "name_uz": "Pastdarg'om tumani",
+        "created_at": "2024-09-15T20:49:18.317306+05:00",
+        "updated_at": "2024-10-18T20:10:08.685926+05:00",
+        "cadastr_id": "1410",
+        "order_number": 12,
+        "shared_id": 1410
+    },
+    {
+        "id": 94,
+        "region": {
+            "id": 7,
+            "name_ru": "САМАРКАНДСКАЯ ОБЛАСТЬ",
+            "name_uz": "SAMARQAND VILOYATI",
+            "created_at": "2024-09-15T20:49:18.286803+05:00",
+            "updated_at": "2024-10-18T20:10:08.649490+05:00",
+            "order_number": 7,
+            "cadastr_id": "14",
+            "shared_id": 14
+        },
+        "name_ru": "Пайарыкский район",
+        "name_uz": "Payariq tumani",
+        "created_at": "2024-09-15T20:49:18.314449+05:00",
+        "updated_at": "2024-10-18T20:10:08.682633+05:00",
+        "cadastr_id": "1409",
+        "order_number": 6,
+        "shared_id": 1409
+    },
+    {
+        "id": 93,
+        "region": {
+            "id": 7,
+            "name_ru": "САМАРКАНДСКАЯ ОБЛАСТЬ",
+            "name_uz": "SAMARQAND VILOYATI",
+            "created_at": "2024-09-15T20:49:18.286803+05:00",
+            "updated_at": "2024-10-18T20:10:08.649490+05:00",
+            "order_number": 7,
+            "cadastr_id": "14",
+            "shared_id": 14
+        },
+        "name_ru": "Акдарьинский район",
+        "name_uz": "Oqdaryo tumani",
+        "created_at": "2024-09-15T20:49:18.311716+05:00",
+        "updated_at": "2024-10-18T20:10:08.679459+05:00",
+        "cadastr_id": "1408",
+        "order_number": 1,
+        "shared_id": 1408
+    },
+    {
+        "id": 92,
+        "region": {
+            "id": 7,
+            "name_ru": "САМАРКАНДСКАЯ ОБЛАСТЬ",
+            "name_uz": "SAMARQAND VILOYATI",
+            "created_at": "2024-09-15T20:49:18.286803+05:00",
+            "updated_at": "2024-10-18T20:10:08.649490+05:00",
+            "order_number": 7,
+            "cadastr_id": "14",
+            "shared_id": 14
+        },
+        "name_ru": "Нурабадский район",
+        "name_uz": "Nurobod tumani",
+        "created_at": "2024-09-15T20:49:18.308977+05:00",
+        "updated_at": "2024-10-18T20:10:08.676170+05:00",
+        "cadastr_id": "1407",
+        "order_number": 11,
+        "shared_id": 1407
+    },
+    {
+        "id": 91,
+        "region": {
+            "id": 7,
+            "name_ru": "САМАРКАНДСКАЯ ОБЛАСТЬ",
+            "name_uz": "SAMARQAND VILOYATI",
+            "created_at": "2024-09-15T20:49:18.286803+05:00",
+            "updated_at": "2024-10-18T20:10:08.649490+05:00",
+            "order_number": 7,
+            "cadastr_id": "14",
+            "shared_id": 14
+        },
+        "name_ru": "Нарпайский район",
+        "name_uz": "Narpay tumani",
+        "created_at": "2024-09-15T20:49:18.305994+05:00",
+        "updated_at": "2024-10-18T20:10:08.672942+05:00",
+        "cadastr_id": "1406",
+        "order_number": 10,
+        "shared_id": 1406
+    },
+    {
+        "id": 90,
+        "region": {
+            "id": 7,
+            "name_ru": "САМАРКАНДСКАЯ ОБЛАСТЬ",
+            "name_uz": "SAMARQAND VILOYATI",
+            "created_at": "2024-09-15T20:49:18.286803+05:00",
+            "updated_at": "2024-10-18T20:10:08.649490+05:00",
+            "order_number": 7,
+            "cadastr_id": "14",
+            "shared_id": 14
+        },
+        "name_ru": "Каттакурганский район",
+        "name_uz": "Kattaqo'rg'on tumani",
+        "created_at": "2024-09-15T20:49:18.303107+05:00",
+        "updated_at": "2024-10-18T20:10:08.669875+05:00",
+        "cadastr_id": "1415",
+        "order_number": 9,
+        "shared_id": 1415
+    },
+    {
+        "id": 89,
+        "region": {
+            "id": 7,
+            "name_ru": "САМАРКАНДСКАЯ ОБЛАСТЬ",
+            "name_uz": "SAMARQAND VILOYATI",
+            "created_at": "2024-09-15T20:49:18.286803+05:00",
+            "updated_at": "2024-10-18T20:10:08.649490+05:00",
+            "order_number": 7,
+            "cadastr_id": "14",
+            "shared_id": 14
+        },
+        "name_ru": "Иштыханский район",
+        "name_uz": "Ishtixon tumani",
+        "created_at": "2024-09-15T20:49:18.300321+05:00",
+        "updated_at": "2024-10-18T20:10:08.665901+05:00",
+        "cadastr_id": "1403",
+        "order_number": 8,
+        "shared_id": 1403
+    },
+    {
+        "id": 88,
+        "region": {
+            "id": 7,
+            "name_ru": "САМАРКАНДСКАЯ ОБЛАСТЬ",
+            "name_uz": "SAMARQAND VILOYATI",
+            "created_at": "2024-09-15T20:49:18.286803+05:00",
+            "updated_at": "2024-10-18T20:10:08.649490+05:00",
+            "order_number": 7,
+            "cadastr_id": "14",
+            "shared_id": 14
+        },
+        "name_ru": "Джамбайский район",
+        "name_uz": "Jomboy tumani",
+        "created_at": "2024-09-15T20:49:18.297547+05:00",
+        "updated_at": "2024-10-18T20:10:08.662807+05:00",
+        "cadastr_id": "1402",
+        "order_number": 5,
+        "shared_id": 1402
+    },
+    {
+        "id": 87,
+        "region": {
+            "id": 7,
+            "name_ru": "САМАРКАНДСКАЯ ОБЛАСТЬ",
+            "name_uz": "SAMARQAND VILOYATI",
+            "created_at": "2024-09-15T20:49:18.286803+05:00",
+            "updated_at": "2024-10-18T20:10:08.649490+05:00",
+            "order_number": 7,
+            "cadastr_id": "14",
+            "shared_id": 14
+        },
+        "name_ru": "Булунгурский район",
+        "name_uz": "Bulung'ur tumani",
+        "created_at": "2024-09-15T20:49:18.294874+05:00",
+        "updated_at": "2024-10-18T20:10:08.659550+05:00",
+        "cadastr_id": "1401",
+        "order_number": 4,
+        "shared_id": 1401
+    },
+    {
+        "id": 86,
+        "region": {
+            "id": 7,
+            "name_ru": "САМАРКАНДСКАЯ ОБЛАСТЬ",
+            "name_uz": "SAMARQAND VILOYATI",
+            "created_at": "2024-09-15T20:49:18.286803+05:00",
+            "updated_at": "2024-10-18T20:10:08.649490+05:00",
+            "order_number": 7,
+            "cadastr_id": "14",
+            "shared_id": 14
+        },
+        "name_ru": "город Каттакурган",
+        "name_uz": "Kattaqo'rg'on shahar",
+        "created_at": "2024-09-15T20:49:18.292121+05:00",
+        "updated_at": "2024-10-18T20:10:08.656407+05:00",
+        "cadastr_id": "1405",
+        "order_number": 2,
+        "shared_id": 1405
+    },
+    {
+        "id": 85,
+        "region": {
+            "id": 7,
+            "name_ru": "САМАРКАНДСКАЯ ОБЛАСТЬ",
+            "name_uz": "SAMARQAND VILOYATI",
+            "created_at": "2024-09-15T20:49:18.286803+05:00",
+            "updated_at": "2024-10-18T20:10:08.649490+05:00",
+            "order_number": 7,
+            "cadastr_id": "14",
+            "shared_id": 14
+        },
+        "name_ru": "город Самарканд",
+        "name_uz": "Samarqand shahar",
+        "created_at": "2024-09-15T20:49:18.289379+05:00",
+        "updated_at": "2024-10-18T20:10:08.652903+05:00",
+        "cadastr_id": "1416",
+        "order_number": 16,
+        "shared_id": 1416
+    },
+    {
+        "id": 84,
+        "region": {
+            "id": 6,
+            "name_ru": "НАМАНГАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "NAMANGAN VILOYATI",
+            "created_at": "2024-09-15T20:49:18.245304+05:00",
+            "updated_at": "2024-10-18T20:10:08.599193+05:00",
+            "order_number": 6,
+            "cadastr_id": "16",
+            "shared_id": 16
+        },
+        "name_ru": "Янгикурганский район",
+        "name_uz": "Yangiqo'rg'on tumani",
+        "created_at": "2024-09-15T20:49:18.284309+05:00",
+        "updated_at": "2024-10-18T20:10:08.646460+05:00",
+        "cadastr_id": "1611",
+        "order_number": 13,
+        "shared_id": 1611
+    },
+    {
+        "id": 83,
+        "region": {
+            "id": 6,
+            "name_ru": "НАМАНГАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "NAMANGAN VILOYATI",
+            "created_at": "2024-09-15T20:49:18.245304+05:00",
+            "updated_at": "2024-10-18T20:10:08.599193+05:00",
+            "order_number": 6,
+            "cadastr_id": "16",
+            "shared_id": 16
+        },
+        "name_ru": "Чустский район",
+        "name_uz": "Chust tumani",
+        "created_at": "2024-09-15T20:49:18.281535+05:00",
+        "updated_at": "2024-10-18T20:10:08.642406+05:00",
+        "cadastr_id": "1610",
+        "order_number": 12,
+        "shared_id": 1610
+    },
+    {
+        "id": 82,
+        "region": {
+            "id": 6,
+            "name_ru": "НАМАНГАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "NAMANGAN VILOYATI",
+            "created_at": "2024-09-15T20:49:18.245304+05:00",
+            "updated_at": "2024-10-18T20:10:08.599193+05:00",
+            "order_number": 6,
+            "cadastr_id": "16",
+            "shared_id": 16
+        },
+        "name_ru": "Чартакский район",
+        "name_uz": "Chortoq tumani",
+        "created_at": "2024-09-15T20:49:18.278890+05:00",
+        "updated_at": "2024-10-18T20:10:08.638894+05:00",
+        "cadastr_id": "1609",
+        "order_number": 11,
+        "shared_id": 1609
+    },
+    {
+        "id": 81,
+        "region": {
+            "id": 6,
+            "name_ru": "НАМАНГАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "NAMANGAN VILOYATI",
+            "created_at": "2024-09-15T20:49:18.245304+05:00",
+            "updated_at": "2024-10-18T20:10:08.599193+05:00",
+            "order_number": 6,
+            "cadastr_id": "16",
+            "shared_id": 16
+        },
+        "name_ru": "Учкурганский район",
+        "name_uz": "Uchqo'rg'on tumani",
+        "created_at": "2024-09-15T20:49:18.276090+05:00",
+        "updated_at": "2024-10-18T20:10:08.635645+05:00",
+        "cadastr_id": "1608",
+        "order_number": 10,
+        "shared_id": 1608
+    },
+    {
+        "id": 80,
+        "region": {
+            "id": 6,
+            "name_ru": "НАМАНГАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "NAMANGAN VILOYATI",
+            "created_at": "2024-09-15T20:49:18.245304+05:00",
+            "updated_at": "2024-10-18T20:10:08.599193+05:00",
+            "order_number": 6,
+            "cadastr_id": "16",
+            "shared_id": 16
+        },
+        "name_ru": "Уйчинский район",
+        "name_uz": "Uychi tumani",
+        "created_at": "2024-09-15T20:49:18.273260+05:00",
+        "updated_at": "2024-10-18T20:10:08.632361+05:00",
+        "cadastr_id": "1607",
+        "order_number": 9,
+        "shared_id": 1607
+    },
+    {
+        "id": 79,
+        "region": {
+            "id": 6,
+            "name_ru": "НАМАНГАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "NAMANGAN VILOYATI",
+            "created_at": "2024-09-15T20:49:18.245304+05:00",
+            "updated_at": "2024-10-18T20:10:08.599193+05:00",
+            "order_number": 6,
+            "cadastr_id": "16",
+            "shared_id": 16
+        },
+        "name_ru": "Туракурганский район",
+        "name_uz": "To'raqo'rg'on tumani",
+        "created_at": "2024-09-15T20:49:18.270397+05:00",
+        "updated_at": "2024-10-18T20:10:08.628992+05:00",
+        "cadastr_id": "1606",
+        "order_number": 8,
+        "shared_id": 1606
+    },
+    {
+        "id": 78,
+        "region": {
+            "id": 6,
+            "name_ru": "НАМАНГАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "NAMANGAN VILOYATI",
+            "created_at": "2024-09-15T20:49:18.245304+05:00",
+            "updated_at": "2024-10-18T20:10:08.599193+05:00",
+            "order_number": 6,
+            "cadastr_id": "16",
+            "shared_id": 16
+        },
+        "name_ru": "Папский район",
+        "name_uz": "Pop tumani",
+        "created_at": "2024-09-15T20:49:18.267629+05:00",
+        "updated_at": "2024-10-18T20:10:08.625842+05:00",
+        "cadastr_id": "1605",
+        "order_number": 7,
+        "shared_id": 1605
+    },
+    {
+        "id": 77,
+        "region": {
+            "id": 6,
+            "name_ru": "НАМАНГАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "NAMANGAN VILOYATI",
+            "created_at": "2024-09-15T20:49:18.245304+05:00",
+            "updated_at": "2024-10-18T20:10:08.599193+05:00",
+            "order_number": 6,
+            "cadastr_id": "16",
+            "shared_id": 16
+        },
+        "name_ru": "Нарынский район",
+        "name_uz": "Norin tumani",
+        "created_at": "2024-09-15T20:49:18.264729+05:00",
+        "updated_at": "2024-10-18T20:10:08.622546+05:00",
+        "cadastr_id": "1604",
+        "order_number": 6,
+        "shared_id": 1604
+    },
+    {
+        "id": 76,
+        "region": {
+            "id": 6,
+            "name_ru": "НАМАНГАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "NAMANGAN VILOYATI",
+            "created_at": "2024-09-15T20:49:18.245304+05:00",
+            "updated_at": "2024-10-18T20:10:08.599193+05:00",
+            "order_number": 6,
+            "cadastr_id": "16",
+            "shared_id": 16
+        },
+        "name_ru": "Наманганский район",
+        "name_uz": "Namangan tumani",
+        "created_at": "2024-09-15T20:49:18.261928+05:00",
+        "updated_at": "2024-10-18T20:10:08.619287+05:00",
+        "cadastr_id": "1603",
+        "order_number": 5,
+        "shared_id": 1603
+    },
+    {
+        "id": 75,
+        "region": {
+            "id": 6,
+            "name_ru": "НАМАНГАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "NAMANGAN VILOYATI",
+            "created_at": "2024-09-15T20:49:18.245304+05:00",
+            "updated_at": "2024-10-18T20:10:08.599193+05:00",
+            "order_number": 6,
+            "cadastr_id": "16",
+            "shared_id": 16
+        },
+        "name_ru": "Мингбулакский район",
+        "name_uz": "Mingbuloq tumani",
+        "created_at": "2024-09-15T20:49:18.258993+05:00",
+        "updated_at": "2024-10-18T20:10:08.616029+05:00",
+        "cadastr_id": "1602",
+        "order_number": 4,
+        "shared_id": 1602
+    },
+    {
+        "id": 74,
+        "region": {
+            "id": 6,
+            "name_ru": "НАМАНГАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "NAMANGAN VILOYATI",
+            "created_at": "2024-09-15T20:49:18.245304+05:00",
+            "updated_at": "2024-10-18T20:10:08.599193+05:00",
+            "order_number": 6,
+            "cadastr_id": "16",
+            "shared_id": 16
+        },
+        "name_ru": "Касансайский район",
+        "name_uz": "Kosonsoy tumani",
+        "created_at": "2024-09-15T20:49:18.256126+05:00",
+        "updated_at": "2024-10-18T20:10:08.612759+05:00",
+        "cadastr_id": "1601",
+        "order_number": 3,
+        "shared_id": 1601
+    },
+    {
+        "id": 73,
+        "region": {
+            "id": 6,
+            "name_ru": "НАМАНГАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "NAMANGAN VILOYATI",
+            "created_at": "2024-09-15T20:49:18.245304+05:00",
+            "updated_at": "2024-10-18T20:10:08.599193+05:00",
+            "order_number": 6,
+            "cadastr_id": "16",
+            "shared_id": 16
+        },
+        "name_ru": "Янги Наманганский район",
+        "name_uz": "Yangi Namangan tumani",
+        "created_at": "2024-09-15T20:49:18.253465+05:00",
+        "updated_at": "2024-10-18T20:10:08.609500+05:00",
+        "cadastr_id": "1612",
+        "order_number": 2,
+        "shared_id": 1651
+    },
+    {
+        "id": 72,
+        "region": {
+            "id": 6,
+            "name_ru": "НАМАНГАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "NAMANGAN VILOYATI",
+            "created_at": "2024-09-15T20:49:18.245304+05:00",
+            "updated_at": "2024-10-18T20:10:08.599193+05:00",
+            "order_number": 6,
+            "cadastr_id": "16",
+            "shared_id": 16
+        },
+        "name_ru": "Давлатабадский район",
+        "name_uz": "Davlatobod tumani",
+        "created_at": "2024-09-15T20:49:18.250792+05:00",
+        "updated_at": "2024-10-18T20:10:08.606184+05:00",
+        "cadastr_id": "1612",
+        "order_number": 14,
+        "shared_id": 1650
+    },
+    {
+        "id": 71,
+        "region": {
+            "id": 6,
+            "name_ru": "НАМАНГАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "NAMANGAN VILOYATI",
+            "created_at": "2024-09-15T20:49:18.245304+05:00",
+            "updated_at": "2024-10-18T20:10:08.599193+05:00",
+            "order_number": 6,
+            "cadastr_id": "16",
+            "shared_id": 16
+        },
+        "name_ru": "город Наманган",
+        "name_uz": "Namangan shahar",
+        "created_at": "2024-09-15T20:49:18.247976+05:00",
+        "updated_at": "2024-10-18T20:10:08.602639+05:00",
+        "cadastr_id": "1612",
+        "order_number": 1,
+        "shared_id": 1612
+    },
+    {
+        "id": 70,
+        "region": {
+            "id": 5,
+            "name_ru": "НАВОИЙСКАЯ ОБЛАСТЬ",
+            "name_uz": "NAVOIY VILOYATI",
+            "created_at": "2024-09-15T20:49:18.211319+05:00",
+            "updated_at": "2024-10-18T20:10:08.544283+05:00",
+            "order_number": 5,
+            "cadastr_id": "21",
+            "shared_id": 21
+        },
+        "name_ru": "Тамдынский район",
+        "name_uz": "Tomdi tumani",
+        "created_at": "2024-09-15T20:49:18.242831+05:00",
+        "updated_at": "2024-10-18T20:10:08.595745+05:00",
+        "cadastr_id": "2105",
+        "order_number": 11,
+        "shared_id": 2105
+    },
+    {
+        "id": 69,
+        "region": {
+            "id": 5,
+            "name_ru": "НАВОИЙСКАЯ ОБЛАСТЬ",
+            "name_uz": "NAVOIY VILOYATI",
+            "created_at": "2024-09-15T20:49:18.211319+05:00",
+            "updated_at": "2024-10-18T20:10:08.544283+05:00",
+            "order_number": 5,
+            "cadastr_id": "21",
+            "shared_id": 21
+        },
+        "name_ru": "Учкудукский район",
+        "name_uz": "Uchquduq tumani",
+        "created_at": "2024-09-15T20:49:18.240050+05:00",
+        "updated_at": "2024-10-18T20:10:08.592432+05:00",
+        "cadastr_id": "2111",
+        "order_number": 10,
+        "shared_id": 2111
+    },
+    {
+        "id": 68,
+        "region": {
+            "id": 5,
+            "name_ru": "НАВОИЙСКАЯ ОБЛАСТЬ",
+            "name_uz": "NAVOIY VILOYATI",
+            "created_at": "2024-09-15T20:49:18.211319+05:00",
+            "updated_at": "2024-10-18T20:10:08.544283+05:00",
+            "order_number": 5,
+            "cadastr_id": "21",
+            "shared_id": 21
+        },
+        "name_ru": "Хатырчинский район",
+        "name_uz": "Xatirchi tumani",
+        "created_at": "2024-09-15T20:49:18.237237+05:00",
+        "updated_at": "2024-10-18T20:10:08.589140+05:00",
+        "cadastr_id": "2107",
+        "order_number": 5,
+        "shared_id": 2107
+    },
+    {
+        "id": 67,
+        "region": {
+            "id": 5,
+            "name_ru": "НАВОИЙСКАЯ ОБЛАСТЬ",
+            "name_uz": "NAVOIY VILOYATI",
+            "created_at": "2024-09-15T20:49:18.211319+05:00",
+            "updated_at": "2024-10-18T20:10:08.544283+05:00",
+            "order_number": 5,
+            "cadastr_id": "21",
+            "shared_id": 21
+        },
+        "name_ru": "Навбахорский район",
+        "name_uz": "Navbahor tumani",
+        "created_at": "2024-09-15T20:49:18.234362+05:00",
+        "updated_at": "2024-10-18T20:10:08.585863+05:00",
+        "cadastr_id": "2102",
+        "order_number": 4,
+        "shared_id": 2102
+    },
+    {
+        "id": 66,
+        "region": {
+            "id": 5,
+            "name_ru": "НАВОИЙСКАЯ ОБЛАСТЬ",
+            "name_uz": "NAVOIY VILOYATI",
+            "created_at": "2024-09-15T20:49:18.211319+05:00",
+            "updated_at": "2024-10-18T20:10:08.544283+05:00",
+            "order_number": 5,
+            "cadastr_id": "21",
+            "shared_id": 21
+        },
+        "name_ru": "Нуратинский район",
+        "name_uz": "Nurota tumani",
+        "created_at": "2024-09-15T20:49:18.231605+05:00",
+        "updated_at": "2024-10-18T20:10:08.582491+05:00",
+        "cadastr_id": "2104",
+        "order_number": 7,
+        "shared_id": 2104
+    },
+    {
+        "id": 65,
+        "region": {
+            "id": 5,
+            "name_ru": "НАВОИЙСКАЯ ОБЛАСТЬ",
+            "name_uz": "NAVOIY VILOYATI",
+            "created_at": "2024-09-15T20:49:18.211319+05:00",
+            "updated_at": "2024-10-18T20:10:08.544283+05:00",
+            "order_number": 5,
+            "cadastr_id": "21",
+            "shared_id": 21
+        },
+        "name_ru": "Канимехский район",
+        "name_uz": "Konimex tumani",
+        "created_at": "2024-09-15T20:49:18.228567+05:00",
+        "updated_at": "2024-10-18T20:10:08.576736+05:00",
+        "cadastr_id": "2101",
+        "order_number": 6,
+        "shared_id": 2101
+    },
+    {
+        "id": 64,
+        "region": {
+            "id": 5,
+            "name_ru": "НАВОИЙСКАЯ ОБЛАСТЬ",
+            "name_uz": "NAVOIY VILOYATI",
+            "created_at": "2024-09-15T20:49:18.211319+05:00",
+            "updated_at": "2024-10-18T20:10:08.544283+05:00",
+            "order_number": 5,
+            "cadastr_id": "21",
+            "shared_id": 21
+        },
+        "name_ru": "Кызылтепинский район",
+        "name_uz": "Qiziltepa tumani",
+        "created_at": "2024-09-15T20:49:18.225363+05:00",
+        "updated_at": "2024-10-18T20:10:08.573390+05:00",
+        "cadastr_id": "2108",
+        "order_number": 3,
+        "shared_id": 2108
+    },
+    {
+        "id": 63,
+        "region": {
+            "id": 5,
+            "name_ru": "НАВОИЙСКАЯ ОБЛАСТЬ",
+            "name_uz": "NAVOIY VILOYATI",
+            "created_at": "2024-09-15T20:49:18.211319+05:00",
+            "updated_at": "2024-10-18T20:10:08.544283+05:00",
+            "order_number": 5,
+            "cadastr_id": "21",
+            "shared_id": 21
+        },
+        "name_ru": "Карманинский район",
+        "name_uz": "Karmana tumani",
+        "created_at": "2024-09-15T20:49:18.222607+05:00",
+        "updated_at": "2024-10-18T20:10:08.567971+05:00",
+        "cadastr_id": "2103",
+        "order_number": 2,
+        "shared_id": 2103
+    },
+    {
+        "id": 62,
+        "region": {
+            "id": 5,
+            "name_ru": "НАВОИЙСКАЯ ОБЛАСТЬ",
+            "name_uz": "NAVOIY VILOYATI",
+            "created_at": "2024-09-15T20:49:18.211319+05:00",
+            "updated_at": "2024-10-18T20:10:08.544283+05:00",
+            "order_number": 5,
+            "cadastr_id": "21",
+            "shared_id": 21
+        },
+        "name_ru": "город Газган",
+        "name_uz": "G'ozg'on shahar",
+        "created_at": "2024-09-15T20:49:18.219793+05:00",
+        "updated_at": "2024-10-18T20:10:08.554202+05:00",
+        "cadastr_id": "2112",
+        "order_number": 8,
+        "shared_id": 2112
+    },
+    {
+        "id": 61,
+        "region": {
+            "id": 5,
+            "name_ru": "НАВОИЙСКАЯ ОБЛАСТЬ",
+            "name_uz": "NAVOIY VILOYATI",
+            "created_at": "2024-09-15T20:49:18.211319+05:00",
+            "updated_at": "2024-10-18T20:10:08.544283+05:00",
+            "order_number": 5,
+            "cadastr_id": "21",
+            "shared_id": 21
+        },
+        "name_ru": "город Зарафшан",
+        "name_uz": "Zarafshon shahar",
+        "created_at": "2024-09-15T20:49:18.216964+05:00",
+        "updated_at": "2024-10-18T20:10:08.550885+05:00",
+        "cadastr_id": "2110",
+        "order_number": 9,
+        "shared_id": 2110
+    },
+    {
+        "id": 60,
+        "region": {
+            "id": 5,
+            "name_ru": "НАВОИЙСКАЯ ОБЛАСТЬ",
+            "name_uz": "NAVOIY VILOYATI",
+            "created_at": "2024-09-15T20:49:18.211319+05:00",
+            "updated_at": "2024-10-18T20:10:08.544283+05:00",
+            "order_number": 5,
+            "cadastr_id": "21",
+            "shared_id": 21
+        },
+        "name_ru": "город Навои",
+        "name_uz": "Navoiy shahar",
+        "created_at": "2024-09-15T20:49:18.213994+05:00",
+        "updated_at": "2024-10-18T20:10:08.547437+05:00",
+        "cadastr_id": "2109",
+        "order_number": 1,
+        "shared_id": 2109
+    },
+    {
+        "id": 59,
+        "region": {
+            "id": 4,
+            "name_ru": "ДЖИЗАКСКАЯ ОБЛАСТЬ",
+            "name_uz": "JIZZAX VILOYATI",
+            "created_at": "2024-09-15T20:49:18.174191+05:00",
+            "updated_at": "2024-10-18T20:10:08.498404+05:00",
+            "order_number": 4,
+            "cadastr_id": "13",
+            "shared_id": 13
+        },
+        "name_ru": "Янгиабадский район",
+        "name_uz": "Yangiobod tumani",
+        "created_at": "2024-09-15T20:49:18.208613+05:00",
+        "updated_at": "2024-10-18T20:10:08.541406+05:00",
+        "cadastr_id": "1312",
+        "order_number": 13,
+        "shared_id": 1312
+    },
+    {
+        "id": 58,
+        "region": {
+            "id": 4,
+            "name_ru": "ДЖИЗАКСКАЯ ОБЛАСТЬ",
+            "name_uz": "JIZZAX VILOYATI",
+            "created_at": "2024-09-15T20:49:18.174191+05:00",
+            "updated_at": "2024-10-18T20:10:08.498404+05:00",
+            "order_number": 4,
+            "cadastr_id": "13",
+            "shared_id": 13
+        },
+        "name_ru": "Галляаральский район",
+        "name_uz": "G'allaorol tumani",
+        "created_at": "2024-09-15T20:49:18.205570+05:00",
+        "updated_at": "2024-10-18T20:10:08.537838+05:00",
+        "cadastr_id": "1303",
+        "order_number": 12,
+        "shared_id": 1303
+    },
+    {
+        "id": 57,
+        "region": {
+            "id": 4,
+            "name_ru": "ДЖИЗАКСКАЯ ОБЛАСТЬ",
+            "name_uz": "JIZZAX VILOYATI",
+            "created_at": "2024-09-15T20:49:18.174191+05:00",
+            "updated_at": "2024-10-18T20:10:08.498404+05:00",
+            "order_number": 4,
+            "cadastr_id": "13",
+            "shared_id": 13
+        },
+        "name_ru": "Фаришский район",
+        "name_uz": "Forish tumani",
+        "created_at": "2024-09-15T20:49:18.202659+05:00",
+        "updated_at": "2024-10-18T20:10:08.534603+05:00",
+        "cadastr_id": "1311",
+        "order_number": 11,
+        "shared_id": 1311
+    },
+    {
+        "id": 56,
+        "region": {
+            "id": 4,
+            "name_ru": "ДЖИЗАКСКАЯ ОБЛАСТЬ",
+            "name_uz": "JIZZAX VILOYATI",
+            "created_at": "2024-09-15T20:49:18.174191+05:00",
+            "updated_at": "2024-10-18T20:10:08.498404+05:00",
+            "order_number": 4,
+            "cadastr_id": "13",
+            "shared_id": 13
+        },
+        "name_ru": "Пахтакорский район",
+        "name_uz": "Paxtakor tumani",
+        "created_at": "2024-09-15T20:49:18.199676+05:00",
+        "updated_at": "2024-10-18T20:10:08.531400+05:00",
+        "cadastr_id": "1310",
+        "order_number": 10,
+        "shared_id": 1310
+    },
+    {
+        "id": 55,
+        "region": {
+            "id": 4,
+            "name_ru": "ДЖИЗАКСКАЯ ОБЛАСТЬ",
+            "name_uz": "JIZZAX VILOYATI",
+            "created_at": "2024-09-15T20:49:18.174191+05:00",
+            "updated_at": "2024-10-18T20:10:08.498404+05:00",
+            "order_number": 4,
+            "cadastr_id": "13",
+            "shared_id": 13
+        },
+        "name_ru": "Мирзачульский район",
+        "name_uz": "Mirzacho'l tumani",
+        "created_at": "2024-09-15T20:49:18.197240+05:00",
+        "updated_at": "2024-10-18T20:10:08.528200+05:00",
+        "cadastr_id": "1309",
+        "order_number": 9,
+        "shared_id": 1309
+    },
+    {
+        "id": 54,
+        "region": {
+            "id": 4,
+            "name_ru": "ДЖИЗАКСКАЯ ОБЛАСТЬ",
+            "name_uz": "JIZZAX VILOYATI",
+            "created_at": "2024-09-15T20:49:18.174191+05:00",
+            "updated_at": "2024-10-18T20:10:08.498404+05:00",
+            "order_number": 4,
+            "cadastr_id": "13",
+            "shared_id": 13
+        },
+        "name_ru": "Зааминский район",
+        "name_uz": "Zomin tumani",
+        "created_at": "2024-09-15T20:49:18.194843+05:00",
+        "updated_at": "2024-10-18T20:10:08.524847+05:00",
+        "cadastr_id": "1308",
+        "order_number": 8,
+        "shared_id": 1308
+    },
+    {
+        "id": 53,
+        "region": {
+            "id": 4,
+            "name_ru": "ДЖИЗАКСКАЯ ОБЛАСТЬ",
+            "name_uz": "JIZZAX VILOYATI",
+            "created_at": "2024-09-15T20:49:18.174191+05:00",
+            "updated_at": "2024-10-18T20:10:08.498404+05:00",
+            "order_number": 4,
+            "cadastr_id": "13",
+            "shared_id": 13
+        },
+        "name_ru": "Зафарабадский район",
+        "name_uz": "Zafarobod tumani",
+        "created_at": "2024-09-15T20:49:18.192222+05:00",
+        "updated_at": "2024-10-18T20:10:08.521467+05:00",
+        "cadastr_id": "1307",
+        "order_number": 6,
+        "shared_id": 1307
+    },
+    {
+        "id": 52,
+        "region": {
+            "id": 4,
+            "name_ru": "ДЖИЗАКСКАЯ ОБЛАСТЬ",
+            "name_uz": "JIZZAX VILOYATI",
+            "created_at": "2024-09-15T20:49:18.174191+05:00",
+            "updated_at": "2024-10-18T20:10:08.498404+05:00",
+            "order_number": 4,
+            "cadastr_id": "13",
+            "shared_id": 13
+        },
+        "name_ru": "Зарбдарский район",
+        "name_uz": "Zarbdor tumani",
+        "created_at": "2024-09-15T20:49:18.189681+05:00",
+        "updated_at": "2024-10-18T20:10:08.517652+05:00",
+        "cadastr_id": "1306",
+        "order_number": 7,
+        "shared_id": 1306
+    },
+    {
+        "id": 51,
+        "region": {
+            "id": 4,
+            "name_ru": "ДЖИЗАКСКАЯ ОБЛАСТЬ",
+            "name_uz": "JIZZAX VILOYATI",
+            "created_at": "2024-09-15T20:49:18.174191+05:00",
+            "updated_at": "2024-10-18T20:10:08.498404+05:00",
+            "order_number": 4,
+            "cadastr_id": "13",
+            "shared_id": 13
+        },
+        "name_ru": "Шараф-Рашидовский район",
+        "name_uz": "Sharof Rashidov tumani",
+        "created_at": "2024-09-15T20:49:18.187192+05:00",
+        "updated_at": "2024-10-18T20:10:08.514210+05:00",
+        "cadastr_id": "1304",
+        "order_number": 1000,
+        "shared_id": 1304
+    },
+    {
+        "id": 50,
+        "region": {
+            "id": 4,
+            "name_ru": "ДЖИЗАКСКАЯ ОБЛАСТЬ",
+            "name_uz": "JIZZAX VILOYATI",
+            "created_at": "2024-09-15T20:49:18.174191+05:00",
+            "updated_at": "2024-10-18T20:10:08.498404+05:00",
+            "order_number": 4,
+            "cadastr_id": "13",
+            "shared_id": 13
+        },
+        "name_ru": "Дустликский район",
+        "name_uz": "Do'stlik tumani",
+        "created_at": "2024-09-15T20:49:18.184569+05:00",
+        "updated_at": "2024-10-18T20:10:08.510964+05:00",
+        "cadastr_id": "1305",
+        "order_number": 4,
+        "shared_id": 1305
+    },
+    {
+        "id": 49,
+        "region": {
+            "id": 4,
+            "name_ru": "ДЖИЗАКСКАЯ ОБЛАСТЬ",
+            "name_uz": "JIZZAX VILOYATI",
+            "created_at": "2024-09-15T20:49:18.174191+05:00",
+            "updated_at": "2024-10-18T20:10:08.498404+05:00",
+            "order_number": 4,
+            "cadastr_id": "13",
+            "shared_id": 13
+        },
+        "name_ru": "Бахмальский район",
+        "name_uz": "Baxmal tumani",
+        "created_at": "2024-09-15T20:49:18.181922+05:00",
+        "updated_at": "2024-10-18T20:10:08.507931+05:00",
+        "cadastr_id": "1302",
+        "order_number": 3,
+        "shared_id": 1302
+    },
+    {
+        "id": 48,
+        "region": {
+            "id": 4,
+            "name_ru": "ДЖИЗАКСКАЯ ОБЛАСТЬ",
+            "name_uz": "JIZZAX VILOYATI",
+            "created_at": "2024-09-15T20:49:18.174191+05:00",
+            "updated_at": "2024-10-18T20:10:08.498404+05:00",
+            "order_number": 4,
+            "cadastr_id": "13",
+            "shared_id": 13
+        },
+        "name_ru": "Арнасайский район",
+        "name_uz": "Arnasoy tumani",
+        "created_at": "2024-09-15T20:49:18.179401+05:00",
+        "updated_at": "2024-10-18T20:10:08.504755+05:00",
+        "cadastr_id": "1301",
+        "order_number": 2,
+        "shared_id": 1301
+    },
+    {
+        "id": 47,
+        "region": {
+            "id": 4,
+            "name_ru": "ДЖИЗАКСКАЯ ОБЛАСТЬ",
+            "name_uz": "JIZZAX VILOYATI",
+            "created_at": "2024-09-15T20:49:18.174191+05:00",
+            "updated_at": "2024-10-18T20:10:08.498404+05:00",
+            "order_number": 4,
+            "cadastr_id": "13",
+            "shared_id": 13
+        },
+        "name_ru": "город Джизак",
+        "name_uz": "Jizzax shahar",
+        "created_at": "2024-09-15T20:49:18.176836+05:00",
+        "updated_at": "2024-10-18T20:10:08.501589+05:00",
+        "cadastr_id": "1313",
+        "order_number": 1,
+        "shared_id": 1313
+    },
+    {
+        "id": 46,
+        "region": {
+            "id": 3,
+            "name_ru": "БУХАРСКАЯ ОБЛАСТЬ",
+            "name_uz": "BUXORO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.137690+05:00",
+            "updated_at": "2024-10-18T20:10:08.453412+05:00",
+            "order_number": 3,
+            "cadastr_id": "20",
+            "shared_id": 20
+        },
+        "name_ru": "Гиждуванский район",
+        "name_uz": "G'ijduvon tumani",
+        "created_at": "2024-09-15T20:49:18.171861+05:00",
+        "updated_at": "2024-10-18T20:10:08.495498+05:00",
+        "cadastr_id": "2011",
+        "order_number": 13,
+        "shared_id": 2011
+    },
+    {
+        "id": 45,
+        "region": {
+            "id": 3,
+            "name_ru": "БУХАРСКАЯ ОБЛАСТЬ",
+            "name_uz": "BUXORO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.137690+05:00",
+            "updated_at": "2024-10-18T20:10:08.453412+05:00",
+            "order_number": 3,
+            "cadastr_id": "20",
+            "shared_id": 20
+        },
+        "name_ru": "Караулбазарский район",
+        "name_uz": "Qorovulbozor tumani",
+        "created_at": "2024-09-15T20:49:18.169320+05:00",
+        "updated_at": "2024-10-18T20:10:08.492413+05:00",
+        "cadastr_id": "2009",
+        "order_number": 12,
+        "shared_id": 2009
+    },
+    {
+        "id": 44,
+        "region": {
+            "id": 3,
+            "name_ru": "БУХАРСКАЯ ОБЛАСТЬ",
+            "name_uz": "BUXORO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.137690+05:00",
+            "updated_at": "2024-10-18T20:10:08.453412+05:00",
+            "order_number": 3,
+            "cadastr_id": "20",
+            "shared_id": 20
+        },
+        "name_ru": "Каракульский район",
+        "name_uz": "Qorako'l tumani",
+        "created_at": "2024-09-15T20:49:18.166776+05:00",
+        "updated_at": "2024-10-18T20:10:08.489227+05:00",
+        "cadastr_id": "2010",
+        "order_number": 11,
+        "shared_id": 2010
+    },
+    {
+        "id": 43,
+        "region": {
+            "id": 3,
+            "name_ru": "БУХАРСКАЯ ОБЛАСТЬ",
+            "name_uz": "BUXORO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.137690+05:00",
+            "updated_at": "2024-10-18T20:10:08.453412+05:00",
+            "order_number": 3,
+            "cadastr_id": "20",
+            "shared_id": 20
+        },
+        "name_ru": "Шафирканский район",
+        "name_uz": "Shofirkon tumani",
+        "created_at": "2024-09-15T20:49:18.164224+05:00",
+        "updated_at": "2024-10-18T20:10:08.486126+05:00",
+        "cadastr_id": "2008",
+        "order_number": 10,
+        "shared_id": 2008
+    },
+    {
+        "id": 42,
+        "region": {
+            "id": 3,
+            "name_ru": "БУХАРСКАЯ ОБЛАСТЬ",
+            "name_uz": "BUXORO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.137690+05:00",
+            "updated_at": "2024-10-18T20:10:08.453412+05:00",
+            "order_number": 3,
+            "cadastr_id": "20",
+            "shared_id": 20
+        },
+        "name_ru": "Ромитанский район",
+        "name_uz": "Romitan tumani",
+        "created_at": "2024-09-15T20:49:18.161506+05:00",
+        "updated_at": "2024-10-18T20:10:08.483003+05:00",
+        "cadastr_id": "2007",
+        "order_number": 9,
+        "shared_id": 2007
+    },
+    {
+        "id": 41,
+        "region": {
+            "id": 3,
+            "name_ru": "БУХАРСКАЯ ОБЛАСТЬ",
+            "name_uz": "BUXORO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.137690+05:00",
+            "updated_at": "2024-10-18T20:10:08.453412+05:00",
+            "order_number": 3,
+            "cadastr_id": "20",
+            "shared_id": 20
+        },
+        "name_ru": "Пешкунский район",
+        "name_uz": "Peshku tumani",
+        "created_at": "2024-09-15T20:49:18.158781+05:00",
+        "updated_at": "2024-10-18T20:10:08.479864+05:00",
+        "cadastr_id": "2006",
+        "order_number": 8,
+        "shared_id": 2006
+    },
+    {
+        "id": 40,
+        "region": {
+            "id": 3,
+            "name_ru": "БУХАРСКАЯ ОБЛАСТЬ",
+            "name_uz": "BUXORO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.137690+05:00",
+            "updated_at": "2024-10-18T20:10:08.453412+05:00",
+            "order_number": 3,
+            "cadastr_id": "20",
+            "shared_id": 20
+        },
+        "name_ru": "Алатский район",
+        "name_uz": "Olot tumani",
+        "created_at": "2024-09-15T20:49:18.156057+05:00",
+        "updated_at": "2024-10-18T20:10:08.476705+05:00",
+        "cadastr_id": "2005",
+        "order_number": 7,
+        "shared_id": 2005
+    },
+    {
+        "id": 39,
+        "region": {
+            "id": 3,
+            "name_ru": "БУХАРСКАЯ ОБЛАСТЬ",
+            "name_uz": "BUXORO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.137690+05:00",
+            "updated_at": "2024-10-18T20:10:08.453412+05:00",
+            "order_number": 3,
+            "cadastr_id": "20",
+            "shared_id": 20
+        },
+        "name_ru": "Каганский район",
+        "name_uz": "Kogon tumani",
+        "created_at": "2024-09-15T20:49:18.153197+05:00",
+        "updated_at": "2024-10-18T20:10:08.473596+05:00",
+        "cadastr_id": "2004",
+        "order_number": 6,
+        "shared_id": 2004
+    },
+    {
+        "id": 38,
+        "region": {
+            "id": 3,
+            "name_ru": "БУХАРСКАЯ ОБЛАСТЬ",
+            "name_uz": "BUXORO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.137690+05:00",
+            "updated_at": "2024-10-18T20:10:08.453412+05:00",
+            "order_number": 3,
+            "cadastr_id": "20",
+            "shared_id": 20
+        },
+        "name_ru": "Жондорский район",
+        "name_uz": "Jondor tumani",
+        "created_at": "2024-09-15T20:49:18.150415+05:00",
+        "updated_at": "2024-10-18T20:10:08.470339+05:00",
+        "cadastr_id": "2003",
+        "order_number": 5,
+        "shared_id": 2003
+    },
+    {
+        "id": 37,
+        "region": {
+            "id": 3,
+            "name_ru": "БУХАРСКАЯ ОБЛАСТЬ",
+            "name_uz": "BUXORO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.137690+05:00",
+            "updated_at": "2024-10-18T20:10:08.453412+05:00",
+            "order_number": 3,
+            "cadastr_id": "20",
+            "shared_id": 20
+        },
+        "name_ru": "Вабкентский район",
+        "name_uz": "Vobkent tumani",
+        "created_at": "2024-09-15T20:49:18.147918+05:00",
+        "updated_at": "2024-10-18T20:10:08.467219+05:00",
+        "cadastr_id": "2002",
+        "order_number": 4,
+        "shared_id": 2002
+    },
+    {
+        "id": 36,
+        "region": {
+            "id": 3,
+            "name_ru": "БУХАРСКАЯ ОБЛАСТЬ",
+            "name_uz": "BUXORO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.137690+05:00",
+            "updated_at": "2024-10-18T20:10:08.453412+05:00",
+            "order_number": 3,
+            "cadastr_id": "20",
+            "shared_id": 20
+        },
+        "name_ru": "Бухарский район",
+        "name_uz": "Buxoro tumani",
+        "created_at": "2024-09-15T20:49:18.145392+05:00",
+        "updated_at": "2024-10-18T20:10:08.463138+05:00",
+        "cadastr_id": "2001",
+        "order_number": 3,
+        "shared_id": 2001
+    },
+    {
+        "id": 35,
+        "region": {
+            "id": 3,
+            "name_ru": "БУХАРСКАЯ ОБЛАСТЬ",
+            "name_uz": "BUXORO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.137690+05:00",
+            "updated_at": "2024-10-18T20:10:08.453412+05:00",
+            "order_number": 3,
+            "cadastr_id": "20",
+            "shared_id": 20
+        },
+        "name_ru": "город Каган",
+        "name_uz": "Kogon shahar",
+        "created_at": "2024-09-15T20:49:18.142717+05:00",
+        "updated_at": "2024-10-18T20:10:08.459993+05:00",
+        "cadastr_id": "2014",
+        "order_number": 2,
+        "shared_id": 2014
+    },
+    {
+        "id": 34,
+        "region": {
+            "id": 3,
+            "name_ru": "БУХАРСКАЯ ОБЛАСТЬ",
+            "name_uz": "BUXORO VILOYATI",
+            "created_at": "2024-09-15T20:49:18.137690+05:00",
+            "updated_at": "2024-10-18T20:10:08.453412+05:00",
+            "order_number": 3,
+            "cadastr_id": "20",
+            "shared_id": 20
+        },
+        "name_ru": "город Бухара",
+        "name_uz": "Buxoro shahar",
+        "created_at": "2024-09-15T20:49:18.140060+05:00",
+        "updated_at": "2024-10-18T20:10:08.456716+05:00",
+        "cadastr_id": "2012",
+        "order_number": 1,
+        "shared_id": 2012
+    },
+    {
+        "id": 33,
+        "region": {
+            "id": 2,
+            "name_ru": "АНДИЖАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "ANDIJON VILOYATI",
+            "created_at": "2024-09-15T20:49:18.083526+05:00",
+            "updated_at": "2024-10-18T20:10:08.396422+05:00",
+            "order_number": 2,
+            "cadastr_id": "17",
+            "shared_id": 17
+        },
+        "name_ru": "Кургантепинский район",
+        "name_uz": "Qo'rg'ontepa tumani",
+        "created_at": "2024-09-15T20:49:18.135368+05:00",
+        "updated_at": "2024-10-18T20:10:08.450426+05:00",
+        "cadastr_id": "1714",
+        "order_number": 14,
+        "shared_id": 1714
+    },
+    {
+        "id": 32,
+        "region": {
+            "id": 2,
+            "name_ru": "АНДИЖАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "ANDIJON VILOYATI",
+            "created_at": "2024-09-15T20:49:18.083526+05:00",
+            "updated_at": "2024-10-18T20:10:08.396422+05:00",
+            "order_number": 2,
+            "cadastr_id": "17",
+            "shared_id": 17
+        },
+        "name_ru": "Шахриханский район",
+        "name_uz": "Shaxrixon tumani",
+        "created_at": "2024-09-15T20:49:18.132786+05:00",
+        "updated_at": "2024-10-18T20:10:08.447227+05:00",
+        "cadastr_id": "1713",
+        "order_number": 15,
+        "shared_id": 1713
+    },
+    {
+        "id": 31,
+        "region": {
+            "id": 2,
+            "name_ru": "АНДИЖАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "ANDIJON VILOYATI",
+            "created_at": "2024-09-15T20:49:18.083526+05:00",
+            "updated_at": "2024-10-18T20:10:08.396422+05:00",
+            "order_number": 2,
+            "cadastr_id": "17",
+            "shared_id": 17
+        },
+        "name_ru": "Ходжаабадский район",
+        "name_uz": "Xo'jaobod tumani",
+        "created_at": "2024-09-15T20:49:18.130153+05:00",
+        "updated_at": "2024-10-18T20:10:08.443967+05:00",
+        "cadastr_id": "1712",
+        "order_number": 7,
+        "shared_id": 1712
+    },
+    {
+        "id": 30,
+        "region": {
+            "id": 2,
+            "name_ru": "АНДИЖАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "ANDIJON VILOYATI",
+            "created_at": "2024-09-15T20:49:18.083526+05:00",
+            "updated_at": "2024-10-18T20:10:08.396422+05:00",
+            "order_number": 2,
+            "cadastr_id": "17",
+            "shared_id": 17
+        },
+        "name_ru": "Пахтаабадский район",
+        "name_uz": "Paxtaobod tumani",
+        "created_at": "2024-09-15T20:49:18.127578+05:00",
+        "updated_at": "2024-10-18T20:10:08.440638+05:00",
+        "cadastr_id": "1710",
+        "order_number": 13,
+        "shared_id": 1710
+    },
+    {
+        "id": 29,
+        "region": {
+            "id": 2,
+            "name_ru": "АНДИЖАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "ANDIJON VILOYATI",
+            "created_at": "2024-09-15T20:49:18.083526+05:00",
+            "updated_at": "2024-10-18T20:10:08.396422+05:00",
+            "order_number": 2,
+            "cadastr_id": "17",
+            "shared_id": 17
+        },
+        "name_ru": "Алтынкульский район",
+        "name_uz": "Oltinko'l tumani",
+        "created_at": "2024-09-15T20:49:18.124926+05:00",
+        "updated_at": "2024-10-18T20:10:08.437331+05:00",
+        "cadastr_id": "1709",
+        "order_number": 4,
+        "shared_id": 1709
+    },
+    {
+        "id": 28,
+        "region": {
+            "id": 2,
+            "name_ru": "АНДИЖАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "ANDIJON VILOYATI",
+            "created_at": "2024-09-15T20:49:18.083526+05:00",
+            "updated_at": "2024-10-18T20:10:08.396422+05:00",
+            "order_number": 2,
+            "cadastr_id": "17",
+            "shared_id": 17
+        },
+        "name_ru": "Мархаматский район",
+        "name_uz": "Marhamat tumani",
+        "created_at": "2024-09-15T20:49:18.121650+05:00",
+        "updated_at": "2024-10-18T20:10:08.434117+05:00",
+        "cadastr_id": "1708",
+        "order_number": 3,
+        "shared_id": 1708
+    },
+    {
+        "id": 27,
+        "region": {
+            "id": 2,
+            "name_ru": "АНДИЖАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "ANDIJON VILOYATI",
+            "created_at": "2024-09-15T20:49:18.083526+05:00",
+            "updated_at": "2024-10-18T20:10:08.396422+05:00",
+            "order_number": 2,
+            "cadastr_id": "17",
+            "shared_id": 17
+        },
+        "name_ru": "Улугнорский район",
+        "name_uz": "Ulug'nor tumani",
+        "created_at": "2024-09-15T20:49:18.118200+05:00",
+        "updated_at": "2024-10-18T20:10:08.430840+05:00",
+        "cadastr_id": "1711",
+        "order_number": 5,
+        "shared_id": 1711
+    },
+    {
+        "id": 26,
+        "region": {
+            "id": 2,
+            "name_ru": "АНДИЖАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "ANDIJON VILOYATI",
+            "created_at": "2024-09-15T20:49:18.083526+05:00",
+            "updated_at": "2024-10-18T20:10:08.396422+05:00",
+            "order_number": 2,
+            "cadastr_id": "17",
+            "shared_id": 17
+        },
+        "name_ru": "Избасканский район",
+        "name_uz": "Izboskan tumani",
+        "created_at": "2024-09-15T20:49:18.114818+05:00",
+        "updated_at": "2024-10-18T20:10:08.427718+05:00",
+        "cadastr_id": "1707",
+        "order_number": 2,
+        "shared_id": 1707
+    },
+    {
+        "id": 25,
+        "region": {
+            "id": 2,
+            "name_ru": "АНДИЖАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "ANDIJON VILOYATI",
+            "created_at": "2024-09-15T20:49:18.083526+05:00",
+            "updated_at": "2024-10-18T20:10:08.396422+05:00",
+            "order_number": 2,
+            "cadastr_id": "17",
+            "shared_id": 17
+        },
+        "name_ru": "Джалакудукский район",
+        "name_uz": "Jalolquduq tumani",
+        "created_at": "2024-09-15T20:49:18.111301+05:00",
+        "updated_at": "2024-10-18T20:10:08.424575+05:00",
+        "cadastr_id": "1706",
+        "order_number": 12,
+        "shared_id": 1706
+    },
+    {
+        "id": 24,
+        "region": {
+            "id": 2,
+            "name_ru": "АНДИЖАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "ANDIJON VILOYATI",
+            "created_at": "2024-09-15T20:49:18.083526+05:00",
+            "updated_at": "2024-10-18T20:10:08.396422+05:00",
+            "order_number": 2,
+            "cadastr_id": "17",
+            "shared_id": 17
+        },
+        "name_ru": "Булакбашинский район",
+        "name_uz": "Buloqboshi tumani",
+        "created_at": "2024-09-15T20:49:18.108094+05:00",
+        "updated_at": "2024-10-18T20:10:08.421165+05:00",
+        "cadastr_id": "1704",
+        "order_number": 1,
+        "shared_id": 1704
+    },
+    {
+        "id": 23,
+        "region": {
+            "id": 2,
+            "name_ru": "АНДИЖАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "ANDIJON VILOYATI",
+            "created_at": "2024-09-15T20:49:18.083526+05:00",
+            "updated_at": "2024-10-18T20:10:08.396422+05:00",
+            "order_number": 2,
+            "cadastr_id": "17",
+            "shared_id": 17
+        },
+        "name_ru": "Бустанский район",
+        "name_uz": "Bo'ston tumani",
+        "created_at": "2024-09-15T20:49:18.104842+05:00",
+        "updated_at": "2024-10-18T20:10:08.418004+05:00",
+        "cadastr_id": "1705",
+        "order_number": 11,
+        "shared_id": 1705
+    },
+    {
+        "id": 22,
+        "region": {
+            "id": 2,
+            "name_ru": "АНДИЖАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "ANDIJON VILOYATI",
+            "created_at": "2024-09-15T20:49:18.083526+05:00",
+            "updated_at": "2024-10-18T20:10:08.396422+05:00",
+            "order_number": 2,
+            "cadastr_id": "17",
+            "shared_id": 17
+        },
+        "name_ru": "Балыкчинский  район",
+        "name_uz": "Baliqchi tumani",
+        "created_at": "2024-09-15T20:49:18.101487+05:00",
+        "updated_at": "2024-10-18T20:10:08.414394+05:00",
+        "cadastr_id": "1703",
+        "order_number": 16,
+        "shared_id": 1703
+    },
+    {
+        "id": 21,
+        "region": {
+            "id": 2,
+            "name_ru": "АНДИЖАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "ANDIJON VILOYATI",
+            "created_at": "2024-09-15T20:49:18.083526+05:00",
+            "updated_at": "2024-10-18T20:10:08.396422+05:00",
+            "order_number": 2,
+            "cadastr_id": "17",
+            "shared_id": 17
+        },
+        "name_ru": "Асакинский район",
+        "name_uz": "Asaka tumani",
+        "created_at": "2024-09-15T20:49:18.097789+05:00",
+        "updated_at": "2024-10-18T20:10:08.411072+05:00",
+        "cadastr_id": "1702",
+        "order_number": 9,
+        "shared_id": 1702
+    },
+    {
+        "id": 20,
+        "region": {
+            "id": 2,
+            "name_ru": "АНДИЖАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "ANDIJON VILOYATI",
+            "created_at": "2024-09-15T20:49:18.083526+05:00",
+            "updated_at": "2024-10-18T20:10:08.396422+05:00",
+            "order_number": 2,
+            "cadastr_id": "17",
+            "shared_id": 17
+        },
+        "name_ru": "Андижанский район",
+        "name_uz": "Andijon tumani",
+        "created_at": "2024-09-15T20:49:18.094377+05:00",
+        "updated_at": "2024-10-18T20:10:08.407855+05:00",
+        "cadastr_id": "1701",
+        "order_number": 10,
+        "shared_id": 1701
+    },
+    {
+        "id": 19,
+        "region": {
+            "id": 2,
+            "name_ru": "АНДИЖАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "ANDIJON VILOYATI",
+            "created_at": "2024-09-15T20:49:18.083526+05:00",
+            "updated_at": "2024-10-18T20:10:08.396422+05:00",
+            "order_number": 2,
+            "cadastr_id": "17",
+            "shared_id": 17
+        },
+        "name_ru": "город Ханабад",
+        "name_uz": "Xonobod shahar",
+        "created_at": "2024-09-15T20:49:18.090872+05:00",
+        "updated_at": "2024-10-18T20:10:08.404665+05:00",
+        "cadastr_id": "1717",
+        "order_number": 6,
+        "shared_id": 1717
+    },
+    {
+        "id": 18,
+        "region": {
+            "id": 2,
+            "name_ru": "АНДИЖАНСКАЯ ОБЛАСТЬ",
+            "name_uz": "ANDIJON VILOYATI",
+            "created_at": "2024-09-15T20:49:18.083526+05:00",
+            "updated_at": "2024-10-18T20:10:08.396422+05:00",
+            "order_number": 2,
+            "cadastr_id": "17",
+            "shared_id": 17
+        },
+        "name_ru": "город Андижан",
+        "name_uz": "Andijon shahar",
+        "created_at": "2024-09-15T20:49:18.087141+05:00",
+        "updated_at": "2024-10-18T20:10:08.399615+05:00",
+        "cadastr_id": "1715",
+        "order_number": 8,
+        "shared_id": 1715
+    },
+    {
+        "id": 17,
+        "region": {
+            "id": 1,
+            "name_ru": "РЕСПУБЛИКА КАРАКАЛПАКСТАН",
+            "name_uz": "QORAQALPOG'ISTON RESPUBLIKASI",
+            "created_at": "2024-09-15T20:49:18.014910+05:00",
+            "updated_at": "2024-10-18T20:10:08.332402+05:00",
+            "order_number": 1,
+            "cadastr_id": "23",
+            "shared_id": 23
+        },
+        "name_ru": "Тахиаташский район",
+        "name_uz": "Taxiatosh tumani",
+        "created_at": "2024-09-15T20:49:18.079836+05:00",
+        "updated_at": "2024-10-18T20:10:08.393453+05:00",
+        "cadastr_id": "2318",
+        "order_number": 16,
+        "shared_id": 2318
+    },
+    {
+        "id": 16,
+        "region": {
+            "id": 1,
+            "name_ru": "РЕСПУБЛИКА КАРАКАЛПАКСТАН",
+            "name_uz": "QORAQALPOG'ISTON RESPUBLIKASI",
+            "created_at": "2024-09-15T20:49:18.014910+05:00",
+            "updated_at": "2024-10-18T20:10:08.332402+05:00",
+            "order_number": 1,
+            "cadastr_id": "23",
+            "shared_id": 23
+        },
+        "name_ru": "Элликкалинский район",
+        "name_uz": "Ellikqal'a tumani",
+        "created_at": "2024-09-15T20:49:18.076440+05:00",
+        "updated_at": "2024-10-18T20:10:08.390061+05:00",
+        "cadastr_id": "2312",
+        "order_number": 15,
+        "shared_id": 2312
+    },
+    {
+        "id": 15,
+        "region": {
+            "id": 1,
+            "name_ru": "РЕСПУБЛИКА КАРАКАЛПАКСТАН",
+            "name_uz": "QORAQALPOG'ISTON RESPUBLIKASI",
+            "created_at": "2024-09-15T20:49:18.014910+05:00",
+            "updated_at": "2024-10-18T20:10:08.332402+05:00",
+            "order_number": 1,
+            "cadastr_id": "23",
+            "shared_id": 23
+        },
+        "name_ru": "Шуманайский район",
+        "name_uz": "Shumanay tumani",
+        "created_at": "2024-09-15T20:49:18.073309+05:00",
+        "updated_at": "2024-10-18T20:10:08.386757+05:00",
+        "cadastr_id": "2311",
+        "order_number": 14,
+        "shared_id": 2311
+    },
+    {
+        "id": 14,
+        "region": {
+            "id": 1,
+            "name_ru": "РЕСПУБЛИКА КАРАКАЛПАКСТАН",
+            "name_uz": "QORAQALPOG'ISTON RESPUBLIKASI",
+            "created_at": "2024-09-15T20:49:18.014910+05:00",
+            "updated_at": "2024-10-18T20:10:08.332402+05:00",
+            "order_number": 1,
+            "cadastr_id": "23",
+            "shared_id": 23
+        },
+        "name_ru": "Чимбайский район",
+        "name_uz": "Chimboy tumani",
+        "created_at": "2024-09-15T20:49:18.069791+05:00",
+        "updated_at": "2024-10-18T20:10:08.383550+05:00",
+        "cadastr_id": "2310",
+        "order_number": 13,
+        "shared_id": 2310
+    },
+    {
+        "id": 13,
+        "region": {
+            "id": 1,
+            "name_ru": "РЕСПУБЛИКА КАРАКАЛПАКСТАН",
+            "name_uz": "QORAQALPOG'ISTON RESPUBLIKASI",
+            "created_at": "2024-09-15T20:49:18.014910+05:00",
+            "updated_at": "2024-10-18T20:10:08.332402+05:00",
+            "order_number": 1,
+            "cadastr_id": "23",
+            "shared_id": 23
+        },
+        "name_ru": "Ходжейлийский район",
+        "name_uz": "Xo'jayli tumani",
+        "created_at": "2024-09-15T20:49:18.065555+05:00",
+        "updated_at": "2024-10-18T20:10:08.380300+05:00",
+        "cadastr_id": "2309",
+        "order_number": 12,
+        "shared_id": 2309
+    },
+    {
+        "id": 12,
+        "region": {
+            "id": 1,
+            "name_ru": "РЕСПУБЛИКА КАРАКАЛПАКСТАН",
+            "name_uz": "QORAQALPOG'ISTON RESPUBLIKASI",
+            "created_at": "2024-09-15T20:49:18.014910+05:00",
+            "updated_at": "2024-10-18T20:10:08.332402+05:00",
+            "order_number": 1,
+            "cadastr_id": "23",
+            "shared_id": 23
+        },
+        "name_ru": "Турткульский район",
+        "name_uz": "To'rtko'l tumani",
+        "created_at": "2024-09-15T20:49:18.062228+05:00",
+        "updated_at": "2024-10-18T20:10:08.376944+05:00",
+        "cadastr_id": "2308",
+        "order_number": 11,
+        "shared_id": 2308
+    },
+    {
+        "id": 11,
+        "region": {
+            "id": 1,
+            "name_ru": "РЕСПУБЛИКА КАРАКАЛПАКСТАН",
+            "name_uz": "QORAQALPOG'ISTON RESPUBLIKASI",
+            "created_at": "2024-09-15T20:49:18.014910+05:00",
+            "updated_at": "2024-10-18T20:10:08.332402+05:00",
+            "order_number": 1,
+            "cadastr_id": "23",
+            "shared_id": 23
+        },
+        "name_ru": "Тахтакупырский район",
+        "name_uz": "Taxtako'pir tumani",
+        "created_at": "2024-09-15T20:49:18.058573+05:00",
+        "updated_at": "2024-10-18T20:10:08.373340+05:00",
+        "cadastr_id": "2307",
+        "order_number": 10,
+        "shared_id": 2307
+    },
+    {
+        "id": 10,
+        "region": {
+            "id": 1,
+            "name_ru": "РЕСПУБЛИКА КАРАКАЛПАКСТАН",
+            "name_uz": "QORAQALPOG'ISTON RESPUBLIKASI",
+            "created_at": "2024-09-15T20:49:18.014910+05:00",
+            "updated_at": "2024-10-18T20:10:08.332402+05:00",
+            "order_number": 1,
+            "cadastr_id": "23",
+            "shared_id": 23
+        },
+        "name_ru": "Нукусский район",
+        "name_uz": "Nukus tumani",
+        "created_at": "2024-09-15T20:49:18.052461+05:00",
+        "updated_at": "2024-10-18T20:10:08.369676+05:00",
+        "cadastr_id": "2306",
+        "order_number": 9,
+        "shared_id": 2306
+    },
+    {
+        "id": 9,
+        "region": {
+            "id": 1,
+            "name_ru": "РЕСПУБЛИКА КАРАКАЛПАКСТАН",
+            "name_uz": "QORAQALPOG'ISTON RESPUBLIKASI",
+            "created_at": "2024-09-15T20:49:18.014910+05:00",
+            "updated_at": "2024-10-18T20:10:08.332402+05:00",
+            "order_number": 1,
+            "cadastr_id": "23",
+            "shared_id": 23
+        },
+        "name_ru": "Муйнакский район",
+        "name_uz": "Mo'ynoq tumani",
+        "created_at": "2024-09-15T20:49:18.049343+05:00",
+        "updated_at": "2024-10-18T20:10:08.366106+05:00",
+        "cadastr_id": "2305",
+        "order_number": 8,
+        "shared_id": 2305
+    },
+    {
+        "id": 8,
+        "region": {
+            "id": 1,
+            "name_ru": "РЕСПУБЛИКА КАРАКАЛПАКСТАН",
+            "name_uz": "QORAQALPOG'ISTON RESPUBLIKASI",
+            "created_at": "2024-09-15T20:49:18.014910+05:00",
+            "updated_at": "2024-10-18T20:10:08.332402+05:00",
+            "order_number": 1,
+            "cadastr_id": "23",
+            "shared_id": 23
+        },
+        "name_ru": "Кунградский район",
+        "name_uz": "Qo'ng'irot tumani",
+        "created_at": "2024-09-15T20:49:18.045794+05:00",
+        "updated_at": "2024-10-18T20:10:08.362914+05:00",
+        "cadastr_id": "2315",
+        "order_number": 7,
+        "shared_id": 2315
+    },
+    {
+        "id": 7,
+        "region": {
+            "id": 1,
+            "name_ru": "РЕСПУБЛИКА КАРАКАЛПАКСТАН",
+            "name_uz": "QORAQALPOG'ISTON RESPUBLIKASI",
+            "created_at": "2024-09-15T20:49:18.014910+05:00",
+            "updated_at": "2024-10-18T20:10:08.332402+05:00",
+            "order_number": 1,
+            "cadastr_id": "23",
+            "shared_id": 23
+        },
+        "name_ru": "Караузякский район",
+        "name_uz": "Qorao'zak tumani",
+        "created_at": "2024-09-15T20:49:18.042970+05:00",
+        "updated_at": "2024-10-18T20:10:08.359378+05:00",
+        "cadastr_id": "2314",
+        "order_number": 5,
+        "shared_id": 2314
+    },
+    {
+        "id": 6,
+        "region": {
+            "id": 1,
+            "name_ru": "РЕСПУБЛИКА КАРАКАЛПАКСТАН",
+            "name_uz": "QORAQALPOG'ISTON RESPUBLIKASI",
+            "created_at": "2024-09-15T20:49:18.014910+05:00",
+            "updated_at": "2024-10-18T20:10:08.332402+05:00",
+            "order_number": 1,
+            "cadastr_id": "23",
+            "shared_id": 23
+        },
+        "name_ru": "Канлыкульский район",
+        "name_uz": "Qonliko'l tumani",
+        "created_at": "2024-09-15T20:49:18.040082+05:00",
+        "updated_at": "2024-10-18T20:10:08.356232+05:00",
+        "cadastr_id": "2313",
+        "order_number": 6,
+        "shared_id": 2313
+    },
+    {
+        "id": 5,
+        "region": {
+            "id": 1,
+            "name_ru": "РЕСПУБЛИКА КАРАКАЛПАКСТАН",
+            "name_uz": "QORAQALPOG'ISTON RESPUBLIKASI",
+            "created_at": "2024-09-15T20:49:18.014910+05:00",
+            "updated_at": "2024-10-18T20:10:08.332402+05:00",
+            "order_number": 1,
+            "cadastr_id": "23",
+            "shared_id": 23
+        },
+        "name_ru": "Кегейлийский район",
+        "name_uz": "Kegeyli tumani",
+        "created_at": "2024-09-15T20:49:18.036705+05:00",
+        "updated_at": "2024-10-18T20:10:08.352954+05:00",
+        "cadastr_id": "2304",
+        "order_number": 4,
+        "shared_id": 2304
+    },
+    {
+        "id": 4,
+        "region": {
+            "id": 1,
+            "name_ru": "РЕСПУБЛИКА КАРАКАЛПАКСТАН",
+            "name_uz": "QORAQALPOG'ISTON RESPUBLIKASI",
+            "created_at": "2024-09-15T20:49:18.014910+05:00",
+            "updated_at": "2024-10-18T20:10:08.332402+05:00",
+            "order_number": 1,
+            "cadastr_id": "23",
+            "shared_id": 23
+        },
+        "name_ru": "Берунийский район",
+        "name_uz": "Beruniy tumani",
+        "created_at": "2024-09-15T20:49:18.033607+05:00",
+        "updated_at": "2024-10-18T20:10:08.349602+05:00",
+        "cadastr_id": "2302",
+        "order_number": 3,
+        "shared_id": 2302
+    },
+    {
+        "id": 3,
+        "region": {
+            "id": 1,
+            "name_ru": "РЕСПУБЛИКА КАРАКАЛПАКСТАН",
+            "name_uz": "QORAQALPOG'ISTON RESPUBLIKASI",
+            "created_at": "2024-09-15T20:49:18.014910+05:00",
+            "updated_at": "2024-10-18T20:10:08.332402+05:00",
+            "order_number": 1,
+            "cadastr_id": "23",
+            "shared_id": 23
+        },
+        "name_ru": "Амударьинский район",
+        "name_uz": "Amudaryo tumani",
+        "created_at": "2024-09-15T20:49:18.030582+05:00",
+        "updated_at": "2024-10-18T20:10:08.346226+05:00",
+        "cadastr_id": "2301",
+        "order_number": 2,
+        "shared_id": 2301
+    },
+    {
+        "id": 2,
+        "region": {
+            "id": 1,
+            "name_ru": "РЕСПУБЛИКА КАРАКАЛПАКСТАН",
+            "name_uz": "QORAQALPOG'ISTON RESPUBLIKASI",
+            "created_at": "2024-09-15T20:49:18.014910+05:00",
+            "updated_at": "2024-10-18T20:10:08.332402+05:00",
+            "order_number": 1,
+            "cadastr_id": "23",
+            "shared_id": 23
+        },
+        "name_ru": "Бузатовский район",
+        "name_uz": "Buzatov tumani",
+        "created_at": "2024-09-15T20:49:18.027391+05:00",
+        "updated_at": "2024-10-18T20:10:08.342734+05:00",
+        "cadastr_id": "2303",
+        "order_number": 17,
+        "shared_id": 2303
+    },
+    {
+        "id": 1,
+        "region": {
+            "id": 1,
+            "name_ru": "РЕСПУБЛИКА КАРАКАЛПАКСТАН",
+            "name_uz": "QORAQALPOG'ISTON RESPUBLIKASI",
+            "created_at": "2024-09-15T20:49:18.014910+05:00",
+            "updated_at": "2024-10-18T20:10:08.332402+05:00",
+            "order_number": 1,
+            "cadastr_id": "23",
+            "shared_id": 23
+        },
+        "name_ru": "город Нукус",
+        "name_uz": "Nukus shahar",
+        "created_at": "2024-09-15T20:49:18.022917+05:00",
+        "updated_at": "2024-10-18T20:10:08.338878+05:00",
+        "cadastr_id": "2317",
+        "order_number": 1,
+        "shared_id": 2317
+    }
+]
