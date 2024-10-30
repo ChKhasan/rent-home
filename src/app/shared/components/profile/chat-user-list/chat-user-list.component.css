@@ -17,7 +17,7 @@ p {
 }
 .active {
   background: var(--grey-100);
-  pointer-events: none;
+  /* pointer-events: none; */
   /*color: #fff;*/
 }
 .list::-webkit-scrollbar {
