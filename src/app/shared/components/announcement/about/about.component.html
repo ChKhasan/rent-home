@@ -1,7 +1,7 @@
 <div class="flex flex-col gap-8 md:gap-[10px]">
-  <h4 class="font-medium text-black text-[32px] md:text-xl">{{ announcement.title }}</h4>
+  <h4 class="font-medium text-black text-[32px] md:text-xl">{{ announcement?.title }}</h4>
 
-  <div class="flex flex-col gap-3 md:gap-1">
+  <div class="flex flex-col gap-3 md:gap-1" *ngIf="announcement?.floor && announcement?.room_count && announcement?.area">
     <h5 class="font-medium text-2xl md:text-lg">Ma`lumotlar:</h5>
     <ul class="flex gap-1">
       <li *ngIf="announcement?.room_count" class="flex gap-1 items-center h-9 px-3 font-medium text-lg bg-[--grey-100] rounded-xl md:text-base md:font-normal">
@@ -13,13 +13,13 @@
 
         {{announcement?.room_count}} xona
       </li>
-      <li class="flex gap-1 items-center h-9 px-3 font-medium text-lg bg-[--grey-100] rounded-xl md:text-base md:font-normal">
+      <li *ngIf="announcement?.area" class="flex gap-1 items-center h-9 px-3 font-medium text-lg bg-[--grey-100] rounded-xl md:text-base md:font-normal">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" clip-rule="evenodd" d="M10 0C9.52352 0 9.05292 0.105197 8.62179 0.30808L2.29681 3.28454C0.894844 3.94429 0 5.35437 0 6.90382V14C0 14.9978 0.57623 15.9058 1.47902 16.3306L8.62179 19.6919C9.05292 19.8948 9.52352 20 10 20C10.4765 20 10.9471 19.8948 11.3782 19.6919L18.521 16.3306C19.4238 15.9058 20 14.9978 20 14V6.90382C20 5.35437 19.1052 3.94429 17.7032 3.28454L11.3782 0.30808C10.9471 0.105197 10.4765 0 10 0ZM18 12.382L11 8.88197V2.34049L16.8516 5.09418C17.5526 5.42405 18 6.12909 18 6.90382V12.382ZM10 10.618L17.7343 14.4852C17.7136 14.4984 17.692 14.5104 17.6694 14.521L10.5266 17.8823C10.3619 17.9598 10.1821 18 10 18C9.81794 18 9.63812 17.9598 9.47339 17.8823L2.33062 14.521C2.30804 14.5104 2.28638 14.4984 2.26571 14.4852L10 10.618ZM9 8.88197L2 12.382V6.90382C2 6.12909 2.44742 5.42405 3.14841 5.09418L9 2.34049V8.88197Z" fill="#475367" />
         </svg>
-        56 kv
+        {{announcement?.area}} kv
       </li>
-      <li *ngIf="!!announcement?.floor" class="flex gap-1 items-center h-9 px-3 font-medium text-lg bg-[--grey-100] rounded-xl md:text-base md:font-normal">
+      <li *ngIf="announcement?.floor" class="flex gap-1 items-center h-9 px-3 font-medium text-lg bg-[--grey-100] rounded-xl md:text-base md:font-normal">
         <svg width="22" height="18" viewBox="0 0 22 18" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M8.5 4C8.5 4.55228 8.05229 5 7.5 5H6.5C5.94772 5 5.5 4.55228 5.5 4C5.5 3.44772 5.94772 3 6.5 3H7.5C8.05229 3 8.5 3.44772 8.5 4Z" fill="#475367" />
           <path d="M11.5 8C12.0523 8 12.5 7.55228 12.5 7C12.5 6.44772 12.0523 6 11.5 6H10.5C9.94772 6 9.5 6.44772 9.5 7C9.5 7.55228 9.94772 8 10.5 8H11.5Z" fill="#475367" />
@@ -39,7 +39,7 @@
   <div class="flex flex-col gap-3 md:gap-1">
     <h5 class="font-medium text-2xl md:text-lg">Shartlar:</h5>
     <ul class="flex gap-1">
-      <li class="flex gap-1 items-center h-9 px-3 font-medium text-lg bg-[--grey-100] rounded-xl md:text-base md:font-normal">
+      <li *ngIf="announcement.lessee_types.length" class="flex gap-1 items-center h-9 px-3 font-medium text-lg bg-[--grey-100] rounded-xl md:text-base md:font-normal">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M12.2008 9.3C13.9405 9.3 15.3508 7.8897 15.3508 6.15C15.3508 4.4103 13.9405 3 12.2008 3C10.4611 3 9.05078 4.4103 9.05078 6.15C9.05078 7.8897 10.4611 9.3 12.2008 9.3Z" stroke="#475367" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
           <path d="M13.55 12H10.85L5 21H19.4L13.55 12Z" stroke="#475367" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />

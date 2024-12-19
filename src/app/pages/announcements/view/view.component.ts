@@ -14,7 +14,7 @@ import { environment } from '@environments';
 import { RequestService } from '@services/request';
 import { ThumbCarouselComponent } from '@components/announcement/thumb-carousel/thumb-carousel.component';
 import { AboutComponent } from '@components/announcement/about/about.component';
-import { UserCardComponent } from "../../../shared/components/announcement/user-card/user-card.component";
+import { UserCardComponent } from '../../../shared/components/announcement/user-card/user-card.component';
 
 @Component({
   selector: 'app-view',
@@ -28,7 +28,31 @@ export class ViewComponent implements OnInit {
   loading: boolean = true;
   displayBasic: boolean = false;
   activeIndex = 0;
-  public announcement!: IAnnouncementInfo;
+  public announcement: IAnnouncementInfo = {
+    id: 0,
+    transports: [],
+    images: [],
+    lessee_types: [],
+    title: '',
+    partnership: false,
+    need_people_count: 0,
+    room_count: 0,
+    address: '',
+    location_x: '0',
+    location_y: '0',
+    currency: 'USD',
+    total_price: 0,
+    price_for_one: 0,
+    appartment_status: 0,
+    description: '',
+    conditioner: false,
+    washing_machine: false,
+    fridge: false,
+    floor: null,
+    area: null,
+    user: 0,
+    region: null,
+  };
   private id: string | null = '';
   images!: any[];
 
@@ -46,10 +70,7 @@ export class ViewComponent implements OnInit {
       numVisible: 1,
     },
   ];
-  constructor(
-    private route: ActivatedRoute,
-    private requestService: RequestService,
-  ) {
+  constructor(private route: ActivatedRoute, private requestService: RequestService) {
     this.id = this.route.snapshot.paramMap.get('id');
   }
 

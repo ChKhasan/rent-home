@@ -438,8 +438,10 @@ export interface components {
             conditioner?: boolean;
             washing_machine?: boolean;
             fridge?: boolean;
-            floor?: boolean;
-            user: number;
+            floor?: number | null;
+            area?: number | null;
+            user:  number | null;
+            region?: number | null;
         };
         ChatRoom: {
             readonly id: number;
