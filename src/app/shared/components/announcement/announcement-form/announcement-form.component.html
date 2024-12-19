@@ -3,6 +3,7 @@
     <div class="title flex justify-between items-center">
       <h3 class="text-[40px] font-medium text-[--green] md:text-2xl">E`lonlar berish</h3>
     </div>
+    {{ruleForm}}
     <div class="body mt-[30px]" [formGroup]="ruleForm">
       <div
         class="forma md:max-w-full mx-auto md:bg-transparent border-solid border rounded-2xl border-[--grey-300] p-4 md:p-4">
@@ -186,18 +187,6 @@
                   <p-inputSwitch formControlName="partnership" inputId="partnership" />
                 </div>
               </div>
-              <!-- <div class="flex gap-1">
-                <p-checkbox formControlName="conditioner" [binary]="true" inputId="conditioner"></p-checkbox>
-                <label class="cursor-pointer font-medium text-[14px] text-[--grey-900]" for="conditioner">Кондиционер</label>
-              </div>
-              <div class="flex gap-1">
-                <p-checkbox formControlName="washing_machine" [binary]="true" inputId="washing_machine"></p-checkbox>
-                <label class="cursor-pointer font-medium text-[14px] text-[--grey-900]" for="washing_machine">Стиральная машина</label>
-              </div> -->
-              <!-- <div class="flex gap-1">
-                <p-checkbox formControlName="partnership" [binary]="true" inputId="partnership"></p-checkbox>
-                <label class="cursor-pointer font-medium text-[14px] text-[--grey-900]" for="partnership">К партнерству</label>
-              </div> -->
             </div>
             <div class="flex flex-col gap-[30px]">
               <div class="flex flex-col gap-1 relative">
@@ -208,7 +197,7 @@
                 </div>
               </div>
 
-              <div class="flex flex-col gap-1 relative">
+              <div class="flex flex-col gap-1 relative" *ngIf="ruleForm.get('partnership')?.value">
                 <label class="font-medium text-[14px] text-[--grey-900]" for="price_for_one">Narxi (har bir odam
                   uchun)</label>
                 <div class="relative w-full flex items-center form-input">
@@ -216,7 +205,7 @@
                     formControlName="price_for_one"></p-inputNumber>
                 </div>
               </div>
-              <div class="flex flex-col gap-1 relative">
+              <div class="flex flex-col gap-1 relative" *ngIf="ruleForm.get('partnership')?.value">
                 <label class="font-medium text-[14px] text-[--grey-900]" for="need_people_count">Nechta odam
                   kerak*</label>
                 <div class="relative w-full flex items-center form-input">
@@ -224,35 +213,6 @@
                     formControlName="need_people_count"></p-inputNumber>
                 </div>
               </div>
-
-              <!--              &lt;!&ndash; <div class="flex flex-col gap-4">-->
-              <!--                <p v-if="loadingBus" class="text-base font-400 text-[&#45;&#45;dark-5]">-->
-              <!--                  Поиск маршрутов рядом с адресом-->
-              <!--                </p>-->
-              <!--                <p v-else class="text-base font-400 text-[&#45;&#45;dark-5]">-->
-              <!--                  Маршруты рядом с адресом-->
-              <!--                </p>-->
-              <!--                <div class="flex gap-4" v-if="loadingBus">-->
-              <!--                  <el-skeleton-->
-              <!--                    v-for="loadCard in loadList"-->
-              <!--                    :key="loadCard"-->
-              <!--                    :rows="0"-->
-              <!--                    width="100%"-->
-              <!--                  />-->
-              <!--                </div>-->
-              <!--                <div v-else class="bus-routes">-->
-              <!--                  <ul class="flex gap-4 flex-wrap">-->
-              <!--                    <li-->
-              <!--                      class="w-8 h-8 flex justify-center items-center bg-[&#45;&#45;green] text-white cursor-pointer rounded-sm"-->
-              <!--                      v-for="route in routes"-->
-              <!--                      @click="handleBusRoute(route)"-->
-              <!--                    >-->
-              <!--                      {{ route }}-->
-              <!--                    </li>-->
-              <!--                  </ul>-->
-              <!--                </div>-->
-              <!--              </div> &ndash;&gt;-->
-              <!--            </div>-->
             </div>
             <div class="flex justify-end max-w-[60%] md:max-w-full mt-4 cursor-pointer">
               <div (click)="openMapDialog()"

@@ -19,7 +19,7 @@
         </svg>
         56 kv
       </li>
-      <li class="flex gap-1 items-center h-9 px-3 font-medium text-lg bg-[--grey-100] rounded-xl md:text-base md:font-normal">
+      <li *ngIf="!!announcement?.floor" class="flex gap-1 items-center h-9 px-3 font-medium text-lg bg-[--grey-100] rounded-xl md:text-base md:font-normal">
         <svg width="22" height="18" viewBox="0 0 22 18" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M8.5 4C8.5 4.55228 8.05229 5 7.5 5H6.5C5.94772 5 5.5 4.55228 5.5 4C5.5 3.44772 5.94772 3 6.5 3H7.5C8.05229 3 8.5 3.44772 8.5 4Z" fill="#475367" />
           <path d="M11.5 8C12.0523 8 12.5 7.55228 12.5 7C12.5 6.44772 12.0523 6 11.5 6H10.5C9.94772 6 9.5 6.44772 9.5 7C9.5 7.55228 9.94772 8 10.5 8H11.5Z" fill="#475367" />
@@ -32,7 +32,7 @@
           <path fill-rule="evenodd" clip-rule="evenodd" d="M3 2C3 0.895431 3.89543 0 5 0H13C14.1046 0 15 0.89543 15 2V6H18C19.1046 6 20 6.89543 20 8V16H21C21.5523 16 22 16.4477 22 17C22 17.5523 21.5523 18 21 18H1C0.447715 18 0 17.5523 0 17C0 16.4477 0.447715 16 1 16H3V2ZM5 16H13V2H5V16ZM18 12V11H17.5C16.9477 11 16.5 10.5523 16.5 10C16.5 9.44771 16.9477 9 17.5 9H18V8H15V16H18V14H17.5C16.9477 14 16.5 13.5523 16.5 13C16.5 12.4477 16.9477 12 17.5 12H18Z" fill="#475367" />
         </svg>
 
-        2-qavat
+        {{announcement?.floor}}-qavat
       </li>
     </ul>
   </div>

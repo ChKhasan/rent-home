@@ -438,6 +438,7 @@ export interface components {
             conditioner?: boolean;
             washing_machine?: boolean;
             fridge?: boolean;
+            floor?: boolean;
             user: number;
         };
         ChatRoom: {

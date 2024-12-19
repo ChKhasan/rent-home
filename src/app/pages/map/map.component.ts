@@ -92,7 +92,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     this.__GET_ANNOUNCEMENTS();
     if (typeof window !== 'undefined') {
       this.activeTransports();
-      this.__POST_TRANSPORTS()
+      // this.__POST_TRANSPORTS()
     }
   }
 
@@ -381,13 +381,11 @@ export class MapComponent implements OnInit, AfterViewInit {
     console.log(e);
   }
 
-  __POST_TRANSPORTS() {
-    this._httpRequest.get('https://new.rent-home.uz/api/proxy/?urls=https://uz.easyway.info/en/cities/tashkent/routes').subscribe((res: any) => {
-      console.log(res)
-    })
-   
-    // this.requestService.requestData(environment.authUrls.POST_ALLTRANSPORTS,'POST')
-  }
+  // __POST_TRANSPORTS() {
+  //   this._httpRequest.get('https://new.rent-home.uz/api/proxy/?urls=https://uz.easyway.info/en/cities/tashkent/routes').subscribe((res: any) => {
+  //     console.log(res)
+  //   })
+  // }
   onChange(event: any) {
     console.log(event)
     if(typeof event.itemValue === 'string'){
