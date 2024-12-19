@@ -54,7 +54,7 @@ export class FormService {
       .pipe(finalize(() => (this.loading = false)))
       .subscribe((response) => {
         this.toastService.showMessage('success', 'Success', 'Объявление успешно создано');
-        this.router.navigate(['/profile/announcements']).then((r) => {});
+        this.router.navigate(['/profile']).then((r) => {});
       });
   }
 
@@ -65,7 +65,7 @@ export class FormService {
       .pipe(finalize(() => (this.loading = false)))
       .subscribe((response) => {
         this.toastService.showMessage('success', 'Success', 'Объявление успешно изменено');
-        this.router.navigate(['/profile/announcements']);
+        this.router.navigate(['/profile']);
       });
   }
 }

@@ -56,7 +56,6 @@ export class AnnouncementFormComponent implements OnInit {
     public _formControl: FormService,
     private messageService: MessageService,
     private route: ActivatedRoute,
-    private location: Location,
     private requestService: RequestService,
     private router: Router,
     public dictionaryService: DictionaryService
