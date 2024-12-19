@@ -1,5 +1,5 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
+import { Component, Input } from '@angular/core';
+import { CarouselModule } from 'ngx-owl-carousel-o';
 import { NgClass, NgForOf, NgIf } from '@angular/common';
 
 @Component({
@@ -14,19 +14,11 @@ export class ThumbCarouselComponent {
   productImages = [
     {
       id: 125,
-      url: 'https://images.unsplash.com/reserve/bOvf94dPRxWu0u3QsPjF_tree.jpg?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=755&q=80',
+       image: 'assets/images/big.jpg'
     },
     {
       id: 126,
-      url: 'https://images.unsplash.com/photo-1442850473887-0fb77cd0b337?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80',
-    },
-    {
-      id: 127,
-      url: 'https://images.unsplash.com/reserve/bOvf94dPRxWu0u3QsPjF_tree.jpg?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=755&q=80',
-    },
-    {
-      id: 128,
-      url: 'https://images.unsplash.com/photo-1442850473887-0fb77cd0b337?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80',
+      image: 'assets/images/big.jpg'
     },
   ];
   selectedImage: any;
