@@ -106,7 +106,9 @@ export class AnnouncementFormComponent implements OnInit {
           fridge: response.fridge,
           washing_machine: response.washing_machine,
           user: response.user,
-          region: response.region
+          region: response.region,
+          area: response.area,
+          floor: response.floor
         });
       });
     }

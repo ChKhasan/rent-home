@@ -3,7 +3,6 @@
     <div class="title flex justify-between items-center">
       <h3 class="text-[40px] font-medium text-[--green] md:text-2xl">E`lonlar berish</h3>
     </div>
-    {{ruleForm}}
     <div class="body mt-[30px]" [formGroup]="ruleForm">
       <div
         class="forma md:max-w-full mx-auto md:bg-transparent border-solid border rounded-2xl border-[--grey-300] p-4 md:p-4">
@@ -65,6 +64,20 @@
               <div class="relative w-full flex items-center form-input">
                 <p-inputNumber inputId="room_count" class="w-full" [maxlength]="2" placeholder="99"
                   formControlName="room_count"></p-inputNumber>
+              </div>
+            </div>
+            <div class="flex flex-col gap-1 relative">
+              <label class="font-medium text-[14px] text-[--grey-900]" for="area">Hajmi (kv)*</label>
+              <div class="relative w-full flex items-center form-input">
+                <p-inputNumber inputId="area" class="w-full" [maxlength]="2" placeholder="0"
+                  formControlName="area"></p-inputNumber>
+              </div>
+            </div>
+            <div class="flex flex-col gap-1 relative">
+              <label class="font-medium text-[14px] text-[--grey-900]" for="floor">Qavat</label>
+              <div class="relative w-full flex items-center form-input">
+                <p-inputNumber inputId="floor" class="w-full" [maxlength]="2" placeholder="0"
+                  formControlName="floor"></p-inputNumber>
               </div>
             </div>
             <div class="flex flex-col gap-1 relative">
