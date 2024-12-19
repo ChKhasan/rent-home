@@ -1,4 +1,4 @@
-<div class="card bg-white px-5 py-5 rounded-2xl md:rounded-[8px] border border-solid border-[--grey-300]">
+<div class="card h-full bg-white px-5 py-5 rounded-2xl md:rounded-[8px] border border-solid border-[--grey-300]">
   <div class="image mb-6 md:mb-3 relative cursor-pointer h-[275px] md:h-[242px] overflow-hidden">
     <owl-carousel-o *ngIf="announcement.images[0]?.image && showCarousel; else showImage" [options]="customOptions">
       <ng-template carouselSlide *ngFor="let announcement of announcement.images; let i = index">
@@ -55,6 +55,7 @@
       <p class="cursor-pointer font-medium text-[black] text-xl md:text-lg">{{ announcement?.title }}</p>
     </a>
     <div class="flex gap-2 mt-3">
+    
       <span *ngIf="announcement.room_count" class="gap-1 text-lg md:text-base border border-solid border-[--green-100] rounded-xl h-8 md:h-[28px] px-3 flex items-center">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" clip-rule="evenodd" d="M1.66602 7.08329C1.66602 8.23389 2.59876 9.16663 3.74935 9.16663L16.2493 9.16663C17.3999 9.16663 18.3327 8.23389 18.3327 7.08329V3.74996C18.3327 2.59937 17.3999 1.66663 16.2493 1.66663H3.74935C2.59876 1.66663 1.66602 2.59937 1.66602 3.74996V7.08329ZM3.74935 7.49996C3.51923 7.49996 3.33268 7.31341 3.33268 7.08329L3.33268 3.74996C3.33268 3.51984 3.51923 3.33329 3.74935 3.33329L16.2493 3.33329C16.4795 3.33329 16.666 3.51984 16.666 3.74996V7.08329C16.666 7.31341 16.4795 7.49996 16.2493 7.49996L3.74935 7.49996Z" fill="#475367" />
@@ -63,7 +64,7 @@
         </svg>
         {{announcement.room_count}} xona
       </span>
-      <span  class="gap-1 text-lg md:text-base border border-solid border-[--green-100] rounded-xl h-8 md:h-[28px] px-3 flex items-center">
+      <span *ngIf="announcement?.floor" class="gap-1 text-lg md:text-base border border-solid border-[--green-100] rounded-xl h-8 md:h-[28px] px-3 flex items-center">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             fill-rule="evenodd"
@@ -72,7 +73,10 @@
             fill="#475367"
           />
         </svg>
-        56 kv
+        {{announcement?.floor}} kv
+      </span>
+      <span  class="bg-transparent gap-1 text-lg md:text-base rounded-xl h-8 md:h-[28px] px-3">
+       
       </span>
     </div>
     <div class="flex flex-col gap-[8px] mt-2 md:2t-1">
