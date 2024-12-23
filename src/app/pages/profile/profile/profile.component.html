@@ -4,10 +4,12 @@
     <div class="flex justify-between items-center">
       <h3 class="text-[40px] font-medium text-[--green] md:text-[24px] md:mb-3">Profile</h3>
       <div class="flex gap-4">
-        <a [routerLink]="'/profile/create'" class="border-solid border-[2px] border-[--green] rounded-xl text-[14px] flex items-center gap-2 bg-transparent font-semibold p-3 md:px-2 md:py-2 md:text-xs md:border-[1px] text-[--green]">
-        
+        <button [routerLink]="'/profile/chat'" pButton type="button" icon="pi pi-comments"  class="rounded-xl flex md:gap-0 gap-2 md:px-2 items-center bg-[--green]" iconPos="left"> 
+          Yozishmalarim
+        </button>
+        <button [routerLink]="'/profile/create'" pButton type="button" icon="pi pi-plus"  class="rounded-xl flex md:gap-0 gap-2 md:px-2 items-center bg-[--green]" iconPos="left"> 
           E'lon yaratish
-        </a>
+        </button>
         <button (click)="logout()"  class="border-solid border-[2px] border-[--error-400] rounded-xl text-[14px] flex items-center gap-2 bg-transparent font-semibold p-3  md:px-2 md:py-2 md:text-xs md:border-[1px] text-[--error-400]">
           <svg class="md:hidden" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M6.25033 3.33332C6.71056 3.33332 7.08366 2.96023 7.08366 2.49999C7.08366 2.03975 6.71056 1.66666 6.25033 1.66666H5.00033C3.15938 1.66666 1.66699 3.15904 1.66699 4.99999V15C1.66699 16.8409 3.15938 18.3333 5.00033 18.3333H6.25033C6.71056 18.3333 7.08366 17.9602 7.08366 17.5C7.08366 17.0398 6.71056 16.6667 6.25033 16.6667H5.00033C4.07985 16.6667 3.33366 15.9205 3.33366 15L3.33366 4.99999C3.33366 4.07952 4.07985 3.33332 5.00033 3.33332H6.25033Z" fill="#D42620" />
