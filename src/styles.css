@@ -58,7 +58,7 @@
 
   /* colors */
   --primary-color: #ff0000; /* Change to your desired color */
-  --error-400: #D42620;
+  --error-400: #d42620;
   --el-color-primary: #5fc381 !important;
   --green: #5fc381;
   --green-100: #91d6a8;
@@ -73,7 +73,7 @@
   --dark-3: #3a3a3c;
   --dark-4: #2c2c2e;
   --dark-5: #1c1c1e;
-  --grey-100: #F0F2F5;
+  --grey-100: #f0f2f5;
   --grey-300: #d0d5dd;
   --grey-400: #98a2b3;
   --grey-600: #667185;
@@ -84,7 +84,7 @@
   --ant-primary-color: #5fc381; /* Change this to your desired primary color */
   --input-color: #fafafc;
   --brown-900: #3e3838;
-  --success-75: #B5E3C4
+  --success-75: #b5e3c4;
 }
 
 .font-100 {
@@ -192,4 +192,47 @@ ul {
 }
 .p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
   background-color: var(--green);
+}
+
+.btn .description {
+  position: relative;
+  z-index: 3;
+  transition: 0.5s ease-in;
+  transition-delay: 0.1s;
+}
+.btn:hover .description {
+  color: #fff;
+}
+.btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before,
+.btn::after {
+  content: "";
+  position: absolute;
+  height: 1px;
+  width: 1px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  border-radius: 50%;
+}
+
+.btn::before {
+  background: var(--green-100);
+  transition: 0.5s ease-in;
+  transition-delay: 0.1s;
+}
+
+.btn::after {
+  background: var(--green);
+  transition: 0.7s ease;
+  transition-delay: 0.4s;
+}
+
+.btn:hover::before,
+.btn:hover::after {
+  transform: translate(-50%, -50%) scale(310);
 }
