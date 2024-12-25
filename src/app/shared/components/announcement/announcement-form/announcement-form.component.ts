@@ -25,6 +25,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { DictionaryService } from '@/core/services/dictionary/dictionary.service';
+import { ValidationErrorAnimation } from '@/core/common/animations';
 interface UploadEvent {
   originalEvent: Event;
   files: File[];
@@ -33,6 +34,7 @@ interface UploadEvent {
 @Component({
   selector: 'app-announcement-form',
   standalone: true,
+  animations: [ValidationErrorAnimation],
   imports: [FormsModule, InputTextModule,InputSwitchModule, MultiSelectModule, DropdownModule, InvaidTextComponent, NgIf, ReactiveFormsModule, NgClass, TooltipModule, NgOptimizedImage, ButtonModule, ToastModule, FileUploadModule, InputTextareaModule, CheckboxModule, InputMaskModule, InputNumberModule, NgForOf, ImageModule, RippleModule, RouterLink, MapDialogComponent],
   templateUrl: './announcement-form.component.html',
   styleUrl: './announcement-form.component.css',
