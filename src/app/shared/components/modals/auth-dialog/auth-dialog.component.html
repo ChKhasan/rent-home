@@ -100,7 +100,7 @@
           <app-invaid-text class="w-full flex justify-center" [text]="'Этот номер уже зарегистрирован'" *ngIf="infoError"></app-invaid-text>
         </div>
       </div>
-      <button pButton [loading]="loading" (click)="onSubmit()" class="w-full mt-6 h-12 items-center text-[17px] bg-[color:var(--green)] rounded-[8px] text-white font-600 flex justify-center">Kirish</button>
+      <button pButton [loading]="loading" (click)="onSubmit()" class="btn w-full mt-6 h-12 items-center text-[17px] bg-[color:var(--green)] rounded-[8px] text-white font-600 flex justify-center">Kirish</button>
       <div class="flex justify-center mt-4">
         <button (click)="openRegisterDialog()" class="mx-auto font-600 text-[17px] bg-[transparent] text-[color:var(--green)]">Ro’yxatdan o’tish</button>
       </div>

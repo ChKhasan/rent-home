@@ -1,6 +1,6 @@
-/* .card {
-  box-shadow: 0px 9px 18px 0px rgba(0, 0, 0, 0.08);
-} */
+.card {
+  transition: .3s linear;
+}
 
 .body h3 {
   font-family: var(--semiBold);
@@ -29,6 +29,12 @@
 .title:hover h3 {
   color: var(--green);
 }
+.title p {
+  transition: .2s linear;
+}
+.title:hover p{
+  color: var(--green-100);
+}
 
 .card img {
   transition: 0.3s linear;
@@ -36,6 +42,9 @@
 
 .card:hover img {
   transform: scale(1.04);
+}
+.card:hover {
+  background-color: var(--gray-1);
 }
 :host ::ng-deep .p-button-loading-icon {
   color: var(--green);

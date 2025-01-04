@@ -229,7 +229,7 @@
             </div>
             <div class="flex justify-end max-w-[60%] md:max-w-full mt-4 cursor-pointer">
               <div (click)="openMapDialog()"
-                class="h-12 w-[250px] md:w-full flex items-center justify-center bg-[#3A75CE] rounded-lg text-white font-500 gap-2">
+                class="map-btn h-12 w-[250px] md:w-full flex items-center justify-center bg-[#3A75CE] rounded-lg text-white font-500 gap-2">
                 Haritadan joyni ko’rsatish
                 <svg width="16" height="19" viewBox="0 0 16 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" clip-rule="evenodd"
@@ -250,9 +250,9 @@
       <div class="flex justify-start md:flex-col  gap-3 mt-4 ">
         <p-button pRipple pButton [loading]="_formControl.loading" (click)="onSubmit()"
           class="px-0 py-0 bg-[transparent] w-[128px] rounded-[12px] border-0 md:w-full"
-          styleClass="w-[270px] md:w-full px-0 py-0 p-ripple h-12 md:h-11 rounded-[12px] bg-[var(--green)] text-white flex font-semibold md:text-sm items-center justify-center">Saqlash</p-button>
+          styleClass="btn w-[270px] md:w-full px-0 py-0 p-ripple h-12 md:h-11 rounded-[12px] bg-[var(--green)] text-white flex font-semibold md:text-sm items-center justify-center">Saqlash</p-button>
         <button (click)="goBack()"
-          class="px-[20px] md:h-11 md:justify-center cursor-pointer bg-transparent whitespace-nowrap py-[10px] rounded-[12px] text-black border border-solid border-[--grey-300] text-[16px] md:text-sm font-semibold flex items-center gap-[10px]">Bekor
+          class="btn px-[20px] md:h-11 md:justify-center cursor-pointer bg-transparent whitespace-nowrap py-[10px] rounded-[12px] text-black border border-solid border-[--grey-300] text-[16px] md:text-sm font-semibold flex items-center gap-[10px]">Bekor
           qilish</button>
       </div>
     </div>

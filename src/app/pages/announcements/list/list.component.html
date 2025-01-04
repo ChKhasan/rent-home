@@ -23,7 +23,7 @@
         <div class="flex items-center justify-between mb-[30px] md:hidden">
           <h6 class="font-600 text-[color:#C5C6C7] text-[20px]">Tahlash:</h6>
           <div class="tab gap-[10px] flex px-[4px] rounded-[12px] items-center border border-[color:#EAEAEA] border-solid py-[4px]">
-            <button *ngFor="let sort of sortOptions" class="px-[20px] whitespace-nowrap py-[10px] rounded-[12px] text-[color:var(--dark-1)] text-[16px] font-500 flex items-center gap-[10px]" [class]="{ active: sort.options.includes(currentSort) }" (click)="sortHandle(sort.options)">
+            <button *ngFor="let sort of sortOptions" class="btn px-[20px] whitespace-nowrap py-[10px] rounded-[12px] text-[color:var(--dark-1)] text-[16px] font-500 flex items-center gap-[10px]" [class]="{ active: sort.options.includes(currentSort) }" (click)="sortHandle(sort.options)">
               {{ sort.name }}
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
                 <g clip-path="url(#clip0_347_11118)">

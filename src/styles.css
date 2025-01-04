@@ -193,46 +193,10 @@ ul {
 .p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
   background-color: var(--green);
 }
-
-.btn .description {
-  position: relative;
-  z-index: 3;
-  transition: 0.5s ease-in;
-  transition-delay: 0.1s;
-}
-.btn:hover .description {
-  color: #fff;
-}
 .btn {
-  position: relative;
-  overflow: hidden;
+  transition: 0.2s linear;
 }
-
-.btn::before,
-.btn::after {
-  content: "";
-  position: absolute;
-  height: 1px;
-  width: 1px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  border-radius: 50%;
-}
-
-.btn::before {
-  background: var(--green-100);
-  transition: 0.5s ease-in;
-  transition-delay: 0.1s;
-}
-
-.btn::after {
-  background: var(--green);
-  transition: 0.7s ease;
-  transition-delay: 0.4s;
-}
-
-.btn:hover::before,
-.btn:hover::after {
-  transform: translate(-50%, -50%) scale(310);
+.btn:hover {
+  background: var(--green-100) !important;
+  color: #fff;
 }

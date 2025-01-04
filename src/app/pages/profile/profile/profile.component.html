@@ -4,10 +4,10 @@
     <div class="flex justify-between items-center">
       <h3 class="text-[40px] font-medium text-[--green] md:text-[24px] md:mb-3">Profile</h3>
       <div class="flex gap-4">
-        <button [routerLink]="'/profile/chat'" pButton type="button" icon="pi pi-comments"  class="rounded-xl flex md:gap-0 gap-2 md:px-2 items-center bg-[--green]" iconPos="left"> 
+        <button [routerLink]="'/profile/chat'" pButton type="button" icon="pi pi-comments"  class="btn rounded-xl flex md:gap-0 gap-2 md:px-2 items-center bg-[--green]" iconPos="left"> 
           Yozishmalarim
         </button>
-        <button [routerLink]="'/profile/create'" pButton type="button" icon="pi pi-plus"  class="rounded-xl flex md:gap-0 gap-2 md:px-2 items-center bg-[--green]" iconPos="left"> 
+        <button [routerLink]="'/profile/create'" pButton type="button" icon="pi pi-plus"  class="btn rounded-xl flex md:gap-0 gap-2 md:px-2 items-center bg-[--green]" iconPos="left"> 
           E'lon yaratish
         </button>
         <button (click)="logout()"  class="border-solid border-[2px] border-[--error-400] rounded-xl text-[14px] flex items-center gap-2 bg-transparent font-semibold p-3  md:px-2 md:py-2 md:text-xs md:border-[1px] text-[--error-400]">
@@ -174,8 +174,8 @@
         </div>
       </div>
       <div class="flex md:w-full md:flex-col gap-3">
-        <p-button [loading]="loading" (click)="onSubmit()" class="px-0 py-0 rounded-[12px]" styleClass="w-[138px] md:w-full h-12 md:h-11 rounded-[12px] bg-[var(--green)] text-white flex items-center font-semibold justify-center">Saqlash</p-button>
-        <button (click)="isEdit = false" class="px-[20px] md:h-11 md:w-full md:justify-center font-semibold cursor-pointer bg-transparent whitespace-nowrap py-[10px] rounded-[12px] text-black border border-solid border-[--grey-300] text-[16px] font-500 flex items-center gap-[10px]">Bekor qilish</button>
+        <p-button [loading]="loading" (click)="onSubmit()" class="px-0 py-0 rounded-[12px]" styleClass="btn w-[138px] md:w-full h-12 md:h-11 rounded-[12px] bg-[var(--green)] text-white flex items-center font-semibold justify-center">Saqlash</p-button>
+        <button (click)="isEdit = false" class="btn px-[20px] md:h-11 md:w-full md:justify-center font-semibold cursor-pointer bg-transparent whitespace-nowrap py-[10px] rounded-[12px] text-black border border-solid border-[--grey-300] text-[16px] font-500 flex items-center gap-[10px]">Bekor qilish</button>
       </div>
     </div>
   </div>

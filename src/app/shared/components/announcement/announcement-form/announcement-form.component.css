@@ -49,3 +49,9 @@ textarea:focus {
   width: 104px;
   height: 104px;
 }
+.map-btn {
+  transition: .3s;
+}
+.map-btn:hover {
+  background-color: #a7c9fb;
+}
