@@ -1,4 +1,5 @@
-<div class="flex flex-col gap-6 justify-between rounded-2xl bg-white px-4 py-4 border-[1px] border-[--grey-300] border-solid">
+<div
+  class="flex flex-col gap-6 justify-between rounded-2xl bg-white px-4 py-4 border-[1px] border-[--grey-300] border-solid">
   <div class="flex flex-col gap-6 items-center">
     <div class="image w-[96px] h-[96px] rounded-full overflow-hidden">
       <ng-container *ngIf="announcement?.user?.images[0]?.image; else defaultImage">
@@ -14,25 +15,44 @@
     </div>
   </div>
   <div class="grid grid-cols-2 gap-3 md:gap-2">
-    <p-button [disabled]="authService.user.id === announcement?.user" [loading]="loading" (click)="toChat()" styleClass="btn ripple-button gap-2 w-full items-center py-[14px] md:py-3 bg-[color:var(--green)] rounded-xl text-white font-semibold flex justify-center md:text-[14px]" class="px-0 py-0 rounded-[8px] bg-[transparent] border-0">
-      <svg width="25" height="24" class="md:!w-5 md:!h-5" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M6.5 10C6.5 9.44772 6.94772 9 7.5 9H12.5C13.0523 9 13.5 9.44772 13.5 10C13.5 10.5523 13.0523 11 12.5 11H7.5C6.94772 11 6.5 10.5523 6.5 10Z" fill="white" />
-        <path d="M7.5 13C6.94772 13 6.5 13.4477 6.5 14C6.5 14.5523 6.94772 15 7.5 15H16.5C17.0523 15 17.5 14.5523 17.5 14C17.5 13.4477 17.0523 13 16.5 13H7.5Z" fill="white" />
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M2.5 12C2.5 6.47715 6.97715 2 12.5 2C18.0228 2 22.5 6.47715 22.5 12C22.5 17.5228 18.0228 22 12.5 22C11.6677 22 10.8578 21.8981 10.0827 21.7056L4.53877 21.0126C3.34049 20.8628 2.50773 19.7459 2.70626 18.5547L3.04915 16.4974C3.05113 16.4854 3.05138 16.4733 3.04988 16.4613L2.79438 14.4173C2.6019 13.6422 2.5 12.8323 2.5 12ZM12.5 4C8.08172 4 4.5 7.58172 4.5 12C4.5 12.6866 4.58625 13.3515 4.74801 13.9853L4.76355 14.0462L5.03444 16.2132C5.05992 16.4171 5.05571 16.6235 5.02193 16.8262L4.67905 18.8835C4.66737 18.9536 4.71635 19.0193 4.78684 19.0281L10.4538 19.7364L10.5147 19.752C11.1485 19.9137 11.8135 20 12.5 20C16.9183 20 20.5 16.4183 20.5 12C20.5 7.58172 16.9183 4 12.5 4Z" fill="white" />
+    <p-button [disabled]="authService.user.id === announcement?.user" [loading]="loading" (click)="toChat()"
+      styleClass="btn ripple-button gap-2 w-full items-center py-[14px] md:py-3 bg-[color:var(--green)] rounded-xl text-white font-semibold flex justify-center md:text-[14px]"
+      class="px-0 py-0 rounded-[8px] bg-[transparent] border-0">
+      <svg width="25" height="24" class="md:!w-5 md:!h-5" viewBox="0 0 25 24" fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M6.5 10C6.5 9.44772 6.94772 9 7.5 9H12.5C13.0523 9 13.5 9.44772 13.5 10C13.5 10.5523 13.0523 11 12.5 11H7.5C6.94772 11 6.5 10.5523 6.5 10Z"
+          fill="white" />
+        <path
+          d="M7.5 13C6.94772 13 6.5 13.4477 6.5 14C6.5 14.5523 6.94772 15 7.5 15H16.5C17.0523 15 17.5 14.5523 17.5 14C17.5 13.4477 17.0523 13 16.5 13H7.5Z"
+          fill="white" />
+        <path fill-rule="evenodd" clip-rule="evenodd"
+          d="M2.5 12C2.5 6.47715 6.97715 2 12.5 2C18.0228 2 22.5 6.47715 22.5 12C22.5 17.5228 18.0228 22 12.5 22C11.6677 22 10.8578 21.8981 10.0827 21.7056L4.53877 21.0126C3.34049 20.8628 2.50773 19.7459 2.70626 18.5547L3.04915 16.4974C3.05113 16.4854 3.05138 16.4733 3.04988 16.4613L2.79438 14.4173C2.6019 13.6422 2.5 12.8323 2.5 12ZM12.5 4C8.08172 4 4.5 7.58172 4.5 12C4.5 12.6866 4.58625 13.3515 4.74801 13.9853L4.76355 14.0462L5.03444 16.2132C5.05992 16.4171 5.05571 16.6235 5.02193 16.8262L4.67905 18.8835C4.66737 18.9536 4.71635 19.0193 4.78684 19.0281L10.4538 19.7364L10.5147 19.752C11.1485 19.9137 11.8135 20 12.5 20C16.9183 20 20.5 16.4183 20.5 12C20.5 7.58172 16.9183 4 12.5 4Z"
+          fill="white" />
       </svg>
 
       Chat
     </p-button>
-    <a [href]="'tel:'+announcement?.user?.phone_number" class="btn border border-solid border-[--grey-300] text-[#000] gap-2 items-center py-[14px] md:py-3 bg-[transparent] rounded-xl font-semibold flex justify-center md:text-[14px]">
-      <svg width="24" height="24" class="md:!w-5 md:!h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+    <a [href]="'tel:'+announcement?.user?.phone_number"
+      class="btn hidden phone-number border border-solid border-[--grey-300] text-[#000] gap-2 items-center py-[14px] md:py-3 bg-[transparent] rounded-xl font-semibold md:flex justify-center md:text-[14px]">
+      <svg width="24" height="24" class="md:!w-5 md:!h-5" viewBox="0 0 24 24" fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd"
           d="M9.87445 2.80756C8.31235 1.24546 5.77969 1.24546 4.21759 2.80756L3.68206 3.34309C2.94369 4.08146 2.43866 5.18793 2.72673 6.38653C3.16834 8.22404 4.49723 11.5725 8.46023 15.5355C12.4232 19.4985 15.7717 20.8274 17.6092 21.269C18.8078 21.5571 19.9143 21.052 20.6526 20.3137L21.1882 19.7781C22.7503 18.216 22.7503 15.6834 21.1882 14.1213L20.2593 13.1924C18.986 11.9191 17.0189 11.6536 15.4536 12.5437L15.3571 12.5985C14.7157 12.9633 13.9788 12.9335 13.4568 12.5557C13.0355 12.2508 12.6329 11.93 12.3493 11.6464C12.0657 11.3628 11.7449 10.9602 11.44 10.539C11.0622 10.0169 11.0324 9.28004 11.3972 8.63861L11.4521 8.54207C12.3421 6.97677 12.0766 5.0097 10.8033 3.73644L9.87445 2.80756ZM5.63181 4.22177C6.41286 3.44072 7.67918 3.44072 8.46023 4.22177L9.38911 5.15065C10.0257 5.78728 10.1585 6.77082 9.71348 7.55347L9.65859 7.65C8.95368 8.88966 8.92895 10.4805 9.81983 11.7115C10.1471 12.1637 10.5403 12.6658 10.9351 13.0606C11.3299 13.4554 11.832 13.8487 12.2842 14.1759C13.5152 15.0668 15.1061 15.042 16.3457 14.3371L16.4422 14.2822C17.2249 13.8372 18.2084 13.97 18.8451 14.6066L19.7739 15.5355C20.555 16.3165 20.555 17.5829 19.7739 18.3639L19.2384 18.8994C18.8516 19.2863 18.4252 19.4082 18.0765 19.3244C16.6075 18.9713 13.5841 17.8309 9.87445 14.1213C6.16478 10.4116 5.02441 7.38822 4.67135 5.91918C4.58756 5.57053 4.70942 5.14416 5.09627 4.75731L5.63181 4.22177Z"
-          fill="currentColor"
-        />
+          fill="currentColor" />
       </svg>
       Telefon
+    </a>
+    <a (click)="showNumber = true"
+      class="btn md:hidden flex cursor-pointer border border-solid border-[--grey-300] text-[#000] gap-2 items-center py-[14px] md:py-3 bg-[transparent] rounded-xl font-semibold  justify-center md:text-[14px]">
+      <svg width="24" height="24" class="md:!w-5 md:!h-5" viewBox="0 0 24 24" fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd"
+          d="M9.87445 2.80756C8.31235 1.24546 5.77969 1.24546 4.21759 2.80756L3.68206 3.34309C2.94369 4.08146 2.43866 5.18793 2.72673 6.38653C3.16834 8.22404 4.49723 11.5725 8.46023 15.5355C12.4232 19.4985 15.7717 20.8274 17.6092 21.269C18.8078 21.5571 19.9143 21.052 20.6526 20.3137L21.1882 19.7781C22.7503 18.216 22.7503 15.6834 21.1882 14.1213L20.2593 13.1924C18.986 11.9191 17.0189 11.6536 15.4536 12.5437L15.3571 12.5985C14.7157 12.9633 13.9788 12.9335 13.4568 12.5557C13.0355 12.2508 12.6329 11.93 12.3493 11.6464C12.0657 11.3628 11.7449 10.9602 11.44 10.539C11.0622 10.0169 11.0324 9.28004 11.3972 8.63861L11.4521 8.54207C12.3421 6.97677 12.0766 5.0097 10.8033 3.73644L9.87445 2.80756ZM5.63181 4.22177C6.41286 3.44072 7.67918 3.44072 8.46023 4.22177L9.38911 5.15065C10.0257 5.78728 10.1585 6.77082 9.71348 7.55347L9.65859 7.65C8.95368 8.88966 8.92895 10.4805 9.81983 11.7115C10.1471 12.1637 10.5403 12.6658 10.9351 13.0606C11.3299 13.4554 11.832 13.8487 12.2842 14.1759C13.5152 15.0668 15.1061 15.042 16.3457 14.3371L16.4422 14.2822C17.2249 13.8372 18.2084 13.97 18.8451 14.6066L19.7739 15.5355C20.555 16.3165 20.555 17.5829 19.7739 18.3639L19.2384 18.8994C18.8516 19.2863 18.4252 19.4082 18.0765 19.3244C16.6075 18.9713 13.5841 17.8309 9.87445 14.1213C6.16478 10.4116 5.02441 7.38822 4.67135 5.91918C4.58756 5.57053 4.70942 5.14416 5.09627 4.75731L5.63181 4.22177Z"
+          fill="currentColor" />
+      </svg>
+      <span *ngIf="!showNumber">Telefon</span>
+      <span *ngIf="showNumber">{{announcement?.user?.phone_number}}</span>
     </a>
   </div>
 </div>

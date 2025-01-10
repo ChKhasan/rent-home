@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 })
 export class UserCardComponent {
   @Input() announcement!: any;
+  public showNumber: boolean = false
   public loading: boolean = false;
   @ViewChild(AuthDialogComponent) authDialogComponent!: AuthDialogComponent;
   constructor(public authService: AuthService, private router: Router) {}
