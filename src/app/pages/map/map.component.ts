@@ -26,10 +26,12 @@ import { DialogModule } from 'primeng/dialog';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { Location } from '@angular/common';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+
 @Component({
   selector: 'app-map',
   standalone: true,
-  imports: [NgClass, FilterComponent,MultiSelectModule, RouterLink, OverlayPanelModule, DialogModule, FormsModule, SelectButtonModule, AngularYandexMapsModule, AnouncementMapCardComponent, NgIf, NgForOf, ButtonModule, StyleClassModule, SubwayIconComponent, BusIconComponent, MiniBusIconComponent, BadgeModule, BottomSheetComponent, AnnouncementsCardComponent],
+  imports: [NgClass, MultiSelectModule,ProgressSpinnerModule, RouterLink, OverlayPanelModule, DialogModule, FormsModule, SelectButtonModule, AngularYandexMapsModule, AnouncementMapCardComponent, NgIf, NgForOf, ButtonModule, StyleClassModule, SubwayIconComponent, BusIconComponent, MiniBusIconComponent, BadgeModule, BottomSheetComponent, AnnouncementsCardComponent],
   templateUrl: './map.component.html',
   styleUrl: './map.component.css',
 })
@@ -140,7 +142,7 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   activeTransports() {
     if (typeof this.queryService.activeQueryList()['transports'] === 'string') {
-      this.routeTransports = [this.queryService.activeQueryList()['transports']] || [];
+      this.routeTransports = [this.queryService.activeQueryList()['transports']]
     } else {
       this.routeTransports = this.queryService.activeQueryList()['transports'] || [];
     }
@@ -192,7 +194,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     } else {
       this.queryService.clearFilterWithOutDefault(() => {
         if (typeof this.queryService.activeQueryList()['transports'] === 'string') {
-          this.routeTransports = [this.queryService.activeQueryList()['transports']] || [];
+          this.routeTransports = [this.queryService.activeQueryList()['transports']]
         } else {
           this.routeTransports = this.queryService.activeQueryList()['transports'] || [];
         }
@@ -270,7 +272,7 @@ export class MapComponent implements OnInit, AfterViewInit {
       )
       .subscribe(async (data: any) => {
         if (typeof this.queryService.activeQueryList()['transports'] === 'string') {
-          this.routeTransports = [this.queryService.activeQueryList()['transports']] || [];
+          this.routeTransports = [this.queryService.activeQueryList()['transports']]
         } else {
           this.routeTransports = this.queryService.activeQueryList()['transports'] || [];
         }
@@ -316,7 +318,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     // if (Object.keys(this.queryService.generatorHttpParams(this.queryService.activeQueryList())).length > 0) {
     this.requestService.getData<IAnnouncementList>(environment.urls.GET_ANNONCEMENTS, this.queryService.generatorHttpParams(this.queryService.activeQueryList())).subscribe((response: IAnnouncementList) => {
       if (typeof this.queryService.activeQueryList()['transports'] === 'string') {
-        this.routeTransports = [this.queryService.activeQueryList()['transports']] || [];
+        this.routeTransports = [this.queryService.activeQueryList()['transports']]
       } else {
         this.routeTransports = this.queryService.activeQueryList()['transports'] || [];
       }
