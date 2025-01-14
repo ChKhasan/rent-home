@@ -174,3 +174,6 @@ ul button {
   background-color: rgb(255, 255, 255, 0.5);
   pointer-events: none;
 }
+:host ::ng-deep .p-progress-spinner-circle {
+  stroke: var(--green) !important;
+}
