@@ -12,10 +12,7 @@ export class QueryService {
     page_size: 10,
   };
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-  ) {}
+  constructor(private route: ActivatedRoute, private router: Router) {}
 
   activeQueryList() {
     let query: QueryList = {};
@@ -79,6 +76,9 @@ export class QueryService {
           queryParams: this.generatorCustomQuery(e),
         })
         .then(() => {
+          const scrollX = window.scrollX;
+          const scrollY = window.scrollY;
+          setTimeout(() => window.scrollTo(scrollX, scrollY), 0);
           if (func) {
             func();
           }

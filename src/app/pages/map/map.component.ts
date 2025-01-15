@@ -202,8 +202,6 @@ export class MapComponent implements OnInit, AfterViewInit {
         this.announcements = [];
       });
     }
-    console.log('this.selectRoutes',this.selectRoutes);
-    
   }
 
   selectedTransportsGenerateDelete(transport: any) {

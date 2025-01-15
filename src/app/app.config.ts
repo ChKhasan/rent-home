@@ -12,5 +12,18 @@ import { AngularYandexMapsModule } from 'angular8-yandex-maps';
 
 export let appConfig: ApplicationConfig;
 appConfig = {
-  providers: [provideRouter(routes,  withInMemoryScrolling({ scrollPositionRestoration: 'top' })), provideClientHydration(), provideHttpClient(withInterceptors([loggerInterceptor, errorInterceptor]), withFetch()), provideAnimations(), MessageService, AngularYandexMapsModule],
+  providers: [
+    provideRouter(
+      routes,
+      withInMemoryScrolling({
+        scrollPositionRestoration: 'enabled',
+        anchorScrolling: 'enabled',
+      })
+    ),
+    provideClientHydration(),
+    provideHttpClient(withInterceptors([loggerInterceptor, errorInterceptor]), withFetch()),
+    provideAnimations(),
+    MessageService,
+    AngularYandexMapsModule,
+  ],
 };
