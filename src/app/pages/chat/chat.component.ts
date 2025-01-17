@@ -60,6 +60,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     if (typeof window !== 'undefined') {
+      this.updateShowList();
       this.authService.getBooleanValue().subscribe((value) => {
         if (value) this.firstConnection();
       });
@@ -386,5 +387,9 @@ export class ChatComponent implements OnInit, AfterViewInit {
     let day2 = Math.floor(date2 / 86400000);
   
     return day1 > day2
+  }
+
+  private updateShowList(): void {
+    this.showList = window.innerWidth < 576;
   }
 }

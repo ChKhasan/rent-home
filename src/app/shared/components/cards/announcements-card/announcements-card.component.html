@@ -81,7 +81,7 @@
     </div>
     <div class="flex flex-col gap-[8px] mt-2 md:2t-1">
       <div class="flex justify-between">
-        <h6 class="flex font-medium text-[28px] md:text-xl gap-[4px]">{{ announcement?.total_price }} UZS</h6>
+        <h6 class="flex font-medium text-[28px] md:text-xl gap-[4px]">{{ announcement?.total_price | price }} UZS</h6>
         <a *ngIf="edit" [routerLink]="'/profile/announcements/' + announcement?.id" class="ml-auto flex items-center gap-1 font-medium text-lg text-[#000]">
           <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M23.873 1.63749C22.1898 -0.0457475 19.4607 -0.0457484 17.7775 1.63749L7.12063 12.2943C6.35564 13.0593 5.85941 14.0518 5.70641 15.1227L5.3976 17.2845C5.16189 18.9344 6.57611 20.3486 8.22602 20.1129L10.3877 19.8041C11.4587 19.6511 12.4512 19.1548 13.2162 18.3899L23.873 7.73302C25.5562 6.04979 25.5562 3.32072 23.873 1.63749ZM19.8071 3.18814C20.5117 2.70781 21.4802 2.78018 22.1052 3.40525C22.7303 4.03033 22.8027 4.99882 22.3223 5.70341L19.8071 3.18814ZM18.0169 4.93354L20.5769 7.49354L11.4484 16.6221C11.0659 17.0046 10.5697 17.2527 10.0342 17.3292L7.87247 17.638L8.18129 15.4763C8.25778 14.9408 8.5059 14.4446 8.88839 14.0621L18.0169 4.93354Z" fill="#475367"/>

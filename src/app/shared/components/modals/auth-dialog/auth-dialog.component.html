@@ -97,7 +97,7 @@
           </div>
         </div>
         <div class="relative flex justify-center">
-          <app-invaid-text class="w-full flex justify-center" [text]="'Этот номер уже зарегистрирован'" *ngIf="infoError"></app-invaid-text>
+          <app-invaid-text class="w-full flex justify-center" [text]="'Пользователь не найден'" *ngIf="infoError"></app-invaid-text>
         </div>
       </div>
       <button pButton [loading]="loading" (click)="onSubmit()" class="btn w-full mt-6 h-12 items-center text-[17px] bg-[color:var(--green)] rounded-[8px] text-white font-600 flex justify-center">Kirish</button>

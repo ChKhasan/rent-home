@@ -10,12 +10,12 @@
       </ng-template>
     </div>
     <div class="flex flex-col gap-2 items-center">
-      <h4 class="font-medium text-[32px]">{{announcement?.user?.name}} {{announcement?.user?.last_name}}</h4>
+      <h4 class="font-medium text-[32px] md:text-2xl">{{announcement?.user?.name}} {{announcement?.user?.last_name}}</h4>
       <!-- <p class="text-2xl">Online</p>/ -->
     </div>
   </div>
   <div class="grid grid-cols-2 gap-3 md:gap-2">
-    <p-button [disabled]="authService.user.id === announcement?.user" [loading]="loading" (click)="toChat()"
+    <p-button [disabled]="authService.user.id === announcement?.user?.id" [loading]="loading" (click)="toChat()"
       styleClass="btn ripple-button gap-2 w-full items-center py-[14px] md:py-3 bg-[color:var(--green)] rounded-xl text-white font-semibold flex justify-center md:text-[14px]"
       class="px-0 py-0 rounded-[8px] bg-[transparent] border-0">
       <svg width="25" height="24" class="md:!w-5 md:!h-5" viewBox="0 0 25 24" fill="none"

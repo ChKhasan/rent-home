@@ -80,7 +80,13 @@
               <p-multiSelect styleClass="w-full border-solid border border-[--grey-300] rounded-[8px] flex items-center"
                 [maxSelectedLabels]="100" (onClear)="onClear()" [showClear]="false" optionValue="ri"
                 (onChange)="onChange($event)" class="w-full" placeholder="Выберите транспорт" inputId="float-label"
-                display="chip" [options]="transports" [(ngModel)]="routeTransports" optionLabel="name"></p-multiSelect>
+                display="chip" [options]="transports" [(ngModel)]="routeTransports" optionLabel="name">
+                <ng-template let-option pTemplate="selectedItem">
+                  <div class="custom-chip" [ngClass]="{'background-color': 'red'}">
+                    {{ option.name }} trumoq
+                  </div>
+                </ng-template>
+              </p-multiSelect>
 
               <ul class="bus-list flex flex-col gap-2 overflow-y-scroll max-h-[700px] mt-4 md:hidden">
                 <span *ngIf="['mashrutka'].includes(tab)">

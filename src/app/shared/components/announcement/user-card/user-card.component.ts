@@ -23,7 +23,7 @@ export class UserCardComponent {
   toChat() {
     if (this.authService.auth && this.authService.user.id) {
       const query = {
-        userId: this.announcement.user,
+        userId: this.announcement.user?.id,
       };
       this.router
         .navigate(['/profile/chat'], {

@@ -7,11 +7,12 @@ import { ButtonModule } from 'primeng/button';
 import { finalize } from 'rxjs';
 import { TooltipModule } from 'primeng/tooltip';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
+import { PricePipe } from '@/shared/pipes/price/price.pipe';
 
 @Component({
   selector: 'app-announcements-card',
   standalone: true,
-  imports: [NgIf, NgFor, CarouselModule, RouterLink, NgOptimizedImage, ButtonModule, TooltipModule],
+  imports: [NgIf,PricePipe, NgFor, CarouselModule, RouterLink, NgOptimizedImage, ButtonModule, TooltipModule],
   templateUrl: './announcements-card.component.html',
   styleUrl: './announcements-card.component.css',
 })

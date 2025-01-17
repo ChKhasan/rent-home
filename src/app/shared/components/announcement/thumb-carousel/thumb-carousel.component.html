@@ -1,5 +1,5 @@
-<div class="gallery-container flex flex-col relative">
-  <div class="product-gallery__featured max-w-[991px] md:max-w-[350px]">
+<div class="gallery-container flex flex-col relative items-center w-full ">
+  <div class="product-gallery__featured max-w-[991px] w-full md:max-w-[350px]">
     <owl-carousel-o [options]="{ items: 1, dots: true, margin: 8 }" #owlCar>
       <ng-container *ngFor="let image of images.length ? images:productImages">
         <ng-template carouselSlide [id]="image.image" >

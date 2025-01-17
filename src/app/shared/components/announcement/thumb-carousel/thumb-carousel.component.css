@@ -32,9 +32,13 @@ owl-carousel-o::ng-deep img {
   width: 36px !important;
   background: var(--green);
 }
+:host ::ng-deep .owl-carousel.owl-drag .owl-item {
+  width: initial;
+}
 @media (max-width: 768px) {
   .product-gallery__carousel owl-carousel-o img {
     height: 64px !important;
     object-fit: cover;
   }
 }
+
