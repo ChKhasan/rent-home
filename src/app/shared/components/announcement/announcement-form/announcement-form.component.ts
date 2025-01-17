@@ -80,6 +80,7 @@ export class AnnouncementFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.ruleForm.reset();
     this.__GET_GENDERS()
     this.fileUploaderHeaders();
     if (this.isEdit) {
