@@ -106,7 +106,7 @@ export class AnnouncementFormComponent implements OnInit {
           conditioner: response.conditioner,
           fridge: response.fridge,
           washing_machine: response.washing_machine,
-          user: response.user,
+          user: response.user?.id,
           region: response.region,
           area: response.area,
           floor: response.floor
