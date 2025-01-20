@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgForOf, NgIf } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { FormsModule } from '@angular/forms';
@@ -61,8 +61,10 @@ export class FilterComponent implements OnInit {
 
   constructor(
     private requestService: RequestService,
-    private queryService: QueryService,
-    public dictionaryService: DictionaryService
+    public queryService: QueryService,
+    public dictionaryService: DictionaryService,
+    public router: Router,
+    public route: ActivatedRoute,
   ) {}
   cities: any[] | undefined;
 

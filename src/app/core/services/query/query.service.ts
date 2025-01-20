@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { QueryList } from '@services/interfaces';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpParams } from '@angular/common/http';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -21,7 +20,11 @@ export class QueryService {
     });
     return query;
   }
+  activeQueryListWithoutDefault() {
+    const { page, page_size, ...query } = this.activeQueryList();
 
+    return query;
+  }
   activeQueryWithDefaut() {
     return Object.keys(this.activeQueryList()).length == 0 ? this.defaultQuery : this.activeQueryList();
   }
