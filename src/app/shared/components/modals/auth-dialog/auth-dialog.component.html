@@ -73,7 +73,7 @@
           <div class="relative w-full flex items-center">
             <p-inputMask mask="99 999 99 99" [ngClass]="{
                 'ng-invalid ng-dirty': ruleForm.controls.phone_number.touched && ruleForm.controls.phone_number.errors && ruleForm.controls.phone_number.errors['required'],
-              }" type="text" inputmode="numeric" class="mask-input w-full" pInputText id="number"
+              }" type="tel" inputmode="numeric" class="mask-input w-full" pInputText id="number"
               formControlName="phone_number" pattern="^\d{2} \d{3} \d{2} \d{2}$" [autoClear]="false"></p-inputMask>
             <span class="number-style h-full absolute left-[18px] flex items-center">+998</span>
           </div>
