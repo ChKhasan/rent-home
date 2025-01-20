@@ -32,6 +32,7 @@ export class FormService {
     washing_machine: new FormControl(false),
     user: new FormControl({}),
     region: new FormControl(null),
+    district: new FormControl(null),
     area: new FormControl(null),
     floor: new FormControl(null),
     lessee_types: new FormControl([],[Validators.required, Validators.minLength(1)]),

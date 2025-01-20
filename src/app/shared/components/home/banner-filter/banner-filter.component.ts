@@ -12,14 +12,14 @@ import { DictionaryService } from './../../../../core/services/dictionary/dictio
   styleUrl: './banner-filter.component.css',
   imports: [ReactiveFormsModule, SelectButtonModule, DropdownModule, FormsModule, ButtonModule],
 })
-
 export class BannerFilterComponent implements OnInit {
-  public regions: Array<any> = []
+  public regions: Array<any> = [];
   filter: any = {
     room_count: null,
     partnership: false,
-    region: null
-  }
+    region: null,
+    distirct: null
+  };
   cities: any[] | undefined;
 
   selectedCity: any | undefined;
@@ -30,11 +30,8 @@ export class BannerFilterComponent implements OnInit {
     { label: 'Yakka', value: false, icon: 'pi pi-user' },
     { label: 'Sheriklik', value: true, icon: 'pi pi-users' },
   ];
-  constructor(
-    private router: Router,
-    public dictionaryService: DictionaryService
-  ) {
-    this.regions = this.dictionaryService.regions
+  constructor(private router: Router, public dictionaryService: DictionaryService) {
+    this.regions = this.dictionaryService.regions;
   }
   ngOnInit() {
     this.formGroup = new FormGroup({
@@ -53,5 +50,8 @@ export class BannerFilterComponent implements OnInit {
     this.router.navigate(['/announcements'], {
       queryParams: query,
     });
+  }
+  onRegionChange(region: any): void {
+    this.dictionaryService.__GET_DISTRICTS({ parent: region });
   }
 }

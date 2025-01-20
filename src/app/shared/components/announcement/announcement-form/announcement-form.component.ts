@@ -35,7 +35,7 @@ interface UploadEvent {
   selector: 'app-announcement-form',
   standalone: true,
   animations: [ValidationErrorAnimation],
-  imports: [FormsModule, InputTextModule,InputSwitchModule, MultiSelectModule, DropdownModule, InvaidTextComponent, NgIf, ReactiveFormsModule, NgClass, TooltipModule, NgOptimizedImage, ButtonModule, ToastModule, FileUploadModule, InputTextareaModule, CheckboxModule, InputMaskModule, InputNumberModule, NgForOf, ImageModule, RippleModule, RouterLink, MapDialogComponent],
+  imports: [FormsModule, InputTextModule, InputSwitchModule, MultiSelectModule, DropdownModule, InvaidTextComponent, NgIf, ReactiveFormsModule, NgClass, TooltipModule, NgOptimizedImage, ButtonModule, ToastModule, FileUploadModule, InputTextareaModule, CheckboxModule, InputMaskModule, InputNumberModule, NgForOf, ImageModule, RippleModule, RouterLink, MapDialogComponent],
   templateUrl: './announcement-form.component.html',
   styleUrl: './announcement-form.component.css',
 })
@@ -43,7 +43,7 @@ export class AnnouncementFormComponent implements OnInit {
   public ruleForm;
   private token: any;
   public headers: any;
-  public genders: IGendersList[] = []
+  public genders: IGendersList[] = [];
   uploadedFiles: any[] = [];
   private readonly id: number | string | null;
   formState = {
@@ -54,14 +54,7 @@ export class AnnouncementFormComponent implements OnInit {
   @ViewChild(MapDialogComponent) mapDialogComponent!: MapDialogComponent;
   @Input() isEdit: boolean = false;
   public announcement!: any;
-  constructor(
-    public _formControl: FormService,
-    private messageService: MessageService,
-    private route: ActivatedRoute,
-    private requestService: RequestService,
-    private router: Router,
-    public dictionaryService: DictionaryService
-  ) {
+  constructor(public _formControl: FormService, private messageService: MessageService, private route: ActivatedRoute, private requestService: RequestService, private router: Router, public dictionaryService: DictionaryService) {
     this.ruleForm = _formControl.ruleForm;
     this.id = this.route.snapshot.paramMap.get('id');
   }
@@ -81,7 +74,7 @@ export class AnnouncementFormComponent implements OnInit {
 
   ngOnInit() {
     this.ruleForm.reset();
-    this.__GET_GENDERS()
+    this.__GET_GENDERS();
     this.fileUploaderHeaders();
     if (this.isEdit) {
       this.requestService.getData<any>(environment.urls.GET_ANNONCEMENTS + this.id).subscribe((response: any): void => {
@@ -110,7 +103,8 @@ export class AnnouncementFormComponent implements OnInit {
           user: response.user?.id,
           region: response.region,
           area: response.area,
-          floor: response.floor
+          floor: response.floor,
+          district: response.district,
         });
       });
     }
@@ -121,8 +115,8 @@ export class AnnouncementFormComponent implements OnInit {
   }
   __GET_GENDERS() {
     this.requestService.getData(environment.urls.GET_GENDERS).subscribe((response: any) => {
-      this.genders = response.results
-    })
+      this.genders = response.results;
+    });
   }
   imagesPatcher() {
     this.uploadedFiles.forEach((elem) => {
@@ -144,7 +138,11 @@ export class AnnouncementFormComponent implements OnInit {
       detail: '',
     });
   }
-
+  removeImage(id: number) {
+    this.requestService.requestData(`https://new.rent-home.uz/api/images/${id}/`, 'DELETE').subscribe(() => {
+      this.uploadedFiles = this.uploadedFiles.filter((elem) => elem.id !== id);
+    });
+  }
   openMapDialog() {
     this.isEdit &&
       this.mapDialogComponent?.handleLocation({
@@ -162,4 +160,7 @@ export class AnnouncementFormComponent implements OnInit {
       location_y: obj.coords[1],
     });
   };
+  onRegionChange(region: any): void {
+    this.dictionaryService.__GET_DISTRICTS({ parent: region });
+  }
 }

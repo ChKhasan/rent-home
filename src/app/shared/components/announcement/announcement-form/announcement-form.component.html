@@ -24,9 +24,19 @@
               </div>
             </div>
             <div class="flex flex-col gap-1 relative">
+              <label class="font-medium text-[--grey-900] text-[14px]" for="name">Viloyat</label>
+              <div class="relative w-full flex items-center form-input">
+                <p-dropdown class="w-full" styleClass="w-full" [options]="dictionaryService.regions"
+                  formControlName="region" optionLabel="name" optionValue="id" placeholder="Viloyat"
+                  (onChange)="onRegionChange($event.value)" />
+              </div>
+            </div>
+            <div class="flex flex-col gap-1 relative">
               <label class="font-medium text-[--grey-900] text-[14px]" for="name">Tuman</label>
               <div class="relative w-full flex items-center form-input">
-                <p-dropdown class="w-full" styleClass="w-full" [options]="dictionaryService.regions" formControlName="region" optionLabel="name" optionValue="id" placeholder="Tuman" />
+                <p-dropdown class="w-full" [disabled]="!ruleForm.get('region')?.value" styleClass="w-full"
+                  [options]="dictionaryService.districts" formControlName="district" optionLabel="name" optionValue="id"
+                  placeholder="Tuman" />
               </div>
             </div>
             <div class="flex flex-col gap-1 relative">
@@ -106,15 +116,21 @@
                   url="https://new.rent-home.uz/api/images/" (onUpload)="onUpload($event)" [auto]="true" method="post"
                   [multiple]="true" accept="image/*" [maxFileSize]="1000000" [headers]="headers"></p-fileUpload>
                 <div class="flex flex-wrap gap-3 ml-3">
-                  <div
-                    class="w-[104px] h-[104px] flex items-center justify-center overflow-hidden border border-dashed border-[var(--gray-4)] bg-[var(--gray-3)] rounded-[3px]"
-                    *ngFor="let obj of uploadedFiles">
-                    <p-image class="flex items-center justify-center w-full h-full object-contain" [src]="obj?.image"
-                      alt="Image" [preview]="true">
-                      <ng-template pTemplate="indicator">
-                        <i class="pi pi-eye"></i>
-                      </ng-template>
-                    </p-image>
+                  <div class="w-[104px] relative h-[104px] bg-[var(--gray-3)]" *ngFor="let obj of uploadedFiles">
+                    <div
+                      class="rounded-[3px] w-full h-full flex items-center justify-center overflow-hidden border border-dashed border-[var(--gray-4)]">
+
+                      <p-image class="flex  items-center justify-center w-full h-full object-contain" [src]="obj?.image"
+                        alt="Image" [preview]="true">
+                        <ng-template pTemplate="indicator">
+                          <i class="pi pi-eye"></i>
+                        </ng-template>
+                      </p-image>
+                    </div>
+                    <button (click)="removeImage(obj.id)"
+                      class="absolute z-50 -top-3 text-[8px] -right-3 w-6 h-6 rounded-full flex items-center justify-center bg-[red] text-white">
+                      <i class="pi pi-trash" style="font-size: 0.8rem;"></i>
+                    </button>
                   </div>
                 </div>
               </div>
