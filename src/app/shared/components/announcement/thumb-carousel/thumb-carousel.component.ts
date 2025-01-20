@@ -16,10 +16,7 @@ export class ThumbCarouselComponent {
       id: 125,
        image: 'assets/images/big.jpg'
     },
-    {
-      id: 126,
-      image: 'assets/images/big.jpg'
-    },
+   
   ];
   selectedImage: any;
   // imageSize = 200; // Adjust the image size as needed

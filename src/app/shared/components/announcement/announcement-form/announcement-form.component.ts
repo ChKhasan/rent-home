@@ -136,6 +136,7 @@ export class AnnouncementFormComponent implements OnInit {
       severity: 'info',
       summary: 'File Uploaded',
       detail: '',
+      
     });
   }
   removeImage(id: number) {

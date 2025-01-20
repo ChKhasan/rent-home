@@ -40,8 +40,6 @@ export class HeaderComponent {
     this.authDialogComponent.closeDialog();
   }
   openNumberDialog() {
-    console.log("asdasdasdasa");
-    
     this.numberDialogComponent.showDialog();
   }
   openSmsDialog() {

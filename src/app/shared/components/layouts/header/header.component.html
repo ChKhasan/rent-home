@@ -3,7 +3,7 @@
   <app-auth-dialog [url]="'profile'" [openRegister]="openRegister"></app-auth-dialog>
   <app-number-dialog [completeCallback]="completeCallback" [url]="'profile'"></app-number-dialog>
   <app-sms-dialog [completeCallback]="completeSmsCallback" [anotherPhoneNumber]="anotherPhoneNumber"></app-sms-dialog>
-  <p-toast></p-toast>
+  <p-toast [breakpoints]="{ '920px': { width: '90%'} }"></p-toast>
   <div class="h-[80px] md:h-16 items-center 2xl:container mx-auto flex justify-between px-4">
     <div class="md:hidden flex gap-[40px] items-center">
       <a [routerLink]="'/'" class="logo text-[color:var(--green)]">
