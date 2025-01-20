@@ -20,18 +20,17 @@ import { environment } from '@environments';
 import { IAnnouncementList } from '@services/interfaces';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { FormsModule } from '@angular/forms';
-import { AnnouncementsCardComponent } from "../../shared/components/cards/announcements-card/announcements-card.component";
+import { AnnouncementsCardComponent } from '../../shared/components/cards/announcements-card/announcements-card.component';
 import { HttpClient } from '@angular/common/http';
 import { DialogModule } from 'primeng/dialog';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { Location } from '@angular/common';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-
 @Component({
   selector: 'app-map',
   standalone: true,
-  imports: [NgClass, MultiSelectModule,ProgressSpinnerModule, RouterLink, OverlayPanelModule, DialogModule, FormsModule, SelectButtonModule, AngularYandexMapsModule, AnouncementMapCardComponent, NgIf, NgForOf, ButtonModule, StyleClassModule, SubwayIconComponent, BusIconComponent, MiniBusIconComponent, BadgeModule, BottomSheetComponent, AnnouncementsCardComponent],
+  imports: [NgClass, MultiSelectModule, ProgressSpinnerModule, RouterLink, OverlayPanelModule, DialogModule, FormsModule, SelectButtonModule, AngularYandexMapsModule, AnouncementMapCardComponent, NgIf, NgForOf, ButtonModule, StyleClassModule, SubwayIconComponent, BusIconComponent, MiniBusIconComponent, BadgeModule, BottomSheetComponent, AnnouncementsCardComponent],
   templateUrl: './map.component.html',
   styleUrl: './map.component.css',
 })
@@ -62,6 +61,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     miniBus: [],
     subway: [],
   };
+  public showTransports: boolean = false
   public showSubway: boolean = false;
   public showMiniBus: boolean = false;
   public showInfo: boolean = false;
@@ -80,14 +80,7 @@ export class MapComponent implements OnInit, AfterViewInit {
   public currentAnnouce: any = {};
   public zoom: any = 10;
 
-  constructor(
-    public router: Router,
-    private queryService: QueryService,
-    private cryptoService: CryptoService,
-    private requestService: RequestService,
-    private _httpRequest: HttpClient,
-    public location: Location
-  ) {}
+  constructor(public router: Router, private queryService: QueryService, private cryptoService: CryptoService, private requestService: RequestService, private _httpRequest: HttpClient, public location: Location) {}
 
   ngOnInit() {
     this.__GET_TRANSPORTS();
@@ -136,13 +129,13 @@ export class MapComponent implements OnInit, AfterViewInit {
     this.showInfo = true;
     // this.openBShInfo();
     if (this.showInfo) this.showToolbar = false;
-    this.currentAnnouce = this.announcements.find((elem: any) => elem.id == id)
+    this.currentAnnouce = this.announcements.find((elem: any) => elem.id == id);
     // this.currentAnnouce.id === id ? (this.showInfo = false) : (this.currentAnnouce = this.announcements.find((elem: any) => elem.id == id));
   }
 
   activeTransports() {
     if (typeof this.queryService.activeQueryList()['transports'] === 'string') {
-      this.routeTransports = [this.queryService.activeQueryList()['transports']]
+      this.routeTransports = [this.queryService.activeQueryList()['transports']];
     } else {
       this.routeTransports = this.queryService.activeQueryList()['transports'] || [];
     }
@@ -194,7 +187,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     } else {
       this.queryService.clearFilterWithOutDefault(() => {
         if (typeof this.queryService.activeQueryList()['transports'] === 'string') {
-          this.routeTransports = [this.queryService.activeQueryList()['transports']]
+          this.routeTransports = [this.queryService.activeQueryList()['transports']];
         } else {
           this.routeTransports = this.queryService.activeQueryList()['transports'] || [];
         }
@@ -266,11 +259,11 @@ export class MapComponent implements OnInit, AfterViewInit {
       .pipe(
         finalize(() => {
           this.transportLoading = false;
-        }),
+        })
       )
       .subscribe(async (data: any) => {
         if (typeof this.queryService.activeQueryList()['transports'] === 'string') {
-          this.routeTransports = [this.queryService.activeQueryList()['transports']]
+          this.routeTransports = [this.queryService.activeQueryList()['transports']];
         } else {
           this.routeTransports = this.queryService.activeQueryList()['transports'] || [];
         }
@@ -316,7 +309,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     // if (Object.keys(this.queryService.generatorHttpParams(this.queryService.activeQueryList())).length > 0) {
     this.requestService.getData<IAnnouncementList>(environment.urls.GET_ANNONCEMENTS, this.queryService.generatorHttpParams(this.queryService.activeQueryList())).subscribe((response: IAnnouncementList) => {
       if (typeof this.queryService.activeQueryList()['transports'] === 'string') {
-        this.routeTransports = [this.queryService.activeQueryList()['transports']]
+        this.routeTransports = [this.queryService.activeQueryList()['transports']];
       } else {
         this.routeTransports = this.queryService.activeQueryList()['transports'] || [];
       }
@@ -389,16 +382,15 @@ export class MapComponent implements OnInit, AfterViewInit {
   //   })
   // }
   onChange(event: any) {
-    console.log(event)
-    if(typeof event.itemValue === 'string'){
+    console.log(event);
+    if (typeof event.itemValue === 'string') {
       let transport = this.transports.find((elem: any) => elem.ri === event.itemValue);
-      this.filterTransport(transport)
-
+      this.filterTransport(transport);
     } else {
-      this.filterTransport(event.itemValue)
+      this.filterTransport(event.itemValue);
     }
   }
-  
+
   async onClear() {
     let query: any = { ...this.queryService.activeQueryList() };
     if (query['transports']) query.transports = [];

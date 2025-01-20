@@ -69,6 +69,7 @@
         <div>
           <div class="max-h-[100vh]">
             <div *ngIf="transports.length > 0" class="bg-white py-4 md:py-0 rounded-xl min-h-[200px] md:min-h-0">
+
               <h4 class="text-black font-semibold mb-4 text-[16]" *ngIf="['bus'].includes(tab)">
                 <span class="md:hidden block"> Автобусы поблизости </span><span class="md:block hidden">Выберите
                   транспорт</span>
@@ -87,7 +88,11 @@
                   </div>
                 </ng-template>
               </p-multiSelect>
-
+              <p-button pButton (click)="showTransports = true"
+                styleClass="py-3 bg-[color:var(--green)] mt-4 rounded-[8px] text-sm text-white font-600 flex justify-center gap-2 px-0 w-full"
+                class="px-0 hidden md:flex py-0 w-full rounded-[8px] bg-[transparent] border-0">
+                Transportlar ro'yxatini ko'rish
+              </p-button>
               <ul class="bus-list flex flex-col gap-2 overflow-y-scroll max-h-[700px] mt-4 md:hidden">
                 <span *ngIf="['mashrutka'].includes(tab)">
                   <li *ngFor="let transport of marshutka" class="rounded-[5px] block" [class]="{
@@ -145,6 +150,86 @@
       </div>
     </div>
   </div>
+  <p-dialog class="hidden md:block top-0" [draggable]="true" position="topright" [showHeader]="false"
+    [(visible)]="showTransports" [style]="{top: '0', width: '25rem',height: '100vh',maxHeight: '100%'}">
+    <div class="flex justify-between items-center mb-4">
+      <h4 class="text-black font-semibold text-[16]">
+        Выберите транспорт
+      </h4>
+
+      <p-button (onClick)="showTransports = false" icon="pi pi-times" [rounded]="true" [text]="true" [raised]="true"
+        severity="danger" />
+    </div>
+    <div class="border  rounded-2xl p-3">
+      <p-selectButton styleClass="!rounded-2xl !w-full" [options]="stateOptions" [(ngModel)]="tab" optionLabel="label"
+        optionValue="value">
+        <ng-template let-item pTemplate>
+          <div class="flex gap-2 items-center">
+            <i [class]="item.icon"></i>
+            <p>{{ item.label }}</p>
+          </div>
+        </ng-template>
+      </p-selectButton>
+      <div>
+        <div class="max-h-[100vh]">
+          <div *ngIf="transports.length > 0" class="bg-white py-4 md:py-0 rounded-xl min-h-[200px] md:min-h-0">
+
+            <ul class="bus-list flex flex-col gap-2 overflow-y-scroll max-h-[700px] mt-4 ">
+              <span *ngIf="['mashrutka'].includes(tab)">
+                <li *ngFor="let transport of marshutka" class="rounded-[5px] block" [class]="{
+                    active: routeTransports.includes(transport.ri) && !transportLoading,
+                    'pointer-events-none opacity-50': loading,
+                  }">
+                  <p-button [loading]="transportLoading" (click)="filterTransport(transport)" class="px-0"
+                    styleClass="w-full px-2 gap-2 bg-[transparent] border border-solid border-[var(--grey-1)] py-[10px] flex font-medium items-center justify-start buses cursor-pointer text-base">
+                    <span class="w-3 h-3 rounded-full" [style.background]="transport?.color"></span>
+                    <span class="text-[#000000]" [class]="{
+                      active: routeTransports.includes(transport.ri) && !transportLoading,
+                    }">
+                      Mashrutka - {{ transport?.name }}
+                    </span>
+                  </p-button>
+                </li>
+              </span>
+              <span *ngIf="['metro'].includes(tab)">
+                <li *ngFor="let transport of subways" class="rounded-[5px]" [class]="{
+                    active: routeTransports.includes(transport.ri) && !transportLoading,
+                    'pointer-events-none opacity-50': loading,
+                  }">
+                  <p-button [loading]="transportLoading" (click)="filterTransport(transport)" class="px-0"
+                    styleClass="w-full px-2 gap-2 bg-[transparent] border border-solid border-[var(--grey-1)] py-[10px] flex font-medium items-center justify-start buses cursor-pointer text-base">
+                    <span class="w-3 h-3 rounded-full" [style.background]="transport?.color"></span>
+                    <span class="text-[#000000]" [class]="{
+                      active: routeTransports.includes(transport.ri) && !transportLoading,
+                    }">
+                      Metro - {{ transport?.name }}
+                    </span>
+                  </p-button>
+                </li>
+              </span>
+              <span *ngIf="['bus'].includes(tab)">
+                <li *ngFor="let transport of buses" class="rounded-[5px]" [class]="{
+                      active: routeTransports.includes(transport.ri) && !transportLoading,
+                      'pointer-events-none opacity-50': loading,
+                    }">
+                  <p-button [loading]="transportLoading" (click)="filterTransport(transport)" class="px-0"
+                    styleClass="w-full px-2 gap-2 bg-[transparent] border border-solid border-[var(--grey-1)] py-[10px] flex font-medium items-center justify-start buses cursor-pointer text-base">
+                    <span class="w-3 h-3 rounded-full" [style.background]="transport?.color"></span>
+                    <span class="text-[#000000]" [class]="{
+                          active: routeTransports.includes(transport.ri) && !transportLoading,
+                        }">
+                      Avtobus - {{ transport?.name }}
+                    </span>
+                  </p-button>
+                </li>
+              </span>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </p-dialog>
   <p-dialog [draggable]="true" position="topleft" [showHeader]="false" [(visible)]="showInfo"
     [style]="{ width: '25rem' }">
     <button (click)="showInfo = false"
