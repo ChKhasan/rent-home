@@ -16,23 +16,25 @@ import { DictionaryService } from '@/core/services/dictionary/dictionary.service
 @Component({
   selector: 'app-filter',
   standalone: true,
-  imports: [InputSwitchModule, FormsModule, CheckboxModule, InputNumberModule, ButtonModule, SliderModule, DropdownModule,  MultiSelectModule],
+  imports: [InputSwitchModule, FormsModule, CheckboxModule, InputNumberModule, ButtonModule, SliderModule, DropdownModule, MultiSelectModule],
   templateUrl: './filter.component.html',
   styleUrl: './filter.component.css',
 })
 export class FilterComponent implements OnInit {
   checked: boolean = false;
-  public sliderValue: number[] = [0, 4000000];
+  public sliderValue: number[] = [0, 0];
   public tab: number = 1;
   public transports: any[] | undefined = [];
   public selectedCities: any = [];
+  public sliderMax: number = 0;
+  public sliderMin: number = 0;
   public filterForm: FilterForm = {
     conditioner: false,
     partnership: false,
     washing_machine: false,
     need_people_count: 1,
     total_price__gte: 0,
-    total_price__lte: 4000000,
+    total_price__lte: 0,
     room_count: 1,
     fridge: false,
     transports: [],
@@ -105,12 +107,12 @@ export class FilterComponent implements OnInit {
       washing_machine: false,
       need_people_count: 1,
       total_price__gte: 0,
-      total_price__lte: 4000000,
+      total_price__lte: 0,
       room_count: 1,
       transports: [],
       region: null,
     };
-   this.__GET_MIN_MAX_PRICE()
+    this.__GET_MIN_MAX_PRICE();
   }
   async onClear() {
     let query: any = { ...this.queryService.activeQueryList() };
@@ -124,6 +126,8 @@ export class FilterComponent implements OnInit {
   }
   __GET_MIN_MAX_PRICE() {
     this.requestService.getData(environment.urls.GET_MIN_MAX_PRICE).subscribe((response: any) => {
+      this.sliderMax = response?.max_price || 0;
+      this.sliderMin = response?.min_price || 0;
       this.sliderValue = [response?.min_price || 0, response?.max_price || 0];
     });
   }
