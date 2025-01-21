@@ -7,12 +7,13 @@ import { AvatarModule } from 'primeng/avatar';
 import { AuthService } from '@services/auth';
 import { FormsModule } from '@angular/forms';
 import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { ChatUrlService } from '@/core/services/chatUrl/chatUrl.service';
 
 @Component({
   selector: 'app-chat-user-list',
   standalone: true,
-  imports: [BadgeModule, NgForOf, NgIf, SkeletonModule, NgClass, AvatarModule, FormsModule, RouterLink],
+  imports: [BadgeModule, NgForOf, NgIf, SkeletonModule, NgClass, AvatarModule, FormsModule],
   templateUrl: './chat-user-list.component.html',
   styleUrl: './chat-user-list.component.css',
   animations: [trigger('listAnimation', [transition('* <=> *', [query(':enter', [style({ opacity: 0, transform: 'translateY(-20px)' }), stagger(50, [animate('300ms', style({ opacity: 1, transform: 'none' }))])], { optional: true }), query(':leave', [stagger(50, [animate('300ms', style({ opacity: 0, transform: 'translateY(-20px)' }))])], { optional: true })])])],
@@ -28,10 +29,7 @@ export class ChatUserListComponent {
   @Input() toggleUsersList: Function | undefined;
   @Input() showList!: boolean;
   public searchValue: string = '';
-  constructor(private authService: AuthService) {
-   
-    console.log("adasdas")
-  }
+  constructor(private authService: AuthService, private router: Router, private chatUrlService: ChatUrlService) {}
   getUnreadMessageCount(messages: any): string {
     return messages && messages.length > 0 ? String(messages.filter((elem: any) => !elem.is_read && elem.sender !== this.authService.user.id).length) : '0';
   }
@@ -40,6 +38,12 @@ export class ChatUserListComponent {
   }
 
   toggleUsers(value: boolean) {
-    if(this.toggleUsersList) this.toggleUsersList(value)
+    if (this.toggleUsersList) this.toggleUsersList(value);
+  }
+  goBack() {
+    const id = this.chatUrlService.get();
+    this.router.navigate([id ? `/announcements/${id}` : '/profile']).then(() => {
+      this.chatUrlService.remove();
+    });
   }
 }

@@ -17,10 +17,12 @@ export const environment = {
     POST_LOCATIONBUSES: '/api/buses/',
     POST_BUSROUTES: '/api/bus/',
     GET_GENDERS: '/api/lessee-types/',
-    GET_REGIONS: '/api/regions/'
+    GET_REGIONS: '/api/regions/',
+    GET_MIN_MAX_PRICE: '/api/max-and-min-price/announcement'
   },
   authUrls: {
     POST_ANNONCEMENTS: '/api/announcement/',
+    POST_ANNONCEMENT_STATUS: '/api/status-update/announcement',
     PUT_ANNONCEMENTS: '/api/announcement/',
     GET_MY_ANNONCEMENTS: '/api/my-announcement/',
     GET_ME: '/api/users/me/',

@@ -44,6 +44,7 @@ export class AnnouncementFormComponent implements OnInit {
   private token: any;
   public headers: any;
   public genders: IGendersList[] = [];
+  public status: boolean = false;
   uploadedFiles: any[] = [];
   private readonly id: number | string | null;
   formState = {
@@ -77,9 +78,9 @@ export class AnnouncementFormComponent implements OnInit {
     this.__GET_GENDERS();
     this.fileUploaderHeaders();
     if (this.isEdit) {
-      this.requestService.getData<any>(environment.urls.GET_ANNONCEMENTS + this.id).subscribe((response: any): void => {
+      this.requestService.getData<any>(environment.urls.GET_ANNONCEMENTS + this.id + `/`).subscribe((response: any): void => {
         this.announcement = response;
-
+        this.status = response?.status
         this.uploadedFiles = response.images;
         this.ruleForm.patchValue({
           lessee_types: response.lessee_types.map((elem: any) => elem.id),
@@ -136,7 +137,6 @@ export class AnnouncementFormComponent implements OnInit {
       severity: 'info',
       summary: 'File Uploaded',
       detail: '',
-      
     });
   }
   removeImage(id: number) {
@@ -163,5 +163,15 @@ export class AnnouncementFormComponent implements OnInit {
   };
   onRegionChange(region: any): void {
     this.dictionaryService.__GET_DISTRICTS({ parent: region });
+  }
+
+  statusChange(event: any) {
+    const data = {
+      announcement_id: this.announcement?.id,
+      status: event.checked,
+    };
+    this.requestService.requestData(environment.authUrls.POST_ANNONCEMENT_STATUS, 'POST', data).subscribe((response: any) => {
+      this.genders = response.results;
+    });
   }
 }

@@ -25,7 +25,7 @@ import { DialogModule } from 'primeng/dialog';
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [MyAnnouncementsCardComponent,DialogModule, NgForOf, NgIf, PaginationComponent, SkeletonModule, RouterLink, ChatUserListComponent, AuthDialogComponent, ButtonModule, DatePipe, FormsModule, RegisterDialogComponent, BadgeModule, ToastModule, RippleModule, AvatarModule, NgClass, NgTemplateOutlet, TabComponent],
+  imports: [DialogModule, NgForOf, NgIf, SkeletonModule, ChatUserListComponent, ButtonModule, DatePipe, FormsModule, BadgeModule, ToastModule, RippleModule, AvatarModule, NgClass, NgTemplateOutlet],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css',
   animations: [trigger('slideInOut', [transition(':enter', [style({ transform: 'translateX(100%)' }), animate('200ms ease-in', style({ transform: 'translateX(0%)' }))]), transition(':leave', [animate('200ms ease-in', style({ transform: 'translateX(100%)' }))])])],
@@ -50,17 +50,12 @@ export class ChatComponent implements OnInit, AfterViewInit {
   public showBoard: boolean = false;
   public showDate: boolean = false;
   public scrollingCurrentDate: string = '';
-  public showList = false
-  constructor(
-    public authService: AuthService,
-    private chatService: ChatService,
-    private queryService: QueryService,
-    private router: Router,
-  ) {}
+  public showList = false;
+  constructor(public authService: AuthService, private chatService: ChatService, private queryService: QueryService, private router: Router) {}
 
   ngOnInit(): void {
     if (typeof window !== 'undefined') {
-      this.updateShowList();
+      if (!('userId' in this.queryService.activeQueryList())) this.updateShowList();
       this.authService.getBooleanValue().subscribe((value) => {
         if (value) this.firstConnection();
       });
@@ -233,7 +228,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
       this.__GET_MESSAGES();
     });
     this.isRoom = room;
-    this.toggleUsersList(false)
+    this.toggleUsersList(false);
   };
   __GET_MESSAGES = () => {
     let id = Number(this.queryService.activeQueryList()['roomId']);
@@ -289,9 +284,9 @@ export class ChatComponent implements OnInit, AfterViewInit {
     } else {
       this.showDate = false;
     }
-    
-    this.lastScrollTop = currentScrollTop; 
-    if (this.scrollAccess) setTimeout(() => this.scrollCall(),1000);
+
+    this.lastScrollTop = currentScrollTop;
+    if (this.scrollAccess) setTimeout(() => this.scrollCall(), 1000);
     this.scrollAccess = false;
   }
 
@@ -316,13 +311,13 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
       // Проверяем, находится ли элемент в видимой области
       if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
-        visibleDataInfo.push(item.getAttribute('data-info') as string)
+        visibleDataInfo.push(item.getAttribute('data-info') as string);
       }
     });
-    const dates = visibleDataInfo.map(dateStr => new Date(dateStr));
+    const dates = visibleDataInfo.map((dateStr) => new Date(dateStr));
 
-    const minDate = new Date(Math.min(...dates.map(date => date.getTime())));
-    this.scrollingCurrentDate = minDate.toISOString()
+    const minDate = new Date(Math.min(...dates.map((date) => date.getTime())));
+    this.scrollingCurrentDate = minDate.toISOString();
   }
   scrollCall() {
     const unreadMessage = this.parentDiv.nativeElement.querySelector('.unread');
@@ -371,8 +366,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   toggleUsersList = (value: boolean) => {
     this.showList = value;
-  }
-  
+  };
 
   @ViewChild('scrollableDiv') scrollableDiv!: ElementRef;
 
@@ -380,13 +374,13 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.scrollableDiv.nativeElement.scrollTop = 0;
   }
   compareDate(arg1?: string, arg2?: string) {
-    const date = new Date()
+    const date = new Date();
     let date1 = new Date(arg1 || date).getTime();
     let date2 = new Date(arg2 || date).getTime();
-    let day1 = Math.floor(date1 / 86400000)
+    let day1 = Math.floor(date1 / 86400000);
     let day2 = Math.floor(date2 / 86400000);
-  
-    return day1 > day2
+
+    return day1 > day2;
   }
 
   private updateShowList(): void {

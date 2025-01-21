@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NgForOf, NgIf } from '@angular/common';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { FormsModule } from '@angular/forms';
@@ -10,7 +9,6 @@ import { SliderModule } from 'primeng/slider';
 import { FilterForm } from '@services/interfaces';
 import { QueryService } from '@services/query';
 import { DropdownModule } from 'primeng/dropdown';
-import { SearchComponent } from "../search/search.component";
 import { RequestService } from '@/core/services/request/request.service';
 import { environment } from '@environments';
 import { MultiSelectModule } from 'primeng/multiselect';
@@ -18,7 +16,7 @@ import { DictionaryService } from '@/core/services/dictionary/dictionary.service
 @Component({
   selector: 'app-filter',
   standalone: true,
-  imports: [NgForOf,InputSwitchModule,RouterLink, FormsModule, CheckboxModule, InputNumberModule, ButtonModule, SliderModule, NgIf, DropdownModule, SearchComponent,MultiSelectModule],
+  imports: [InputSwitchModule, FormsModule, CheckboxModule, InputNumberModule, ButtonModule, SliderModule, DropdownModule,  MultiSelectModule],
   templateUrl: './filter.component.html',
   styleUrl: './filter.component.css',
 })
@@ -38,7 +36,7 @@ export class FilterComponent implements OnInit {
     room_count: 1,
     fridge: false,
     transports: [],
-    region: null
+    region: null,
   };
   public tabOptions = [
     {
@@ -59,22 +57,15 @@ export class FilterComponent implements OnInit {
   @Input() loading!: boolean;
   @Input() close: Function | undefined;
 
-  constructor(
-    private requestService: RequestService,
-    public queryService: QueryService,
-    public dictionaryService: DictionaryService,
-    public router: Router,
-    public route: ActivatedRoute,
-  ) {}
+  constructor(private requestService: RequestService, public queryService: QueryService, public dictionaryService: DictionaryService, public router: Router, public route: ActivatedRoute) {}
   cities: any[] | undefined;
 
   selectedCity: any | undefined;
 
   ngOnInit() {
-    this.cities = [
-      { name: 'New York', code: 'NY' },
-  ];
+    this.cities = [{ name: 'New York', code: 'NY' }];
     if (typeof window !== 'undefined') {
+      this.__GET_MIN_MAX_PRICE();
       this.requestService.getData(environment.urls.GET_TRANSPORTS).subscribe((response: any) => {
         this.transports = response;
         let query: any = { ...this.queryService.activeQueryList() };
@@ -117,9 +108,9 @@ export class FilterComponent implements OnInit {
       total_price__lte: 4000000,
       room_count: 1,
       transports: [],
-      region: null
+      region: null,
     };
-    this.sliderValue = [0, 4000000];
+   this.__GET_MIN_MAX_PRICE()
   }
   async onClear() {
     let query: any = { ...this.queryService.activeQueryList() };
@@ -128,8 +119,12 @@ export class FilterComponent implements OnInit {
   }
   onChange(event: any) {
     let query: any = { ...this.queryService.activeQueryList() };
-    if (query['transports']) 
-      this.filterForm.transports = query.transports.filter((elem: string) => elem !== event.itemValue.ri);
+    if (query['transports']) this.filterForm.transports = query.transports.filter((elem: string) => elem !== event.itemValue.ri);
     // this.queryService.updateCustomQuery(query, this.getData).then(() => {});
+  }
+  __GET_MIN_MAX_PRICE() {
+    this.requestService.getData(environment.urls.GET_MIN_MAX_PRICE).subscribe((response: any) => {
+      this.sliderValue = [response?.min_price || 0, response?.max_price || 0];
+    });
   }
 }

@@ -7,6 +7,7 @@ import { AuthDialogComponent } from '../../modals/auth-dialog/auth-dialog.compon
 import { AngularYandexMapsModule } from 'angular8-yandex-maps';
 import { AuthService } from '@/core/services/auth/auth.service';
 import { Router } from '@angular/router';
+import { ChatUrlService } from '@/core/services/chatUrl/chatUrl.service';
 @Component({
   selector: 'app-user-card',
   standalone: true,
@@ -16,12 +17,13 @@ import { Router } from '@angular/router';
 })
 export class UserCardComponent {
   @Input() announcement!: any;
-  public showNumber: boolean = false
+  public showNumber: boolean = false;
   public loading: boolean = false;
   @ViewChild(AuthDialogComponent) authDialogComponent!: AuthDialogComponent;
-  constructor(public authService: AuthService, private router: Router) {}
+  constructor(public authService: AuthService, private router: Router, private chatUrlService: ChatUrlService) {}
   toChat() {
     if (this.authService.auth && this.authService.user.id) {
+      this.chatUrlService.save(this.announcement.user?.id);
       const query = {
         userId: this.announcement.user?.id,
       };
