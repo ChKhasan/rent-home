@@ -94,8 +94,6 @@ export class AuthDialogComponent {
   }
 
   openRegisterDialog() {
-    console.log(this.openRegister);
-
     if (this.openRegister) this.openRegister();
   }
 

@@ -74,11 +74,35 @@ export class AnnouncementFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.ruleForm.reset();
+    this.ruleForm.reset({
+      transports: [],
+      images: [],
+      title: '', // Используйте подходящее начальное значение
+      partnership: false,
+      need_people_count: 0,
+      room_count: 0,
+      address: '', // Используйте подходящее начальное значение
+      location_x: 0,
+      location_y: 0,
+      currency: 'USD',
+      total_price: 0,
+      price_for_one: 0,
+      appartment_status: 10,
+      description: '', // Используйте подходящее начальное значение
+      conditioner: false,
+      fridge: false,
+      washing_machine: false,
+      user: {}, // Убедитесь, что объект соответствует ожидаемой структуре
+      region: null,
+      district: null,
+      area: null,
+      floor: null,
+      lessee_types: []
+    });
     this.__GET_GENDERS();
     this.fileUploaderHeaders();
     if (this.isEdit) {
-      this.requestService.getData<any>(environment.urls.GET_ANNONCEMENTS + this.id + `/`).subscribe((response: any): void => {
+      this.requestService.getData<any>(environment.authUrls.GET_ANNONCEMENTS + this.id + `/`).subscribe((response: any): void => {
         this.announcement = response;
         this.status = response?.status
         this.uploadedFiles = response.images;

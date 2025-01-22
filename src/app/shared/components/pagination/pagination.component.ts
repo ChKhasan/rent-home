@@ -26,10 +26,9 @@ export class PaginationComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    if (typeof window !== 'undefined') this.firstPaginationQuery().then(() => console.log('ase324322'));
+    if (typeof window !== 'undefined') this.firstPaginationQuery().then(() => {});
   }
   async firstPaginationQuery() {
-    console.log('aaaa', !this.route.snapshot.queryParams['page']);
     const activeQuery = {
       page: this.page + 1,
       page_size: this.rows,

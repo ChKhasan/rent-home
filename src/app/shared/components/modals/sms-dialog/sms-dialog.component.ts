@@ -65,7 +65,6 @@ export class SmsDialogComponent {
   }
 
   anotherPhoneNumberCall() {
-    console.log('asdasdasdas');
     if (this.anotherPhoneNumber) this.anotherPhoneNumber();
   }
 }

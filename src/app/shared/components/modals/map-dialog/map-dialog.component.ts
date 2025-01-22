@@ -50,7 +50,6 @@ export class MapDialogComponent implements OnInit {
 
   handleMapClick(event: any) {
     this.coords = event.event.get('coords');
-    console.log(this.coords);
     this.__GET_LOCATICON_TRANSPORTS(this.transportParams(this.coords));
   }
 

@@ -9,6 +9,5 @@ import { Component } from '@angular/core';
 })
 export class EmptyFoundComponent {
   constructor() {
-    console.log('turmoq');
   }
 }

@@ -63,7 +63,6 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     if (typeof window !== 'undefined') {
-      console.log(this.authService.user);
       this.fileUploaderHeaders();
       this.__GET_USER();
     }
@@ -88,7 +87,6 @@ export class ProfileComponent implements OnInit {
       // if (imagesControl && imagesControl.value)
 
       this.ruleForm.patchValue({ images: [elem?.uuid] });
-      console.log(this.avatar);
     });
     this.ruleForm.markAllAsTouched();
     if (this.ruleForm.invalid) return;

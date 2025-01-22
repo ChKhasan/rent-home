@@ -21,6 +21,7 @@ export const environment = {
     GET_MIN_MAX_PRICE: '/api/max-and-min-price/announcement'
   },
   authUrls: {
+    GET_ANNONCEMENTS: '/api/announcement/',
     POST_ANNONCEMENTS: '/api/announcement/',
     POST_ANNONCEMENT_STATUS: '/api/status-update/announcement',
     PUT_ANNONCEMENTS: '/api/announcement/',

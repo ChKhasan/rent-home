@@ -321,7 +321,6 @@ export class MapComponent implements OnInit, AfterViewInit {
             geometry: [item.location_x, item.location_y],
           };
         });
-      console.log(this.announcements);
       if (this.announcements.length > 0) this.mapCenter = [this.announcements[0].location_x, this.announcements[0].location_y];
     });
     // }
@@ -382,7 +381,6 @@ export class MapComponent implements OnInit, AfterViewInit {
   //   })
   // }
   onChange(event: any) {
-    console.log(event);
     if (typeof event.itemValue === 'string') {
       let transport = this.transports.find((elem: any) => elem.ri === event.itemValue);
       this.filterTransport(transport);

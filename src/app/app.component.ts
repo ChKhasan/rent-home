@@ -38,7 +38,6 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
     if (typeof window !== 'undefined') {
       this.dictionaryService.__GET_REGIONS()
-      this.dictionaryService.__GET_DISTRICTS()
       this.authService.authHandler().then(() => {});
 
       this.authService.getBooleanValue().subscribe((value) => {

@@ -36,7 +36,6 @@ export class NumberDialogComponent {
   }
 
   public onSubmit(): void {
-    console.log('data', this.ruleForm);
     this.ruleForm.markAllAsTouched();
     if (this.ruleForm.invalid) return;
     this.postLogin();

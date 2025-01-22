@@ -17,7 +17,6 @@ export class UserService {
   // }
 
   get(): void {
-    console.log('123435', this.getAuthToken());
     // return this._httpsClient.get<T>(`https://api.rent-home.uz/api/users/me`,{
     //   headers: { Authorization: `Bearer ${this.getAuthToken}` }
     // });
