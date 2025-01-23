@@ -47,6 +47,7 @@ export class HomeComponent implements OnInit {
   }
   __GET_ANNOUNCEMENTS = () => {
     this.loading = true;
+    console.log("turmoq")
     this.requestService
       .getData(environment.urls.GET_ANNONCEMENTS, this.queryConfig.generatorHttpParamsWithDefault())
       .pipe(finalize(() => (this.loading = false)))
