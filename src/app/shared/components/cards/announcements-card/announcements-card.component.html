@@ -48,8 +48,7 @@
         </div>
       </button>
     </div>
-    <div class="absolute bottom-3 right-3 z-50 md:left-2 md:top-[7px] flex gap-3" *ngIf="edit">
-   
+    <div class="absolute bottom-3 right-3 z-50 flex gap-3" *ngIf="edit">
       <p-tag *ngIf="announcement.status" severity="primary" value="Aktiv" [rounded]="true" />
       <p-tag *ngIf="!announcement.status" severity="danger" value="Activ emas" [rounded]="true"  />
     </div>
