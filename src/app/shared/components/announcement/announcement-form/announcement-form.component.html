@@ -3,8 +3,7 @@
     <div class="title flex justify-between items-center">
       <h3 class="text-[40px] font-medium text-[--green] md:text-2xl">E`lonlar berish</h3>
     </div>
-    <div
-    *ngIf="isEdit"
+    <div *ngIf="isEdit"
       class="forma mt-6 md:max-w-full mx-auto md:bg-transparent border-solid border rounded-2xl border-[--grey-300] p-4 md:p-4">
       <div class="max-w-[552px] md:max-w-full">
         <div class="flex justify-between items-center">
@@ -15,6 +14,7 @@
 
       </div>
     </div>
+
     <div class="body mt-[30px]" [formGroup]="ruleForm">
       <div
         class="forma md:max-w-full mx-auto md:bg-transparent border-solid border rounded-2xl border-[--grey-300] p-4 md:p-4">
@@ -232,8 +232,12 @@
               <div class="flex flex-col gap-1 relative">
                 <label class="font-medium text-[14px] text-[--grey-900]" for="integeronly">Narxi</label>
                 <div class="relative w-full flex items-center form-input">
-                  <p-inputNumber inputId="integeronly" class="w-full" [maxlength]="9"
-                    formControlName="total_price"></p-inputNumber>
+
+                  <div class="relative w-full flex items-center justify-end">
+                    <p-inputNumber inputId="integeronly" class="w-full" [maxlength]="9"
+                      formControlName="total_price"></p-inputNumber>
+                    <span class="absolute whitespace-nowrap right-6">UZS</span>
+                  </div>
                 </div>
               </div>
 
@@ -243,6 +247,7 @@
                 <div class="relative w-full flex items-center form-input">
                   <p-inputNumber inputId="price_for_one" class="w-full" [maxlength]="9"
                     formControlName="price_for_one"></p-inputNumber>
+                    <span class="absolute whitespace-nowrap right-6">UZS</span>
                 </div>
               </div>
               <div class="flex flex-col gap-1 relative" *ngIf="ruleForm.get('partnership')?.value" [@errorAnimation]>

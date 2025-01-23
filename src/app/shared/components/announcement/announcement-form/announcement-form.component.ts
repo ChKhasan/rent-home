@@ -20,16 +20,12 @@ import { environment } from '@environments';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MapDialogComponent } from '../../modals/map-dialog/map-dialog.component';
 import { RequestService } from '@services/request';
-import { IAnnouncementInfo, IGendersList, Transport } from '@services/interfaces';
+import { IGendersList, Transport } from '@services/interfaces';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { DictionaryService } from '@/core/services/dictionary/dictionary.service';
 import { ValidationErrorAnimation } from '@/core/common/animations';
-interface UploadEvent {
-  originalEvent: Event;
-  files: File[];
-}
 
 @Component({
   selector: 'app-announcement-form',
@@ -46,6 +42,7 @@ export class AnnouncementFormComponent implements OnInit {
   public genders: IGendersList[] = [];
   public status: boolean = false;
   uploadedFiles: any[] = [];
+  value1: any
   private readonly id: number | string | null;
   formState = {
     transports: [],
