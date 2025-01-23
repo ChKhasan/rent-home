@@ -39,6 +39,7 @@ export class FilterComponent implements OnInit {
     fridge: false,
     transports: [],
     region: null,
+    district: null
   };
   public tabOptions = [
     {
@@ -111,6 +112,7 @@ export class FilterComponent implements OnInit {
       room_count: 1,
       transports: [],
       region: null,
+      district: null
     };
     this.__GET_MIN_MAX_PRICE();
   }
@@ -130,5 +132,8 @@ export class FilterComponent implements OnInit {
       this.sliderMin = response?.min_price || 0;
       this.sliderValue = [response?.min_price || 0, response?.max_price || 0];
     });
+  }
+  onRegionChange(region: any): void {
+    this.dictionaryService.__GET_DISTRICTS({ parent: region });
   }
 }
