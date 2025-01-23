@@ -53,7 +53,8 @@ export interface FilterForm {
   room_count: Number;
   transports: [];
   region: null | number,
-  district: null | number
+  district: null | number,
+  currency: any
 }
 
 export interface IUserRooms {

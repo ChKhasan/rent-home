@@ -13,6 +13,7 @@ import { RequestService } from '@/core/services/request/request.service';
 import { environment } from '@environments';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { DictionaryService } from '@/core/services/dictionary/dictionary.service';
+import { currenyTypes } from '@/core/constants/currency';
 @Component({
   selector: 'app-filter',
   standalone: true,
@@ -28,6 +29,7 @@ export class FilterComponent implements OnInit {
   public selectedCities: any = [];
   public sliderMax: number = 0;
   public sliderMin: number = 0;
+  public currenyTypes = currenyTypes;
   public filterForm: FilterForm = {
     conditioner: false,
     partnership: false,
@@ -39,7 +41,8 @@ export class FilterComponent implements OnInit {
     fridge: false,
     transports: [],
     region: null,
-    district: null
+    district: null,
+    currency: 'UZS',
   };
   public tabOptions = [
     {
@@ -81,7 +84,7 @@ export class FilterComponent implements OnInit {
       });
       let query = this.queryService.activeQueryList();
       for (let item in this.filterForm) {
-        this.filterForm[item as keyof FilterForm] = (typeof query[item] === 'string' && JSON.parse(query[item])) || this.filterForm[item as keyof FilterForm];
+        this.filterForm[item as keyof FilterForm] = (typeof query[item] === 'string' && !currenyTypes.map((elem) => elem.value).includes(query[item]) && JSON.parse(query[item])) || this.filterForm[item as keyof FilterForm];
       }
       this.sliderValue[0] = Number(this.filterForm.total_price__gte);
       this.sliderValue[1] = Number(this.filterForm.total_price__lte);
@@ -112,7 +115,8 @@ export class FilterComponent implements OnInit {
       room_count: 1,
       transports: [],
       region: null,
-      district: null
+      district: null,
+      currency: 'UZS',
     };
     this.__GET_MIN_MAX_PRICE();
   }
@@ -127,11 +131,14 @@ export class FilterComponent implements OnInit {
     // this.queryService.updateCustomQuery(query, this.getData).then(() => {});
   }
   __GET_MIN_MAX_PRICE() {
-    this.requestService.getData(environment.urls.GET_MIN_MAX_PRICE).subscribe((response: any) => {
+    this.requestService.getData(environment.urls.GET_MIN_MAX_PRICE, { currency: this.filterForm.currency }).subscribe((response: any) => {
       this.sliderMax = response?.max_price || 0;
       this.sliderMin = response?.min_price || 0;
       this.sliderValue = [response?.min_price || 0, response?.max_price || 0];
     });
+  }
+  onCurrencyChange() {
+    this.__GET_MIN_MAX_PRICE();
   }
   onRegionChange(region: any): void {
     this.dictionaryService.__GET_DISTRICTS({ parent: region });

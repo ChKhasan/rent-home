@@ -11,15 +11,15 @@
     <div class="flex flex-col gap-1 relative">
       <label class="font-medium text-[14px]" for="name">Shahar</label>
       <div class="relative w-full flex items-center form-input">
-        <p-dropdown class="w-full" [options]="dictionaryService.regions"  (onChange)="onRegionChange($event.value)" [(ngModel)]="filterForm.region"
-          optionValue="id" optionLabel="name" placeholder="Shahar" />
+        <p-dropdown class="w-full" [options]="dictionaryService.regions" (onChange)="onRegionChange($event.value)"
+          [(ngModel)]="filterForm.region" optionValue="id" optionLabel="name" placeholder="Shahar" />
       </div>
     </div>
     <div class="flex flex-col gap-1 relative">
       <label class="font-medium text-[14px]" for="name">Tuman</label>
       <div class="relative w-full flex items-center form-input">
-        <p-dropdown class="w-full" [options]="dictionaryService.districts" [(ngModel)]="filterForm.district" optionValue="id" optionLabel="name"
-          placeholder="Tuman" />
+        <p-dropdown class="w-full" [options]="dictionaryService.districts" [(ngModel)]="filterForm.district"
+          optionValue="id" optionLabel="name" placeholder="Tuman" />
       </div>
     </div>
     <div class="grid gap-4 grid-cols-2">
@@ -51,6 +51,11 @@
           placeholder="Выберите транспорт" inputId="float-label" [options]="transports" [(ngModel)]="selectedCities"
           optionLabel="name"></p-multiSelect>
       </div>
+    </div>
+    <div class="flex flex-col gap-1 relative">
+      <label class="font-medium text-[14px]" for="name"> Pul birligi (Valyuta)</label>
+      <p-dropdown  [(ngModel)]="filterForm.currency" (onChange)="onCurrencyChange()" [options]="currenyTypes"
+        optionLabel="label" optionValue="value" placeholder="Tuman" />
     </div>
     <div class="price-filter">
       <div class="grid grid-cols-2 gap-3">

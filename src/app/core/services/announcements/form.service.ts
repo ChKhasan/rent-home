@@ -22,7 +22,7 @@ export class FormService {
     address: addressControl,
     location_x: new FormControl(0),
     location_y: new FormControl(0),
-    currency: new FormControl('USD'),
+    currency: new FormControl('UZS'),
     total_price: new FormControl(0),
     price_for_one: new FormControl(0),
     appartment_status: new FormControl(10),

@@ -26,6 +26,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { DictionaryService } from '@/core/services/dictionary/dictionary.service';
 import { ValidationErrorAnimation } from '@/core/common/animations';
+import { currenyTypes } from '@/core/constants/currency';
 
 @Component({
   selector: 'app-announcement-form',
@@ -42,7 +43,8 @@ export class AnnouncementFormComponent implements OnInit {
   public genders: IGendersList[] = [];
   public status: boolean = false;
   uploadedFiles: any[] = [];
-  value1: any
+  value1: any;
+  public currenyTypes = currenyTypes;
   private readonly id: number | string | null;
   formState = {
     transports: [],
@@ -74,34 +76,34 @@ export class AnnouncementFormComponent implements OnInit {
     this.ruleForm.reset({
       transports: [],
       images: [],
-      title: '', // Используйте подходящее начальное значение
+      title: '',
       partnership: false,
       need_people_count: 0,
       room_count: 0,
-      address: '', // Используйте подходящее начальное значение
+      address: '',
       location_x: 0,
       location_y: 0,
-      currency: 'USD',
+      currency: 'UZS',
       total_price: 0,
       price_for_one: 0,
       appartment_status: 10,
-      description: '', // Используйте подходящее начальное значение
+      description: '',
       conditioner: false,
       fridge: false,
       washing_machine: false,
-      user: {}, // Убедитесь, что объект соответствует ожидаемой структуре
+      user: {},
       region: null,
       district: null,
       area: null,
       floor: null,
-      lessee_types: []
+      lessee_types: [],
     });
     this.__GET_GENDERS();
     this.fileUploaderHeaders();
     if (this.isEdit) {
-      this.requestService.getData<any>(environment.authUrls.GET_ANNONCEMENTS + this.id + `/`).subscribe((response: any): void => {
+      this.requestService.getData<any>(environment.authUrls.GET_MY_ANNONCEMENTS + this.id + `/`).subscribe((response: any): void => {
         this.announcement = response;
-        this.status = response?.status
+        this.status = response?.status;
         this.uploadedFiles = response.images;
         this.ruleForm.patchValue({
           lessee_types: response.lessee_types.map((elem: any) => elem.id),

@@ -2,54 +2,80 @@
   <div class="max-w-[1920px] mx-auto border-[0] border-x border-solid border-[--grey-300]">
     <div class="chat-container mx-auto items-center md:h-[100vh] md:mt-0 flex flex-col">
       <div class="h-full md:hidden">
-        <app-chat-user-list [userSearch]="userSearch" [loading]="loadingRooms" [userRooms]="userRooms" [handlerRoom]="handlerRoom" [isRoom]="isRoom" [toggleUsersList]="toggleUsersList" class="h-full"></app-chat-user-list>
+        <app-chat-user-list [userSearch]="userSearch" [loading]="loadingRooms" [userRooms]="userRooms"
+          [handlerRoom]="handlerRoom" [isRoom]="isRoom" [toggleUsersList]="toggleUsersList"
+          class="h-full"></app-chat-user-list>
       </div>
       <div class="h-full">
         <div class="md:flex justify-start px-4 py-3 pb-0 fixed top-0 z-50 hidden">
-          <button (click)="showList = true" class="border  border-solid border-[--grey-300] rounded-xl bg-white flex items-center gap-2 px-3 py-2">
+          <button (click)="showList = true"
+            class="border  border-solid border-[--grey-300] rounded-xl bg-white flex items-center gap-2 px-3 py-2">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M6.59753 11.1423C5.99353 10.5005 5.99353 9.49949 6.59753 8.85774L12.7267 2.34554C13.0421 2.0104 13.5695 1.99442 13.9046 2.30985C14.2398 2.62528 14.2558 3.15267 13.9403 3.48782L7.8112 10L13.9403 16.5122C14.2558 16.8474 14.2398 17.3748 13.9046 17.6902C13.5695 18.0056 13.0421 17.9896 12.7267 17.6545L6.59753 11.1423Z" fill="black"/>
-          </svg>
-          Back</button>
+              <path
+                d="M6.59753 11.1423C5.99353 10.5005 5.99353 9.49949 6.59753 8.85774L12.7267 2.34554C13.0421 2.0104 13.5695 1.99442 13.9046 2.30985C14.2398 2.62528 14.2558 3.15267 13.9403 3.48782L7.8112 10L13.9403 16.5122C14.2558 16.8474 14.2398 17.3748 13.9046 17.6902C13.5695 18.0056 13.0421 17.9896 12.7267 17.6545L6.59753 11.1423Z"
+                fill="black" />
+            </svg>
+            Back</button>
         </div>
-        <div class="message-block h-full  overflow-hidden border-[0] border-l border-solid md:border-0 border-[--grey-300]">
+        <div
+          class="message-block h-full  overflow-hidden border-[0] border-l border-solid md:border-0 border-[--grey-300]">
           <div class="body rounded-b-[12px] relative">
             <div class="absolute z-40 flex justify-center top-4 w-full pl-2" *ngIf="showDate">
-              <span style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;" class="bg-[#fff] text-[#000] text-[14px] rounded-xl py-1 px-3">{{scrollingCurrentDate | date: topDateFormat}}</span>
+              <span style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;"
+                class="bg-[#fff] text-[#000] text-[14px] rounded-xl py-1 px-3">{{scrollingCurrentDate | date:
+                topDateFormat}}</span>
             </div>
-            <div class="board p-6 bg-[#F9FAFB] pr-2 flex flex-col-reverse pb-6 gap-6 overflow-y-scroll" *ngIf="loadingMessages; else messagesList">
-              <div *ngFor="let item of skeletonList" class="flex" [ngClass]="item % 2 == 0 ? 'justify-start' : 'justify-end'">
-                <div class="flex" [ngClass]="item % 2 == 0 ? 'justify-start message-skeleton-' + item : 'justify-end message-skeleton-' + item">
+            <div class="board p-6 bg-[#F9FAFB] pr-2 flex flex-col-reverse pb-6 gap-6 overflow-y-scroll"
+              *ngIf="loadingMessages; else messagesList">
+              <div *ngFor="let item of skeletonList" class="flex"
+                [ngClass]="item % 2 == 0 ? 'justify-start' : 'justify-end'">
+                <div class="flex"
+                  [ngClass]="item % 2 == 0 ? 'justify-start message-skeleton-' + item : 'justify-end message-skeleton-' + item">
                   <p-skeleton class="w-full" styleClass="ng_skeleton"></p-skeleton>
                 </div>
               </div>
             </div>
             <ng-template #messagesList>
-              <div #scrollableDiv class="board p-6 bg-[#F9FAFB] pr-2 flex justify-start flex-col-reverse pb-6 gap-6 overflow-y-scroll" (scroll)="onParentDivScrolled()" #parentDiv>
+              <div #scrollableDiv
+                class="board p-6 bg-[#F9FAFB] pr-2 flex justify-start flex-col-reverse pb-6 gap-6 overflow-y-scroll"
+                (scroll)="onParentDivScrolled()" #parentDiv>
                 <div *ngIf="loading" class="flex flex-col gap-6">
-                  <div *ngFor="let message of pendingMessages" class="flex w-full" [class]="message.sender === authService.user.id ? 'justify-end' : 'justify-start'">
+                  <div *ngFor="let message of pendingMessages" class="flex w-full"
+                    [class]="message.sender === authService.user.id ? 'justify-end' : 'justify-start'">
                     <div class="comment-card min-w-[180px] max-w-[90%] flex flex-col gap-2">
-                      <div class="body relative px-4 py-4 pb-[27px] text-base" [class]="message.sender === authService.user.id ? 'my-message' : 'message'">
+                      <div class="body relative px-4 py-4 pb-[27px] text-base"
+                        [class]="message.sender === authService.user.id ? 'my-message' : 'message'">
                         <p>{{ message.message }}</p>
-                        <span *ngIf="message.pending" class="font-500 text-[--green] text-[8px] absolute bottom-2 right-4"><i class="pi pi-clock text-[12px]"></i></span>
+                        <span *ngIf="message.pending"
+                          class="font-500 text-[--green] text-[8px] absolute bottom-2 right-4"><i
+                            class="pi pi-clock text-[12px]"></i></span>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div *ngFor="let message of messages; let i = index">
-                  <div class="flex justify-center top-4 w-full mb-3" *ngIf="compareDate(messages[i]?.created_at, messages[i + 1]?.created_at)">
-                    <span style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;" class="bg-[#fff] text-[#000] text-[14px] rounded-xl py-1 px-3">{{message.created_at | date: topDateFormat}}</span>
+                  <div class="flex justify-center top-4 w-full mb-3"
+                    *ngIf="compareDate(messages[i]?.created_at, messages[i + 1]?.created_at)">
+                    <span style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;"
+                      class="bg-[#fff] text-[#000] text-[14px] rounded-xl py-1 px-3">{{message.created_at | date:
+                      topDateFormat}}</span>
                   </div>
                   <div class="unread" *ngIf="message.is_first">Непрочитанные сообщения</div>
-                  <div [attr.data-info]="message.created_at" [attr.id]="'child_' + message.id" #childRef class="inline-flex w-full message-item" [class]="message.sender === authService.user.id ? 'justify-end' : 'justify-start'">
+                  <div [attr.data-info]="message.created_at" [attr.id]="'child_' + message.id" #childRef
+                    class="inline-flex w-full message-item"
+                    [class]="message.sender === authService.user.id ? 'justify-end' : 'justify-start'">
                     <div class="comment-card min-w-[180px] max-w-[90%] flex flex-col gap-2">
-                      <div class="body relative px-4 py-4 pb-[27px] text-base border border-solid border-[--grey-300]" [class]="message.sender === authService.user.id ? 'my-message' : 'message'">
+                      <div class="body relative px-4 py-4 pb-[27px] text-base border border-solid border-[--grey-300]"
+                        [class]="message.sender === authService.user.id ? 'my-message' : 'message'">
                         <p class="text-base">{{ message.message }}</p>
-                        <span class="font-500 text-[--grey-300] text-[10px] leading-4 items-center absolute bottom-[9px] right-4 flex gap-1">
+                        <span
+                          class="font-500 text-[--grey-300] text-[10px] leading-4 items-center absolute bottom-[9px] right-4 flex gap-1">
                           {{ message.created_at | date: 'HH:mm' }}
                           <span *ngIf="message.sender === authService.user.id">
-                            <span *ngIf="message.is_read; else unread"><ng-container *ngTemplateOutlet="readIcon"></ng-container></span>
-                            <ng-template #unread><ng-container *ngTemplateOutlet="unreadIcon"></ng-container></ng-template>
+                            <span *ngIf="message.is_read; else unread"><ng-container
+                                *ngTemplateOutlet="readIcon"></ng-container></span>
+                            <ng-template #unread><ng-container
+                                *ngTemplateOutlet="unreadIcon"></ng-container></ng-template>
                           </span>
                         </span>
                       </div>
@@ -59,31 +85,33 @@
               </div>
             </ng-template>
 
-            <div class="input-send md:hidden h-20 bg-white border-[0] border-t border-solid border-[--grey-300] px-3 py-3 gap-4 flex justify-between items-center">
-              <input type="text" (keyup.enter)="sendMessage()" [(ngModel)]="message" placeholder="Xabaringizni yozing" class="w-full font-500 text-base border-0 focus:outline-0 h-full placeholder-[--grey-3]" />
-              <p-button [disabled]="message.length === 0" (click)="sendMessage()" styleClass="bg-[--green] rounded-[8px] h-11 w-[154px] flex items-center justify-center gap-2">
+            <div
+              class="input-send md:hidden h-20 bg-white border-[0] border-t border-solid border-[--grey-300] px-3 py-3 gap-4 flex justify-between items-center">
+              <input type="text" (keyup.enter)="sendMessage()" [(ngModel)]="message" placeholder="Xabaringizni yozing"
+                class="w-full font-500 text-base border-0 focus:outline-0 h-full placeholder-[--grey-3]" />
+              <p-button [disabled]="message.length === 0" (click)="sendMessage()"
+                styleClass="bg-[--green] rounded-[8px] h-11 w-[154px] flex items-center justify-center gap-2">
                 Yuborish
-                <svg *ngIf="!loading" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
+                <svg *ngIf="!loading" width="18" height="18" viewBox="0 0 18 18" fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
                     d="M16.3125 9C16.3125 9.2043 16.2017 9.39247 16.0232 9.4917L14.3114 10.4427C10.9279 12.3224 7.36106 13.8515 3.66659 15.006L3.16778 15.1619C2.99699 15.2153 2.81098 15.1842 2.66681 15.0782C2.52264 14.9722 2.4375 14.804 2.4375 14.625V10.3125C2.4375 10.0192 2.66281 9.7752 2.95514 9.7518L3.12564 9.73815C4.73923 9.60907 6.3404 9.36217 7.9164 8.99977C6.31827 8.63235 4.69427 8.38365 3.05768 8.25622L2.95631 8.24827C2.66348 8.22547 2.4375 7.9812 2.4375 7.6875V3.37501C2.4375 3.19606 2.52264 3.02779 2.66681 2.9218C2.81098 2.81581 2.99699 2.78473 3.16778 2.83811L3.66659 2.99398C7.36106 4.1485 10.9279 5.67756 14.3114 7.5573L16.0232 8.5083C16.2017 8.60753 16.3125 8.7957 16.3125 9ZM14.5918 9L13.765 8.54078C10.5192 6.7375 7.10135 5.26351 3.5625 4.14067V7.16968C5.76006 7.36788 7.93372 7.77765 10.0532 8.3934L10.2819 8.45985C10.5224 8.52968 10.6877 8.7501 10.6875 9.00052C10.6873 9.25095 10.5215 9.47108 10.2808 9.54045L9.98798 9.62497C7.8891 10.2303 5.73752 10.6338 3.5625 10.83V13.8593C7.10135 12.7365 10.5192 11.2625 13.765 9.4593L14.5918 9Z"
-                    fill="white"
-                  />
+                    fill="white" />
                 </svg>
               </p-button>
             </div>
           </div>
-          <div class="input-send w-full bg-white hidden md:flex border fixed bottom-0 border-solid border-[--grey-3] rounded-[12px] md:rounded-none md:border-r-[0] md:border-l-[0] px-3 py-3 gap-4 justify-between items-center">
-            <input type="text" (keyup.enter)="sendMessage()" [(ngModel)]="message" placeholder="Xabaringizni yozing" class="w-full font-500 text-base border-0 focus:outline-0 h-full placeholder-[--grey-3]" />
-            <p-button [disabled]="message.length === 0" (click)="sendMessage()" styleClass="bg-[--green] rounded-[8px] h-11  flex items-center justify-center gap-2">
-              <svg *ngIf="!loading" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
+          <div
+            class="input-send w-full bg-white hidden md:flex border fixed bottom-0 border-solid border-[--grey-3] rounded-[12px] md:rounded-none md:border-r-[0] md:border-l-[0] px-3 py-3 gap-4 justify-between items-center">
+            <input type="text" (keyup.enter)="sendMessage()" [(ngModel)]="message" placeholder="Xabaringizni yozing"
+              class="w-full font-500 text-base border-0 focus:outline-0 h-full placeholder-[--grey-3]" />
+            <p-button [disabled]="message.length === 0" (click)="sendMessage()"
+              styleClass="bg-[--green] rounded-[8px] h-11  flex items-center justify-center gap-2">
+              <svg *ngIf="!loading" width="18" height="18" viewBox="0 0 18 18" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd"
                   d="M16.3125 9C16.3125 9.2043 16.2017 9.39247 16.0232 9.4917L14.3114 10.4427C10.9279 12.3224 7.36106 13.8515 3.66659 15.006L3.16778 15.1619C2.99699 15.2153 2.81098 15.1842 2.66681 15.0782C2.52264 14.9722 2.4375 14.804 2.4375 14.625V10.3125C2.4375 10.0192 2.66281 9.7752 2.95514 9.7518L3.12564 9.73815C4.73923 9.60907 6.3404 9.36217 7.9164 8.99977C6.31827 8.63235 4.69427 8.38365 3.05768 8.25622L2.95631 8.24827C2.66348 8.22547 2.4375 7.9812 2.4375 7.6875V3.37501C2.4375 3.19606 2.52264 3.02779 2.66681 2.9218C2.81098 2.81581 2.99699 2.78473 3.16778 2.83811L3.66659 2.99398C7.36106 4.1485 10.9279 5.67756 14.3114 7.5573L16.0232 8.5083C16.2017 8.60753 16.3125 8.7957 16.3125 9ZM14.5918 9L13.765 8.54078C10.5192 6.7375 7.10135 5.26351 3.5625 4.14067V7.16968C5.76006 7.36788 7.93372 7.77765 10.0532 8.3934L10.2819 8.45985C10.5224 8.52968 10.6877 8.7501 10.6875 9.00052C10.6873 9.25095 10.5215 9.47108 10.2808 9.54045L9.98798 9.62497C7.8891 10.2303 5.73752 10.6338 3.5625 10.83V13.8593C7.10135 12.7365 10.5192 11.2625 13.765 9.4593L14.5918 9Z"
-                  fill="white"
-                />
+                  fill="white" />
               </svg>
             </p-button>
           </div>
@@ -97,7 +125,8 @@
   <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24">
     <defs>
       <mask id="lineMdCheckAll0">
-        <g fill="none" stroke="#fff" stroke-dasharray="22" stroke-dashoffset="22" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+        <g fill="none" stroke="#fff" stroke-dasharray="22" stroke-dashoffset="22" stroke-linecap="round"
+          stroke-linejoin="round" stroke-width="2">
           <path d="M2 13.5l4 4l10.75 -10.75">
             <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.4s" values="22;0" />
           </path>
@@ -117,12 +146,15 @@
 </ng-template>
 <ng-template #unreadIcon>
   <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24">
-    <path fill="none" stroke="#00a000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7L10 17l-5-5" />
+    <path fill="none" stroke="#00a000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+      d="M20 7L10 17l-5-5" />
   </svg>
 </ng-template>
 <p-dialog [draggable]="true" position="topleft" [showHeader]="false" [(visible)]="showList"
-[style]="{ width: '25rem' }">
-<div class="h-full">
-  <app-chat-user-list [showList]="showList" [userSearch]="userSearch" [loading]="loadingRooms" [userRooms]="userRooms" [handlerRoom]="handlerRoom" [isRoom]="isRoom" [toggleUsersList]="toggleUsersList" class="h-full"></app-chat-user-list>
-</div>
+  [style]="{ width: '25rem' }">
+  <div class="h-full">
+    <app-chat-user-list [showList]="showList" [userSearch]="userSearch" [loading]="loadingRooms" [userRooms]="userRooms"
+      [handlerRoom]="handlerRoom" [isRoom]="isRoom" [toggleUsersList]="toggleUsersList"
+      class="h-full"></app-chat-user-list>
+  </div>
 </p-dialog>

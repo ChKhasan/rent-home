@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NgFor, NgIf, NgOptimizedImage } from '@angular/common';
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { LikesService } from '@services/likes';
 import { AuthService } from '@services/auth';
 import { RouterLink } from '@angular/router';
@@ -8,11 +8,12 @@ import { finalize } from 'rxjs';
 import { TooltipModule } from 'primeng/tooltip';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { PricePipe } from '@/shared/pipes/price/price.pipe';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-announcements-card',
   standalone: true,
-  imports: [NgIf,PricePipe, NgFor, CarouselModule, RouterLink, NgOptimizedImage, ButtonModule, TooltipModule],
+  imports: [NgIf, PricePipe, NgFor, CarouselModule, TagModule, RouterLink, NgClass, ButtonModule, TooltipModule],
   templateUrl: './announcements-card.component.html',
   styleUrl: './announcements-card.component.css',
 })
