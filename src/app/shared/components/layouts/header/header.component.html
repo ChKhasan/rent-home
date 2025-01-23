@@ -4,7 +4,7 @@
   <app-number-dialog [completeCallback]="completeCallback" [url]="'profile'"></app-number-dialog>
   <app-sms-dialog [completeCallback]="completeSmsCallback" [anotherPhoneNumber]="anotherPhoneNumber"></app-sms-dialog>
   <p-toast [breakpoints]="{ '920px': { width: '90%'} }"></p-toast>
-  <div class="h-[80px] md:h-16 items-center 2xl:container mx-auto flex justify-between px-4">
+  <div class="h-[80px] md:h-16  items-center 2xl:container mx-auto flex justify-between px-4">
     <div class="md:hidden flex gap-[40px] items-center">
       <a [routerLink]="'/'" class="logo text-[color:var(--green)]">
         <svg width="120" height="28" viewBox="0 0 120 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -119,7 +119,7 @@
         <span class="description">E'lon berish</span>
       </button>
     </div>
-    <div class="flex md:w-full md:gap-0 lg:gap-3 gap-2 items-center md:justify-between">
+    <div class="flex flex-row-reverse md:w-full md:gap-0 lg:gap-3 gap-2 items-center md:justify-between">
       <p-button (click)="authService.auth ? router.navigate(['profile']):openAuthDialog()"
         styleClass="btn rounded-xl flex md:gap-0 gap-2 md:px-2 items-center bg-[--green]">
         <span class="description flex gap-2">
