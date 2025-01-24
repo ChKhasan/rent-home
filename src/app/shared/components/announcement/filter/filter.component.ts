@@ -32,6 +32,7 @@ export class FilterComponent implements OnInit {
   public currenyTypes = currenyTypes;
   public prices: any = {};
   public filterForm: FilterForm = {
+    floor: null,
     conditioner: false,
     partnership: false,
     washing_machine: false,
@@ -136,6 +137,7 @@ export class FilterComponent implements OnInit {
       region: null,
       district: null,
       currency: 'UZS',
+      floor: null,
     };
     this.__GET_MIN_MAX_PRICE();
   }

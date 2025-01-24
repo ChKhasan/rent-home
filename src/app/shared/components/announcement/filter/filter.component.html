@@ -18,7 +18,7 @@
     <div class="flex flex-col gap-1 relative">
       <label class="font-medium text-[14px]" for="name">Tuman</label>
       <div class="relative w-full flex items-center form-input">
-        <p-dropdown class="w-full" [options]="dictionaryService.districts" [(ngModel)]="filterForm.district"
+        <p-dropdown class="w-full" [disabled]="!filterForm.region" [options]="dictionaryService.districts" [(ngModel)]="filterForm.district"
           optionValue="id" optionLabel="name" placeholder="Tuman" />
       </div>
     </div>
@@ -26,23 +26,25 @@
       <div class="flex flex-col gap-1 relative">
         <label class="font-medium text-[14px]" for="name">Xonalar soni</label>
         <div class="relative w-full flex items-center form-input">
-          <input pInputText type="text" />
+          <p-inputNumber class="count-input w-full" [(ngModel)]="filterForm.room_count" mode="decimal"
+            inputId="withoutgrouping" [min]="1" [max]="10" [useGrouping]="false"></p-inputNumber>
         </div>
       </div>
       <div class="flex flex-col gap-1 relative">
         <label class="font-medium text-[14px]" for="name">Qavat</label>
         <div class="relative w-full flex items-center form-input">
-          <input pInputText type="text" />
+          <p-inputNumber class="count-input w-full" [(ngModel)]="filterForm.floor" mode="decimal"
+            inputId="withoutgrouping" [min]="1" [max]="10" [useGrouping]="false"></p-inputNumber>
         </div>
       </div>
     </div>
-    <div class="flex flex-col gap-1 relative">
+    <!-- <div class="flex flex-col gap-1 relative">
       <label class="font-medium text-[14px]" for="name">Xonalar soni</label>
       <div class="relative w-full flex items-center form-input">
         <p-inputNumber class="count-input w-full" [(ngModel)]="filterForm.room_count" mode="decimal"
           inputId="withoutgrouping" [min]="1" [max]="10" [useGrouping]="false"></p-inputNumber>
       </div>
-    </div>
+    </div> -->
     <div class="flex flex-col gap-1 relative">
       <label class="font-medium text-[14px]" for="name">Avtobus</label>
       <div class="relative w-full flex items-center form-input">
@@ -54,7 +56,7 @@
     </div>
     <div class="flex flex-col gap-1 relative">
       <label class="font-medium text-[14px]" for="name"> Pul birligi (Valyuta)</label>
-      <p-dropdown  [(ngModel)]="filterForm.currency" (onChange)="onCurrencyChange()" [options]="currenyTypes"
+      <p-dropdown [(ngModel)]="filterForm.currency" (onChange)="onCurrencyChange()" [options]="currenyTypes"
         optionLabel="label" optionValue="value" placeholder="Tuman" />
     </div>
     <div class="price-filter">
@@ -78,7 +80,8 @@
       <div
         class="card border-b border-[0] border-[color:#E9EDEE] border-solid pb-[12px] flex justify-between items-center">
         <p class="flex text-[color:var(--dark-4)] text-[16px] gap-[8px] items-center">Sheriklikga</p>
-        <p-checkbox [(ngModel)]="filterForm.partnership" [binary]="true" inputId="binary" (onChange)="onPartnershipChange()"></p-checkbox>
+        <p-checkbox [(ngModel)]="filterForm.partnership" [binary]="true" inputId="binary"
+          (onChange)="onPartnershipChange()"></p-checkbox>
       </div>
       <div class="max-h-0 overflow-hidden count-block" :class="{ 'showBlock ': filterForm.partnership }">
         <div class="flex justify-between items-center mt-[12px] pb-[12px]">

@@ -50,7 +50,7 @@
     </div>
     <div class="absolute bottom-3 right-3 z-50 flex gap-3" *ngIf="edit">
       <p-tag *ngIf="announcement.status" severity="primary" value="Aktiv" [rounded]="true" />
-      <p-tag *ngIf="!announcement.status" severity="danger" value="Activ emas" [rounded]="true"  />
+      <p-tag *ngIf="!announcement.status" severity="danger" value="Activ emas" [rounded]="true" />
     </div>
   </div>
   <div class="body">
@@ -59,7 +59,7 @@
         {{ announcement?.address }}
       </p>
     </span>
-    <a [routerLink]="'/announcements/' + announcement?.id" class="title">
+    <a [routerLink]="(edit ? '/profile/announcements-view/':'/announcements/') + announcement?.id" class="title">
       <p class="cursor-pointer font-medium text-[black] text-xl md:text-lg">{{ announcement?.title }}</p>
     </a>
     <div class="flex gap-2 mt-3">

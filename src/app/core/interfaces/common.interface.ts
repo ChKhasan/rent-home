@@ -52,9 +52,10 @@ export interface FilterForm {
   total_price__lte: Number;
   room_count: Number;
   transports: [];
-  region: null | number,
-  district: null | number,
-  currency: any
+  region: null | number;
+  district: null | number;
+  currency: any;
+  floor: null | number;
 }
 
 export interface IUserRooms {

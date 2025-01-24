@@ -13,6 +13,7 @@ import { LayoutComponent } from './shared/components/layouts/layout/layout.compo
 import { authGuard } from './core/guards/auth.guard';
 import { LikesComponent } from './pages/likes/likes.component';
 import { ChatComponent } from './pages/chat/chat.component';
+import { ProfileAnnouncementComponent } from './pages/profile/profile-announcement/profile-announcement.component';
 
 export const routes: Routes = [
   {
@@ -39,6 +40,7 @@ export const routes: Routes = [
       { path: '', component: ProfileComponent },
       { path: 'create', component: CreateComponent },
       { path: 'announcements/:id', component: EditComponent },
+      { path: 'announcements-view/:id', component: ProfileAnnouncementComponent },
       { path: 'announcements', component: AnnouncementsComponent },
       { path: 'chat', component: ChatComponent },
     ],

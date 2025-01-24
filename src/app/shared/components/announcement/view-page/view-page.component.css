@@ -1,0 +1,52 @@
+.body-container {
+  display: grid;
+  grid-template-columns: 1fr 412px;
+  gap: 24px;
+}
+:host ::ng-deep .primeng-carousel .p-galleria-thumbnail-container {
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 10px;
+}
+:host ::ng-deep .primeng-carousel .p-galleria .p-galleria-thumbnail-container .p-galleria-thumbnail-prev,
+:host ::ng-deep .primeng-carousel .p-galleria .p-galleria-thumbnail-container .p-galleria-thumbnail-next {
+  background-color: var(--green) !important;
+}
+.custom-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-rows: 1fr 312px;
+}
+@keyframes jump {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.jump-animation {
+  animation: jump 0.5s ease-in-out;
+}
+.p-galleria-panel {
+  transition: opacity 0.3s ease-in-out;
+}
+::ng-deep .p-galleria-panel {
+  transition: opacity 0.3s ease-in-out;
+}
+
+:host ::ng-deep .p-skeleton {
+  height: 100% !important;
+}
+:host ::ng-deep .p-tag-success {
+  background: var(--green);
+}
+@media (max-width: 768px) {
+  .body-container {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
