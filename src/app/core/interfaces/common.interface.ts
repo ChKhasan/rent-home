@@ -47,10 +47,10 @@ export interface FilterForm {
   washing_machine: Boolean;
   fridge: Boolean;
   partnership: Boolean;
-  need_people_count: Number;
-  total_price__gte: Number;
-  total_price__lte: Number;
-  room_count: Number;
+  need_people_count: Number | null;
+  total_price__gte: Number | null;
+  total_price__lte: Number | null;
+  room_count: Number | null;
   transports: [];
   region: null | number;
   district: null | number;
