@@ -41,7 +41,7 @@ export class AnnouncementFormComponent implements OnInit {
   private token: any;
   public headers: any;
   public genders: IGendersList[] = [];
-  public status: boolean = false;
+  public status: boolean = true;
   uploadedFiles: any[] = [];
   value1: any;
   public currenyTypes = currenyTypes;
