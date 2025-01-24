@@ -30,6 +30,7 @@ export class FilterComponent implements OnInit {
   public sliderMax: number = 0;
   public sliderMin: number = 0;
   public currenyTypes = currenyTypes;
+  public prices: any = {};
   public filterForm: FilterForm = {
     conditioner: false,
     partnership: false,
@@ -64,12 +65,10 @@ export class FilterComponent implements OnInit {
   @Input() close: Function | undefined;
 
   constructor(private requestService: RequestService, public queryService: QueryService, public dictionaryService: DictionaryService, public router: Router, public route: ActivatedRoute) {}
-  cities: any[] | undefined;
 
   selectedCity: any | undefined;
 
   ngOnInit() {
-    this.cities = [{ name: 'New York', code: 'NY' }];
     if (typeof window !== 'undefined') {
       this.__GET_MIN_MAX_PRICE();
       this.requestService.getData(environment.urls.GET_TRANSPORTS).subscribe((response: any) => {
@@ -83,14 +82,34 @@ export class FilterComponent implements OnInit {
         }
       });
       let query = this.queryService.activeQueryList();
+      let normalizedQuery = this.normalizeQueryParams(query);
       for (let item in this.filterForm) {
-        this.filterForm[item as keyof FilterForm] = (typeof query[item] === 'string' && !currenyTypes.map((elem) => elem.value).includes(query[item]) && JSON.parse(query[item])) || this.filterForm[item as keyof FilterForm];
+        this.filterForm[item as keyof FilterForm] = normalizedQuery[item] || this.filterForm[item as keyof FilterForm];
       }
       this.sliderValue[0] = Number(this.filterForm.total_price__gte);
       this.sliderValue[1] = Number(this.filterForm.total_price__lte);
     }
   }
 
+  normalizeQueryParams(query: Record<string, any>): Record<string, any> {
+    const normalized: Record<string, any> = {};
+
+    for (const key in query) {
+      if (Object.prototype.hasOwnProperty.call(query, key)) {
+        const value = query[key];
+
+        if (!isNaN(Number(value))) {
+          normalized[key] = Number(value);
+        } else if (['true', 'false'].includes(value)) {
+          normalized[key] = value === 'true';
+        } else {
+          normalized[key] = value;
+        }
+      }
+    }
+
+    return normalized;
+  }
   closeBottomSheet() {
     if (this.close !== undefined) this.close();
   }
@@ -132,13 +151,18 @@ export class FilterComponent implements OnInit {
   }
   __GET_MIN_MAX_PRICE() {
     this.requestService.getData(environment.urls.GET_MIN_MAX_PRICE, { currency: this.filterForm.currency }).subscribe((response: any) => {
-      this.sliderMax = response?.max_price || 0;
-      this.sliderMin = response?.min_price || 0;
-      this.sliderValue = [response?.min_price || 0, response?.max_price || 0];
+      this.prices = response;
+      this.onCurrencyChange();
     });
   }
   onCurrencyChange() {
-    this.__GET_MIN_MAX_PRICE();
+    const keyName = this.filterForm.partnership ? 'price_for_one' : 'total_price';
+    this.sliderMax = this.prices[keyName]?.[`MAX_${this.filterForm.currency}`] || 0;
+    this.sliderMin = this.prices[keyName]?.[`MIN_UZS`] || 0;
+    this.sliderValue = [this.prices[keyName]?.[`MIN_UZS`] || 0, this.prices[keyName]?.[`MAX_${this.filterForm.currency}`] || 0];
+  }
+  onPartnershipChange() {
+    this.onCurrencyChange();
   }
   onRegionChange(region: any): void {
     this.dictionaryService.__GET_DISTRICTS({ parent: region });

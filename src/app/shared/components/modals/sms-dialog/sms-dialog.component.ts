@@ -14,7 +14,7 @@ import { RequestService } from '@services/request';
 @Component({
   selector: 'app-sms-dialog',
   standalone: true,
-  imports: [InvaidTextComponent, InputMaskModule, ReactiveFormsModule, DialogModule, NgClass, InputTextModule, ButtonModule, InputOtpModule, FormsModule],
+  imports: [InputMaskModule, ReactiveFormsModule, DialogModule, InputTextModule, ButtonModule, InputOtpModule, FormsModule],
   templateUrl: './sms-dialog.component.html',
   styleUrl: './sms-dialog.component.css',
 })

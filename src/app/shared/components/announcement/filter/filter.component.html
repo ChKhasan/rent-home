@@ -78,7 +78,7 @@
       <div
         class="card border-b border-[0] border-[color:#E9EDEE] border-solid pb-[12px] flex justify-between items-center">
         <p class="flex text-[color:var(--dark-4)] text-[16px] gap-[8px] items-center">Sheriklikga</p>
-        <p-checkbox [(ngModel)]="filterForm.partnership" [binary]="true" inputId="binary"></p-checkbox>
+        <p-checkbox [(ngModel)]="filterForm.partnership" [binary]="true" inputId="binary" (onChange)="onPartnershipChange()"></p-checkbox>
       </div>
       <div class="max-h-0 overflow-hidden count-block" :class="{ 'showBlock ': filterForm.partnership }">
         <div class="flex justify-between items-center mt-[12px] pb-[12px]">
