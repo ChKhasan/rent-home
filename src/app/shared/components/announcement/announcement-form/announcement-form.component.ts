@@ -130,6 +130,7 @@ export class AnnouncementFormComponent implements OnInit {
           floor: response.floor,
           district: response.district,
         });
+        if (!this.status) this.ruleForm.disable();
       });
     }
   }
@@ -195,6 +196,7 @@ export class AnnouncementFormComponent implements OnInit {
     };
     this.requestService.requestData(environment.authUrls.POST_ANNONCEMENT_STATUS, 'POST', data).subscribe((response: any) => {
       this.genders = response.results;
+      event.checked ? this.ruleForm.enable() : this.ruleForm.disable();
     });
   }
 }

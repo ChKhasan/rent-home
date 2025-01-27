@@ -1,7 +1,6 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
-import { CurrencyPipe, NgIf } from '@angular/common';
-import { PricePipe } from '../../../pipes/price/price.pipe';
+import { NgIf } from '@angular/common';
 import { SkeletonModule } from 'primeng/skeleton';
 import { AuthDialogComponent } from '../../modals/auth-dialog/auth-dialog.component';
 import { AngularYandexMapsModule } from 'angular8-yandex-maps';
@@ -11,7 +10,7 @@ import { ChatUrlService } from '@/core/services/chatUrl/chatUrl.service';
 @Component({
   selector: 'app-user-card',
   standalone: true,
-  imports: [ButtonModule, AngularYandexMapsModule, CurrencyPipe, PricePipe, NgIf, SkeletonModule, AuthDialogComponent],
+  imports: [ButtonModule, AngularYandexMapsModule, NgIf, SkeletonModule, AuthDialogComponent],
   templateUrl: './user-card.component.html',
   styleUrl: './user-card.component.css',
 })
@@ -23,7 +22,7 @@ export class UserCardComponent {
   constructor(public authService: AuthService, private router: Router, private chatUrlService: ChatUrlService) {}
   toChat() {
     if (this.authService.auth && this.authService.user.id) {
-      this.chatUrlService.save(this.announcement.user?.id);
+      this.chatUrlService.save(this.announcement?.id);
       const query = {
         userId: this.announcement.user?.id,
       };

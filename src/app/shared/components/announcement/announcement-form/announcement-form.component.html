@@ -23,7 +23,7 @@
             <div class="flex flex-col gap-1 relative">
               <label class="font-medium text-[14px] text-[--grey-900]" for="name">E`lon nomi*</label>
               <div class="relative w-full flex items-center form-input">
-                <input pInputText [ngClass]="{
+                <input pInputText [disabled]="true" [ngClass]="{
                     'ng-invalid ng-dirty': ruleForm.controls.title.touched && ruleForm.controls.title.errors && ruleForm.controls.title.errors['required'],
                   }" type="text" id="name" formControlName="title" />
               </div>
@@ -123,7 +123,7 @@
               <label class="font-medium text-[14px] text-[--grey-900]" for="address">Uyning sur`atlari (Max Photo
                 10)*</label>
               <div class="card flex justify-content-center">
-                <p-fileUpload styleClass="file-upload" list-type="picture" mode="basic" name="image"
+                <p-fileUpload [disabled]="!status" styleClass="file-upload" list-type="picture" mode="basic" name="image"
                   url="https://new.rent-home.uz/api/images/" (onUpload)="onUpload($event)" [auto]="true" method="post"
                   [multiple]="true" accept="image/*" [maxFileSize]="1000000" [headers]="headers"></p-fileUpload>
                 <div class="flex flex-wrap gap-3 ml-3">
@@ -273,7 +273,7 @@
               </div>
             </div>
             <div class="flex justify-end max-w-[60%] md:max-w-full mt-4 cursor-pointer">
-              <div (click)="openMapDialog()"
+              <button [disabled]="!status" (click)="openMapDialog()"
                 class="map-btn h-12 w-[250px] md:w-full flex items-center justify-center bg-[#3A75CE] rounded-lg text-white font-500 gap-2">
                 Haritadan joyni ko’rsatish
                 <svg width="16" height="19" viewBox="0 0 16 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -287,7 +287,7 @@
                     d="M3.42082 14.3353C3.60606 13.9648 3.45589 13.5143 3.08541 13.3291C2.71493 13.1438 2.26442 13.294 2.07918 13.6645L0.0791814 17.6645C-0.0370686 17.897 -0.0246384 18.1731 0.112012 18.3942C0.248672 18.6153 0.490072 18.7499 0.750002 18.7499H14.75C15.0099 18.7499 15.2513 18.6153 15.388 18.3942C15.5246 18.1731 15.5371 17.897 15.4208 17.6645L13.4208 13.6645C13.2356 13.294 12.7851 13.1438 12.4146 13.3291C12.0441 13.5143 11.8939 13.9648 12.0792 14.3353L13.5365 17.2499H1.96353L3.42082 14.3353Z"
                     fill="white" />
                 </svg>
-              </div>
+              </button>
             </div>
           </div>
         </div>

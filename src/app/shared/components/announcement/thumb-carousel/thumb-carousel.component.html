@@ -1,7 +1,7 @@
 <div class="gallery-container flex flex-col relative items-center w-full ">
   <div class="product-gallery__featured max-w-[991px] w-full md:max-w-[350px]">
     <owl-carousel-o [options]="{ items: 1, dots: true, margin: 8 }" #owlCar>
-      <ng-container *ngFor="let image of images.length ? images:productImages">
+      <ng-container *ngFor="let image of images?.length ? images:productImages">
         <ng-template carouselSlide [id]="image.image" >
           <img [src]="image.image" class="md:h-[300px] h-[500px] object-contain" />
         </ng-template>
@@ -9,9 +9,9 @@
     </owl-carousel-o>
   </div>
 
-  <div class="product-gallery__carousel md:max-w-[300px] md:!hidden" *ngIf="images.length > 1">
+  <div class="product-gallery__carousel md:max-w-[300px] md:!hidden" *ngIf="images && images.length > 1">
     <owl-carousel-o [options]="{ items: 3, dots: false, margin: 5, autoWidth: true }">
-      <ng-container *ngFor="let image of images.length ? images:productImages; let i = index">
+      <ng-container *ngFor="let image of images?.length ? images:productImages; let i = index">
         <ng-template carouselSlide [id]="image.image + i" [width]="160" >
           <a (click)="owlCar.to(image.image); changeImage(image.image + i)">
             <img
@@ -26,7 +26,7 @@
       </ng-container>
     </owl-carousel-o>
   </div>
-  <div class="product-gallery__carousel md:max-w-[300px] hidden md:block" *ngIf="images.length > 1">
+  <div class="product-gallery__carousel md:max-w-[300px] hidden md:block" *ngIf="images && images.length > 1">
     <owl-carousel-o [options]="{ items: 3, dots: false, margin: 5, autoWidth: true }">
       <ng-container *ngFor="let image of images.length ? images:productImages; let i = index">
      

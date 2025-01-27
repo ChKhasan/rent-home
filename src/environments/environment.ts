@@ -18,7 +18,8 @@ export const environment = {
     POST_BUSROUTES: '/api/bus/',
     GET_GENDERS: '/api/lessee-types/',
     GET_REGIONS: '/api/regions/',
-    GET_MIN_MAX_PRICE: '/api/max-and-min-price/announcement'
+    GET_MIN_MAX_PRICE: '/api/max-and-min-price/announcement',
+    GET_HOME_RECOMMENDATIONS: '/api/home/recommendations/'
   },
   authUrls: {
     POST_ANNONCEMENTS: '/api/announcement/',

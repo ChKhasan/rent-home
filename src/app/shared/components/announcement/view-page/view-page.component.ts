@@ -15,11 +15,13 @@ import { RequestService } from '@services/request';
 import { ThumbCarouselComponent } from '@components/announcement/thumb-carousel/thumb-carousel.component';
 import { AboutComponent } from '@components/announcement/about/about.component';
 import { UserCardComponent } from '@/shared/components/announcement/user-card/user-card.component';
+import { finalize } from 'rxjs';
+import { ListCarouselComponent } from "../list-carousel/list-carousel.component";
 
 @Component({
   selector: 'app-view-page',
   standalone: true,
-  imports: [GalleriaModule, TagModule, InfoTabComponent, SearchComponent, ButtonModule, PriceBlockComponent, SkeletonModule, StyleClassModule, ThumbCarouselComponent, AboutComponent, UserCardComponent],
+  imports: [GalleriaModule, TagModule, InfoTabComponent, SearchComponent, ButtonModule, PriceBlockComponent, SkeletonModule, StyleClassModule, ThumbCarouselComponent, AboutComponent, UserCardComponent, ListCarouselComponent],
   templateUrl: './view-page.component.html',
   styleUrl: './view-page.component.css',
   animations: [trigger('fadeAnimation', [transition('void => *', [style({ opacity: 0 }), animate('300ms', style({ opacity: 1 }))]), transition('* => void', [animate('300ms', style({ opacity: 0 }))])])],
@@ -28,6 +30,7 @@ export class ViewPageComponent implements OnInit {
   loading: boolean = true;
   displayBasic: boolean = false;
   activeIndex = 0;
+  rec_announcements: any[] = [];
   @Input() profile: boolean = false;
   public announcement: IAnnouncementInfo = {
     id: 0,
@@ -76,6 +79,7 @@ export class ViewPageComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.__GET__REC_ANNOUNCEMENTS()
     this.requestService.getData<IAnnouncementInfo>((this.profile ? environment.authUrls.GET_MY_ANNONCEMENTS : environment.urls.GET_ANNONCEMENTS) + this.id).subscribe((response: IAnnouncementInfo) => {
       this.announcement = response;
       this.images = response.images;
@@ -86,4 +90,16 @@ export class ViewPageComponent implements OnInit {
     window.history.back(); // Navigates back one step in the history
   }
   afterSendFilter = () => {};
+
+  public skeletonList = [1, 2, 3, 4, 5, 6];
+
+  __GET__REC_ANNOUNCEMENTS = () => {
+    this.loading = true;
+    this.requestService
+      .getData(environment.urls.GET_HOME_RECOMMENDATIONS)
+      .pipe(finalize(() => (this.loading = false)))
+      .subscribe((response: any) => {
+        this.rec_announcements = response;
+      });
+  };
 }

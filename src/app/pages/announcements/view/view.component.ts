@@ -15,4 +15,6 @@ import { ViewPageComponent } from '../../../shared/components/announcement/view-
   styleUrl: './view.component.css',
   animations: [trigger('fadeAnimation', [transition('void => *', [style({ opacity: 0 }), animate('300ms', style({ opacity: 1 }))]), transition('* => void', [animate('300ms', style({ opacity: 0 }))])])],
 })
-export class ViewComponent {}
+export class ViewComponent {
+
+}

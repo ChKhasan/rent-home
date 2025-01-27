@@ -23,7 +23,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [HeaderComponent, RouterLink, ButtonModule, NgIf, PaginatorModule, ReactiveFormsModule, NgClass, NgForOf, AsyncPipe, ToastModule, BannerComponent, AnnouncementsCardComponent, SkeletonModule, PaginationComponent, TagModule, BannerTemplateComponent, ListCarouselComponent],
+  imports: [RouterLink, ButtonModule, NgIf, PaginatorModule, ReactiveFormsModule, NgClass, NgForOf, AsyncPipe, ToastModule, BannerComponent, AnnouncementsCardComponent, SkeletonModule, PaginationComponent, TagModule, BannerTemplateComponent, ListCarouselComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   animations: [ValidationErrorAnimation],
@@ -31,8 +31,10 @@ import { RouterLink } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
   public loading: boolean = true;
+  public rec_loading: boolean = false;
   public skeletonList = [1, 2, 3, 4, 5, 6];
   public announcements?: any;
+  public rec_announcements?: any;
   public totalPage: number = 0;
 
   constructor(
@@ -43,16 +45,26 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     if (typeof window !== 'undefined') {
       this.__GET_ANNOUNCEMENTS();
+      this.__GET__REC_ANNOUNCEMENTS();
     }
   }
-  __GET_ANNOUNCEMENTS = () => {
+  __GET__REC_ANNOUNCEMENTS = () => {
     this.loading = true;
-    console.log("turmoq")
     this.requestService
-      .getData(environment.urls.GET_ANNONCEMENTS, this.queryConfig.generatorHttpParamsWithDefault())
+      .getData(environment.urls.GET_HOME_RECOMMENDATIONS, this.queryConfig.generatorHttpParamsWithDefault())
       .pipe(finalize(() => (this.loading = false)))
       .subscribe((response: any) => {
-        this.announcements = response?.results;
+        this.rec_announcements = response;
+        this.totalPage = response.count;
+      });
+  };
+  __GET_ANNOUNCEMENTS = () => {
+    this.rec_loading = true;
+    this.requestService
+      .getData(environment.urls.GET_ANNONCEMENTS, this.queryConfig.generatorHttpParamsWithDefault())
+      .pipe(finalize(() => (this.rec_loading = false)))
+      .subscribe((response: any) => {
+        this.announcements = response.results;
         this.totalPage = response.count;
       });
   };

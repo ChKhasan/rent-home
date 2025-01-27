@@ -42,7 +42,7 @@ export class ChatUserListComponent {
   }
   goBack() {
     const id = this.chatUrlService.get();
-    this.router.navigate([id ? `/announcements/${id}` : '/profile']).then(() => {
+    this.router.navigate([!!id ? `/announcements/${id}` : '/profile']).then(() => {
       this.chatUrlService.remove();
     });
   }

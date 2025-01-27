@@ -31,7 +31,7 @@
           <div
             class="relative h-12 min-w-12 w-12 bg-white flex justify-center items-center border border-solid border-[--grey-100] rounded-full">
             <div class="image h-10 min-w-10 w-10 rounded-full overflow-hidden">
-              <img *ngIf="room.user && room.user.images.length > 0; else image" [src]="room.user.images[0].image"
+              <img *ngIf="room.user && room.user.images && room.user.images.length > 0; else image" [src]="room.user.images[0].image"
                 class="w-full h-full object-cover" alt="" />
               <ng-template #image>
                 <img src="./assets/images/avatar.png" class="w-full h-full object-cover" alt="" />

@@ -14,10 +14,13 @@ import { environment } from '@environments';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { DictionaryService } from '@/core/services/dictionary/dictionary.service';
 import { currenyTypes } from '@/core/constants/currency';
+import { NgIf } from '@angular/common';
+import { ValidationErrorAnimation } from '@/core/common/animations';
 @Component({
   selector: 'app-filter',
   standalone: true,
-  imports: [InputSwitchModule, FormsModule, CheckboxModule, InputNumberModule, ButtonModule, SliderModule, DropdownModule, MultiSelectModule],
+  animations: [ValidationErrorAnimation],
+  imports: [InputSwitchModule, FormsModule, CheckboxModule, InputNumberModule, ButtonModule, SliderModule, DropdownModule, MultiSelectModule, NgIf],
   templateUrl: './filter.component.html',
   styleUrl: './filter.component.css',
 })
@@ -165,6 +168,7 @@ export class FilterComponent implements OnInit {
   }
   onPartnershipChange() {
     this.onCurrencyChange();
+    this.filterForm.need_people_count = null;
   }
   onRegionChange(region: any): void {
     this.dictionaryService.__GET_DISTRICTS({ parent: region });
