@@ -16,7 +16,8 @@ import { ThumbCarouselComponent } from '@components/announcement/thumb-carousel/
 import { AboutComponent } from '@components/announcement/about/about.component';
 import { UserCardComponent } from '@/shared/components/announcement/user-card/user-card.component';
 import { finalize } from 'rxjs';
-import { ListCarouselComponent } from "../list-carousel/list-carousel.component";
+import { ListCarouselComponent } from '../list-carousel/list-carousel.component';
+import { AuthService } from '@/core/services/auth/auth.service';
 
 @Component({
   selector: 'app-view-page',
@@ -74,20 +75,26 @@ export class ViewPageComponent implements OnInit {
       numVisible: 1,
     },
   ];
-  constructor(private route: ActivatedRoute, private requestService: RequestService) {
+  constructor(private route: ActivatedRoute, private requestService: RequestService, private authService: AuthService) {
     this.id = this.route.snapshot.paramMap.get('id');
   }
 
   ngOnInit() {
-    this.__GET__REC_ANNOUNCEMENTS()
-    this.requestService.getData<IAnnouncementInfo>((this.profile ? environment.authUrls.GET_MY_ANNONCEMENTS : environment.urls.GET_ANNONCEMENTS) + this.id).subscribe((response: IAnnouncementInfo) => {
-      this.announcement = response;
-      this.images = response.images;
-      this.loading = false;
-    });
+    if (typeof window !== 'undefined') {
+      const headers: any = {};
+      let accessToken = localStorage.getItem(environment.accessToken);
+      if (accessToken || this.authService.auth || this.authService.user?.id) headers.Authorization = 'Bearer' + ' ' + accessToken;
+
+      this.requestService.getData<IAnnouncementInfo>((this.profile ? environment.authUrls.GET_MY_ANNONCEMENTS : environment.urls.GET_ANNONCEMENTS) + this.id + '/', {}, { ...headers }).subscribe((response: IAnnouncementInfo) => {
+        this.announcement = response;
+        this.images = response.images;
+        this.loading = false;
+      });
+    }
+    this.__GET__REC_ANNOUNCEMENTS();
   }
   goBack(): void {
-    window.history.back(); // Navigates back one step in the history
+    window.history.back();
   }
   afterSendFilter = () => {};
 
@@ -96,10 +103,8 @@ export class ViewPageComponent implements OnInit {
   __GET__REC_ANNOUNCEMENTS = () => {
     this.loading = true;
     this.requestService
-      .getData(environment.urls.GET_HOME_RECOMMENDATIONS)
+      .getData(environment.urls.GET_RECOMMENDATION_VIEW + this.id + '/')
       .pipe(finalize(() => (this.loading = false)))
-      .subscribe((response: any) => {
-        this.rec_announcements = response;
-      });
+      .subscribe((response: any) => (this.rec_announcements = response));
   };
 }

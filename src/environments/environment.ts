@@ -19,7 +19,8 @@ export const environment = {
     GET_GENDERS: '/api/lessee-types/',
     GET_REGIONS: '/api/regions/',
     GET_MIN_MAX_PRICE: '/api/max-and-min-price/announcement',
-    GET_HOME_RECOMMENDATIONS: '/api/home/recommendations/'
+    GET_HOME_RECOMMENDATIONS: '/api/home/recommendations/',
+    GET_RECOMMENDATION_VIEW: '/api/recommendations/last-viewed-similar/'
   },
   authUrls: {
     POST_ANNONCEMENTS: '/api/announcement/',

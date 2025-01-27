@@ -7,9 +7,10 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 })
 export class RequestService {
   constructor(private _httpsClient: HttpClient) {}
-  getData<T>(url: string, params?: any): Observable<T> {
+  getData<T>(url: string, params?: any,headers?: any): Observable<T> {
     const options = {
       params: params,
+      headers: headers
     };
     return this._httpsClient.get<T>(url, options).pipe(debounceTime(300), distinctUntilChanged());
   }
