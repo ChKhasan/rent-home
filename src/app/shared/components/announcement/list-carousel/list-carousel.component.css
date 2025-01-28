@@ -31,7 +31,6 @@
     left: 0;
   }
   :host ::ng-deep .owl-next {
-    transform: rotate(180deg);
     right: 0;
   }
   :host ::ng-deep .owl-prev,
