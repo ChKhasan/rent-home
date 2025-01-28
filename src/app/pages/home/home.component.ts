@@ -19,6 +19,7 @@ import { environment } from '@environments';
 import { RequestService } from '@services/request';
 import { ListCarouselComponent } from '@components/announcement/list-carousel/list-carousel.component';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '@/core/services/auth/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -37,31 +38,31 @@ export class HomeComponent implements OnInit {
   public rec_announcements?: any;
   public totalPage: number = 0;
 
-  constructor(
-    private queryConfig: QueryService,
-    private requestService: RequestService,
-  ) {}
+  constructor(private queryConfig: QueryService, private requestService: RequestService, private authService: AuthService) {}
 
   ngOnInit(): void {
     if (typeof window !== 'undefined') {
-      this.__GET_ANNOUNCEMENTS();
-      this.__GET__REC_ANNOUNCEMENTS();
+      const headers: any = {};
+      let accessToken = localStorage.getItem(environment.accessToken);
+      if (accessToken || this.authService.auth || this.authService.user?.id) headers.Authorization = 'Bearer' + ' ' + accessToken;
+      this.__GET_ANNOUNCEMENTS(headers);
+      this.__GET__REC_ANNOUNCEMENTS(headers);
     }
   }
-  __GET__REC_ANNOUNCEMENTS = () => {
+  __GET__REC_ANNOUNCEMENTS = (headers: any = {}) => {
     this.loading = true;
     this.requestService
-      .getData(environment.urls.GET_HOME_RECOMMENDATIONS, this.queryConfig.generatorHttpParamsWithDefault())
+      .getData(environment.urls.GET_HOME_RECOMMENDATIONS, this.queryConfig.generatorHttpParamsWithDefault(), { ...headers })
       .pipe(finalize(() => (this.loading = false)))
       .subscribe((response: any) => {
         this.rec_announcements = response;
         this.totalPage = response.count;
       });
   };
-  __GET_ANNOUNCEMENTS = () => {
+  __GET_ANNOUNCEMENTS = (headers: any = {}) => {
     this.rec_loading = true;
     this.requestService
-      .getData(environment.urls.GET_ANNONCEMENTS, this.queryConfig.generatorHttpParamsWithDefault())
+      .getData(environment.urls.GET_ANNONCEMENTS, this.queryConfig.generatorHttpParamsWithDefault(), { ...headers })
       .pipe(finalize(() => (this.rec_loading = false)))
       .subscribe((response: any) => {
         this.announcements = response.results;

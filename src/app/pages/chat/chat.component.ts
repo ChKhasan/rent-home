@@ -1,14 +1,10 @@
 import { AfterViewInit, Component, ElementRef, HostListener, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { MyAnnouncementsCardComponent } from '@components/cards/my-announcements-card/my-announcements-card.component';
 import { DatePipe, NgClass, NgForOf, NgIf, NgTemplateOutlet } from '@angular/common';
-import { PaginationComponent } from '@components/pagination/pagination.component';
 import { SkeletonModule } from 'primeng/skeleton';
 import { NavigationExtras, Router, RouterLink } from '@angular/router';
 import { ChatUserListComponent } from '@components/profile/chat-user-list/chat-user-list.component';
-import { AuthDialogComponent } from '@components/modals/auth-dialog/auth-dialog.component';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
-import { RegisterDialogComponent } from '@components/modals/register-dialog/register-dialog.component';
 import { IMessage, IMessageObj, IUserRooms } from '@services/interfaces';
 import { QueryService } from '@services/query';
 import { AuthService } from '@services/auth';
@@ -18,14 +14,13 @@ import { RippleModule } from 'primeng/ripple';
 import { AvatarModule } from 'primeng/avatar';
 import { ChatService } from '@services/chat';
 import { debounceTime, finalize, fromEvent } from 'rxjs';
-import { TabComponent } from '@components/profile/tab/tab.component';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { DialogModule } from 'primeng/dialog';
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [DialogModule, NgForOf, NgIf, SkeletonModule, ChatUserListComponent, ButtonModule, DatePipe, FormsModule, BadgeModule, ToastModule, RippleModule, AvatarModule, NgClass, NgTemplateOutlet],
+  imports: [DialogModule, NgForOf, NgIf,RouterLink, SkeletonModule, ChatUserListComponent, ButtonModule, DatePipe, FormsModule, BadgeModule, ToastModule, RippleModule, AvatarModule, NgClass, NgTemplateOutlet],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css',
   animations: [trigger('slideInOut', [transition(':enter', [style({ transform: 'translateX(100%)' }), animate('200ms ease-in', style({ transform: 'translateX(0%)' }))]), transition(':leave', [animate('200ms ease-in', style({ transform: 'translateX(100%)' }))])])],
@@ -51,10 +46,12 @@ export class ChatComponent implements OnInit, AfterViewInit {
   public showDate: boolean = false;
   public scrollingCurrentDate: string = '';
   public showList = false;
+  public emptyQuery: any = [];
   constructor(public authService: AuthService, private chatService: ChatService, private queryService: QueryService, private router: Router) {}
 
   ngOnInit(): void {
     if (typeof window !== 'undefined') {
+      this.emptyQuery = !Object.keys(this.queryService.activeQueryList()).length;
       if (!('userId' in this.queryService.activeQueryList())) this.updateShowList();
       this.authService.getBooleanValue().subscribe((value) => {
         if (value) this.firstConnection();
@@ -93,6 +90,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
               };
             });
           this.allUserRooms = [...this.userRooms];
+        } else {
+          this.showList = false;
         }
         if (this.userRooms.length) this.findCurrentRoom();
       });
@@ -309,7 +308,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
     items.forEach((item: HTMLElement) => {
       const rect = item.getBoundingClientRect();
 
-      // Проверяем, находится ли элемент в видимой области
       if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
         visibleDataInfo.push(item.getAttribute('data-info') as string);
       }
@@ -385,5 +383,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   private updateShowList(): void {
     this.showList = window.innerWidth < 576;
+  }
+  toBack() {
+    this.userRooms.length ? (this.showList = true) : this.router.navigate(['/profile']).then(() => {});
   }
 }

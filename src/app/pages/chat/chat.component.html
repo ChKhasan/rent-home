@@ -1,14 +1,15 @@
 <div class="announcements md:py-[0]">
   <div class="max-w-[1920px] mx-auto border-[0] border-x border-solid border-[--grey-300]">
-    <div class="chat-container mx-auto items-center md:h-[100vh] md:mt-0 flex flex-col">
-      <div class="h-full md:hidden">
+    <div class="mx-auto items-center md:h-[100vh] md:mt-0 flex flex-col"
+      [ngClass]="userRooms.length  || !emptyQuery ? 'chat-container':''">
+      <div class="h-full md:hidden" *ngIf="userRooms.length || !emptyQuery">
         <app-chat-user-list [userSearch]="userSearch" [loading]="loadingRooms" [userRooms]="userRooms"
           [handlerRoom]="handlerRoom" [isRoom]="isRoom" [toggleUsersList]="toggleUsersList"
           class="h-full"></app-chat-user-list>
       </div>
-      <div class="h-full">
+      <div class="h-full w-full">
         <div class="md:flex justify-start px-4 py-3 pb-0 fixed top-0 z-50 hidden">
-          <button (click)="showList = true"
+          <button (click)="toBack()"
             class="border  border-solid border-[--grey-300] rounded-xl bg-white flex items-center gap-2 px-3 py-2">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -37,8 +38,8 @@
             </div>
             <ng-template #messagesList>
               <div #scrollableDiv
-                class="board p-6 bg-[#F9FAFB] pr-2 flex justify-start flex-col-reverse pb-6 gap-6 overflow-y-scroll"
-                (scroll)="onParentDivScrolled()" #parentDiv>
+                class="board p-6  pr-2 flex justify-start flex-col-reverse pb-6 gap-6 overflow-y-scroll"
+                [ngClass]="messages.length ? 'bg-[#F9FAFB]':'bg-[#fff]'" (scroll)="onParentDivScrolled()" #parentDiv>
                 <div *ngIf="loading" class="flex flex-col gap-6">
                   <div *ngFor="let message of pendingMessages" class="flex w-full"
                     [class]="message.sender === authService.user.id ? 'justify-end' : 'justify-start'">
@@ -82,10 +83,24 @@
                     </div>
                   </div>
                 </div>
+                <div class="w-full h-full flex flex-col justify-center items-center"
+                  *ngIf="!loadingMessages && !messages.length">
+                  <img class="w-[250px]  h-[250px] " src="../../../assets/images/chat-empty.jpg" alt="" srcset="">
+                  <p class="text-[--grey-400]">Yozishmalar mavjud emas</p>
+                  <div class="flex gap-2 md:flex-col mt-4 " *ngIf="!userRooms.length && emptyQuery">
+                    <p-button [routerLink]="'/profile'"
+                      styleClass="bg-[--green] rounded-[8px] h-11 w-[200px] flex items-center justify-center gap-2">
+                      Kabinetga qaytish
+                    </p-button>
+                    <p-button [routerLink]="'/'"
+                      styleClass="bg-[--green] rounded-[8px] h-11 w-[200px] flex items-center justify-center gap-2">
+                      Bosh sahifaga o'tish
+                    </p-button>
+                  </div>
+                </div>
               </div>
             </ng-template>
-
-            <div
+            <div *ngIf="userRooms.length || !emptyQuery"
               class="input-send md:hidden h-20 bg-white border-[0] border-t border-solid border-[--grey-300] px-3 py-3 gap-4 flex justify-between items-center">
               <input type="text" (keyup.enter)="sendMessage()" [(ngModel)]="message" placeholder="Xabaringizni yozing"
                 class="w-full font-500 text-base border-0 focus:outline-0 h-full placeholder-[--grey-3]" />
@@ -101,7 +116,7 @@
               </p-button>
             </div>
           </div>
-          <div
+          <div *ngIf="userRooms.length  || !emptyQuery"
             class="input-send w-full bg-white hidden md:flex border fixed bottom-0 border-solid border-[--grey-3] rounded-[12px] md:rounded-none md:border-r-[0] md:border-l-[0] px-3 py-3 gap-4 justify-between items-center">
             <input type="text" (keyup.enter)="sendMessage()" [(ngModel)]="message" placeholder="Xabaringizni yozing"
               class="w-full font-500 text-base border-0 focus:outline-0 h-full placeholder-[--grey-3]" />

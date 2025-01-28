@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputMaskModule } from 'primeng/inputmask';
@@ -26,6 +26,7 @@ export class RegisterDialogComponent {
   visible: boolean = false;
   loading: boolean = false;
   infoError: boolean = false;
+  @Input() completeCallback: Function | undefined;
   public ruleForm = new FormGroup({
     password: new FormControl(undefined, [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[a-z])(?=.*\d).*$/)]),
     name: new FormControl('', [Validators.required, Validators.minLength(4)]),
@@ -45,6 +46,8 @@ export class RegisterDialogComponent {
     this.closeDialog();
     this.ruleForm.reset();
     this.toastService.showMessage('success', 'Success', data.message);
+    console.log("completeCallback",this.completeCallback)
+    if (this.completeCallback) this.completeCallback();
   }
   dataTransform() {
     const phone_number = JSON.parse(localStorage.getItem('phone_number') || '');

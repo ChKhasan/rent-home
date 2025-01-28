@@ -15,7 +15,7 @@ import { RequestService } from '@services/request';
 import { ThumbCarouselComponent } from '@components/announcement/thumb-carousel/thumb-carousel.component';
 import { AboutComponent } from '@components/announcement/about/about.component';
 import { UserCardComponent } from '@/shared/components/announcement/user-card/user-card.component';
-import { finalize } from 'rxjs';
+import { catchError, finalize, throwError } from 'rxjs';
 import { ListCarouselComponent } from '../list-carousel/list-carousel.component';
 import { AuthService } from '@/core/services/auth/auth.service';
 
@@ -84,14 +84,9 @@ export class ViewPageComponent implements OnInit {
       const headers: any = {};
       let accessToken = localStorage.getItem(environment.accessToken);
       if (accessToken || this.authService.auth || this.authService.user?.id) headers.Authorization = 'Bearer' + ' ' + accessToken;
-
-      this.requestService.getData<IAnnouncementInfo>((this.profile ? environment.authUrls.GET_MY_ANNONCEMENTS : environment.urls.GET_ANNONCEMENTS) + this.id + '/', {}, { ...headers }).subscribe((response: IAnnouncementInfo) => {
-        this.announcement = response;
-        this.images = response.images;
-        this.loading = false;
-      });
+      this.__GET_ANNOUNCEMENTS(headers);
+      this.__GET__REC_ANNOUNCEMENTS(headers);
     }
-    this.__GET__REC_ANNOUNCEMENTS();
   }
   goBack(): void {
     window.history.back();
@@ -100,11 +95,24 @@ export class ViewPageComponent implements OnInit {
 
   public skeletonList = [1, 2, 3, 4, 5, 6];
 
-  __GET__REC_ANNOUNCEMENTS = () => {
+  __GET_ANNOUNCEMENTS = (headers: any = {}) => {
+    this.requestService.getData<IAnnouncementInfo>((this.profile ? environment.authUrls.GET_MY_ANNONCEMENTS : environment.urls.GET_ANNONCEMENTS) + this.id + '/', {}, { ...headers }).subscribe((response: IAnnouncementInfo) => {
+      this.announcement = response;
+      this.images = response.images;
+      this.loading = false;
+    });
+  };
+  __GET__REC_ANNOUNCEMENTS = (headers: any = {}) => {
     this.loading = true;
     this.requestService
-      .getData(environment.urls.GET_RECOMMENDATION_VIEW + this.id + '/')
-      .pipe(finalize(() => (this.loading = false)))
+      .getData(environment.urls.GET_RECOMMENDATION_VIEW + this.id + '/', {}, { ...headers })
+      .pipe(
+        finalize(() => (this.loading = false)),
+        catchError((error) => {
+          console.log('Error while fetching recommendations:', error);
+          return throwError(() => error);
+        })
+      )
       .subscribe((response: any) => (this.rec_announcements = response));
   };
 }

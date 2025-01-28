@@ -1,15 +1,19 @@
 <div class="likes">
-    <div class="grid grid-cols-3 gap-[10px]  md:grid-cols-1 md:gap-3" *ngIf="loading; else announcementsList">
-      <p-skeleton *ngFor="let item of skeletonList" class="w-full" styleClass="ng_skeleton"></p-skeleton>
+  <div class="grid grid-cols-3 gap-[10px]  md:grid-cols-1 md:gap-3" *ngIf="loading; else announcementsList">
+    <p-skeleton *ngFor="let item of skeletonList" class="w-full" styleClass="ng_skeleton"></p-skeleton>
+  </div>
+  <ng-template #announcementsList>
+    <div class="grid grid-cols-3 gap-[10px] md:grid-cols-1 md:gap-3" *ngIf="announcements.length">
+      <ng-container *ngFor="let announcement of announcements">
+        <app-announcements-card [announcement]="announcement"></app-announcements-card>
+      </ng-container>
     </div>
-    <ng-template #announcementsList>
-      <div class="grid grid-cols-3 gap-[10px] md:grid-cols-1 md:gap-3">
-        <ng-container *ngFor="let announcement of announcements">
-          <app-announcements-card [announcement]="announcement"></app-announcements-card>
-        </ng-container>
-      </div>
-    </ng-template>
-    <div class="mx-auto max-w-[1200px] flex justify-center mt-6">
-      <app-pagination [getData]="__GET_ANNOUNCEMENTS" [totalPage]="totalPage"></app-pagination>
-    </div>
+  </ng-template>
+  <div class="mx-auto max-w-[1200px] flex justify-center mt-6">
+    <app-pagination [getData]="__GET_ANNOUNCEMENTS" [totalPage]="totalPage"></app-pagination>
+  </div>
+  <div class="flex flex-col items-center justify-center h-[300px] mb-10" *ngIf="!announcements.length">
+    <img class="w-[200px] h-[200px] opacity-60" src="../../../../assets/images/empty-inbox.png" alt="" srcset="">
+    <p class="text-[--grey-400]">E'lonlar mavjud emas</p>
+  </div>
 </div>

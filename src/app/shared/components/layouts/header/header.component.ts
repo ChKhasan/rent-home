@@ -26,10 +26,7 @@ export class HeaderComponent {
   numberDialogComponent!: NumberDialogComponent;
   @ViewChild(SmsDialogComponent) smsDialogComponent!: SmsDialogComponent;
   public profileDrop: Boolean = false;
-  constructor(
-    public router: Router,
-    public authService: AuthService,
-  ) {}
+  constructor(public router: Router, public authService: AuthService) {}
   openRegisterDialog() {
     this.registerDialogComponent.showDialog();
   }
@@ -69,5 +66,9 @@ export class HeaderComponent {
   openRegister = () => {
     this.closeAuthDialog();
     this.openNumberDialog();
+  };
+
+  completeRegisterCallback = () => {
+    this.openAuthDialog();
   };
 }

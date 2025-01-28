@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputMaskModule } from 'primeng/inputmask';
@@ -16,7 +16,6 @@ import { PasswordModule } from 'primeng/password';
 import { RequestService } from '@services/request';
 import { ToastService } from '@services/toast';
 import { AuthService } from '@services/auth';
-import { log } from 'node:console';
 
 @Component({
   selector: 'app-auth-dialog',
@@ -38,12 +37,7 @@ export class AuthDialogComponent {
     phone_number: new FormControl('', [Validators.required, Validators.pattern(/^\d{2} \d{3} \d{2} \d{2}$/)]),
   });
 
-  constructor(
-    private authService: AuthService,
-    private toastService: ToastService,
-    private router: Router,
-    private requestService: RequestService,
-  ) {}
+  constructor(private authService: AuthService, private toastService: ToastService, private router: Router, private requestService: RequestService) {}
 
   eventPipe(data: any) {
     this.tokenHandle(data.response);
@@ -81,7 +75,7 @@ export class AuthDialogComponent {
       .pipe(
         finalize(() => {
           this.loading = false;
-        }),
+        })
       )
       .subscribe(
         (response: any) => {
@@ -89,7 +83,7 @@ export class AuthDialogComponent {
         },
         (error) => {
           if (error.status === 401) this.infoError = true;
-        },
+        }
       );
   }
 
@@ -98,6 +92,14 @@ export class AuthDialogComponent {
   }
 
   showDialog() {
+    const phone_number = localStorage.getItem('phone_number') && JSON.parse(localStorage.getItem('phone_number') || '');
+    if (phone_number) {
+      this.ruleForm.setValue({
+        password: '',
+        phone_number: phone_number,
+      });
+      localStorage.removeItem('phone_number');
+    }
     this.visible = true;
   }
 

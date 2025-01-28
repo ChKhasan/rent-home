@@ -21,10 +21,12 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { LikesComponent } from "../../likes/likes.component";
 import { AnnouncementsComponent } from "../announcements/announcements.component";
 import { RouterLink } from '@angular/router';
+import { DialogModule } from 'primeng/dialog';
+
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [RouterLink, SelectButtonModule, InputMaskModule, InputNumberModule, InputTextModule, InvaidTextComponent, NgIf, PaginatorModule, ReactiveFormsModule, NgClass, ButtonModule, FileUploadModule, LikesComponent, AnnouncementsComponent],
+  imports: [RouterLink,DialogModule, SelectButtonModule, InputMaskModule, InputNumberModule, InputTextModule, InvaidTextComponent, NgIf, PaginatorModule, ReactiveFormsModule, NgClass, ButtonModule, FileUploadModule, LikesComponent, AnnouncementsComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
 })
@@ -36,6 +38,7 @@ export class ProfileComponent implements OnInit {
   public avatar: string = '';
   public tab: string = 'announcements';
   public isEdit: boolean = false;
+  public logoutDialog: boolean = false
   public ruleForm = new FormGroup({
     name: nameControl,
     first_name: firstControl,
