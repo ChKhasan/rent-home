@@ -5,21 +5,19 @@ import { PaginationComponent } from '@components/pagination/pagination.component
 import { NgForOf, NgIf } from '@angular/common';
 import { SkeletonModule } from 'primeng/skeleton';
 import { QueryService } from '@services/query';
-import { MyAnnouncementsCardComponent } from '@components/cards/my-announcements-card/my-announcements-card.component';
 import { FilterComponent } from '@components/announcement/filter/filter.component';
-import { SearchComponent } from '@components/announcement/search/search.component';
 import { BottomSheetComponent } from '@components/modals/bottom-sheet/bottom-sheet.component';
 import { EmptyFoundComponent } from '@components/empty-found/empty-found.component';
 import { SORT_OPTIONS } from '@/core/constants/filter';
 import { RequestService } from '@services/request';
 import { environment } from '@environments';
 import { IAnnouncementList } from '@services/interfaces';
-import { AnnouncementsCardComponent } from "@components/cards/announcements-card/announcements-card.component";
+import { AnnouncementsCardComponent } from '@components/cards/announcements-card/announcements-card.component';
 import { ButtonModule } from 'primeng/button';
 @Component({
   selector: 'app-list',
   standalone: true,
-  imports: [PaginationComponent, NgForOf, ButtonModule, SkeletonModule, NgIf, MyAnnouncementsCardComponent, FilterComponent, SearchComponent, RouterLink, BottomSheetComponent, EmptyFoundComponent, AnnouncementsCardComponent],
+  imports: [PaginationComponent, NgForOf, ButtonModule, SkeletonModule, NgIf, FilterComponent, BottomSheetComponent, EmptyFoundComponent, AnnouncementsCardComponent],
   templateUrl: './list.component.html',
   styleUrl: './list.component.css',
 })
@@ -31,12 +29,12 @@ export class ListComponent implements OnInit {
   public sortOptions = SORT_OPTIONS;
   public currentSort: string = '';
   @ViewChild(BottomSheetComponent) bottomSheetComponent!: BottomSheetComponent;
-  constructor(
-    private queryConfig: QueryService,
-    private requestService: RequestService,
-  ) {}
+  constructor(private queryConfig: QueryService, private requestService: RequestService) {}
   ngOnInit(): void {
-    if (typeof window !== 'undefined') this.__GET_ANNOUNCEMENTS();
+    if (typeof window !== 'undefined') {
+      this.__GET_ANNOUNCEMENTS();
+      if(this.queryConfig.activeQueryList()['ordering']) this.currentSort = this.queryConfig.activeQueryList()['ordering'];
+    }
   }
   __GET_ANNOUNCEMENTS = () => {
     this.loading = true;
