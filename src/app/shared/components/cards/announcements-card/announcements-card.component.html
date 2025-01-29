@@ -59,9 +59,9 @@
         {{ announcement?.address }}
       </p>
     </span>
-    <a [routerLink]="(edit ? '/profile/announcements-view/':'/announcements/') + announcement?.id" class="title">
+    <span (click)="navigateToAnnouncement(announcement?.id)" class="title bg-transparent p-0">
       <p class="cursor-pointer font-medium text-[black] text-xl md:text-lg">{{ announcement?.title }}</p>
-    </a>
+    </span>
     <div class="flex gap-2 mt-3">
 
       <span *ngIf="announcement.room_count"

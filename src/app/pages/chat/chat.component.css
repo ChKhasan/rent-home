@@ -17,7 +17,7 @@
 }
 
 .board {
-  height: calc(100vh - 160px);
+  height: calc(100vh - 160px - 68px);
 }
 .board::-webkit-scrollbar {
   width: 5px;
@@ -86,13 +86,28 @@
   position: relative;
   margin-bottom: 24px;
 }
+.status-circle {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
 
+  border: 2px solid white;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+}
+.online {
+  background-color: var(--ant-primary-color);
+}
+.offline {
+  background-color: grey;
+}
 @media (max-width: 768px) {
   .chat-container {
     grid-template-columns: 1fr;
   }
   .board {
-    height: calc(100vh - 70px);
+    height: calc(100vh - 70px - 64px);
   }
   .message-block {
     box-shadow: none;

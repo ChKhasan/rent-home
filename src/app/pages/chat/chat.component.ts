@@ -387,4 +387,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   toBack() {
     this.userRooms.length ? (this.showList = true) : this.router.navigate(['/profile']).then(() => {});
   }
+  getUnreadMessageCount(messages: any): string {
+    return messages && messages.length > 0 ? String(messages.filter((elem: any) => !elem.is_read && elem.sender !== this.authService.user.id).length) : '0';
+  }
 }

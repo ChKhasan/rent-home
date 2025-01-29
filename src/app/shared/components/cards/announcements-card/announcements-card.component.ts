@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { LikesService } from '@services/likes';
 import { AuthService } from '@services/auth';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { finalize } from 'rxjs';
 import { TooltipModule } from 'primeng/tooltip';
@@ -13,7 +13,7 @@ import { TagModule } from 'primeng/tag';
 @Component({
   selector: 'app-announcements-card',
   standalone: true,
-  imports: [NgIf, PricePipe, NgFor, CarouselModule, TagModule, RouterLink, NgClass, ButtonModule, TooltipModule],
+  imports: [NgIf, PricePipe, NgFor, CarouselModule, TagModule, RouterLink, ButtonModule, TooltipModule],
   templateUrl: './announcements-card.component.html',
   styleUrl: './announcements-card.component.css',
 })
@@ -24,7 +24,7 @@ export class AnnouncementsCardComponent implements OnInit {
   @Input() edit?: boolean = false;
   public loading: boolean = false;
   public showCarousel: boolean = false;
-  constructor(public likesService: LikesService, private authService: AuthService) {}
+  constructor(public likesService: LikesService, private authService: AuthService, public router: Router) {}
   public customOptions: OwlOptions = {
     loop: true,
     mouseDrag: true,
@@ -96,5 +96,10 @@ export class AnnouncementsCardComponent implements OnInit {
   }
   closeBottomSheet() {
     if (this.close !== undefined) this.close();
+  }
+  navigateToAnnouncement(id: number) {
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/announcements', id]);
+    });
   }
 }
