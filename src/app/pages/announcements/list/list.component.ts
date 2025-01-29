@@ -29,7 +29,7 @@ export class ListComponent implements OnInit {
   public announcements: any = [];
   public totalPage: number = 0;
   public sortOptions = SORT_OPTIONS;
-  public currentSort: string = 'created';
+  public currentSort: string = '';
   @ViewChild(BottomSheetComponent) bottomSheetComponent!: BottomSheetComponent;
   constructor(
     private queryConfig: QueryService,
