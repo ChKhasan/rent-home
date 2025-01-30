@@ -18,11 +18,12 @@ import { UserCardComponent } from '@/shared/components/announcement/user-card/us
 import { catchError, finalize, throwError } from 'rxjs';
 import { ListCarouselComponent } from '../list-carousel/list-carousel.component';
 import { AuthService } from '@/core/services/auth/auth.service';
+import { AnnouncementsCardComponent } from "../../cards/announcements-card/announcements-card.component";
 
 @Component({
   selector: 'app-view-page',
   standalone: true,
-  imports: [GalleriaModule, TagModule, InfoTabComponent, SearchComponent, ButtonModule, PriceBlockComponent, SkeletonModule, StyleClassModule, ThumbCarouselComponent, AboutComponent, UserCardComponent, ListCarouselComponent],
+  imports: [GalleriaModule, TagModule, InfoTabComponent, SearchComponent, ButtonModule, PriceBlockComponent, SkeletonModule, StyleClassModule, ThumbCarouselComponent, AboutComponent, UserCardComponent, ListCarouselComponent, AnnouncementsCardComponent],
   templateUrl: './view-page.component.html',
   styleUrl: './view-page.component.css',
   animations: [trigger('fadeAnimation', [transition('void => *', [style({ opacity: 0 }), animate('300ms', style({ opacity: 1 }))]), transition('* => void', [animate('300ms', style({ opacity: 0 }))])])],

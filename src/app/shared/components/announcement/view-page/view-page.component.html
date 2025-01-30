@@ -21,9 +21,16 @@
         <p class="text-[28px] md:text-sm text-[--brown-900] md:mt-0 mt-2">Uy kerarmi? Unda Biz yordam beramiz!</p>
       </div>
       <div class="relative">
-        <div class="mr-[-15px] ml-[-15px] " #owlCarousel>
+        <div class="mr-[-15px] ml-[-15px]" *ngIf="rec_announcements.length > 3; else defaultAnnouncements" #owlCarousel>
           <app-list-carousel [announcements]="rec_announcements"></app-list-carousel>
         </div>
+        <ng-template #defaultAnnouncements>
+          <div class="grid grid-cols-3 gap-4">
+            <ng-container *ngFor="let announcement of rec_announcements"> 
+              <app-announcements-card [announcement]="announcement"></app-announcements-card>
+            </ng-container>
+          </div>
+        </ng-template>
       </div>
     </div>
   </div>
