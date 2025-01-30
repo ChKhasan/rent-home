@@ -33,7 +33,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
             // Handle errors during token refresh
             console.error('Token refresh failed:', refreshError);
             authService.logout(); // Optionally log out the user
-            return throwError(() => refreshError);
+            return throwError(() => error);
           })
         );
       }
