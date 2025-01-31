@@ -9,7 +9,7 @@
 <p-toast position="bottom-right" key="confirm" [baseZIndex]="5000" styleClass="chat-toast">
   <ng-template let-message pTemplate="message">
     <div class="flex items-center gap-[10px] cursor-pointer" style="flex: 1" (click)="toChat(message.data)">
-      <div class="flex items-center gap-2 image w-[40px] h -[40px] rounded-full overflow-hidden">
+      <div class="flex items-center gap-2 image w-[40px] h-[40px] rounded-full overflow-hidden">
         <img *ngIf="message.data.user.images.length > 0; else image" class="object-cover w-full h-full" [src]="message.data.user.images[0].image" alt="" />
         <ng-template #image>
           <img class="object-cover w-full h-full" src="./assets/images/avatar.png" alt="" />

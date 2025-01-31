@@ -17,7 +17,7 @@ import { DictionaryService } from './core/services/dictionary/dictionary.service
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, FooterComponent, AvatarModule, NgIf, SharedModule, ToastModule],
+  imports: [RouterOutlet, AvatarModule, NgIf, SharedModule, ToastModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
