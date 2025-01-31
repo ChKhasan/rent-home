@@ -129,7 +129,10 @@ export class AppComponent implements OnInit, OnDestroy {
         key: 'confirm',
         severity: 'success',
         summary: message.message,
-        data: user,
+        data: {
+          ...room,
+          user
+        },
       });
   }
 
