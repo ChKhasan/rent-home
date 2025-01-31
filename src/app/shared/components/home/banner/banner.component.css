@@ -51,3 +51,7 @@
     height: 50vh;
   }
 }
+
+.animate-item {
+  transition: 0.1s;
+}
