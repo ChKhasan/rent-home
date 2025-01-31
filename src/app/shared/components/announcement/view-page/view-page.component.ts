@@ -2,8 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GalleriaModule } from 'primeng/galleria';
 import { TagModule } from 'primeng/tag';
-import { InfoTabComponent } from '@components/announcement/info-tab/info-tab.component';
-import { SearchComponent } from '@components/announcement/search/search.component';
 import { ButtonModule } from 'primeng/button';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { PriceBlockComponent } from '@components/announcement/price-block/price-block.component';
@@ -23,7 +21,7 @@ import { AnnouncementsCardComponent } from "../../cards/announcements-card/annou
 @Component({
   selector: 'app-view-page',
   standalone: true,
-  imports: [GalleriaModule, TagModule, InfoTabComponent, SearchComponent, ButtonModule, PriceBlockComponent, SkeletonModule, StyleClassModule, ThumbCarouselComponent, AboutComponent, UserCardComponent, ListCarouselComponent, AnnouncementsCardComponent],
+  imports: [GalleriaModule, TagModule, ButtonModule, PriceBlockComponent, SkeletonModule, StyleClassModule, ThumbCarouselComponent, AboutComponent, UserCardComponent, ListCarouselComponent, AnnouncementsCardComponent],
   templateUrl: './view-page.component.html',
   styleUrl: './view-page.component.css',
   animations: [trigger('fadeAnimation', [transition('void => *', [style({ opacity: 0 }), animate('300ms', style({ opacity: 1 }))]), transition('* => void', [animate('300ms', style({ opacity: 0 }))])])],
