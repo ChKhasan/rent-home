@@ -99,7 +99,7 @@ export class AnnouncementsCardComponent implements OnInit {
   }
   navigateToAnnouncement(id: number) {
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['/announcements', id]);
+      this.router.navigate([this.edit ? '/profile/announcements-view' : '/announcements', id]);
     });
   }
 }
