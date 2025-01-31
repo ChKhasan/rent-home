@@ -15,14 +15,10 @@
 :host ::ng-deep .p-selectbutton .p-button:first-child {
   border-top-left-radius: 16px;
   border-bottom-left-radius: 16px;
-  width: 187px;
-  height: 37px;
 }
 :host ::ng-deep .p-selectbutton .p-button:last-child {
   border-top-right-radius: 16px;
   border-bottom-right-radius: 16px;
-  width: 187px;
-  height: 37px;
 }
 .form-input input,
 :host ::ng-deep .p-dropdown {
