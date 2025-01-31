@@ -11,11 +11,12 @@ import { BannerHomeComponent } from '../../../icons/banner-home/banner-home.comp
 import { BannerCloudComponent } from '../../../icons/banner-cloud/banner-cloud.component';
 import { BannerCloud2Component } from '../../../icons/banner-cloud-2/banner-cloud-2.component';
 import { BannerFilterComponent } from '../banner-filter/banner-filter.component';
+import { SvgEffectDirective } from '@/core/directive/svg-effect.directive';
 
 @Component({
   selector: 'app-banner',
   standalone: true,
-  imports: [CascadeSelectModule, FormsModule, CheckboxModule, RouterLink, SearchComponent, InputNumberModule, ButtonModule, BannerHomeComponent, BannerCloudComponent, BannerCloud2Component, BannerFilterComponent],
+  imports: [SvgEffectDirective,CascadeSelectModule, FormsModule, CheckboxModule, RouterLink, SearchComponent, InputNumberModule, ButtonModule, BannerHomeComponent, BannerCloudComponent, BannerCloud2Component, BannerFilterComponent],
   templateUrl: './banner.component.html',
   styleUrl: './banner.component.css',
 })
