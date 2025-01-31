@@ -86,6 +86,7 @@ export class ViewPageComponent implements OnInit {
       let accessToken = localStorage.getItem(environment.accessToken);
       if (accessToken || this.authService.auth || this.authService.user?.id) headers.Authorization = 'Bearer' + ' ' + accessToken;
       this.__GET_ANNOUNCEMENTS(headers);
+      if(!this.profile)
       this.__GET__REC_ANNOUNCEMENTS(headers);
     }
   }
