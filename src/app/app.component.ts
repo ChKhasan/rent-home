@@ -103,6 +103,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   createGroup(message: any) {
+    console.log('this.authService.user.id',this.authService.user.id)
     this.newGroup = {
       ...message,
       message: '',
@@ -112,11 +113,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
   addMessage(message: any) {
     let currentPath = this.location.path();
+    console.log("message",message)
     if (message.sender !== this.authService.user.id && !currentPath.includes('/profile/chat')) this.showTopCenter(message);
   }
 
   showTopCenter(message: IMessage) {
     let user = this.chatService.userRooms.find((elem: any) => elem.id === message.room);
+    console.log('user',user)
     if (!user) {
       user = {
         user: this.newGroup.user,
@@ -130,6 +133,7 @@ export class AppComponent implements OnInit, OnDestroy {
         summary: message.message,
         data: user,
       });
+      console.log("user?.user",user?.user)
   }
 
   toChat(data: any) {

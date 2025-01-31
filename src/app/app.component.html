@@ -1,11 +1,4 @@
-<!--<header>-->
-<!--  <app-header></app-header>-->
-<!--</header>-->
 <router-outlet></router-outlet>
-
-<!--<footer>-->
-<!--  <app-footer></app-footer>-->
-<!--</footer>-->
 <p-toast position="bottom-right" key="confirm" [baseZIndex]="5000" styleClass="chat-toast">
   <ng-template let-message pTemplate="message">
     <div class="flex items-center gap-[10px] cursor-pointer" style="flex: 1" (click)="toChat(message.data)">
