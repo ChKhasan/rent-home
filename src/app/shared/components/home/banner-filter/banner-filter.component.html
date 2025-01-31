@@ -3,28 +3,22 @@
     <div class="flex justify-content-center">
       <form [formGroup]="formGroup" class="w-full">
         <p-selectButton styleClass="!rounded-2xl !w-full" [(ngModel)]="filter.partnership" [options]="stateOptions"
-          formControlName="value" optionLabel="label" optionValue="value">
-          <ng-template let-item pTemplate>
-            <div class="flex gap-2 items-center">
-              <i [class]="item.icon"></i>
-              <p>{{ item.label }}</p>
-            </div>
-          </ng-template>
-        </p-selectButton>
+          aria-labelledby="basic" formControlName="value" optionLabel="label" optionValue="value" />
+
       </form>
     </div>
     <div class="flex flex-col gap-1 relative">
       <label class="font-medium text-[--grey-900] text-[14px]" for="name">Viloyat</label>
       <div class="relative w-full flex items-center form-input">
         <p-dropdown class="w-full" [options]="dictionaryService.regions" [(ngModel)]="filter.region" optionLabel="name"
-          optionValue="id" placeholder="Viloyat"   (onChange)="onRegionChange($event.value)"/>
+          optionValue="id" placeholder="Viloyat" (onChange)="onRegionChange($event.value)" />
       </div>
     </div>
     <div class="flex flex-col gap-1 relative">
       <label class="font-medium text-[--grey-900] text-[14px]" for="name">Tuman</label>
       <div class="relative w-full flex items-center form-input">
-        <p-dropdown class="w-full" [disabled]="!filter.region" [options]="dictionaryService.districts" [(ngModel)]="filter.distirct" optionLabel="name"
-        optionValue="id"  placeholder="Tuman" />
+        <p-dropdown class="w-full" [disabled]="!filter.region" [options]="dictionaryService.districts"
+          [(ngModel)]="filter.distirct" optionLabel="name" optionValue="id" placeholder="Tuman" />
       </div>
     </div>
     <div class="grid gap-4 grid-cols-2">
@@ -37,7 +31,7 @@
       <div class="flex flex-col gap-1 relative">
         <label class="font-medium text-[--grey-900] text-[14px]" for="name">Qavat</label>
         <div class="relative w-full flex items-center form-input">
-          <input pInputText [(ngModel)]="filter.floor"  type="text" />
+          <input pInputText [(ngModel)]="filter.floor" type="text" />
         </div>
       </div>
     </div>

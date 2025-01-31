@@ -14,6 +14,12 @@ import { DictionaryService } from './../../../../core/services/dictionary/dictio
 })
 export class BannerFilterComponent implements OnInit {
   public regions: Array<any> = [];
+  stateOptions2 = [
+    { label: 'One-Way', value: 'one-way' },
+    { label: 'Return', value: 'return' }
+  ];
+
+  value: string = 'one-way';
   filter: any = {
     room_count: null,
     partnership: false,
