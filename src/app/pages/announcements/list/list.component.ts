@@ -48,13 +48,13 @@ export class ListComponent implements OnInit {
   };
   filterSend = (e: any) => {
     this.queryConfig.updateCustomQuery(e, this.__GET_ANNOUNCEMENTS);
-    // this.closeBottomSheet();
+    this.closeBottomSheet();
   };
   clearFilter = () => {
     this.queryConfig.clearFilter(this.__GET_ANNOUNCEMENTS).then(() => {
       this.currentSort = 'appartment_status';
     });
-    // this.closeBottomSheet();
+    this.closeBottomSheet();
   };
   sortHandle(option: any) {
     this.currentSort == option[0] ? (this.currentSort = option[1]) : (this.currentSort = option[0]);
