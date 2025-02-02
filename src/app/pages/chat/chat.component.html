@@ -38,10 +38,12 @@
                 <div class="body w-full flex flex-col justify-center gap-1">
                   <div class="flex justify-between items-center">
                     <h4 class="font-medium text-sm">{{ isRoom?.user?.name }}</h4>
+                    <p class="text-xs font-medium text-[--grey-600]">{{ isRoom?.user?.phone_number }}</p>
                   </div>
                   <div class="flex gap-1 items-end justify-between">
                     <p class="text-xs text-[--grey-600]">
-                      {{ isRoom?.user?.phone_number }} <span class="text-transparent">.</span>
+                      {{isRoom?.user?.last_online | date:
+                      'dd MMMM HH:mm' }} <span class="text-transparent">.</span>
                     </p>
                   </div>
                 </div>
@@ -164,9 +166,11 @@
 
 <ng-template #readIcon>
   <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24">
-    <path fill="none" d="M0 0h24v24H0z"/>
-    <path fill="none" stroke="#00a000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 13.5l4 4l10.75-10.75"/>
-    <path fill="none" stroke="#00a000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7.5 13.5l4 4l10.75-10.75"/>
+    <path fill="none" d="M0 0h24v24H0z" />
+    <path fill="none" stroke="#00a000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+      d="M2 13.5l4 4l10.75-10.75" />
+    <path fill="none" stroke="#00a000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+      d="M7.5 13.5l4 4l10.75-10.75" />
   </svg>
 </ng-template>
 <ng-template #unreadIcon>

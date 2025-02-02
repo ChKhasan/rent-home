@@ -113,6 +113,6 @@ export class ViewPageComponent implements OnInit {
           return throwError(() => error);
         })
       )
-      .subscribe((response: any) => (this.rec_announcements = response));
+      .subscribe((response: any) => (this.rec_announcements = response.slice(0,2)));
   };
 }
