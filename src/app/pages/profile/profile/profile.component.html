@@ -5,12 +5,12 @@
       <h3 class="text-[40px] font-medium text-[--green] md:text-[24px] md:mb-3">Shaxsiy kabinet</h3>
       <div class="flex gap-4">
         <button [routerLink]="'/profile/chat'" pButton type="button" icon="pi pi-comments"
-          class="btn md:px-4 rounded-xl flex md:gap-0 gap-2 items-center bg-[--green]" iconPos="left">
+          class="btn md:px-4 rounded-xl flex md:gap-0 gap-2 items-center bg-[--green] text-white" iconPos="left">
 
           <span class="md:hidden">Yozishmalarim</span>
         </button>
         <button [routerLink]="'/profile/create'" pButton type="button" icon="pi pi-plus"
-          class="btn md:px-4 rounded-xl flex md:gap-0 gap-2  items-center bg-[--green]" iconPos="left">
+          class="btn md:px-4 rounded-xl flex md:gap-0 gap-2  items-center bg-[--green] text-white" iconPos="left">
           <span class="md:hidden">E'lon yaratish</span>
         </button>
         <button (click)="logoutDialog = true"

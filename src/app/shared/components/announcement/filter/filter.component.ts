@@ -30,6 +30,7 @@ export class FilterComponent implements OnInit {
   public tab: number = 1;
   public transports: any[] | undefined = [];
   public selectedCities: any = [];
+  public step: number = 10;
   public sliderMax: number = 0;
   public sliderMin: number = 0;
   public currenyTypes = currenyTypes;
@@ -92,6 +93,7 @@ export class FilterComponent implements OnInit {
       }
       this.sliderValue[0] = Number(this.filterForm.total_price__gte);
       this.sliderValue[1] = Number(this.filterForm.total_price__lte);
+
     }
   }
 
@@ -163,8 +165,9 @@ export class FilterComponent implements OnInit {
   onCurrencyChange() {
     const keyName = this.filterForm.partnership ? 'price_for_one' : 'total_price';
     this.sliderMax = this.prices[keyName]?.[`MAX_${this.filterForm.currency}`] || 0;
-    this.sliderMin = this.prices[keyName]?.[`MIN_UZS`] || 0;
-    this.sliderValue = [this.prices[keyName]?.[`MIN_UZS`] || 0, this.prices[keyName]?.[`MAX_${this.filterForm.currency}`] || 0];
+    this.sliderMin = this.prices[keyName]?.[`MIN_${this.filterForm.currency}`] || 0;
+    this.sliderValue = [this.prices[keyName]?.[`MIN_${this.filterForm.currency}`] || 0, this.prices[keyName]?.[`MAX_${this.filterForm.currency}`] || 0];
+    this.step = Math.pow(10,String(Math.floor(this.sliderMin / 100)).length)
   }
   onPartnershipChange() {
     this.onCurrencyChange();
