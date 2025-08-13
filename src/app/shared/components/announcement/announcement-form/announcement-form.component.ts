@@ -164,7 +164,7 @@ export class AnnouncementFormComponent implements OnInit {
     });
   }
   removeImage(id: number) {
-    this.requestService.requestData(`https://new.rent-home.uz/api/images/${id}/`, 'DELETE').subscribe(() => {
+    this.requestService.requestData(`https://api.nexthome.uz/api/images/${id}/`, 'DELETE').subscribe(() => {
       this.uploadedFiles = this.uploadedFiles.filter((elem) => elem.id !== id);
     });
   }
