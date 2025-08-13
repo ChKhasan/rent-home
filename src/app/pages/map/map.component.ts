@@ -61,7 +61,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     miniBus: [],
     subway: [],
   };
-  public showTransports: boolean = false
+  public showTransports: boolean = false;
   public showSubway: boolean = false;
   public showMiniBus: boolean = false;
   public showInfo: boolean = false;
@@ -376,7 +376,7 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   // __POST_TRANSPORTS() {
-  //   this._httpRequest.get('https://new.rent-home.uz/api/proxy/?urls=https://uz.easyway.info/en/cities/tashkent/routes').subscribe((res: any) => {
+  //   this._httpRequest.get('https://api.nexthome.uz/api/proxy/?urls=https://uz.easyway.info/en/cities/tashkent/routes').subscribe((res: any) => {
   //     console.log(res)
   //   })
   // }

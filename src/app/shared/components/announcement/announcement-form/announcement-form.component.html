@@ -123,9 +123,10 @@
               <label class="font-medium text-[14px] text-[--grey-900]" for="address">Uyning sur`atlari (Max Photo
                 10)*</label>
               <div class="card flex justify-content-center">
-                <p-fileUpload [disabled]="!status" styleClass="file-upload" list-type="picture" mode="basic" name="image"
-                  url="https://new.rent-home.uz/api/images/" (onUpload)="onUpload($event)" [auto]="true" method="post"
-                  [multiple]="true" accept="image/*" [maxFileSize]="1000000" [headers]="headers"></p-fileUpload>
+                <p-fileUpload [disabled]="!status" styleClass="file-upload" list-type="picture" mode="basic"
+                  name="image" url="https://api.nexthome.uz/api/images/" (onUpload)="onUpload($event)" [auto]="true"
+                  method="post" [multiple]="true" accept="image/*" [maxFileSize]="1000000"
+                  [headers]="headers"></p-fileUpload>
                 <div class="flex flex-wrap gap-3 ml-3">
                   <div class="w-[104px] relative h-[104px] bg-[var(--gray-3)]" *ngFor="let obj of uploadedFiles">
                     <div
