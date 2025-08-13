@@ -8,7 +8,7 @@
   }" [showHeader]="false">
   <div>
     <div class="map" *ngIf="visible">
-      <ya-map [center]="coords" (yaclick)="handleMapClick($event)" [zoom]="12">
+      <ya-map [center]="[41.31340266251607, 69.28703784942628]" (yaclick)="handleMapClick($event)" [zoom]="12">
         <ya-placemark [geometry]="coords"></ya-placemark>
         <ya-geoobject *ngIf="busRoute.x" [feature]="{
             geometry: { type: 'LineString', coordinates: busRoute.x },

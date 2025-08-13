@@ -2,7 +2,7 @@
   <div class="body mx-auto max-w-[1200px] grid grid-cols-3 gap-[10px] md:grid-cols-1 md:gap-3" *ngIf="loading">
     <p-skeleton *ngFor="let item of skeletonList" class="w-full" styleClass="ng_skeleton"></p-skeleton>
   </div>
-  <div class="body mx-auto max-w-[1200px] grid grid-cols-3 gap-[10px] md:grid-cols-1 md:gap-3" *ngIf="announcements.length">
+  <div class="body mx-auto max-w-[1200px] grid grid-cols-3 gap-[10px] md:grid-cols-1 md:gap-3" *ngIf="announcements?.length">
     <span class="w-full" *ngFor="let announcement of announcements">
       <app-announcements-card [announcement]="announcement" [edit]="true"></app-announcements-card>
     </span>
@@ -10,7 +10,7 @@
   <div class="mx-auto max-w-[1200px] flex justify-center mt-6">
     <app-pagination [getData]="__GET_ANNOUNMENTS" [totalPage]="totalPage"></app-pagination>
   </div>
-  <div class="flex flex-col items-center justify-center h-[300px] mb-10" *ngIf="!announcements.length">
+  <div class="flex flex-col items-center justify-center h-[300px] mb-10" *ngIf="!announcements?.length">
     <img class="w-[200px] h-[200px] opacity-60" src="../../../../assets/images/empty-inbox.png" alt="" srcset="">
     <p class="text-[--grey-400]">E'lonlar mavjud emas</p>
   </div>
