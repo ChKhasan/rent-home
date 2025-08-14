@@ -49,8 +49,8 @@
       </button>
     </div>
     <div class="absolute bottom-3 right-3 z-50 flex gap-3" *ngIf="edit">
-      <p-tag *ngIf="announcement.status" severity="primary" value="Aktiv" [rounded]="true" />
-      <p-tag *ngIf="!announcement.status" severity="danger" value="Activ emas" [rounded]="true" />
+      <p-tag *ngIf="announcement.status" severity="primary" value="Faol" [rounded]="true" />
+      <p-tag *ngIf="!announcement.status" severity="danger" value="Faol emas" [rounded]="true" />
     </div>
   </div>
   <div class="body">
@@ -79,14 +79,14 @@
         </svg>
         {{announcement.room_count}} xona
       </span>
-      <span *ngIf="announcement?.floor"
+      <span *ngIf="announcement?.area"
         class="gap-1 text-lg md:text-base border border-solid border-[--green-100] rounded-xl h-8 md:h-[28px] px-3 flex items-center">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" clip-rule="evenodd"
             d="M9.99935 1.66663C9.60228 1.66663 9.21012 1.75429 8.85084 1.92336L3.58003 4.40374C2.41172 4.95354 1.66602 6.1286 1.66602 7.41981V13.3333C1.66602 14.1648 2.14621 14.9214 2.89853 15.2755L8.85084 18.0766C9.21012 18.2456 9.60228 18.3333 9.99935 18.3333C10.3964 18.3333 10.7886 18.2456 11.1479 18.0766L17.1002 15.2755C17.8525 14.9214 18.3327 14.1648 18.3327 13.3333V7.41981C18.3327 6.1286 17.587 4.95354 16.4187 4.40374L11.1479 1.92336C10.7886 1.75429 10.3964 1.66663 9.99935 1.66663ZM16.666 11.9849L10.8327 9.06826V3.61703L15.709 5.91178C16.2932 6.18667 16.666 6.7742 16.666 7.41981V11.9849ZM9.99935 10.515L16.4446 13.7376C16.4274 13.7486 16.4093 13.7586 16.3905 13.7674L10.4382 16.5685C10.3009 16.6331 10.1511 16.6666 9.99935 16.6666C9.84763 16.6666 9.69778 16.6331 9.56051 16.5685L3.6082 13.7674C3.58938 13.7586 3.57133 13.7486 3.55411 13.7376L9.99935 10.515ZM9.16602 9.06826L3.33268 11.9849V7.41981C3.33268 6.7742 3.70553 6.18667 4.28969 5.91178L9.16602 3.61703V9.06826Z"
             fill="#475367" />
         </svg>
-        {{announcement?.floor}} kv
+        {{announcement?.area}} kv
       </span>
       <span class="bg-transparent gap-1 text-lg md:text-base rounded-xl h-8 md:h-[28px] px-3">
 

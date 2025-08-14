@@ -39,13 +39,8 @@
   <div class="flex flex-col gap-3 md:gap-1">
     <h5 class="font-medium text-2xl md:text-lg">Shartlar:</h5>
     <ul class="flex gap-1">
-      <li *ngIf="announcement.lessee_types.length" class="flex gap-1 items-center h-9 px-3 font-medium text-lg bg-[--grey-100] rounded-xl md:text-base md:font-normal">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12.2008 9.3C13.9405 9.3 15.3508 7.8897 15.3508 6.15C15.3508 4.4103 13.9405 3 12.2008 3C10.4611 3 9.05078 4.4103 9.05078 6.15C9.05078 7.8897 10.4611 9.3 12.2008 9.3Z" stroke="#475367" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          <path d="M13.55 12H10.85L5 21H19.4L13.55 12Z" stroke="#475367" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-
-        <div *ngFor="let elem of announcement.lessee_types">
+      <li *ngFor="let elem of announcement.lessee_types" class="flex gap-1 items-center h-9 px-3 font-medium text-lg bg-[--grey-100] rounded-xl md:text-base md:font-normal">
+        <div >
           {{ elem.name }}
         </div>
       </li>

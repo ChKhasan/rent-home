@@ -158,7 +158,7 @@ export class AnnouncementFormComponent implements OnInit {
     if (event.originalEvent['body']) this.uploadedFiles.push(event.originalEvent['body']);
 
     this.messageService.add({
-      severity: 'info',
+      severity: 'succus',
       summary: 'File Uploaded',
       detail: '',
     });
