@@ -57,8 +57,15 @@
 :host ::ng-deep .owl-dots {
   position: absolute;
   bottom: 0;
-} 
+}
 
 :host ::ng-deep .owl-dots .active span {
   background-color: var(--green) !important;
+}
+.clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;      /* nechta qator */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

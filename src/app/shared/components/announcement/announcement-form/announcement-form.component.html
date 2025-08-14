@@ -8,7 +8,7 @@
       <div class="max-w-[552px] md:max-w-full">
         <div class="flex justify-between items-center">
           <label class="font-medium text-[14px] text-[--grey-900]" [ngClass]="status ? 'text-[--green]':'text-[--red]'">
-            {{status ? 'E`lon aktiv':'E`lon aktiv emas'}}</label>
+            {{status ? 'E`lon faol':'E`lon faol emas'}}</label>
           <p-inputSwitch (onChange)="statusChange($event)" [(ngModel)]="status" />
         </div>
 

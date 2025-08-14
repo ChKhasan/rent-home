@@ -60,10 +60,9 @@
       </p>
     </span>
     <span (click)="navigateToAnnouncement(announcement?.id)" class="title bg-transparent p-0">
-      <p class="cursor-pointer font-medium text-[black] text-xl md:text-lg">{{ announcement?.title }}</p>
+      <p class="cursor-pointer font-medium text-[black] text-xl md:text-lg clamp-2">{{ announcement?.title }}</p>
     </span>
     <div class="flex gap-2 mt-3">
-
       <span *ngIf="announcement.room_count"
         class="gap-1 text-lg md:text-base border border-solid border-[--green-100] rounded-xl h-8 md:h-[28px] px-3 flex items-center">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">

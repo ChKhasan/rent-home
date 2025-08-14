@@ -1,7 +1,7 @@
 
 <owl-carousel-o [options]="customOptions">
   <ng-template carouselSlide *ngFor="let announcement of announcements; let i = index">
-    <div class="p-[15px] md:p-[6px] slide">
+    <div class="p-[15px] md:p-[6px] slide h-full">
       <app-announcements-card [announcement]="announcement"></app-announcements-card>
     </div>
   </ng-template>

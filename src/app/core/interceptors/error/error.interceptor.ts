@@ -38,7 +38,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         );
       }
       if (error.status != 401) {
-        toast.showMessage('error', 'Error', error.statusText);
+        toast.showMessage('error', 'Error', error?.error?.message || error.statusText);
       }
       return throwError(() => error);
     })

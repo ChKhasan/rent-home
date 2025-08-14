@@ -55,6 +55,8 @@ export class NumberDialogComponent {
       .pipe(finalize(() => (this.loading = false)))
       .subscribe((response) => {
         this.eventPipe();
+      },(error) => {
+        console.log(error)
       });
   }
   showDialog() {
