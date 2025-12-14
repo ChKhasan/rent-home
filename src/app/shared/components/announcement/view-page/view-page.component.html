@@ -7,6 +7,12 @@
           <app-thumb-carousel [images]="images"></app-thumb-carousel>
           <div class="mt-6">
             <app-about [announcement]="announcement"></app-about>
+            <div
+              *ngIf="announcement.moderation_status === 'rejected'"
+              class="mt-4 p-4 rounded-xl bg-[#fff1f0] border border-[#ffa39e] text-[#a8071a] text-sm"
+            >
+              Bekor qilingan: {{ announcement.moderation_comment || 'Sabab ko‘rsatilmagan' }}
+            </div>
           </div>
         </div>
         <div class="h-full custom-grid md:!gap-6">

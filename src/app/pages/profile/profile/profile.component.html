@@ -51,7 +51,7 @@
             </ng-template>
           </div>
           <p-fileUpload *ngIf="isEdit" class="flex md:hidden items-center absolute right-[-20px]"
-            styleClass="file-upload" mode="basic" name="image" url="https://api.nexthome.uz/api/images/"
+            styleClass="file-upload" mode="basic" name="image" url="http://localhost:8080/api/images/"
             (onUpload)="onUpload($event)" [auto]="true" method="post" [multiple]="true" accept="image/*"
             [maxFileSize]="1000000" [headers]="headers"></p-fileUpload>
         </div>
@@ -65,7 +65,7 @@
             {{authService.user.last_name}}</h5>
         </div>
         <p-fileUpload *ngIf="isEdit" class="md:flex hidden items-center" styleClass="file-upload" mode="basic"
-          name="image" url="https://api.nexthome.uz/api/images/" (onUpload)="onUpload($event)" [auto]="true"
+          name="image" url="http://localhost:8080/api/images/" (onUpload)="onUpload($event)" [auto]="true"
           method="post" [multiple]="true" accept="image/*" [maxFileSize]="1000000" [headers]="headers"></p-fileUpload>
         <button *ngIf="!isEdit" (click)="isEdit = true"
           class="mt-3 md:mt-0 border-solid border-[2px] border-[--grey-300] rounded-xl text-[14px] flex items-center gap-2 bg-transparent font-semibold p-3">

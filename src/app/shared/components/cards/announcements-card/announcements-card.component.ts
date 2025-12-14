@@ -102,4 +102,18 @@ export class AnnouncementsCardComponent implements OnInit {
       this.router.navigate([this.edit ? '/profile/announcements-view' : '/announcements', id]);
     });
   }
+
+  moderationLabel(): string {
+    const status = this.announcement?.moderation_status;
+    if (status === 'approved') return 'Tasdiqlangan';
+    if (status === 'rejected') return 'Bekor qilingan';
+    return 'Moderator tasdig‘ida';
+  }
+
+  moderationSeverity(): 'success' | 'warning' | 'danger' {
+    const status = this.announcement?.moderation_status;
+    if (status === 'approved') return 'success';
+    if (status === 'rejected') return 'danger';
+    return 'warning';
+  }
 }

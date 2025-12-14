@@ -5,7 +5,8 @@ export const environment = {
   refreshToken: 'refresh_token',
   pendingComments: 'pending_comments',
   storeLikes: 'likes',
-  baseUrl: 'https://api.nexthome.uz',
+  // baseUrl: 'https://api.nexthome.uz',
+  baseUrl: 'http://localhost:8080',
   urls: {
     GET_ANNONCEMENTS: '/api/announcement/',
     POST_REGISTER: '/register/',

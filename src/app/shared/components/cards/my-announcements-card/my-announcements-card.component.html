@@ -11,10 +11,21 @@
   </div>
   <div class="body flex flex-col justify-between">
     <div>
-      <div class="flex items-center gap-[18px]">
+      <div class="flex items-center gap-[18px] flex-wrap">
         <a class="text-[25px] font-600 max-w-[60%] cursor-pointer md:text-[14px]" [routerLink]="'/announcements/' + announcement?.id">
           {{ announcement?.title }}
         </a>
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="badge" [ngClass]="announcement?.status ? 'badge-live' : 'badge-off'">
+            {{ announcement?.status ? 'Aktiv' : 'O‘chirilgan' }}
+          </span>
+          <span class="badge" [ngClass]="moderationClass()">
+            {{ moderationLabel() }}
+          </span>
+        </div>
+        <p *ngIf="announcement?.moderation_status === 'rejected' && announcement?.moderation_comment" class="text-[12px] text-[color:#cf1322]">
+          Sabab: {{ announcement?.moderation_comment }}
+        </p>
         <!-- <span class="text-[18px] font-600 flex items-center"
           ><svg
             xmlns="http://www.w3.org/2000/svg"

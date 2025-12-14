@@ -18,6 +18,11 @@ import { ListCarouselComponent } from '../list-carousel/list-carousel.component'
 import { AuthService } from '@/core/services/auth/auth.service';
 import { AnnouncementsCardComponent } from "../../cards/announcements-card/announcements-card.component";
 
+type ModeratedAnnouncement = IAnnouncementInfo & {
+  moderation_status?: 'pending' | 'approved' | 'rejected';
+  moderation_comment?: string | null;
+};
+
 @Component({
   selector: 'app-view-page',
   standalone: true,
@@ -32,7 +37,7 @@ export class ViewPageComponent implements OnInit {
   activeIndex = 0;
   rec_announcements: any[] = [];
   @Input() profile: boolean = false;
-  public announcement: IAnnouncementInfo = {
+  public announcement: ModeratedAnnouncement = {
     id: 0,
     transports: [],
     images: [],
@@ -56,6 +61,8 @@ export class ViewPageComponent implements OnInit {
     area: null,
     user: 0,
     region: null,
+    moderation_status: undefined,
+    moderation_comment: undefined,
   };
   private id: string | null = '';
   images!: any[];
@@ -96,7 +103,11 @@ export class ViewPageComponent implements OnInit {
   public skeletonList = [1, 2, 3, 4, 5, 6];
 
   __GET_ANNOUNCEMENTS = (headers: any = {}) => {
-    this.requestService.getData<IAnnouncementInfo>((this.profile ? environment.authUrls.GET_MY_ANNONCEMENTS : environment.urls.GET_ANNONCEMENTS) + this.id + '/', {}, { ...headers }).subscribe((response: IAnnouncementInfo) => {
+    this.requestService.getData<ModeratedAnnouncement>(
+      (this.profile ? environment.authUrls.GET_MY_ANNONCEMENTS : environment.urls.GET_ANNONCEMENTS) + this.id + '/',
+      {},
+      { ...headers }
+    ).subscribe((response: ModeratedAnnouncement) => {
       this.announcement = response;
       this.images = response.images;
       this.loading = false;

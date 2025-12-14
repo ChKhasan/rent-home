@@ -27,3 +27,38 @@ a:hover {
     grid-gap: 12px;
   }
 }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.badge-live {
+  background: #e6f4ff;
+  color: #0958d9;
+}
+
+.badge-off {
+  background: #fff1f0;
+  color: #cf1322;
+}
+
+.badge-approved {
+  background: #f6ffed;
+  color: #237804;
+}
+
+.badge-pending {
+  background: #fff7e6;
+  color: #ad4e00;
+}
+
+.badge-rejected {
+  background: #fff1f0;
+  color: #a8071a;
+}

@@ -51,6 +51,12 @@
     <div class="absolute bottom-3 right-3 z-50 flex gap-3" *ngIf="edit">
       <p-tag *ngIf="announcement.status" severity="primary" value="Faol" [rounded]="true" />
       <p-tag *ngIf="!announcement.status" severity="danger" value="Faol emas" [rounded]="true" />
+      <p-tag
+        [severity]="moderationSeverity()"
+        [rounded]="true"
+        [value]="moderationLabel()"
+        [title]="announcement?.moderation_comment || ''"
+      />
     </div>
   </div>
   <div class="body">

@@ -130,7 +130,7 @@
                 10)*</label>
               <div class="card flex justify-content-center flex-wrap gap-4">
                 <p-fileUpload [disabled]="!status" styleClass="file-upload" list-type="picture" mode="basic"
-                  name="image" url="https://api.nexthome.uz/api/images/" (onUpload)="onUpload($event)" [auto]="true"
+                  name="image" url="http://localhost:8080/api/images/" (onUpload)="onUpload($event)" [auto]="true"
                   method="post" [multiple]="false" accept="image/*" [maxFileSize]="1000000"
                   [headers]="headers"></p-fileUpload>
                 <div class="flex flex-wrap gap-3">
