@@ -5,7 +5,7 @@ import { TagModule } from 'primeng/tag';
 import { ButtonModule } from 'primeng/button';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { PriceBlockComponent } from '@components/announcement/price-block/price-block.component';
-import { IAnnouncementInfo } from '@services/interfaces';
+import { IAnnouncementInfo, IAgencyInfo } from '@services/interfaces';
 import { SkeletonModule } from 'primeng/skeleton';
 import { StyleClassModule } from 'primeng/styleclass';
 import { environment } from '@environments';
@@ -21,6 +21,7 @@ import { AnnouncementsCardComponent } from "../../cards/announcements-card/annou
 type ModeratedAnnouncement = IAnnouncementInfo & {
   moderation_status?: 'pending' | 'approved' | 'rejected';
   moderation_comment?: string | null;
+  agency?: IAgencyInfo | null;
 };
 
 @Component({
@@ -63,6 +64,7 @@ export class ViewPageComponent implements OnInit {
     region: null,
     moderation_status: undefined,
     moderation_comment: undefined,
+    agency: null,
   };
   private id: string | null = '';
   images!: any[];

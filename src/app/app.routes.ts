@@ -14,6 +14,11 @@ import { authGuard } from './core/guards/auth.guard';
 import { LikesComponent } from './pages/likes/likes.component';
 import { ChatComponent } from './pages/chat/chat.component';
 import { ProfileAnnouncementComponent } from './pages/profile/profile-announcement/profile-announcement.component';
+import { AgencyComponent } from './pages/profile/agency/agency.component';
+import { AgencyDashboardComponent } from './pages/profile/agency/pages/dashboard/dashboard.component';
+import { AgencyAnalyticsComponent } from './pages/profile/agency/pages/analytics/analytics.component';
+import { AgencyInfoComponent } from './pages/profile/agency/pages/info/info.component';
+import { AgencyStaffComponent } from './pages/profile/agency/pages/staff/staff.component';
 
 export const routes: Routes = [
   {
@@ -43,6 +48,16 @@ export const routes: Routes = [
       { path: 'announcements-view/:id', component: ProfileAnnouncementComponent },
       { path: 'announcements', component: AnnouncementsComponent },
       { path: 'chat', component: ChatComponent },
+      {
+        path: 'agency',
+        component: AgencyComponent,
+        children: [
+          { path: '', component: AgencyDashboardComponent },
+          { path: 'staff', component: AgencyStaffComponent },
+          { path: 'info', component: AgencyInfoComponent },
+          { path: 'analytics', component: AgencyAnalyticsComponent },
+        ],
+      },
     ],
   },
 ];

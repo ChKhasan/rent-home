@@ -1,0 +1,30 @@
+.agency-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: calc(100vh - 80px);
+  background: #f4f6fb;
+}
+
+.sidebar {
+  border-right: 1px solid rgba(71, 83, 103, 0.08);
+  background: #fff;
+}
+
+.agency-content {
+  padding: 32px;
+}
+
+@media (max-width: 960px) {
+  .agency-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    border-right: none;
+    border-bottom: 1px solid rgba(71, 83, 103, 0.08);
+  }
+
+  .agency-content {
+    padding: 16px;
+  }
+}

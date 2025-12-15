@@ -1,0 +1,126 @@
+.agency-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.dashboard-header h1 {
+  margin: 4px 0;
+  font-size: 1.8rem;
+  color: #0f172a;
+}
+
+.eyebrow {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  color: #94a3b8;
+  letter-spacing: 0.08em;
+}
+
+.description {
+  color: #475569;
+  margin: 0;
+}
+
+.agency-context,
+.announcements-panel {
+  background: #fff;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+}
+
+.agency-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: flex-end;
+}
+
+.field {
+  flex: 1;
+  min-width: 220px;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.info-cards {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.info-card {
+  min-width: 160px;
+  padding: 16px;
+  border-radius: 16px;
+  background: #f8fafc;
+}
+
+.info-card.inactive {
+  background: rgba(244, 63, 94, 0.08);
+  color: #b91c1c;
+}
+
+.info-card p {
+  margin: 0;
+  color: #94a3b8;
+  font-size: 0.85rem;
+}
+
+.info-card h4 {
+  margin: 6px 0 0;
+  font-size: 1.1rem;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 32px;
+  border: 1px dashed rgba(148, 163, 184, 0.6);
+  border-radius: 16px;
+  color: #475569;
+}
+
+.skeleton-group {
+  display: flex;
+  gap: 16px;
+}
+
+@media (max-width: 800px) {
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .agency-selector {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .info-cards {
+    width: 100%;
+  }
+
+  .agency-context,
+  .announcements-panel {
+    padding: 16px;
+  }
+}

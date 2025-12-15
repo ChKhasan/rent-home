@@ -13,6 +13,10 @@
           class="btn md:px-4 rounded-xl flex md:gap-0 gap-2  items-center bg-[--green] text-white" iconPos="left">
           <span class="md:hidden">E'lon yaratish</span>
         </button>
+        <button [routerLink]="'/profile/agency'" pButton type="button" icon="pi pi-briefcase"
+          class="btn md:px-4 rounded-xl flex md:gap-0 gap-2 items-center bg-[--grey-100] text-[--green]" iconPos="left">
+          <span class="md:hidden">Agentlik kabineti</span>
+        </button>
         <button (click)="logoutDialog = true"
           class="border-solid border-[2px] border-[--error-400] rounded-xl md:px-4 text-[14px] flex items-center gap-2 bg-transparent font-semibold p-3   md:py-2 md:text-xs md:border-[1px] text-[--error-400]">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">

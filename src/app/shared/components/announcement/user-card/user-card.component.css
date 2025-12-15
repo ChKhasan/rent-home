@@ -72,3 +72,7 @@
   background-color: rgba(20, 20, 20, 0.1);
   animation: animate 10s linear infinite;
 }
+
+.agency-info {
+  background: #f8fafc;
+}

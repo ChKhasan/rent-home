@@ -13,6 +13,18 @@ export type IcommentList = paths['/api/comment/']['get']['responses']['200']['co
 export type UserImages = components['schemas']['Image'];
 export type IUserInfo = components['schemas']['UserMe'];
 export type IUserForChat = components['schemas']['UserForChat'];
+export interface IAgencyInfo {
+  id: number;
+  name: string;
+  inn?: string | null;
+  license_number?: string | null;
+  address?: string | null;
+  contact_phone?: string | null;
+  logo?: string | null;
+  is_active: boolean;
+  created?: string;
+  updated?: string;
+}
 export interface IGendersList {
   name?: string;
   description?: string | null;
@@ -86,4 +98,23 @@ export interface IMessageObj {
   messages: IMessage[];
   name: string;
   users: IUserInfo[];
+}
+
+export interface IAgencyMembership {
+  id: number;
+  role: 'owner' | 'staff';
+  is_active: boolean;
+  created?: string;
+  agency: {
+    id: number;
+    name: string;
+    inn?: string | null;
+    license_number?: string | null;
+    address?: string | null;
+    contact_phone?: string | null;
+    logo?: string | null;
+    is_active: boolean;
+    created?: string;
+    updated?: string;
+  };
 }

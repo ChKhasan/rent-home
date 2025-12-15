@@ -32,6 +32,12 @@ export class TabComponent {
       to: '/profile/chat',
       name: 'chat',
     },
+    {
+      title: 'Agentlik kabineti',
+      id: 4,
+      to: '/profile/agency',
+      name: 'agency',
+    },
   ];
   activeRouteName: string | undefined;
   constructor(

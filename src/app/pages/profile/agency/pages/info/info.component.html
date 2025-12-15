@@ -1,0 +1,46 @@
+<section class="agency-info">
+  <header class="info-header">
+    <p class="eyebrow">Agentlik ma'lumotlari</p>
+    <h1>{{ agency?.name || 'Agentlik' }}</h1>
+    <p class="description">Agentlik profili va huquqiy maʼlumotlar.</p>
+  </header>
+
+  <section class="info-content" *ngIf="!loading; else loadingState">
+    <div class="alert">
+      <p>
+        Agentlik ma'lumotlarini o‘zgartirish hozircha admin panel orqali amalga oshiriladi. Bu sahifa faqat ko‘rish uchun.
+      </p>
+    </div>
+
+    <form [formGroup]="form" class="info-form">
+      <div class="form-field">
+        <label>Nomi</label>
+        <input pInputText formControlName="name" placeholder="Agentlik nomi" />
+      </div>
+      <div class="form-field">
+        <label>INN</label>
+        <input pInputText formControlName="inn" placeholder="INN" />
+      </div>
+      <div class="form-field">
+        <label>Litsenziya raqami</label>
+        <input pInputText formControlName="license_number" placeholder="Litsenziya raqami" />
+      </div>
+      <div class="form-field">
+        <label>Manzil</label>
+        <input pInputText formControlName="address" placeholder="Manzil" />
+      </div>
+      <div class="form-field">
+        <label>Kontakt telefon</label>
+        <input pInputText formControlName="contact_phone" placeholder="+998 90 123 45 67" />
+      </div>
+    </form>
+  </section>
+
+  <ng-template #loadingState>
+    <div class="skeleton-stack">
+      <p-skeleton height="30px"></p-skeleton>
+      <p-skeleton height="30px"></p-skeleton>
+      <p-skeleton height="30px"></p-skeleton>
+    </div>
+  </ng-template>
+</section>

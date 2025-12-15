@@ -1,0 +1,95 @@
+<section class="staff-page">
+  <header>
+    <div>
+      <p class="eyebrow">Agentlik xodimlari</p>
+      <h1>Xodimlarni boshqarish</h1>
+      <p class="description">Faqat agentlik egasi xodim qoʻshishi yoki holatini o‘zgartirishi mumkin.</p>
+    </div>
+  </header>
+
+  <ng-container *ngIf="loadingMembership">
+    <div class="card">
+      <p>Maʼlumotlar yuklanmoqda...</p>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!loadingMembership && !isOwner">
+    <div class="card">
+      <p>
+        Sizda faqat ko‘rish huquqi mavjud. Agentlik egasi xodimlar bilan ishlashi mumkin.
+      </p>
+    </div>
+  </ng-container>
+
+  <section *ngIf="isOwner" class="staff-content">
+    <div class="card add-member">
+      <h3>Yangi xodim qoʻshish</h3>
+      <form [formGroup]="addForm">
+        <label>
+          <span>Telefon raqami</span>
+          <input pInputText formControlName="phone_number" placeholder="+998 90 123 45 67" />
+        </label>
+        <label>
+          <span>Rol</span>
+          <p-dropdown formControlName="role" [options]="roleOptions" optionLabel="label" optionValue="value"></p-dropdown>
+        </label>
+        <button pButton type="button" (click)="addMember()">Qo‘shish</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <div class="table-header">
+        <h3>Xodimlar roʻyxati</h3>
+        <button pButton type="button" (click)="fetchMembers()">Yangilash</button>
+      </div>
+      <div *ngIf="loadingMembers">Yuklanmoqda...</div>
+      <table *ngIf="!loadingMembers && members.length">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Foydalanuvchi</th>
+            <th>Telefon</th>
+            <th>Rol</th>
+            <th>Holat</th>
+            <th>Amallar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let member of members">
+            <td>{{ member.id }}</td>
+            <td>{{ member.user.name || member.user.first_name || '-' }}</td>
+            <td>{{ member.user.phone_number || '-' }}</td>
+            <td><p-tag [value]="member.role" [severity]="member.role === 'owner' ? 'warning' : 'info'"></p-tag></td>
+            <td>
+              <p-tag [value]="member.is_active ? 'Aktiv' : 'O‘chirilgan'" [severity]="member.is_active ? 'success' : 'danger'"></p-tag>
+            </td>
+            <td class="actions">
+              <button pButton type="button" size="small" (click)="toggleMember(member)">
+                {{ member.is_active ? 'O‘chirish' : 'Aktivlash' }}
+              </button>
+              <button pButton type="button" size="small" (click)="openPasswordModal(member)">Parol</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div *ngIf="!loadingMembers && !members.length">Xodimlar topilmadi.</div>
+    </div>
+  </section>
+
+  <div
+    class="modal"
+    *ngIf="showPasswordModal"
+  >
+    <div class="modal-content">
+      <h3>Yangi parol</h3>
+      <form [formGroup]="passwordForm">
+        <input pInputText formControlName="password" placeholder="Yangi parol (kamida 6 belgi)" />
+      </form>
+      <div class="modal-actions">
+        <button pButton type="button" (click)="showPasswordModal = false">Bekor qilish</button>
+        <button pButton type="button" (click)="changePassword()">Saqlash</button>
+      </div>
+    </div>
+  </div>
+
+</section>
