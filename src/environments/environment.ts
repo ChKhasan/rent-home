@@ -46,5 +46,6 @@ export const environment = {
     POST_AGENCY_MEMBERS: '/api/agency-members/',
     PATCH_AGENCY_MEMBERS: '/api/agency-members/',
     POST_AGENCY_MEMBERS_CHANGE_PASSWORD: '/api/agency-members/',
+    GET_AGENCY_STATS: '/api/agency-stats/',
   },
 };

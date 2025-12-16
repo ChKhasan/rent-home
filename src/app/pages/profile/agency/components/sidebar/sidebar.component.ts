@@ -19,6 +19,11 @@ interface SidebarLink {
 export class AgencySidebarComponent {
   links: SidebarLink[] = [
     {
+      label: 'Dashboard',
+      icon: 'pi pi-chart-bar',
+      routerLink: '/profile/agency/dashboard',
+    },
+    {
       label: "E'lonlar",
       icon: 'pi pi-list',
       routerLink: '/profile/agency',
@@ -29,7 +34,7 @@ export class AgencySidebarComponent {
       routerLink: '/profile/agency/staff',
     },
     {
-      label: "Agentlik ma'lumotlari",
+      label: "Agentlik malumotlari",
       icon: 'pi pi-briefcase',
       routerLink: '/profile/agency/info',
     },
@@ -37,7 +42,6 @@ export class AgencySidebarComponent {
       label: 'Statistika',
       icon: 'pi pi-chart-line',
       routerLink: '/profile/agency/analytics',
-      disabled: true,
     },
   ];
 }

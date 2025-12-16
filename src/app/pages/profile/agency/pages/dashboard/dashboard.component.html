@@ -52,44 +52,124 @@
     </div>
   </section>
 
-  <section class="announcements-panel" *ngIf="memberships.length > 0">
-    <div class="panel-header">
-      <div>
-        <h2>E'lonlar ro'yxati</h2>
-        <p class="description">Filtr va qidiruv imkoniyatlari tez orada qo‘shiladi.</p>
+  <section class="stats-panel" *ngIf="memberships.length > 0">
+    <ng-container *ngIf="statsLoading">
+      <div class="skeleton-group mt-2">
+        <p-skeleton height="140px" width="100%"></p-skeleton>
       </div>
-    </div>
+    </ng-container>
 
-    <ng-container *ngIf="announcementsLoading">
-      <div class="grid md:grid-cols-1 grid-cols-2 gap-4">
-        <div *ngFor="let item of skeletonList" class="rounded-xl border border-dashed border-[--grey-200] p-4">
-          <p-skeleton width="100%" height="12rem"></p-skeleton>
-          <p-skeleton width="80%" class="mt-4"></p-skeleton>
-          <p-skeleton width="50%" class="mt-2"></p-skeleton>
+    <ng-container *ngIf="!statsLoading && stats as data; else statsFallback">
+      <div class="stats-header">
+        <div>
+          <p class="eyebrow">Statistika</p>
+          <h2>{{ data.range_label }}</h2>
+          <p class="description">Tanlangan davr uchun ko‘rish va ko‘rsatishlar</p>
+        </div>
+        <div class="range-buttons">
+          <button
+            *ngFor="let key of summaryOrder"
+            pButton
+            type="button"
+            [label]="getRangeLabel(key)"
+            [class.active]="key === activeRange"
+            (click)="selectRange(key)"
+          ></button>
         </div>
       </div>
-    </ng-container>
 
-    <ng-container *ngIf="!announcementsLoading && announcements.length === 0">
-      <div class="empty-state">
-        <h3>E'lonlar mavjud emas</h3>
-        <p>Tanlangan agentlik uchun e’lon topilmadi. Yangi e’lon qo‘shing yoki keyinroq qaytib keling.</p>
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <p>Tanlangan davr</p>
+          <h3>{{ data.range_views || 0 }}</h3>
+          <span>ko‘rishlar</span>
+        </div>
+        <div class="metric-card">
+          <p>Filtr ko‘rsatishlari</p>
+          <h3>{{ data.range_exposures?.filter || 0 }}</h3>
+          <span>Natijalar ro‘yxati</span>
+        </div>
+        <div class="metric-card">
+          <p>Tavsiyalar</p>
+          <h3>{{ data.range_exposures?.recommendation || 0 }}</h3>
+          <span>Rekomendatsiya bloklari</span>
+        </div>
+        <div class="metric-card">
+          <p>Jami ko‘rsatishlar</p>
+          <h3>{{ data.range_exposures?.total || 0 }}</h3>
+          <span>Filtr + tavsiya</span>
+        </div>
+      </div>
+
+      <div class="charts-grid">
+        <div class="chart-card">
+          <div class="card-header">
+            <div>
+              <h3>Ko‘rishlar dinamikasi</h3>
+              <p class="description">Bugungi, 7 va 30 kunlik taqqoslash</p>
+            </div>
+          </div>
+          <div class="chart-wrapper" *ngIf="viewsChartData; else noViews">
+            <p-chart type="bar" [data]="viewsChartData" [options]="viewsChartOptions"></p-chart>
+          </div>
+          <ng-template #noViews>
+            <div class="empty-state">
+              <p>Ko‘rishlar topilmadi.</p>
+            </div>
+          </ng-template>
+        </div>
+        <div class="chart-card">
+          <div class="card-header">
+            <div>
+              <h3>Ko‘rsatishlar manbasi</h3>
+              <p class="description">Filtr va tavsiya ulushi</p>
+            </div>
+          </div>
+          <div class="chart-wrapper" *ngIf="exposureChartData; else noExposures">
+            <p-chart type="doughnut" [data]="exposureChartData" [options]="exposureChartOptions"></p-chart>
+          </div>
+          <ng-template #noExposures>
+            <div class="empty-state">
+              <p>Ko‘rsatishlar mavjud emas.</p>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+
+      <div class="top-card">
+        <div class="card-header">
+          <div>
+            <h3>Eng aktiv e'lonlar</h3>
+            <p class="description">Top 5 e’lon bo‘yicha ko‘rish va ko‘rsatishlar</p>
+          </div>
+        </div>
+        <div class="chart-wrapper" *ngIf="topAnnouncementsChartData; else noTop">
+          <p-chart type="bar" [data]="topAnnouncementsChartData" [options]="topAnnouncementsChartOptions"></p-chart>
+        </div>
+        <ng-template #noTop>
+          <div class="empty-state">
+            <p>Hozircha e’lonlar bo‘yicha statistika mavjud emas.</p>
+          </div>
+        </ng-template>
+        <ul class="top-list" *ngIf="topAnnouncementsList.length">
+          <li *ngFor="let item of topAnnouncementsList; index as idx">
+            <span>{{ idx + 1 }}.</span>
+            <div>
+              <strong>{{ item.title }}</strong>
+              <small>{{ item.views }} ko‘rish • {{ item.filter_exposures || 0 }} filtr • {{
+                item.recommendation_exposures || 0
+              }} tavsiya</small>
+            </div>
+          </li>
+        </ul>
       </div>
     </ng-container>
 
-    <div class="grid md:grid-cols-1 grid-cols-2 gap-4" *ngIf="!announcementsLoading && announcements.length">
-      <app-my-announcements-card
-        *ngFor="let announcement of announcements"
-        [announcement]="announcement"
-        [profile]="true"
-      ></app-my-announcements-card>
-    </div>
-
-    <app-pagination
-      class="mt-6"
-      *ngIf="totalPage > queryService.defaultQuery.page_size"
-      [totalPage]="totalPage"
-      [getData]="fetchAnnouncements"
-    ></app-pagination>
+    <ng-template #statsFallback>
+      <div class="empty-state">
+        <p>{{ statsError || 'Statistikani ko‘rish uchun agentlikka ulanishingiz kerak.' }}</p>
+      </div>
+    </ng-template>
   </section>
+
 </section>

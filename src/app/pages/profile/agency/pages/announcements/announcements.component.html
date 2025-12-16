@@ -1,0 +1,95 @@
+<section class="agency-dashboard">
+  <header class="dashboard-header">
+    <div>
+      <p class="eyebrow">Agentlik paneli</p>
+      <h1>E'lonlarni boshqarish</h1>
+      <p class="description">
+        Agentligingizdagi barcha xodimlar tomonidan yaratilgan e’lonlarni ko‘rish va nazorat qilish.
+      </p>
+    </div>
+    <button
+      pButton
+      type="button"
+      [routerLink]="'/profile/create'"
+      class="btn rounded-xl bg-[--green] text-white px-6 py-3 text-sm font-semibold"
+    >
+      Yangi e'lon qo'shish
+    </button>
+  </header>
+
+  <section class="agency-context">
+    <ng-container *ngIf="membershipsLoading">
+      <div class="skeleton-group">
+        <p-skeleton height="48px"></p-skeleton>
+        <p-skeleton height="38px"></p-skeleton>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="!membershipsLoading && memberships.length === 0">
+      <div class="empty-state">
+        <h3>Agentlik topilmadi</h3>
+        <p>
+          Siz hali hech qanday agentlikka ulanmagansiz. Administrator sizni agentlikka qo‘shgandan so‘ng bu sahifa faollashadi.
+        </p>
+      </div>
+    </ng-container>
+
+    <div class="agency-selector" *ngIf="!membershipsLoading && memberships.length > 0">
+      <div class="info-cards">
+        <div class="info-card">
+          <p>Agentlik</p>
+          <h4>{{ activeMembership?.agency?.name }}</h4>
+        </div>
+        <div class="info-card">
+          <p>Rol</p>
+          <h4>{{ activeMembership?.role === 'owner' ? 'Owner' : 'Staff' }}</h4>
+        </div>
+        <div class="info-card" [ngClass]="{ inactive: !activeMembership?.agency?.is_active }">
+          <p>Holat</p>
+          <h4>{{ activeMembership?.agency?.is_active ? 'Aktiv' : 'O‘chirilgan' }}</h4>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="announcements-panel" *ngIf="memberships.length > 0">
+    <div class="panel-header">
+      <div>
+        <h2>E'lonlar ro'yxati</h2>
+        <p class="description">Filtr va qidiruv imkoniyatlari tez orada qo‘shiladi.</p>
+      </div>
+    </div>
+
+    <ng-container *ngIf="announcementsLoading">
+      <div class="grid md:grid-cols-1 grid-cols-2 gap-4">
+        <div *ngFor="let item of skeletonList" class="rounded-xl border border-dashed border-[--grey-200] p-4">
+          <p-skeleton width="100%" height="12rem"></p-skeleton>
+          <p-skeleton width="80%" class="mt-4"></p-skeleton>
+          <p-skeleton width="50%" class="mt-2"></p-skeleton>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="!announcementsLoading && announcements.length === 0">
+      <div class="empty-state">
+        <h3>E'lonlar mavjud emas</h3>
+        <p>Tanlangan agentlik uchun e’lon topilmadi. Yangi e’lon qo‘shing yoki keyinroq qaytib keling.</p>
+      </div>
+    </ng-container>
+
+    <div class="grid md:grid-cols-1 grid-cols-2 gap-4" *ngIf="!announcementsLoading && announcements.length">
+      <app-my-announcements-card
+        *ngFor="let announcement of announcements"
+        [announcement]="announcement"
+        [profile]="true"
+      ></app-my-announcements-card>
+    </div>
+
+    <app-pagination
+      class="mt-6"
+      *ngIf="totalPage > queryService.defaultQuery.page_size"
+      [totalPage]="totalPage"
+      [getData]="fetchAnnouncements"
+    ></app-pagination>
+  </section>
+</section>

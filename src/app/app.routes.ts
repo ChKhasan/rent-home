@@ -16,6 +16,7 @@ import { ChatComponent } from './pages/chat/chat.component';
 import { ProfileAnnouncementComponent } from './pages/profile/profile-announcement/profile-announcement.component';
 import { AgencyComponent } from './pages/profile/agency/agency.component';
 import { AgencyDashboardComponent } from './pages/profile/agency/pages/dashboard/dashboard.component';
+import { AgencyAnnouncementsComponent } from './pages/profile/agency/pages/announcements/announcements.component';
 import { AgencyAnalyticsComponent } from './pages/profile/agency/pages/analytics/analytics.component';
 import { AgencyInfoComponent } from './pages/profile/agency/pages/info/info.component';
 import { AgencyStaffComponent } from './pages/profile/agency/pages/staff/staff.component';
@@ -52,7 +53,8 @@ export const routes: Routes = [
         path: 'agency',
         component: AgencyComponent,
         children: [
-          { path: '', component: AgencyDashboardComponent },
+          { path: '', component: AgencyAnnouncementsComponent },
+          { path: 'dashboard', component: AgencyDashboardComponent },
           { path: 'staff', component: AgencyStaffComponent },
           { path: 'info', component: AgencyInfoComponent },
           { path: 'analytics', component: AgencyAnalyticsComponent },

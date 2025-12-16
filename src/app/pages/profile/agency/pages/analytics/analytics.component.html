@@ -1,7 +1,117 @@
-<section class="agency-analytics">
-  <div class="coming-soon">
-    <h1>Statistika tez orada</h1>
-    <p>Agentlik e’lonlari bo‘yicha batafsil tahliliy ma’lumotlar ustida ishlayapmiz.</p>
-    <p class="hint">Hozircha barcha boshqaruv funksiyalari “E'lonlar” bo‘limida mavjud.</p>
+<section class="agency-analytics" *ngIf="!loading; else loadingState">
+  <ng-container *ngIf="stats as data; else noDataState">
+    <header>
+    <div>
+      <p class="eyebrow">Agentlik statistikasi</p>
+      <h1>{{ data.range_label || 'Statistika' }}</h1>
+      <p class="description">Bugungi, oxirgi 7 va 30 kunlik ko‘rishlar bilan tanishing.</p>
+    </div>
+    <div class="range-buttons">
+        <button
+          *ngFor="let range of ranges"
+          pButton
+          type="button"
+          [label]="range.label"
+          [class.active]="range.key === activeRange"
+          (click)="selectRange(range.key)"
+        ></button>
+    </div>
+    </header>
+
+    <div class="summary-grid">
+      <div class="summary-card" *ngFor="let key of summaryOrder">
+        <p class="label">
+          {{ key === 'today' ? 'Bugungi' : key === 'week' ? 'Oxirgi 7 kun' : 'Oxirgi 30 kun' }}
+        </p>
+        <h2>{{ data.summary[key] || 0 }}</h2>
+        <span>ko‘rishlar</span>
+      </div>
+    </div>
+
+    <div class="summary-grid exposure-summary">
+      <div class="summary-card" *ngFor="let key of summaryOrder">
+        <p class="label">
+          {{ key === 'today' ? 'Bugungi' : key === 'week' ? 'Oxirgi 7 kun' : 'Oxirgi 30 kun' }} — ko‘rsatishlar
+        </p>
+        <div class="exposure-breakdown">
+          <div>
+            <span>Filtr</span>
+            <strong>{{ getExposureSummary(key, 'filter') }}</strong>
+          </div>
+          <div>
+            <span>Tavsiyalar</span>
+            <strong>{{ getExposureSummary(key, 'recommendation') }}</strong>
+          </div>
+        </div>
+        <small>Jami: {{ getExposureSummary(key, 'total') }}</small>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h3>Tanlangan davrda ko‘rsatishlar</h3>
+          <p class="description">Filtr natijalari va tavsiya bloklarida nechta marta chiqdi.</p>
+        </div>
+        <span class="total">Jami: {{ getRangeExposure('total') }} ta ko‘rsatish</span>
+      </div>
+      <div class="range-exposures">
+        <div class="metric">
+          <p>Filtr natijalari</p>
+          <h3>{{ getRangeExposure('filter') }}</h3>
+        </div>
+        <div class="metric">
+          <p>Tavsiyalar</p>
+          <h3>{{ getRangeExposure('recommendation') }}</h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+    <div class="card-header">
+      <div>
+        <h3>E'lonlar bo‘yicha ko‘rishlar</h3>
+        <p class="description">Tanlangan davr uchun barcha e’lonlar reytingi.</p>
+      </div>
+      <span class="total">Jami: {{ data.range_views || 0 }} ta ko‘rish</span>
+    </div>
+    <div *ngIf="!data.announcements?.length" class="empty-state">
+      <p>Tanlangan davrda ko‘rishlar topilmadi.</p>
+    </div>
+    <table *ngIf="data.announcements?.length">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>E'lon nomi</th>
+          <th>Ko‘rishlar</th>
+          <th>Filtrda ko‘rsatishlar</th>
+          <th>Tavsiyalarda ko‘rsatishlar</th>
+          <th>Oxirgi ko‘rish</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let announcement of data.announcements; index as idx">
+          <td>{{ idx + 1 }}</td>
+          <td>{{ announcement.title }}</td>
+          <td>{{ announcement.views }}</td>
+          <td>{{ announcement.filter_exposures || 0 }}</td>
+          <td>{{ announcement.recommendation_exposures || 0 }}</td>
+          <td>{{ formatDate(announcement.last_view || '') }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
+  </ng-container>
+  <ng-template #noDataState>
+    <div class="empty-state">
+      <p>{{ errorMessage || 'Statistikani ko‘rish uchun agentlikka ulanishingiz kerak.' }}</p>
+    </div>
+  </ng-template>
 </section>
+
+<ng-template #loadingState>
+  <section class="agency-analytics">
+    <p-skeleton height="2rem" width="40%"></p-skeleton>
+    <p-skeleton height="8rem" class="mt-4"></p-skeleton>
+  </section>
+</ng-template>

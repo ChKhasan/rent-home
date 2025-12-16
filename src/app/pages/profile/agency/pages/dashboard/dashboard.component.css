@@ -30,7 +30,8 @@
 }
 
 .agency-context,
-.announcements-panel {
+.announcements-panel,
+.stats-panel {
   background: #fff;
   border-radius: 20px;
   padding: 24px;
@@ -91,6 +92,115 @@
   margin-bottom: 24px;
 }
 
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.stats-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.range-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.range-buttons button.active {
+  background: var(--green);
+  color: #fff;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.metric-card {
+  padding: 16px;
+  border-radius: 16px;
+  background: #f8fafc;
+}
+
+.metric-card p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.metric-card h3 {
+  margin: 6px 0 4px;
+  font-size: 1.6rem;
+  color: #0f172a;
+}
+
+.metric-card span {
+  color: #475569;
+  font-size: 0.85rem;
+}
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.chart-card,
+.top-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.chart-wrapper {
+  height: 260px;
+  margin-top: 12px;
+}
+
+.top-card .chart-wrapper {
+  height: 320px;
+}
+
+.top-list {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.top-list li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.top-list span {
+  font-weight: 600;
+  color: #94a3b8;
+}
+
+.top-list strong {
+  display: block;
+  color: #0f172a;
+}
+
+.top-list small {
+  color: #475569;
+}
+
 .empty-state {
   text-align: center;
   padding: 32px;
@@ -120,7 +230,13 @@
   }
 
   .agency-context,
-  .announcements-panel {
+  .announcements-panel,
+  .stats-panel {
     padding: 16px;
+  }
+
+  .chart-wrapper,
+  .top-card .chart-wrapper {
+    height: 220px;
   }
 }
