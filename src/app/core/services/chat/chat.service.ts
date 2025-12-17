@@ -35,7 +35,7 @@ export class ChatService {
     if (this.socket$) this.socket$.complete(); // Close the connection
   }
   webSocketConnection = () => {
-    this.connect(`wss://api.nexthome.uz/ws/chat/`);
+    this.connect(`${environment.wsBaseUrl}/ws/chat/`);
   };
 
   __GET_USER_ROOMS() {
