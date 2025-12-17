@@ -22,6 +22,8 @@ import { LikesComponent } from "../../likes/likes.component";
 import { AnnouncementsComponent } from "../announcements/announcements.component";
 import { RouterLink } from '@angular/router';
 import { DialogModule } from 'primeng/dialog';
+import { AgencyAccessService } from '@services/agency-access';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile',
@@ -39,6 +41,7 @@ export class ProfileComponent implements OnInit {
   public tab: string = 'announcements';
   public isEdit: boolean = false;
   public logoutDialog: boolean = false
+  public hasAgencyAccess = false;
   public ruleForm = new FormGroup({
     name: nameControl,
     first_name: firstControl,
@@ -58,16 +61,19 @@ export class ProfileComponent implements OnInit {
     { label: 'Mening E`lonlarim', value: 'announcements', icon: 'pi pi-home' },
     { label: 'Saqlangan E`lonlar', value: 'likes', icon: 'pi pi-heart' },
   ];
+  public imageUploadUrl = `${environment.baseUrl}/api/images/`;
   constructor(
     public authService: AuthService,
     private toastService: ToastService,
     private requestService: RequestService,
+    private agencyAccessService: AgencyAccessService,
   ) {}
 
   ngOnInit() {
     if (typeof window !== 'undefined') {
       this.fileUploaderHeaders();
       this.__GET_USER();
+      this.checkAgencyAccess();
     }
   }
 
@@ -143,5 +149,11 @@ export class ProfileComponent implements OnInit {
   logout() {
     this.authService.logout();
     this.authService.user = {}
+  }
+
+  private checkAgencyAccess() {
+    this.agencyAccessService.hasMembership().pipe(take(1)).subscribe((flag) => {
+      this.hasAgencyAccess = flag;
+    });
   }
 }

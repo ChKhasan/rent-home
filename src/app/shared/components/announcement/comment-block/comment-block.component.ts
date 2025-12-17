@@ -48,7 +48,7 @@ export class CommentBlockComponent implements OnInit, OnDestroy {
   webSocketConnection = () => {
     this.id = this.route.snapshot.paramMap.get('id');
     this.url = `/announcement/${this.id}/`;
-    this.webSocketService.connect(`ws://localhost:8080/ws/announcement/${this.id}/`);
+    this.webSocketService.connect(`${environment.wsBaseUrl}/ws/announcement/${this.id}/`);
     this.webSocketService.onMessage().subscribe((message) => {
       this.loading = false;
       if (message.message && message.message !== '401') {

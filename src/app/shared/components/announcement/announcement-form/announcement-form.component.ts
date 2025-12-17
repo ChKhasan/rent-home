@@ -54,6 +54,7 @@ export class AnnouncementFormComponent implements OnInit {
   @ViewChild(MapDialogComponent) mapDialogComponent!: MapDialogComponent;
   @Input() isEdit: boolean = false;
   public announcement!: any;
+  imageUploadUrl = `${environment.baseUrl}/api/images/`;
   constructor(public _formControl: FormService, private messageService: MessageService, private route: ActivatedRoute, private requestService: RequestService, private router: Router, public dictionaryService: DictionaryService) {
     this.ruleForm = _formControl.ruleForm;
     this.id = this.route.snapshot.paramMap.get('id');
@@ -164,7 +165,7 @@ export class AnnouncementFormComponent implements OnInit {
     });
   }
   removeImage(id: number) {
-    this.requestService.requestData(`http://localhost:8080/api/images/${id}/`, 'DELETE').subscribe(() => {
+    this.requestService.requestData(`${environment.baseUrl}/api/images/${id}/`, 'DELETE').subscribe(() => {
       this.uploadedFiles = this.uploadedFiles.filter((elem) => elem.id !== id);
     });
   }

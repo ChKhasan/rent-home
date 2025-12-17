@@ -1,12 +1,12 @@
 export const environment = {
-  production: false,
+  production: true,
   CI: false,
   accessToken: 'access_token',
   refreshToken: 'refresh_token',
   pendingComments: 'pending_comments',
   storeLikes: 'likes',
-  // baseUrl: 'https://api.nexthome.uz',
-  baseUrl: 'http://localhost:8080',
+  baseUrl: 'https://api.nexthome.uz',
+  wsBaseUrl: 'wss://api.nexthome.uz',
   urls: {
     GET_ANNONCEMENTS: '/api/announcement/',
     POST_REGISTER: '/register/',
@@ -21,7 +21,7 @@ export const environment = {
     GET_REGIONS: '/api/regions/',
     GET_MIN_MAX_PRICE: '/api/max-and-min-price/announcement',
     GET_HOME_RECOMMENDATIONS: '/api/home/recommendations/',
-    GET_RECOMMENDATION_VIEW: '/api/recommendations/last-viewed-similar/'
+    GET_RECOMMENDATION_VIEW: '/api/recommendations/last-viewed-similar/',
   },
   authUrls: {
     POST_ANNONCEMENTS: '/api/announcement/',

@@ -34,6 +34,7 @@
       "@services/chat": ["app/core/services/chat/chat.service"],
       "@services/auth": ["app/core/services/auth/auth.service"],
       "@services/crypto": ["app/core/services/crypto/crypto.service"],
+      "@services/agency-access": ["app/core/services/agency-access.service"],
       "@services/interfaces": ["app/core/interfaces/common.interface"],
       "@services/webSocket": ["app/core/services/webSocket/web-socket.service"]
     },

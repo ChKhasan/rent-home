@@ -20,6 +20,7 @@ import { AgencyAnnouncementsComponent } from './pages/profile/agency/pages/annou
 import { AgencyAnalyticsComponent } from './pages/profile/agency/pages/analytics/analytics.component';
 import { AgencyInfoComponent } from './pages/profile/agency/pages/info/info.component';
 import { AgencyStaffComponent } from './pages/profile/agency/pages/staff/staff.component';
+import { agencyGuard } from './core/guards/agency.guard';
 
 export const routes: Routes = [
   {
@@ -52,6 +53,7 @@ export const routes: Routes = [
       {
         path: 'agency',
         component: AgencyComponent,
+        canActivate: [agencyGuard],
         children: [
           { path: '', component: AgencyAnnouncementsComponent },
           { path: 'dashboard', component: AgencyDashboardComponent },

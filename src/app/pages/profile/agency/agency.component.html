@@ -1,6 +1,15 @@
-<div class="agency-layout">
+<div *ngIf="hasMembership; else noAgency" class="agency-layout">
   <app-agency-sidebar class="sidebar"></app-agency-sidebar>
   <main class="agency-content">
     <router-outlet></router-outlet>
   </main>
 </div>
+
+<ng-template #noAgency>
+  <div class="agency-layout">
+    <main class="agency-content no-access">
+      <h2>Agentlik kabineti yopiq</h2>
+      <p>Bu bo‘lim faqat agentlik a’zolari uchun. Administrator sizni agentlikka qo‘shgandan so‘ng bu yerga kira olasiz.</p>
+    </main>
+  </div>
+</ng-template>
