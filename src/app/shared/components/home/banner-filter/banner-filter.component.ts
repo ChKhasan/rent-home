@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SelectButtonModule } from 'primeng/selectbutton';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
@@ -10,7 +10,7 @@ import { DictionaryService } from './../../../../core/services/dictionary/dictio
   standalone: true,
   templateUrl: './banner-filter.component.html',
   styleUrl: './banner-filter.component.css',
-  imports: [ReactiveFormsModule, SelectButtonModule, DropdownModule, FormsModule, ButtonModule],
+  imports: [SelectButtonModule, DropdownModule, FormsModule, ButtonModule],
 })
 export class BannerFilterComponent implements OnInit {
   public regions: Array<any> = [];
@@ -30,8 +30,6 @@ export class BannerFilterComponent implements OnInit {
 
   selectedCity: any | undefined;
 
-  formGroup!: FormGroup;
-
   stateOptions: any[] = [
     { label: 'Yakka', value: false, icon: 'pi pi-user' },
     { label: 'Sheriklik', value: true, icon: 'pi pi-users' },
@@ -40,9 +38,6 @@ export class BannerFilterComponent implements OnInit {
     this.regions = this.dictionaryService.regions;
   }
   ngOnInit() {
-    this.formGroup = new FormGroup({
-      value: new FormControl('on'),
-    });
     this.cities = [
       { name: 'New York', code: 'NY' },
       { name: 'Rome', code: 'RM' },
