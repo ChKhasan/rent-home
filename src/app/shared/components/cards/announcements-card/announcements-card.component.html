@@ -60,6 +60,9 @@
     </div>
   </div>
   <div class="body">
+    <div class="flex justify-between items-center mb-3">
+      <p-tag [value]="dealTypeLabel()" [severity]="dealTypeSeverity()" [rounded]="true"></p-tag>
+    </div>
     <span class="location flex gap-[12px] items-center md:gap-1 md:items-center">
       <p class="flex gap-[12px] text-base text-[--grey-600] md:text-sm">
         {{ announcement?.address }}

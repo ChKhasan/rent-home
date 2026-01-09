@@ -27,6 +27,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { DictionaryService } from '@/core/services/dictionary/dictionary.service';
 import { ValidationErrorAnimation } from '@/core/common/animations';
 import { currenyTypes } from '@/core/constants/currency';
+import { DEFAULT_DEAL_TYPE, DEAL_TYPE_OPTIONS, DealType } from '@/core/constants/deal-type';
 
 @Component({
   selector: 'app-announcement-form',
@@ -45,6 +46,8 @@ export class AnnouncementFormComponent implements OnInit {
   uploadedFiles: any[] = [];
   value1: any;
   public currenyTypes = currenyTypes;
+  public dealTypeOptions = DEAL_TYPE_OPTIONS;
+  public selectedDealType: DealType = DEFAULT_DEAL_TYPE;
   private readonly id: number | string | null;
   formState = {
     transports: [],
@@ -98,7 +101,9 @@ export class AnnouncementFormComponent implements OnInit {
       area: null,
       floor: null,
       lessee_types: [],
+      deal_type: DEFAULT_DEAL_TYPE,
     });
+    this.selectedDealType = DEFAULT_DEAL_TYPE;
     this.__GET_GENDERS();
     this.fileUploaderHeaders();
     if (this.isEdit) {
@@ -130,7 +135,9 @@ export class AnnouncementFormComponent implements OnInit {
           area: response.area,
           floor: response.floor,
           district: response.district,
+          deal_type: response.deal_type || DEFAULT_DEAL_TYPE,
         });
+        this.selectedDealType = this.ruleForm.get('deal_type')?.value || DEFAULT_DEAL_TYPE;
         if (!this.status) this.ruleForm.disable();
       });
     }
@@ -188,6 +195,11 @@ export class AnnouncementFormComponent implements OnInit {
   };
   onRegionChange(region: any): void {
     this.dictionaryService.__GET_DISTRICTS({ parent: region });
+  }
+
+  onDealTypeChange(type: DealType) {
+    this.selectedDealType = type;
+    this.ruleForm.patchValue({ deal_type: type });
   }
 
   statusChange(event: any) {

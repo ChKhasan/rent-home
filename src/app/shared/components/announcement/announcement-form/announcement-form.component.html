@@ -35,6 +35,20 @@
                   *ngIf="ruleForm.controls.title.errors && ruleForm.controls.title.errors['minlength']"></app-invaid-text>
               </div>
             </div>
+            <div class="flex flex-col gap-2">
+              <label class="font-medium text-[14px] text-[--grey-900]">Kelishuv turi*</label>
+              <div class="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  class="deal-type-option"
+                  *ngFor="let option of dealTypeOptions"
+                  [ngClass]="{'deal-type-option--active': selectedDealType === option.value}"
+                  (click)="onDealTypeChange(option.value)"
+                >
+                  {{ option.label }}
+                </button>
+              </div>
+            </div>
             <div class="flex flex-col gap-1 relative">
               <label class="font-medium text-[--grey-900] text-[14px]" for="name">Viloyat</label>
               <div class="relative w-full flex items-center form-input">

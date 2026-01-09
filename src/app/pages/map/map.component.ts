@@ -1,11 +1,11 @@
-import { AfterViewInit, Component, OnInit, QueryList, ViewChildren, HostListener } from '@angular/core';
+import { AfterViewInit, Component, OnInit, QueryList, ViewChildren, OnDestroy } from '@angular/core';
 import { NgClass, NgForOf, NgIf } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { FilterComponent } from '@components/announcement/filter/filter.component';
 import { AngularYandexMapsModule } from 'angular8-yandex-maps';
 import { AnouncementMapCardComponent } from '@components/announcement/anouncement-map-card/anouncement-map-card.component';
 import { QueryService } from '@services/query';
-import { finalize } from 'rxjs';
+import { finalize, Subscription } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { StyleClassModule } from 'primeng/styleclass';
 import { SubwayIconComponent } from '@/shared/icons/subway-icon/subway-icon.component';
@@ -27,14 +27,17 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { Location } from '@angular/common';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { DealTypeService } from '@/core/services/deal-type/deal-type.service';
+import { DealType, DEFAULT_DEAL_TYPE, isDealType } from '@/core/constants/deal-type';
+import { DealTypeSwitcherComponent } from '@components/deal-type-switcher/deal-type-switcher.component';
 @Component({
   selector: 'app-map',
   standalone: true,
-  imports: [NgClass, MultiSelectModule, ProgressSpinnerModule, RouterLink, OverlayPanelModule, DialogModule, FormsModule, SelectButtonModule, AngularYandexMapsModule, AnouncementMapCardComponent, NgIf, NgForOf, ButtonModule, StyleClassModule, SubwayIconComponent, BusIconComponent, MiniBusIconComponent, BadgeModule, BottomSheetComponent, AnnouncementsCardComponent],
+  imports: [NgClass, MultiSelectModule, ProgressSpinnerModule, RouterLink, OverlayPanelModule, DialogModule, FormsModule, SelectButtonModule, AngularYandexMapsModule, AnouncementMapCardComponent, NgIf, NgForOf, ButtonModule, StyleClassModule, SubwayIconComponent, BusIconComponent, MiniBusIconComponent, BadgeModule, BottomSheetComponent, AnnouncementsCardComponent, DealTypeSwitcherComponent],
   templateUrl: './map.component.html',
   styleUrl: './map.component.css',
 })
-export class MapComponent implements OnInit, AfterViewInit {
+export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   // @ViewChild(BottomSheetComponent) bottomSheetComponent!: BottomSheetComponent
   @ViewChildren(BottomSheetComponent)
   bottomSheetComponents!: QueryList<BottomSheetComponent>;
@@ -79,16 +82,26 @@ export class MapComponent implements OnInit, AfterViewInit {
   public announcements: any = [];
   public currentAnnouce: any = {};
   public zoom: any = 10;
+  public currentDealType: DealType = DEFAULT_DEAL_TYPE;
+  private dealTypeSubscription?: Subscription;
 
-  constructor(public router: Router, private queryService: QueryService, private cryptoService: CryptoService, private requestService: RequestService, private _httpRequest: HttpClient, public location: Location) {}
+  constructor(public router: Router, private queryService: QueryService, private cryptoService: CryptoService, private requestService: RequestService, private _httpRequest: HttpClient, public location: Location, private dealTypeService: DealTypeService) {}
 
   ngOnInit() {
     this.__GET_TRANSPORTS();
-    this.__GET_ANNOUNCEMENTS();
     if (typeof window !== 'undefined') {
+      this.applyDealTypeFromQuery();
       this.activeTransports();
       // this.__POST_TRANSPORTS()
     }
+    this.dealTypeSubscription = this.dealTypeService.dealType$.subscribe((type) => {
+      this.currentDealType = type;
+      this.syncDealTypeQuery(type);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.dealTypeSubscription?.unsubscribe();
   }
 
   filterSend = (e: any) => {
@@ -306,8 +319,8 @@ export class MapComponent implements OnInit, AfterViewInit {
       });
   };
   __GET_ANNOUNCEMENTS = () => {
-    // if (Object.keys(this.queryService.generatorHttpParams(this.queryService.activeQueryList())).length > 0) {
-    this.requestService.getData<IAnnouncementList>(environment.urls.GET_ANNONCEMENTS, this.queryService.generatorHttpParams(this.queryService.activeQueryList())).subscribe((response: IAnnouncementList) => {
+    const params = { ...this.queryService.activeQueryList(), deal_type: this.currentDealType };
+    this.requestService.getData<IAnnouncementList>(environment.urls.GET_ANNONCEMENTS, this.queryService.generatorHttpParams(params)).subscribe((response: IAnnouncementList) => {
       if (typeof this.queryService.activeQueryList()['transports'] === 'string') {
         this.routeTransports = [this.queryService.activeQueryList()['transports']];
       } else {
@@ -323,8 +336,31 @@ export class MapComponent implements OnInit, AfterViewInit {
         });
       if (this.announcements.length > 0) this.mapCenter = [this.announcements[0].location_x, this.announcements[0].location_y];
     });
-    // }
   };
+
+  private applyDealTypeFromQuery() {
+    const urlDealType = this.readDealTypeFromQuery();
+    if (urlDealType) {
+      this.currentDealType = urlDealType;
+      this.dealTypeService.setDealType(urlDealType);
+    }
+  }
+
+  private readDealTypeFromQuery(): DealType | null {
+    const value = this.queryService.activeQueryList()['deal_type'];
+    const normalized = Array.isArray(value) ? value[0] : value;
+    return isDealType(normalized) ? normalized : null;
+  }
+
+  private syncDealTypeQuery(type: DealType) {
+    const currentQueryType = this.readDealTypeFromQuery() ?? DEFAULT_DEAL_TYPE;
+    if (currentQueryType === type) {
+      this.__GET_ANNOUNCEMENTS();
+      return;
+    }
+    const payload = type === DEFAULT_DEAL_TYPE ? { deal_type: null } : { deal_type: type };
+    this.queryService.updateCustomQuery(payload, this.__GET_ANNOUNCEMENTS);
+  }
 
   __GET_TRANSPORTS() {
     this.requestService.getData<any>(environment.urls.GET_TRANSPORTS).subscribe((response: any) => {

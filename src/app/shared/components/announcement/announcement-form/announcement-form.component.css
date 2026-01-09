@@ -55,3 +55,20 @@ textarea:focus {
 .map-btn:hover {
   background-color: #a7c9fb;
 }
+
+.deal-type-option {
+  border: 1px solid var(--grey-300);
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-weight: 600;
+  background-color: transparent;
+  color: var(--grey-600);
+  transition: all 0.2s ease;
+}
+
+.deal-type-option--active {
+  background-color: var(--green);
+  color: #fff;
+  border-color: var(--green);
+  box-shadow: 0 8px 20px rgba(64, 184, 105, 0.2);
+}

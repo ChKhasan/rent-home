@@ -116,4 +116,12 @@ export class AnnouncementsCardComponent implements OnInit {
     if (status === 'rejected') return 'danger';
     return 'warning';
   }
+
+  dealTypeLabel(): string {
+    return this.announcement?.deal_type === 'SALE' ? 'Sotuv' : 'Ijara';
+  }
+
+  dealTypeSeverity(): 'success' | 'warning' {
+    return this.announcement?.deal_type === 'SALE' ? 'warning' : 'success';
+  }
 }

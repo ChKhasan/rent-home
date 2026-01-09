@@ -67,7 +67,11 @@ export class QueryService {
   generatorCustomQuery(e: any) {
     let query = { ...this.activeQueryList() };
     Object.entries(e).forEach(([name, value]) => {
-      query[name] = value;
+      if (value === null || value === undefined) {
+        delete query[name];
+      } else {
+        query[name] = value;
+      }
     });
     return query;
   }

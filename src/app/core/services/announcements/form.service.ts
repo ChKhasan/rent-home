@@ -7,6 +7,7 @@ import { finalize } from 'rxjs';
 import { RequestService } from '@services/request';
 import { environment } from '@environments';
 import { Transport } from '@/core/interfaces/common.interface';
+import { DEFAULT_DEAL_TYPE } from '@/core/constants/deal-type';
 
 @Injectable({
   providedIn: 'root',
@@ -36,6 +37,7 @@ export class FormService {
     area: new FormControl(null),
     floor: new FormControl(null),
     lessee_types: new FormControl([],[Validators.required, Validators.minLength(1)]),
+    deal_type: new FormControl(DEFAULT_DEAL_TYPE, [Validators.required]),
   });
   public loading: boolean = false;
   constructor(private toastService: ToastService, private router: Router, private requestService: RequestService) {}
