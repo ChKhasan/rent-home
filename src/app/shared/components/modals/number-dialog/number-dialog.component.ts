@@ -49,11 +49,16 @@ export class NumberDialogComponent {
   postLogin() {
     this.loading = true;
     const data = this.dataTransform();
+    localStorage.removeItem('local_otp_code');
 
     this.requestService
       .requestData(environment.urls.POST_NUMBER, 'POST', data)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe((response) => {
+        const otpCode = (response as { otp_code?: string | number })?.otp_code;
+        if (!environment.production && otpCode) {
+          localStorage.setItem('local_otp_code', String(otpCode));
+        }
         this.eventPipe();
       },(error) => {
         console.log(error)
