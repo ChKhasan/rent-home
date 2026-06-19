@@ -1,11 +1,11 @@
-<div class="announcements py-[60px] md:py-[18px]">
-  <div class="max-w-[1120px] mx-auto px-4">
-    <div class="title flex justify-between items-center">
-      <h3 class="text-[40px] font-medium text-[--green] md:text-2xl">E`lonlar berish</h3>
+<div class="announcements announcement-page py-[60px] md:py-[18px]">
+  <div class="max-w-[1180px] mx-auto px-4">
+    <div class="title page-heading flex justify-between items-center">
+      <h3 class="text-[40px] font-medium text-[--green] md:text-2xl">E'lon berish</h3>
     </div>
     <div *ngIf="isEdit"
-      class="forma mt-6 md:max-w-full mx-auto md:bg-transparent border-solid border rounded-2xl border-[--grey-300] p-4 md:p-4">
-      <div class="max-w-[552px] md:max-w-full">
+      class="forma form-status-card mt-6 md:max-w-full mx-auto md:bg-transparent border-solid border rounded-2xl border-[--grey-300] p-4 md:p-4">
+      <div class="form-status-inner">
         <div class="flex justify-between items-center">
           <label class="font-medium text-[14px] text-[--grey-900]" [ngClass]="status ? 'text-[--green]':'text-[--red]'">
             {{status ? 'E`lon faol':'E`lon faol emas'}}</label>
@@ -17,13 +17,13 @@
 
     <div class="body mt-[30px]" [formGroup]="ruleForm">
       <div
-        class="forma md:max-w-full mx-auto md:bg-transparent border-solid border rounded-2xl border-[--grey-300] p-4 md:p-4">
-        <div class="max-w-[552px] md:max-w-full">
-          <div class="form-grid flex flex-col gap-4">
-            <div class="flex flex-col gap-1 relative">
-              <label class="font-medium text-[14px] text-[--grey-900]" for="name">E`lon nomi*</label>
+        class="forma form-card md:max-w-full mx-auto md:bg-transparent border-solid border rounded-2xl border-[--grey-300] p-4 md:p-4">
+        <div class="form-shell">
+          <div class="form-grid">
+            <div class="form-span-2 flex flex-col gap-1 relative">
+              <label class="font-medium text-[14px] text-[--grey-900]" for="name">E'lon nomi*</label>
               <div class="relative w-full flex items-center form-input">
-                <input pInputText [disabled]="true" [ngClass]="{
+                <input pInputText [ngClass]="{
                     'ng-invalid ng-dirty': ruleForm.controls.title.touched && ruleForm.controls.title.errors && ruleForm.controls.title.errors['required'],
                   }" type="text" id="name" formControlName="title" />
               </div>
@@ -122,7 +122,7 @@
                   formControlName="floor"></p-inputNumber>
               </div>
             </div>
-            <div class="flex flex-col gap-1 relative">
+            <div class="form-span-2 flex flex-col gap-1 relative">
               <label class="font-medium text-[14px] text-[--grey-900]" for="desc">Tavsif*</label>
               <div class="relative w-full flex items-center form-input">
                 <textarea rows="5" cols="30" pInputTextarea [ngClass]="{
@@ -139,8 +139,8 @@
                   *ngIf="ruleForm.controls.description.errors && ruleForm.controls.description.errors['minlength']"></app-invaid-text>
               </div>
             </div>
-            <div class="clearfix flex flex-col gap-4" [pTooltip]="tooltipContent">
-              <label class="font-medium text-[14px] text-[--grey-900]" for="address">Uyning sur`atlari (Max Photo
+            <div class="form-span-2 photo-section clearfix flex flex-col gap-4" [pTooltip]="tooltipContent">
+              <label class="font-medium text-[14px] text-[--grey-900]" for="address">Uyning sur'atlari (Max Photo
                 10)*</label>
               <div class="card flex justify-content-center flex-wrap gap-4">
                 <p-fileUpload [disabled]="!status" styleClass="file-upload" list-type="picture" mode="basic"
@@ -173,7 +173,7 @@
                   покупателей. Поддерживаются файлы до 5МБ в формате .jpg .jpeg, .webp, .png, .gif/.</span>
               </div>
             </ng-template>
-            <div class="flex flex-col gap-3 mb-4">
+            <div class="feature-section flex flex-col gap-3 mb-4">
               <div class="flex flex-col gap-3">
                 <div class="flex justify-between items-center">
                   <p class="flex text-[color:var(--dark-4)] text-[16px] gap-[8px] items-center">
@@ -243,7 +243,7 @@
                         d="M22.9004 18.5554C23.1459 19.0501 22.9439 19.6502 22.4492 19.8957C21.9545 20.1413 21.3544 19.9393 21.1089 19.4446C20.8534 18.9298 20.4681 18.423 20.0158 18.0554C19.5638 17.688 19.0984 17.5 18.6574 17.5C18.1052 17.5 17.6574 17.0523 17.6574 16.5C17.6574 15.9477 18.1052 15.5 18.6574 15.5C19.6809 15.5 20.5776 15.9346 21.2774 16.5034C21.9769 17.0721 22.533 17.8152 22.9004 18.5554Z"
                         fill="#475367"></path>
                     </svg>
-                    Sheriklikga
+                    Sheriklikka
                   </p>
                   <p-inputSwitch formControlName="partnership" inputId="partnership" />
                 </div>
@@ -262,7 +262,7 @@
                 </div>
               </div>
             </div>
-            <div class="flex flex-col gap-[30px]">
+            <div class="pricing-section flex flex-col gap-[30px]">
               <div class="flex flex-col gap-1 relative">
                 <label class="font-medium text-[14px] text-[--grey-900]" for="integeronly">Narxi</label>
                 <div class="relative w-full flex items-center form-input">
@@ -293,7 +293,7 @@
                 </div>
               </div>
             </div>
-            <div class="flex justify-end max-w-[60%] md:max-w-full mt-4 cursor-pointer">
+            <div class="form-span-2 map-action-row flex justify-end max-w-[60%] md:max-w-full mt-4 cursor-pointer">
               <button [disabled]="!status" (click)="openMapDialog()"
                 class="map-btn h-12 w-[250px] md:w-full flex items-center justify-center bg-[#3A75CE] rounded-lg text-white font-500 gap-2">
                 Haritadan joyni ko’rsatish
@@ -313,7 +313,7 @@
           </div>
         </div>
       </div>
-      <div class="flex justify-start md:flex-col  gap-3 mt-4 ">
+      <div class="form-actions flex justify-start md:flex-col gap-3 mt-4">
         <p-button *ngIf="status" pRipple pButton [loading]="_formControl.loading" (click)="onSubmit()"
           class="px-0 py-0 bg-[transparent] w-[128px] rounded-[12px] border-0 md:w-full"
           styleClass="btn w-[270px] md:w-full px-0 py-0 p-ripple h-12 md:h-11 rounded-[12px] bg-[var(--green)] text-white flex font-semibold md:text-sm items-center justify-center">Saqlash</p-button>
