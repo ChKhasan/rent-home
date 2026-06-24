@@ -13,6 +13,7 @@ import { ChatComponent } from './pages/chat/chat.component';
 import { AvatarModule } from 'primeng/avatar';
 import { ToastModule } from 'primeng/toast';
 import { DictionaryService } from './core/services/dictionary/dictionary.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -24,6 +25,8 @@ import { DictionaryService } from './core/services/dictionary/dictionary.service
 export class AppComponent implements OnInit, OnDestroy {
   @ViewChild(ChatComponent) chatComponent!: ChatComponent;
   private newGroup: any = {};
+  private destroy$ = new Subject<void>();
+  private socketEventsBound = false;
 
   constructor(
     private likesService: LikesService,
@@ -40,7 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.dictionaryService.__GET_REGIONS()
       this.authService.authHandler().then(() => {});
 
-      this.authService.getBooleanValue().subscribe((value) => {
+      this.authService.getBooleanValue().pipe(takeUntil(this.destroy$)).subscribe((value) => {
         if (value) {
           this.firstSocketConnection();
           this.likesFirstGetter();
@@ -53,7 +56,10 @@ export class AppComponent implements OnInit, OnDestroy {
     let currentPath = this.location.path();
     this.chatService.webSocketConnection();
     if (!currentPath.includes('/profile/chat')) {
-      this.sokectEventHandler();
+      if (!this.socketEventsBound) {
+        this.sokectEventHandler();
+        this.socketEventsBound = true;
+      }
       this.chatService.__GET_USER_ROOMS();
     }
   }
@@ -82,11 +88,13 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.chatService.disconnect(); 
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.chatService.disconnect();
   }
 
   sokectEventHandler() {
-    this.chatService.onMessage().subscribe((message) => {
+    this.chatService.onMessage().pipe(takeUntil(this.destroy$)).subscribe((message) => {
       this.commandController(message);
     });
   }

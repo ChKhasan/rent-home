@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AgencySidebarComponent } from './components/sidebar/sidebar.component';
 import { NgIf } from '@angular/common';
 import { AgencyAccessService } from '@services/agency-access';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-agency',
@@ -14,7 +15,10 @@ import { AgencyAccessService } from '@services/agency-access';
 export class AgencyComponent {
   hasMembership = true;
 
-  constructor(private agencyAccessService: AgencyAccessService) {
-    this.agencyAccessService.hasMembership().subscribe((flag) => (this.hasMembership = flag));
+  constructor(private agencyAccessService: AgencyAccessService, private destroyRef: DestroyRef) {
+    this.agencyAccessService
+      .hasMembership()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((flag) => (this.hasMembership = flag));
   }
 }

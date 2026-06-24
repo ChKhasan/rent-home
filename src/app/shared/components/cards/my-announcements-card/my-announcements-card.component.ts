@@ -13,6 +13,11 @@ import { PricePipe } from '@/shared/pipes/price/price.pipe';
 export class MyAnnouncementsCardComponent {
   @Input() announcement: any;
   @Input() profile!: boolean;
+  @Input() agencyMode = false;
+
+  get editQueryParams() {
+    return this.agencyMode && this.announcement?.agency?.id ? { agency: this.announcement.agency.id } : null;
+  }
 
   moderationLabel(): string {
     const status = this.announcement?.moderation_status;

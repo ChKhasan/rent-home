@@ -11,6 +11,8 @@
       pButton
       type="button"
       [routerLink]="'/profile/create'"
+      [queryParams]="selectedAgencyId ? { agency: selectedAgencyId } : null"
+      [disabled]="!selectedAgencyId"
       class="btn rounded-xl bg-[--green] text-white px-6 py-3 text-sm font-semibold"
     >
       Yangi e'lon qo'shish
@@ -82,6 +84,7 @@
         *ngFor="let announcement of announcements"
         [announcement]="announcement"
         [profile]="true"
+        [agencyMode]="true"
       ></app-my-announcements-card>
     </div>
 

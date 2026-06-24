@@ -34,6 +34,7 @@ import { DEFAULT_DEAL_TYPE, DEAL_TYPE_OPTIONS, DealType } from '@/core/constants
   standalone: true,
   animations: [ValidationErrorAnimation],
   imports: [FormsModule, InputTextModule, InputSwitchModule, MultiSelectModule, DropdownModule, InvaidTextComponent, NgIf, ReactiveFormsModule, NgClass, TooltipModule, NgOptimizedImage, ButtonModule, ToastModule, FileUploadModule, InputTextareaModule, CheckboxModule, InputMaskModule, InputNumberModule, NgForOf, ImageModule, RippleModule, RouterLink, MapDialogComponent],
+  providers: [FormService],
   templateUrl: './announcement-form.component.html',
   styleUrl: './announcement-form.component.css',
 })
@@ -49,6 +50,8 @@ export class AnnouncementFormComponent implements OnInit {
   public dealTypeOptions = DEAL_TYPE_OPTIONS;
   public selectedDealType: DealType = DEFAULT_DEAL_TYPE;
   private readonly id: number | string | null;
+  public agencyId: number | null = null;
+  public isAgencyMode = false;
   formState = {
     transports: [],
     location_y: 0,
@@ -64,6 +67,10 @@ export class AnnouncementFormComponent implements OnInit {
   }
 
   goBack() {
+    if (this.isAgencyMode) {
+      this.router.navigate(['/profile/agency'], { queryParams: { agency: this.agencyId } });
+      return;
+    }
     this.router.navigate(['/profile']).then((r) => {});
   }
 
@@ -102,15 +109,23 @@ export class AnnouncementFormComponent implements OnInit {
       floor: null,
       lessee_types: [],
       deal_type: DEFAULT_DEAL_TYPE,
+      agency: null,
     });
+    this.agencyId = this.getAgencyIdFromRoute();
+    this.isAgencyMode = !!this.agencyId;
+    this._formControl.setAgencyContext(this.agencyId);
     this.selectedDealType = DEFAULT_DEAL_TYPE;
     this.__GET_GENDERS();
     this.fileUploaderHeaders();
     if (this.isEdit) {
-      this.requestService.getData<any>(environment.authUrls.GET_MY_ANNONCEMENTS + this.id + `/`).subscribe((response: any): void => {
+      const detailUrl = this.isAgencyMode ? environment.authUrls.GET_AGENCY_ANNOUNCEMENTS : environment.authUrls.GET_MY_ANNONCEMENTS;
+      this.requestService.getData<any>(detailUrl + this.id + `/`).subscribe((response: any): void => {
         this.announcement = response;
         this.status = response?.status;
         this.uploadedFiles = response.images;
+        this.agencyId = response?.agency?.id || this.agencyId;
+        this.isAgencyMode = !!this.agencyId;
+        this._formControl.setAgencyContext(this.agencyId);
         this.ruleForm.patchValue({
           lessee_types: response.lessee_types.map((elem: any) => elem.id),
           transports: response.transports as Transport[],
@@ -136,11 +151,19 @@ export class AnnouncementFormComponent implements OnInit {
           floor: response.floor,
           district: response.district,
           deal_type: response.deal_type || DEFAULT_DEAL_TYPE,
+          agency: this.agencyId,
         });
         this.selectedDealType = this.ruleForm.get('deal_type')?.value || DEFAULT_DEAL_TYPE;
         if (!this.status) this.ruleForm.disable();
       });
     }
+  }
+
+  private getAgencyIdFromRoute(): number | null {
+    const agency = this.route.snapshot.queryParamMap.get('agency');
+    if (!agency) return null;
+    const agencyId = Number(agency);
+    return Number.isFinite(agencyId) && agencyId > 0 ? agencyId : null;
   }
 
   onSubmit(): void {
@@ -166,8 +189,8 @@ export class AnnouncementFormComponent implements OnInit {
     if (event.originalEvent['body']) this.uploadedFiles.push(event.originalEvent['body']);
 
     this.messageService.add({
-      severity: 'succus',
-      summary: 'File Uploaded',
+      severity: 'success',
+      summary: 'Surat yuklandi',
       detail: '',
     });
   }

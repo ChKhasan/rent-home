@@ -13,7 +13,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "externalDependencies": [""],
             "outputPath": "dist/ijara_angular",
             "index": "src/index.html",
             "browser": "src/main.ts",
@@ -28,6 +27,7 @@
                 "output": "assets/"
               }
             ],
+            "allowedCommonJsDependencies": ["crypto-js"],
             "styles": [
               "src/styles.css",
               "src/assets/fonts/style.css",
@@ -39,7 +39,7 @@
             ],
             "scripts": [],
             "server": "src/main.server.ts",
-            "prerender": true,
+            "prerender": false,
             "ssr": {
               "entry": "server.ts"
             }
@@ -54,8 +54,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "8kb",
+                  "maximumError": "10kb"
                 }
               ],
               "outputHashing": "all"

@@ -21,7 +21,6 @@ import { IAnnouncementList } from '@services/interfaces';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { FormsModule } from '@angular/forms';
 import { AnnouncementsCardComponent } from '../../shared/components/cards/announcements-card/announcements-card.component';
-import { HttpClient } from '@angular/common/http';
 import { DialogModule } from 'primeng/dialog';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { Location } from '@angular/common';
@@ -30,6 +29,9 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { DealTypeService } from '@/core/services/deal-type/deal-type.service';
 import { DealType, DEFAULT_DEAL_TYPE, isDealType } from '@/core/constants/deal-type';
 import { DealTypeSwitcherComponent } from '@components/deal-type-switcher/deal-type-switcher.component';
+
+type TransportToggleKey = 'showBus' | 'showSubway' | 'showMiniBus';
+
 @Component({
   selector: 'app-map',
   standalone: true,
@@ -85,7 +87,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   public currentDealType: DealType = DEFAULT_DEAL_TYPE;
   private dealTypeSubscription?: Subscription;
 
-  constructor(public router: Router, private queryService: QueryService, private cryptoService: CryptoService, private requestService: RequestService, private _httpRequest: HttpClient, public location: Location, private dealTypeService: DealTypeService) {}
+  constructor(public router: Router, private queryService: QueryService, private cryptoService: CryptoService, private requestService: RequestService, public location: Location, private dealTypeService: DealTypeService) {}
 
   ngOnInit() {
     this.__GET_TRANSPORTS();
@@ -112,8 +114,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.queryService.clearFilterWithOutDefault(this.__GET_ANNOUNCEMENTS).then(() => {});
   };
 
-  toggleBus(showType: string) {
-    if (showType === 'showBus' || showType === 'showSubway' || showType === 'showMiniBus') this[showType] = !this[showType];
+  toggleBus(showType: TransportToggleKey) {
+    this[showType] = !this[showType];
     if (showType === 'showBus') {
       this.showSubway = false;
       this.showMiniBus = false;
@@ -147,19 +149,17 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   activeTransports() {
-    if (typeof this.queryService.activeQueryList()['transports'] === 'string') {
-      this.routeTransports = [this.queryService.activeQueryList()['transports']];
-    } else {
-      this.routeTransports = this.queryService.activeQueryList()['transports'] || [];
-    }
-    if (Object.keys(this.queryService.activeQueryList()).length > 0) this.queryService.updateCustomQuery(this.queryService.activeQueryList(), this.__GET_ANNOUNCEMENTS);
+    this.refreshRouteTransports();
+    const query = this.queryService.activeQueryList();
+    if (Object.keys(query).length > 0) this.queryService.updateCustomQuery(query, this.__GET_ANNOUNCEMENTS);
     if (this.routeTransports?.length > 0) {
-      Promise.all([this.routeTransports.map((elem: any) => this.handleBusRoute(elem))]);
+      this.routeTransports.forEach((elem: any) => this.handleBusRoute(elem));
     }
     this.selectedTransportsGenerateFirst();
   }
 
   checkTransports(transport: any) {
+    if (!transport) return { ...this.queryService.activeQueryList() };
     let query: any = { ...this.queryService.activeQueryList() };
     if (typeof query.transports === 'string') {
       query.transports = [query.transports];
@@ -174,15 +174,12 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       query.transports.push(transport.ri);
       this.selectedTransportsGenerateUpdate(transport);
     }
-    if (query.transports.length == 0 && typeof query.transports === 'string') {
-      delete query.transports;
-    }
     return query;
   }
 
   deleteMapLine(transport: any) {
     let currentTransport = this.transports.find((elem: any) => Number(elem.ri) === Number(transport.ri));
-    delete currentTransport.color;
+    if (currentTransport) delete currentTransport.color;
   }
 
   filterTransport(obj: any) {
@@ -221,13 +218,13 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       if (transport.ri === elem.ri) {
         switch (elem.type) {
           case 'BUS':
-            this.selectedTransports.bus.push(elem);
+            this.addSelectedTransport('bus', elem);
             break;
           case 'METRO':
-            this.selectedTransports.subway.push(elem);
+            this.addSelectedTransport('subway', elem);
             break;
           case 'MARSHUTKA':
-            this.selectedTransports.miniBus.push(elem);
+            this.addSelectedTransport('miniBus', elem);
             break;
           default:
             break;
@@ -237,17 +234,22 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   async selectedTransportsGenerateFirst() {
+    this.selectedTransports = {
+      bus: [],
+      miniBus: [],
+      subway: [],
+    };
     this.transports.forEach((elem: any) => {
-      if (this.routeTransports.includes(elem.ri)) {
+      if (this.routeTransports.map((item: any) => Number(item)).includes(Number(elem.ri))) {
         switch (elem.type) {
           case 'BUS':
-            this.selectedTransports.bus.push(elem);
+            this.addSelectedTransport('bus', elem);
             break;
           case 'METRO':
-            this.selectedTransports.subway.push(elem);
+            this.addSelectedTransport('subway', elem);
             break;
           case 'MARSHUTKA':
-            this.selectedTransports.miniBus.push(elem);
+            this.addSelectedTransport('miniBus', elem);
             break;
           default:
             break;
@@ -257,6 +259,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   handleBusRoute(number: any) {
+    if (this.selectRoutes.some((elem: any) => Number(elem.ri) === Number(number))) return;
     const secretKey = this.cryptoService.getKey();
     const formData = {
       id: number,
@@ -275,11 +278,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         })
       )
       .subscribe(async (data: any) => {
-        if (typeof this.queryService.activeQueryList()['transports'] === 'string') {
-          this.routeTransports = [this.queryService.activeQueryList()['transports']];
-        } else {
-          this.routeTransports = this.queryService.activeQueryList()['transports'] || [];
-        }
+        this.refreshRouteTransports();
+        if (!data?.scheme?.forward || !data?.scheme?.backward) return;
 
         let busRoutes: any = {};
         busRoutes.x = data.scheme.forward.split(' ').map((elem: any) => {
@@ -298,7 +298,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         busRoutes.color = color;
         busRoutes.ri = number;
         let currentTransport = this.transports.find((elem: any) => elem.ri == number);
-        currentTransport.color = color;
+        if (currentTransport) currentTransport.color = color;
         this.transports = [...this.transports];
         this.selectRoutes.push(busRoutes);
         let selectedRies: any = this.routeTransports;
@@ -321,11 +321,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   __GET_ANNOUNCEMENTS = () => {
     const params = { ...this.queryService.activeQueryList(), deal_type: this.currentDealType };
     this.requestService.getData<IAnnouncementList>(environment.urls.GET_ANNONCEMENTS, this.queryService.generatorHttpParams(params)).subscribe((response: IAnnouncementList) => {
-      if (typeof this.queryService.activeQueryList()['transports'] === 'string') {
-        this.routeTransports = [this.queryService.activeQueryList()['transports']];
-      } else {
-        this.routeTransports = this.queryService.activeQueryList()['transports'] || [];
-      }
+      this.refreshRouteTransports();
       this.announcements = response?.results
         .filter((elem: any) => Number(elem.location_x))
         .map((item: any) => {
@@ -364,16 +360,21 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   __GET_TRANSPORTS() {
     this.requestService.getData<any>(environment.urls.GET_TRANSPORTS).subscribe((response: any) => {
-      this.transports = response;
-      this.buses = response
+      const routes = this.selectRoutes || [];
+      this.transports = (response || []).map((item: any) => {
+        const route = routes.find((elem: any) => Number(elem.ri) === Number(item.ri));
+        return route ? { ...item, color: route.color } : item;
+      });
+      this.buses = this.transports
         .filter((item: any) => item.type == 'BUS')
         .sort((a: any, b: any) => {
           const nameA: number = parseInt(a.name);
           const nameB: number = parseInt(b.name);
           return nameA - nameB;
         });
-      this.subways = response.filter((item: any) => item.type == 'METRO');
-      this.marshutka = response.filter((item: any) => item.type == 'MARSHUTKA');
+      this.subways = this.transports.filter((item: any) => item.type == 'METRO');
+      this.marshutka = this.transports.filter((item: any) => item.type == 'MARSHUTKA');
+      this.selectedTransportsGenerateFirst();
     });
   }
 
@@ -407,20 +408,14 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   closeBShInfo() {
     this.bottomSheetInfo.close();
   }
-  handleClusterClick(e: any) {
-    console.log(e);
-  }
-
-  // __POST_TRANSPORTS() {
-  //   this._httpRequest.get('https://api.nexthome.uz/api/proxy/?urls=https://uz.easyway.info/en/cities/tashkent/routes').subscribe((res: any) => {
-  //     console.log(res)
-  //   })
-  // }
+  handleClusterClick(e: any) {}
   onChange(event: any) {
     if (typeof event.itemValue === 'string') {
       let transport = this.transports.find((elem: any) => elem.ri === event.itemValue);
+      if (!transport) return;
       this.filterTransport(transport);
     } else {
+      if (!event.itemValue) return;
       this.filterTransport(event.itemValue);
     }
   }
@@ -429,5 +424,16 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     let query: any = { ...this.queryService.activeQueryList() };
     if (query['transports']) query.transports = [];
     // this.queryService.updateCustomQuery(query, this.getData).then(() => {});
+  }
+
+  private refreshRouteTransports(): void {
+    const value = this.queryService.activeQueryList()['transports'];
+    this.routeTransports = Array.isArray(value) ? value : value ? [value] : [];
+  }
+
+  private addSelectedTransport(type: 'bus' | 'miniBus' | 'subway', transport: any): void {
+    if (!this.selectedTransports[type].some((elem: any) => Number(elem.ri) === Number(transport.ri))) {
+      this.selectedTransports[type].push(transport);
+    }
   }
 }

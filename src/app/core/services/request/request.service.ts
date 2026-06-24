@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { catchError, debounceTime, distinctUntilChanged, Observable, throwError } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Injectable({
@@ -13,10 +13,7 @@ export class RequestService {
       headers: headers,
     };
     return this._httpsClient.get<T>(url, options).pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
       catchError((error) => {
-        console.error('Error occurred:', error);
         return throwError(() => error);
       })
     );

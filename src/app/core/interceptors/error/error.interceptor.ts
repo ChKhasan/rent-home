@@ -21,18 +21,14 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         router.navigate(['/']).then((r) => {});
         toast.showMessage('error', 'Error', error.statusText);
       }
-      if (error.status === 401 && typeof window !== 'undefined') {
+      if (error.status === 401 && typeof window !== 'undefined' && !modifiedRequest.url.includes('/api/token/')) {
         return from(authService.refreshToken()).pipe(
           switchMap((response) => {
-            console.log('response token', response);
             const clonedRequest = addAuthorizationHeader(modifiedRequest, response?.access);
-            // Retry the request with the new token
             return next(clonedRequest);
           }),
           catchError((refreshError) => {
-            // Handle errors during token refresh
-            console.error('Token refresh failed:', refreshError);
-            authService.logout(); // Optionally log out the user
+            authService.logout();
             return throwError(() => error);
           })
         );
@@ -45,7 +41,6 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   );
 };
 function addAuthorizationHeader(request: HttpRequest<any>, token: string): HttpRequest<any> {
-  console.log("token",token)
   return request.clone({
     setHeaders: {
       Authorization: `Bearer ${token}`,

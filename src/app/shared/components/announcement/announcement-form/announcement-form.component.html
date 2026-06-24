@@ -1,7 +1,14 @@
 <div class="announcements announcement-page py-[60px] md:py-[18px]">
   <div class="max-w-[1180px] mx-auto px-4">
     <div class="title page-heading flex justify-between items-center">
-      <h3 class="text-[40px] font-medium text-[--green] md:text-2xl">E'lon berish</h3>
+      <div>
+        <h3 class="text-[40px] font-medium text-[--green] md:text-2xl">
+          {{ isAgencyMode ? "Agentlik nomidan e'lon berish" : "E'lon berish" }}
+        </h3>
+        <p *ngIf="isAgencyMode" class="text-[--grey-500] text-sm mt-1">
+          Bu e'lon shaxsiy profilingizda emas, agentlik kabinetida boshqariladi.
+        </p>
+      </div>
     </div>
     <div *ngIf="isEdit"
       class="forma form-status-card mt-6 md:max-w-full mx-auto md:bg-transparent border-solid border rounded-2xl border-[--grey-300] p-4 md:p-4">
@@ -29,9 +36,9 @@
               </div>
               <div
                 *ngIf="ruleForm.controls.title.invalid && (ruleForm.controls.title.dirty || ruleForm.controls.title.touched)">
-                <app-invaid-text [text]="'This field is required.'"
+                <app-invaid-text [text]="'Bu maydon to‘ldirilishi shart.'"
                   *ngIf="ruleForm.controls.title.errors && ruleForm.controls.title.errors['required']"></app-invaid-text>
-                <app-invaid-text [text]="'Title must be at least 6 characters long.'"
+                <app-invaid-text [text]="'E’lon nomi kamida 6 ta belgidan iborat bo‘lishi kerak.'"
                   *ngIf="ruleForm.controls.title.errors && ruleForm.controls.title.errors['minlength']"></app-invaid-text>
               </div>
             </div>
@@ -80,9 +87,9 @@
               </div>
               <div
                 *ngIf="ruleForm.controls.lessee_types.invalid && (ruleForm.controls.lessee_types.dirty || ruleForm.controls.lessee_types.touched)">
-                <app-invaid-text [text]="'This field is required.'"
+                <app-invaid-text [text]="'Bu maydon to‘ldirilishi shart.'"
                   *ngIf="ruleForm.controls.lessee_types.errors && ruleForm.controls.lessee_types.errors['required']"></app-invaid-text>
-                <app-invaid-text [text]="'lessee_types must be at least 6 characters long.'"
+                <app-invaid-text [text]="'Kamida bitta ijarachi turini tanlang.'"
                   *ngIf="ruleForm.controls.lessee_types.errors && ruleForm.controls.lessee_types.errors['minlength']"></app-invaid-text>
               </div>
             </div>
@@ -91,13 +98,13 @@
               <div class="relative w-full flex items-center form-input">
                 <input pInputText [ngClass]="{
                     'ng-invalid ng-dirty': ruleForm.controls.address.touched && ruleForm.controls.address.errors && ruleForm.controls.address.errors['required'],
-                  }" type="text" id="address" placeholder="Местоположение" formControlName="address" />
+                  }" type="text" id="address" placeholder="Manzilni kiriting" formControlName="address" />
               </div>
               <div
                 *ngIf="ruleForm.controls.address.invalid && (ruleForm.controls.address.dirty || ruleForm.controls.address.touched)">
-                <app-invaid-text [text]="'This field is required.'"
+                <app-invaid-text [text]="'Bu maydon to‘ldirilishi shart.'"
                   *ngIf="ruleForm.controls.address.errors && ruleForm.controls.address.errors['required']"></app-invaid-text>
-                <app-invaid-text [text]="'Address must be at least 10 characters long.'"
+                <app-invaid-text [text]="'Manzil kamida 10 ta belgidan iborat bo‘lishi kerak.'"
                   *ngIf="ruleForm.controls.address.errors && ruleForm.controls.address.errors['minlength']"></app-invaid-text>
               </div>
             </div>
@@ -128,14 +135,14 @@
                 <textarea rows="5" cols="30" pInputTextarea [ngClass]="{
                     'ng-invalid ng-dirty': ruleForm.controls.description.touched && ruleForm.controls.description.errors && ruleForm.controls.description.errors['required'],
                   }" type="text" id="desc"
-                  placeholder="Подумайте, какие подробности вы хотели бы узнать из объявления. И добавьте их в описание"
+                  placeholder="Uy, sharoit, qo‘shimcha qulayliklar va muhim talablarni qisqa yozing"
                   formControlName="description"></textarea>
               </div>
               <div
                 *ngIf="ruleForm.controls.description.invalid && (ruleForm.controls.description.dirty || ruleForm.controls.description.touched)">
-                <app-invaid-text [text]="'This field is required.'"
+                <app-invaid-text [text]="'Bu maydon to‘ldirilishi shart.'"
                   *ngIf="ruleForm.controls.description.errors && ruleForm.controls.description.errors['required']"></app-invaid-text>
-                <app-invaid-text [text]="'Description must be at least 10 characters long.'"
+                <app-invaid-text [text]="'Tavsif kamida 10 ta belgidan iborat bo‘lishi kerak.'"
                   *ngIf="ruleForm.controls.description.errors && ruleForm.controls.description.errors['minlength']"></app-invaid-text>
               </div>
             </div>
@@ -169,8 +176,7 @@
             </div>
             <ng-template #tooltipContent>
               <div class="flex align-items-center">
-                <span>Добавьте в объявление настоящие фото товара, а не фото из интернета, чтобы повысить доверие
-                  покупателей. Поддерживаются файлы до 5МБ в формате .jpg .jpeg, .webp, .png, .gif/.</span>
+                <span>E’longa internetdan olingan emas, haqiqiy suratlarni yuklang. JPG, JPEG, WEBP, PNG va GIF formatlari qo‘llab-quvvatlanadi.</span>
               </div>
             </ng-template>
             <div class="feature-section flex flex-col gap-3 mb-4">

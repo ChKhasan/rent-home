@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { filter, take } from 'rxjs';
 import { Location, NgForOf } from '@angular/common';
 import { NgIf } from '@angular/common';
 import { AgencyAccessService } from '@services/agency-access';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-tab',
@@ -56,10 +57,11 @@ export class TabComponent implements OnInit {
     public route: ActivatedRoute,
     private location: Location,
     private agencyAccessService: AgencyAccessService,
+    private destroyRef: DestroyRef,
   ) {
     this.isPath = this.location.path();
 
-    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd), takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.activeRouteName = this.router.url;
       this.isPath = this.location.path();
     });

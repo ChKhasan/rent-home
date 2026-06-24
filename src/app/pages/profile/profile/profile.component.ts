@@ -126,7 +126,7 @@ export class ProfileComponent implements OnInit {
       .subscribe((response) => {
         this.__GET_USER();
         this.authService.authHandler();
-        this.eventPipe({ message: 'Успешно изменено', response: response });
+        this.eventPipe({ message: "Profil ma'lumotlari yangilandi", response: response });
         this.isEdit = false;
       });
   }

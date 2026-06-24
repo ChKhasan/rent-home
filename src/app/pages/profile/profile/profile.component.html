@@ -123,9 +123,9 @@
 
               <div
                 *ngIf="ruleForm.controls.name.invalid && (ruleForm.controls.name.dirty || ruleForm.controls.name.touched)">
-                <app-invaid-text [text]="'Name is required.'"
+                <app-invaid-text [text]="'Ism kiritilishi shart.'"
                   *ngIf="ruleForm.controls.name.errors && ruleForm.controls.name.errors['required']"></app-invaid-text>
-                <app-invaid-text [text]="'Password must be at least 4 characters long.'"
+                <app-invaid-text [text]="'Ism kamida 4 ta belgidan iborat bo‘lishi kerak.'"
                   *ngIf="ruleForm.controls.name.errors && ruleForm.controls.name.errors['minlength']"></app-invaid-text>
               </div>
             </div>
@@ -140,9 +140,9 @@
 
               <div
                 *ngIf="ruleForm.controls.first_name.invalid && (ruleForm.controls.first_name.dirty || ruleForm.controls.first_name.touched)">
-                <app-invaid-text [text]="'First name is required.'"
+                <app-invaid-text [text]="'Familiya kiritilishi shart.'"
                   *ngIf="ruleForm.controls.first_name.errors && ruleForm.controls.first_name.errors['required']"></app-invaid-text>
-                <app-invaid-text [text]="'Password must be at least 4 characters long.'"
+                <app-invaid-text [text]="'Familiya kamida 4 ta belgidan iborat bo‘lishi kerak.'"
                   *ngIf="ruleForm.controls.first_name.errors && ruleForm.controls.first_name.errors['minlength']"></app-invaid-text>
               </div>
             </div>
@@ -157,9 +157,9 @@
 
               <div
                 *ngIf="ruleForm.controls.last_name.invalid && (ruleForm.controls.last_name.dirty || ruleForm.controls.last_name.touched)">
-                <app-invaid-text [text]="'Last name is required.'"
+                <app-invaid-text [text]="'Otasining ismi kiritilishi shart.'"
                   *ngIf="ruleForm.controls.last_name.errors && ruleForm.controls.last_name.errors['required']"></app-invaid-text>
-                <app-invaid-text [text]="'Password must be at least 4 characters long.'"
+                <app-invaid-text [text]="'Otasining ismi kamida 4 ta belgidan iborat bo‘lishi kerak.'"
                   *ngIf="ruleForm.controls.last_name.errors && ruleForm.controls.last_name.errors['minlength']"></app-invaid-text>
               </div>
             </div>
@@ -182,9 +182,9 @@
 
               <div
                 *ngIf="ruleForm.controls.email.invalid && (ruleForm.controls.email.dirty || ruleForm.controls.email.touched)">
-                <app-invaid-text [text]="'Email is required.'"
+                <app-invaid-text [text]="'Elektron pochta kiritilishi shart.'"
                   *ngIf="ruleForm.controls.email.errors && ruleForm.controls.email.errors['required']"></app-invaid-text>
-                <app-invaid-text [text]="'Please insert a valid email address'"
+                <app-invaid-text [text]="'To‘g‘ri elektron pochta manzilini kiriting.'"
                   *ngIf="ruleForm.controls.email.errors && ruleForm.controls.email.errors['email']"></app-invaid-text>
               </div>
             </div>

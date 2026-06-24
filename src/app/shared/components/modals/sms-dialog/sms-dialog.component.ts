@@ -19,6 +19,7 @@ import { RequestService } from '@services/request';
   styleUrl: './sms-dialog.component.css',
 })
 export class SmsDialogComponent {
+  private readonly localOtpCodeStorageKey = 'local_otp_code';
   visible: boolean = false;
   loading: boolean = false;
   code: any;
@@ -35,7 +36,7 @@ export class SmsDialogComponent {
     if (this.completeCallback) this.completeCallback();
     this.code = '';
     this.localOtpCode = null;
-    localStorage.removeItem('local_otp_code');
+    localStorage.removeItem(this.localOtpCodeStorageKey);
   }
 
   public onSubmit(): void {
@@ -61,7 +62,7 @@ export class SmsDialogComponent {
       });
   }
   showDialog() {
-    this.localOtpCode = environment.production ? null : localStorage.getItem('local_otp_code');
+    this.localOtpCode = this.getStoredLocalOtpCode();
     if (this.localOtpCode) {
       this.code = this.localOtpCode;
     }
@@ -72,8 +73,27 @@ export class SmsDialogComponent {
   }
 
   anotherPhoneNumberCall() {
-    localStorage.removeItem('local_otp_code');
+    localStorage.removeItem(this.localOtpCodeStorageKey);
     this.localOtpCode = null;
     if (this.anotherPhoneNumber) this.anotherPhoneNumber();
+  }
+
+  private getStoredLocalOtpCode(): string | null {
+    if (environment.production) return null;
+
+    const storedValue = localStorage.getItem(this.localOtpCodeStorageKey);
+    if (!storedValue) return null;
+
+    try {
+      const parsedValue = JSON.parse(storedValue) as { code?: unknown; local_otp?: unknown };
+      if (parsedValue.local_otp === true && parsedValue.code !== undefined && parsedValue.code !== null) {
+        const code = String(parsedValue.code).trim();
+        return code || null;
+      }
+    } catch {
+      localStorage.removeItem(this.localOtpCodeStorageKey);
+    }
+
+    return null;
   }
 }
