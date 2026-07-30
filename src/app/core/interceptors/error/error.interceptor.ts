@@ -19,7 +19,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((error: HttpErrorResponse) => {
       if (error.status == 401 && router.url.includes('profile')) {
         router.navigate(['/']).then((r) => {});
-        toast.showMessage('error', 'Error', error.statusText);
+        toast.showMessage('error', 'Xatolik', 'Sessiya muddati tugadi.');
       }
       if (error.status === 401 && typeof window !== 'undefined' && !modifiedRequest.url.includes('/api/token/')) {
         return from(authService.refreshToken()).pipe(
@@ -34,7 +34,11 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         );
       }
       if (error.status != 401) {
-        toast.showMessage('error', 'Error', error?.error?.message || error.statusText);
+        const detail =
+          error.status === 0
+            ? "Server bilan aloqa o'rnatilmadi."
+            : error?.error?.message || error.statusText;
+        toast.showMessage('error', 'Xatolik', detail);
       }
       return throwError(() => error);
     })

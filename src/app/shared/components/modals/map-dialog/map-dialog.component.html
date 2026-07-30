@@ -39,7 +39,7 @@
       <div class="transports px-3 py-3 rounded-2xl bg-white flex flex-col gap-4"
         *ngIf="routes.length > 0 || metroWays.length > 0">
         <div *ngIf="routes.length > 0">
-          <h4 class="text-black font-semibold mb-4 text-[16]">Автобусы поблизости</h4>
+          <h4 class="text-black font-semibold mb-4 text-[16]">Yaqin atrofdagi avtobuslar</h4>
           <ul class="bus-list flex flex-wrap gap-2">
             <li *ngFor="let bus of busRoutes" (click)="handleBusRoute(bus.ri)"
               class="rounded-[5px] w-8 h-8 flex items-center justify-center buses cursor-pointer" [class]="{
@@ -51,7 +51,7 @@
           </ul>
         </div>
         <div *ngIf="metroWays.length > 0">
-          <h4 class="text-black font-semibold mb-4 text-[16]">Метро рядом с адресом</h4>
+          <h4 class="text-black font-semibold mb-4 text-[16]">Manzil yaqinidagi metro</h4>
           <ul class="metro-list flex flex-wrap gap-2">
             <li *ngFor="let metro of metroWays"
               class="rounded-[5px] min-w-8 px-1 h-8 flex items-center justify-center cursor-pointer gap-3">

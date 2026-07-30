@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { FormsModule } from '@angular/forms';
-import { DropdownModule } from 'primeng/dropdown';
+import { SelectModule } from 'primeng/select';
 import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
 import { DictionaryService } from './../../../../core/services/dictionary/dictionary.service';
@@ -10,7 +10,7 @@ import { DictionaryService } from './../../../../core/services/dictionary/dictio
   standalone: true,
   templateUrl: './banner-filter.component.html',
   styleUrl: './banner-filter.component.css',
-  imports: [SelectButtonModule, DropdownModule, FormsModule, ButtonModule],
+  imports: [SelectButtonModule, SelectModule, FormsModule, ButtonModule],
 })
 export class BannerFilterComponent implements OnInit {
   public regions: Array<any> = [];

@@ -4,7 +4,7 @@ import { NgClass, NgForOf, NgIf } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
-import { DropdownModule } from 'primeng/dropdown';
+import { SelectModule } from 'primeng/select';
 import { DialogModule } from 'primeng/dialog';
 import { InputMaskModule } from 'primeng/inputmask';
 import { PasswordModule } from 'primeng/password';
@@ -40,7 +40,7 @@ interface AgencyMember {
     InputTextModule,
     ButtonModule,
     TagModule,
-    DropdownModule,
+    SelectModule,
     DialogModule,
     InputMaskModule,
     PasswordModule,
@@ -327,8 +327,8 @@ export class AgencyStaffComponent implements OnInit {
     return role === 'owner' ? 'Egasi' : 'Xodim';
   }
 
-  getRoleSeverity(role?: AgencyMember['role']): 'warning' | 'info' {
-    return role === 'owner' ? 'warning' : 'info';
+  getRoleSeverity(role?: AgencyMember['role']): 'warn' | 'info' {
+    return role === 'owner' ? 'warn' : 'info';
   }
 
   getStatusLabel(member?: AgencyMember): string {

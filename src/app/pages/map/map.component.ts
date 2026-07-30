@@ -13,7 +13,6 @@ import { BusIconComponent } from '@/shared/icons/bus-icon/bus-icon.component';
 import { MiniBusIconComponent } from '@/shared/icons/mini-bus-icon/mini-bus-icon.component';
 import { BadgeModule } from 'primeng/badge';
 import { TOP_COLORS } from '@/core/constants/map';
-import { CryptoService } from '@services/crypto';
 import { BottomSheetComponent } from '@components/modals/bottom-sheet/bottom-sheet.component';
 import { RequestService } from '@services/request';
 import { environment } from '@environments';
@@ -22,7 +21,6 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { FormsModule } from '@angular/forms';
 import { AnnouncementsCardComponent } from '../../shared/components/cards/announcements-card/announcements-card.component';
 import { DialogModule } from 'primeng/dialog';
-import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { Location } from '@angular/common';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
@@ -35,7 +33,7 @@ type TransportToggleKey = 'showBus' | 'showSubway' | 'showMiniBus';
 @Component({
   selector: 'app-map',
   standalone: true,
-  imports: [NgClass, MultiSelectModule, ProgressSpinnerModule, RouterLink, OverlayPanelModule, DialogModule, FormsModule, SelectButtonModule, AngularYandexMapsModule, AnouncementMapCardComponent, NgIf, NgForOf, ButtonModule, StyleClassModule, SubwayIconComponent, BusIconComponent, MiniBusIconComponent, BadgeModule, BottomSheetComponent, AnnouncementsCardComponent, DealTypeSwitcherComponent],
+  imports: [NgClass, MultiSelectModule, ProgressSpinnerModule, RouterLink, DialogModule, FormsModule, SelectButtonModule, AngularYandexMapsModule, AnouncementMapCardComponent, NgIf, NgForOf, ButtonModule, StyleClassModule, SubwayIconComponent, BusIconComponent, MiniBusIconComponent, BadgeModule, BottomSheetComponent, AnnouncementsCardComponent, DealTypeSwitcherComponent],
   templateUrl: './map.component.html',
   styleUrl: './map.component.css',
 })
@@ -87,7 +85,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   public currentDealType: DealType = DEFAULT_DEAL_TYPE;
   private dealTypeSubscription?: Subscription;
 
-  constructor(public router: Router, private queryService: QueryService, private cryptoService: CryptoService, private requestService: RequestService, public location: Location, private dealTypeService: DealTypeService) {}
+  constructor(public router: Router, private queryService: QueryService, private requestService: RequestService, public location: Location, private dealTypeService: DealTypeService) {}
 
   ngOnInit() {
     this.__GET_TRANSPORTS();
@@ -260,10 +258,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   handleBusRoute(number: any) {
     if (this.selectRoutes.some((elem: any) => Number(elem.ri) === Number(number))) return;
-    const secretKey = this.cryptoService.getKey();
     const formData = {
       id: number,
-      key: secretKey,
     };
     this.__GET_BUS_ROUTE(formData, number);
   }
@@ -322,15 +318,30 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     const params = { ...this.queryService.activeQueryList(), deal_type: this.currentDealType };
     this.requestService.getData<IAnnouncementList>(environment.urls.GET_ANNONCEMENTS, this.queryService.generatorHttpParams(params)).subscribe((response: IAnnouncementList) => {
       this.refreshRouteTransports();
-      this.announcements = response?.results
-        .filter((elem: any) => Number(elem.location_x))
-        .map((item: any) => {
-          return {
-            ...item,
-            geometry: [item.location_x, item.location_y],
-          };
-        });
-      if (this.announcements.length > 0) this.mapCenter = [this.announcements[0].location_x, this.announcements[0].location_y];
+      const results = Array.isArray(response?.results) ? response.results : [];
+      this.announcements = results.flatMap((item: any) => {
+        const latitude = Number(item.location_x);
+        const longitude = Number(item.location_y);
+        const hasValidCoordinates =
+          Number.isFinite(latitude) &&
+          Number.isFinite(longitude) &&
+          Math.abs(latitude) <= 90 &&
+          Math.abs(longitude) <= 180;
+
+        return hasValidCoordinates
+          ? [
+              {
+                ...item,
+                location_x: latitude,
+                location_y: longitude,
+                geometry: [latitude, longitude],
+              },
+            ]
+          : [];
+      });
+      if (this.announcements.length > 0) {
+        this.mapCenter = [...this.announcements[0].geometry];
+      }
     });
   };
 

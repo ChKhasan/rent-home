@@ -200,14 +200,14 @@
 
       <div class="form-field">
         <label for="staff-role">Rol</label>
-        <p-dropdown
+        <p-select
           inputId="staff-role"
           formControlName="role"
           [options]="roleOptions"
           optionLabel="label"
           optionValue="value"
           appendTo="body"
-        ></p-dropdown>
+        ></p-select>
         <small>Egasi roli agentlik xodimlarini boshqarish huquqini beradi.</small>
       </div>
     </form>
@@ -249,14 +249,14 @@
     <form [formGroup]="roleForm" class="dialog-form">
       <div class="form-field">
         <label for="member-role">Rol</label>
-        <p-dropdown
+        <p-select
           inputId="member-role"
           formControlName="role"
           [options]="roleOptions"
           optionLabel="label"
           optionValue="value"
           appendTo="body"
-        ></p-dropdown>
+        ></p-select>
         <small>Egasi roli xodimlarni boshqarish huquqini beradi.</small>
       </div>
     </form>

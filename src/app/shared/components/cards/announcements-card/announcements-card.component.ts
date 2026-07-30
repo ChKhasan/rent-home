@@ -19,7 +19,7 @@ import { TagModule } from 'primeng/tag';
 })
 export class AnnouncementsCardComponent implements OnInit {
   @Input() close: Function | undefined;
-  @Input() announcement: any;
+  @Input() announcement: any = { images: [] };
   @Input() more?: boolean = false;
   @Input() edit?: boolean = false;
   public loading: boolean = false;
@@ -110,18 +110,18 @@ export class AnnouncementsCardComponent implements OnInit {
     return 'Moderator tasdig‘ida';
   }
 
-  moderationSeverity(): 'success' | 'warning' | 'danger' {
+  moderationSeverity(): 'success' | 'warn' | 'danger' {
     const status = this.announcement?.moderation_status;
     if (status === 'approved') return 'success';
     if (status === 'rejected') return 'danger';
-    return 'warning';
+    return 'warn';
   }
 
   dealTypeLabel(): string {
     return this.announcement?.deal_type === 'SALE' ? 'Sotuv' : 'Ijara';
   }
 
-  dealTypeSeverity(): 'success' | 'warning' {
-    return this.announcement?.deal_type === 'SALE' ? 'warning' : 'success';
+  dealTypeSeverity(): 'success' | 'warn' {
+    return this.announcement?.deal_type === 'SALE' ? 'warn' : 'success';
   }
 }

@@ -9,7 +9,7 @@ import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { FileUploadModule } from 'primeng/fileupload';
 import { MessageService } from 'primeng/api';
-import { InputTextareaModule } from 'primeng/inputtextarea';
+import { TextareaModule } from 'primeng/textarea';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -21,8 +21,8 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MapDialogComponent } from '../../modals/map-dialog/map-dialog.component';
 import { RequestService } from '@services/request';
 import { IGendersList, Transport } from '@services/interfaces';
-import { InputSwitchModule } from 'primeng/inputswitch';
-import { DropdownModule } from 'primeng/dropdown';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
+import { SelectModule } from 'primeng/select';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { DictionaryService } from '@/core/services/dictionary/dictionary.service';
 import { ValidationErrorAnimation } from '@/core/common/animations';
@@ -33,7 +33,7 @@ import { DEFAULT_DEAL_TYPE, DEAL_TYPE_OPTIONS, DealType } from '@/core/constants
   selector: 'app-announcement-form',
   standalone: true,
   animations: [ValidationErrorAnimation],
-  imports: [FormsModule, InputTextModule, InputSwitchModule, MultiSelectModule, DropdownModule, InvaidTextComponent, NgIf, ReactiveFormsModule, NgClass, TooltipModule, NgOptimizedImage, ButtonModule, ToastModule, FileUploadModule, InputTextareaModule, CheckboxModule, InputMaskModule, InputNumberModule, NgForOf, ImageModule, RippleModule, RouterLink, MapDialogComponent],
+  imports: [FormsModule, InputTextModule, ToggleSwitchModule, MultiSelectModule, SelectModule, InvaidTextComponent, NgIf, ReactiveFormsModule, NgClass, TooltipModule, NgOptimizedImage, ButtonModule, ToastModule, FileUploadModule, TextareaModule, CheckboxModule, InputMaskModule, InputNumberModule, NgForOf, ImageModule, RippleModule, RouterLink, MapDialogComponent],
   providers: [FormService],
   templateUrl: './announcement-form.component.html',
   styleUrl: './announcement-form.component.css',

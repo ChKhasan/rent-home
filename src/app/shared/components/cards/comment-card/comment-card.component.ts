@@ -13,6 +13,9 @@ import { SharedModule } from 'primeng/api';
   styleUrl: './comment-card.component.css',
 })
 export class CommentCardComponent {
-  @Input() comment!: ICommentInfo;
+  @Input() comment = {
+    comment: '',
+    user: {},
+  } as unknown as ICommentInfo;
   public dateFormat: string = 'dd.MM.YYYY';
 }

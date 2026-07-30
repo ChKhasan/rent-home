@@ -20,7 +20,7 @@
           <!--          <label class="font-400 text-[&#45;&#45;gray-6] text-base" for="comment">Ism</label>-->
           <div class="relative w-full flex items-center password-input">
             <textarea
-              pInputTextarea
+              pTextarea
               [ngClass]="{
                 'ng-invalid ng-dirty': ruleForm.controls.comment.touched && ruleForm.controls.comment.errors && ruleForm.controls.comment.errors['required'],
               }"
@@ -34,7 +34,7 @@
 
           <div *ngIf="ruleForm.controls.comment.invalid && (ruleForm.controls.comment.dirty || ruleForm.controls.comment.touched)">
             <app-invaid-text [text]="'Name is required.'" *ngIf="ruleForm.controls.comment.errors && ruleForm.controls.comment.errors['required']"></app-invaid-text>
-            <app-invaid-text [text]="'Password must be at least 4 characters long.'" *ngIf="ruleForm.controls.comment.errors && ruleForm.controls.comment.errors['minlength']"></app-invaid-text>
+            <app-invaid-text [text]="'Izoh kamida 4 ta belgidan iborat bo‘lishi kerak.'" *ngIf="ruleForm.controls.comment.errors && ruleForm.controls.comment.errors['minlength']"></app-invaid-text>
           </div>
         </div>
       </div>

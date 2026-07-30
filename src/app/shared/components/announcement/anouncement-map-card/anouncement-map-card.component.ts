@@ -12,7 +12,7 @@ import { GalleriaModule } from 'primeng/galleria';
   styleUrl: './anouncement-map-card.component.css',
 })
 export class AnouncementMapCardComponent implements OnInit {
-  @Input() announcement!: IAnnouncementInfo;
+  @Input() announcement = { images: [] } as unknown as IAnnouncementInfo;
   @Input() close: Function | undefined;
   responsiveOptions: any[] = [
     {

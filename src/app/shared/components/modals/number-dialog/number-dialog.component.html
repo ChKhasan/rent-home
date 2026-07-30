@@ -72,7 +72,6 @@
               }"
               type="tel" inputmode="numeric"
               class="mask-input w-full"
-              pInputText
               id="number"
               formControlName="phone_number"
               pattern="^\d{2} \d{3} \d{2} \d{2}$"
@@ -82,7 +81,7 @@
           </div>
 
           <div *ngIf="ruleForm.controls.phone_number.invalid && (ruleForm.controls.phone_number.dirty || ruleForm.controls.phone_number.touched)">
-            <app-invaid-text [text]="'Phone number is required.'" *ngIf="ruleForm.controls.phone_number.errors && ruleForm.controls.phone_number.errors['required']"></app-invaid-text>
+            <app-invaid-text [text]="'Telefon raqami kiritilishi shart.'" *ngIf="ruleForm.controls.phone_number.errors && ruleForm.controls.phone_number.errors['required']"></app-invaid-text>
             <app-invaid-text [text]="'Please enter in the format ##-###-##-##.'" *ngIf="ruleForm.controls.phone_number.errors && ruleForm.controls.phone_number.errors['pattern']"></app-invaid-text>
           </div>
         </div>

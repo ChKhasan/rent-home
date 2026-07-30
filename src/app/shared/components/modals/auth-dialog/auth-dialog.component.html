@@ -74,14 +74,14 @@
             <p-inputMask mask="99 999 99 99" autocomplete="off" [ngClass]=" { 'ng-invalid ng-dirty' :
               ruleForm.controls.phone_number.touched && ruleForm.controls.phone_number.errors &&
               ruleForm.controls.phone_number.errors['required'], }" type="tel" inputmode="numeric"
-              class="mask-input w-full" pInputText id="number" formControlName="phone_number"
+              class="mask-input w-full" id="number" formControlName="phone_number"
               pattern="^\d{2} \d{3} \d{2} \d{2}$" [autoClear]="true"></p-inputMask>
             <span class="number-style h-full absolute left-[18px] flex items-center">+998</span>
           </div>
 
           <div
             *ngIf="ruleForm.controls.phone_number.invalid && (ruleForm.controls.phone_number.dirty || ruleForm.controls.phone_number.touched)">
-            <app-invaid-text [text]="'Phone number is required.'"
+            <app-invaid-text [text]="'Telefon raqami kiritilishi shart.'"
               *ngIf="ruleForm.controls.phone_number.errors && ruleForm.controls.phone_number.errors['required']"></app-invaid-text>
             <app-invaid-text [text]="'Please enter in the format ##-###-##-##.'"
               *ngIf="ruleForm.controls.phone_number.errors && ruleForm.controls.phone_number.errors['pattern']"></app-invaid-text>
@@ -94,16 +94,16 @@
             [toggleMask]="true" [feedback]="false" show-password autocomplete="new-password"></p-password>
           <div
             *ngIf="ruleForm.controls.password.errors && ruleForm.controls.password.invalid && ruleForm.controls.password.touched">
-            <app-invaid-text [text]="'Password is required.'"
+            <app-invaid-text [text]="'Parol kiritilishi shart.'"
               *ngIf="ruleForm.controls.password.errors['required']"></app-invaid-text>
-            <app-invaid-text [text]="'Password must be at least 8 characters long.'"
+            <app-invaid-text [text]="'Parol kamida 8 ta belgidan iborat bo‘lishi kerak.'"
               *ngIf="!ruleForm.controls.password.errors['pattern'] && ruleForm.controls.password.errors['minlength']"></app-invaid-text>
-            <app-invaid-text [text]="'Password must contain at least one letter and one number.'"
+            <app-invaid-text [text]="'Parolda kamida bitta harf va bitta raqam bo‘lishi kerak.'"
               *ngIf="ruleForm.controls.password.errors['pattern']"></app-invaid-text>
           </div>
         </div>
         <div class="relative flex justify-center">
-          <app-invaid-text class="w-full flex justify-center" [text]="'Пользователь не найден'"
+          <app-invaid-text class="w-full flex justify-center" [text]="'Foydalanuvchi topilmadi'"
             *ngIf="infoError"></app-invaid-text>
         </div>
       </div>

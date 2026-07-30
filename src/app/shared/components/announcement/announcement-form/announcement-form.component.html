@@ -16,7 +16,7 @@
         <div class="flex justify-between items-center">
           <label class="font-medium text-[14px] text-[--grey-900]" [ngClass]="status ? 'text-[--green]':'text-[--red]'">
             {{status ? 'E`lon faol':'E`lon faol emas'}}</label>
-          <p-inputSwitch (onChange)="statusChange($event)" [(ngModel)]="status" />
+          <p-toggleswitch (onChange)="statusChange($event)" [(ngModel)]="status" />
         </div>
 
       </div>
@@ -59,7 +59,7 @@
             <div class="flex flex-col gap-1 relative">
               <label class="font-medium text-[--grey-900] text-[14px]" for="name">Viloyat</label>
               <div class="relative w-full flex items-center form-input">
-                <p-dropdown class="w-full" styleClass="w-full" [options]="dictionaryService.regions"
+                <p-select class="w-full" styleClass="w-full" [options]="dictionaryService.regions"
                   formControlName="region" optionLabel="name" optionValue="id" placeholder="Viloyat"
                   (onChange)="onRegionChange($event.value)" />
               </div>
@@ -67,7 +67,7 @@
             <div class="flex flex-col gap-1 relative">
               <label class="font-medium text-[--grey-900] text-[14px]" for="name">Tuman</label>
               <div class="relative w-full flex items-center form-input">
-                <p-dropdown class="w-full" [disabled]="!ruleForm.get('region')?.value" styleClass="w-full"
+                <p-select class="w-full" [disabled]="!ruleForm.get('region')?.value" styleClass="w-full"
                   [options]="dictionaryService.districts" formControlName="district" optionLabel="name" optionValue="id"
                   placeholder="Tuman" />
               </div>
@@ -132,7 +132,7 @@
             <div class="form-span-2 flex flex-col gap-1 relative">
               <label class="font-medium text-[14px] text-[--grey-900]" for="desc">Tavsif*</label>
               <div class="relative w-full flex items-center form-input">
-                <textarea rows="5" cols="30" pInputTextarea [ngClass]="{
+                <textarea rows="5" cols="30" pTextarea [ngClass]="{
                     'ng-invalid ng-dirty': ruleForm.controls.description.touched && ruleForm.controls.description.errors && ruleForm.controls.description.errors['required'],
                   }" type="text" id="desc"
                   placeholder="Uy, sharoit, qo‘shimcha qulayliklar va muhim talablarni qisqa yozing"
@@ -201,7 +201,7 @@
 
                     Konditsioner
                   </p>
-                  <p-inputSwitch formControlName="conditioner" inputId="conditioner" />
+                  <p-toggleswitch formControlName="conditioner" inputId="conditioner" />
                 </div>
                 <div class="flex justify-between items-center">
                   <p class="flex text-[color:var(--dark-4)] text-[16px] gap-[8px] items-center">
@@ -212,7 +212,7 @@
                     </svg>
                     Muzalatgich
                   </p>
-                  <p-inputSwitch formControlName="fridge" inputId="fridge" />
+                  <p-toggleswitch formControlName="fridge" inputId="fridge" />
                 </div>
                 <div class="flex justify-between items-center">
                   <p class="flex text-[color:var(--dark-4)] text-[16px] gap-[8px] items-center">
@@ -224,7 +224,7 @@
 
                     Kir yuvish mashinasi
                   </p>
-                  <p-inputSwitch formControlName="washing_machine" inputId="washing_machine" />
+                  <p-toggleswitch formControlName="washing_machine" inputId="washing_machine" />
                 </div>
                 <div class="flex justify-between items-center">
                   <p class="flex text-[color:var(--dark-4)] text-[16px] gap-[8px] items-center">
@@ -251,7 +251,7 @@
                     </svg>
                     Sheriklikka
                   </p>
-                  <p-inputSwitch formControlName="partnership" inputId="partnership" />
+                  <p-toggleswitch formControlName="partnership" inputId="partnership" />
                 </div>
                 <div class="flex justify-between items-center w-full">
                   <p class="flex text-[color:var(--dark-4)] text-[16px] gap-[8px] items-center">
@@ -263,7 +263,7 @@
 
                     Pul birligi (Valyuta)
                   </p>
-                  <p-dropdown class="w-[200px]" styleClass="w-[200px]" [options]="currenyTypes"
+                  <p-select class="w-[200px]" styleClass="w-[200px]" [options]="currenyTypes"
                     formControlName="currency" optionLabel="label" optionValue="value" placeholder="Tuman" />
                 </div>
               </div>
@@ -320,7 +320,7 @@
         </div>
       </div>
       <div class="form-actions flex justify-start md:flex-col gap-3 mt-4">
-        <p-button *ngIf="status" pRipple pButton [loading]="_formControl.loading" (click)="onSubmit()"
+        <p-button *ngIf="status" [loading]="_formControl.loading" (click)="onSubmit()"
           class="px-0 py-0 bg-[transparent] w-[128px] rounded-[12px] border-0 md:w-full"
           styleClass="btn w-[270px] md:w-full px-0 py-0 p-ripple h-12 md:h-11 rounded-[12px] bg-[var(--green)] text-white flex font-semibold md:text-sm items-center justify-center">Saqlash</p-button>
         <p-button *ngIf="!status" pTooltip="E'lonni tahrirlash uchun e'lon aktiv bo'lishi kerak" tooltipPosition="top"

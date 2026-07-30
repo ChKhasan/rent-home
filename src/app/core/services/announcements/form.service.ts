@@ -77,7 +77,7 @@ export class FormService {
       .requestData(environment.authUrls.POST_ANNONCEMENTS, 'POST', this.payload())
       .pipe(finalize(() => (this.loading = false)))
       .subscribe((response) => {
-        this.toastService.showMessage('success', 'Success', "E'lon muvaffaqiyatli yaratildi");
+        this.toastService.showMessage('success', 'Muvaffaqiyat', "E'lon muvaffaqiyatli yaratildi");
         this.navigateAfterSave();
       });
   }
@@ -89,7 +89,7 @@ export class FormService {
       .requestData(environment.authUrls.PUT_ANNONCEMENTS + id + '/', 'PUT', this.payload())
       .pipe(finalize(() => (this.loading = false)))
       .subscribe((response) => {
-        this.toastService.showMessage('success', 'Success', "E'lon muvaffaqiyatli yangilandi");
+        this.toastService.showMessage('success', 'Muvaffaqiyat', "E'lon muvaffaqiyatli yangilandi");
         this.navigateAfterSave();
       });
   }

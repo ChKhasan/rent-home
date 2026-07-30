@@ -6,7 +6,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InvaidTextComponent } from '@components/form/invaid-text/invaid-text.component';
 import { NgClass, NgIf } from '@angular/common';
 import { PaginatorModule } from 'primeng/paginator';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { emailControl, firstControl, lastControl, nameControl } from '@/core/common/form-control';
 import { AuthService } from '@services/auth';
 import { ToastService } from '@services/toast';
@@ -28,7 +28,7 @@ import { take } from 'rxjs/operators';
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [RouterLink,DialogModule, SelectButtonModule, InputMaskModule, InputNumberModule, InputTextModule, InvaidTextComponent, NgIf, PaginatorModule, ReactiveFormsModule, NgClass, ButtonModule, FileUploadModule, LikesComponent, AnnouncementsComponent],
+  imports: [RouterLink, DialogModule, SelectButtonModule, InputMaskModule, InputNumberModule, InputTextModule, InvaidTextComponent, NgIf, PaginatorModule, FormsModule, ReactiveFormsModule, NgClass, ButtonModule, FileUploadModule, LikesComponent, AnnouncementsComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
 })
@@ -114,7 +114,7 @@ export class ProfileComponent implements OnInit {
   }
 
   eventPipe(data: any) {
-    this.toastService.showMessage('success', 'Success', data.message);
+    this.toastService.showMessage('success', 'Muvaffaqiyat', data.message);
   }
 
   putUser() {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { WebSocketSubject } from 'rxjs/internal/observable/dom/WebSocketSubject';
 import { webSocket } from 'rxjs/webSocket';
-import { Observable } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { environment } from '@environments';
 
 @Injectable({
@@ -15,11 +15,11 @@ export class WebSocketService {
   }
 
   public send(data: any): void {
-    this.socket$.next(data);
+    this.socket$?.next(data);
   }
 
   public onMessage(): Observable<any> {
-    return this.socket$.asObservable();
+    return this.socket$?.asObservable() ?? EMPTY;
   }
 
   public disconnect(): void {

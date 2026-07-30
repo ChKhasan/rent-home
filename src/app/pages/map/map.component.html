@@ -32,7 +32,7 @@
           </div>
           <p-progressSpinner class="z-[10001]"></p-progressSpinner>
         </div>
-        <ya-map [center]="coords" [zoom]="zoom" style="width: 100%; height: 400px; max-height: 400px"
+        <ya-map [center]="mapCenter" [zoom]="zoom" style="width: 100%; height: 400px; max-height: 400px"
           class="md:w-[481px] !pointer-events-none" [ngClass]="{'!pointer-events-none': transportLoading}">
           <ya-clusterer [options]="{
                 minClusterSize: 2,
@@ -74,16 +74,17 @@
             <div *ngIf="transports.length > 0" class="bg-white py-4 md:py-0 rounded-xl min-h-[200px] md:min-h-0">
 
               <h4 class="text-black font-semibold mb-4 text-[16]" *ngIf="['bus'].includes(tab)">
-                <span class="md:hidden block"> Автобусы поблизости </span><span class="md:block hidden">Выберите
-                  транспорт</span>
+                <span class="md:hidden block"> Yaqin atrofdagi avtobuslar </span><span class="md:block hidden">Transportni
+                  tanlang</span>
               </h4>
-              <h4 class="text-black font-semibold mb-4 text-[16]" *ngIf="['mashrutka'].includes(tab)">Маршруты
-                поблизости</h4>
-              <h4 class="text-black font-semibold mb-4 text-[16]" *ngIf="['metro'].includes(tab)">Линии метро поблизости
+              <h4 class="text-black font-semibold mb-4 text-[16]" *ngIf="['mashrutka'].includes(tab)">Yaqin atrofdagi
+                yo‘nalishlar</h4>
+              <h4 class="text-black font-semibold mb-4 text-[16]" *ngIf="['metro'].includes(tab)">Yaqin atrofdagi metro
+                liniyalari
               </h4>
               <p-multiSelect styleClass="w-full border-solid border border-[--grey-300] rounded-[8px] flex items-center"
                 [maxSelectedLabels]="100" (onClear)="onClear()" [showClear]="false" optionValue="ri"
-                (onChange)="onChange($event)" class="w-full" placeholder="Выберите транспорт" inputId="float-label"
+                (onChange)="onChange($event)" class="w-full" placeholder="Transportni tanlang" inputId="float-label"
                 display="chip" [options]="transports" [(ngModel)]="routeTransports" optionLabel="name">
                 <ng-template let-option pTemplate="selectedItem">
                   <div class="custom-chip" [ngClass]="{'background-color': 'red'}">
@@ -91,7 +92,7 @@
                   </div>
                 </ng-template>
               </p-multiSelect>
-              <p-button pButton (click)="showTransports = true"
+              <p-button (click)="showTransports = true"
                 styleClass="py-3 bg-[color:var(--green)] mt-4 rounded-[8px] text-sm text-white font-600 flex justify-center gap-2 px-0 w-full"
                 class="px-0 hidden md:flex py-0 w-full rounded-[8px] bg-[transparent] border-0">
                 Transportlar ro'yxatini ko'rish
@@ -157,7 +158,7 @@
     [(visible)]="showTransports" [style]="{top: '0', width: '25rem',height: '100vh',maxHeight: '100%'}">
     <div class="flex justify-between items-center mb-4">
       <h4 class="text-black font-semibold text-[16]">
-        Выберите транспорт
+        Transportni tanlang
       </h4>
 
       <p-button (onClick)="showTransports = false" icon="pi pi-times" [rounded]="true" [text]="true" [raised]="true"

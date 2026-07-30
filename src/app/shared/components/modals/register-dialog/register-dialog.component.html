@@ -24,7 +24,7 @@
             *ngIf="ruleForm.controls.name.invalid && (ruleForm.controls.name.dirty || ruleForm.controls.name.touched)">
             <app-invaid-text [text]="'Name is required.'"
               *ngIf="ruleForm.controls.name.errors && ruleForm.controls.name.errors['required']"></app-invaid-text>
-            <app-invaid-text [text]="'Password must be at least 4 characters long.'"
+            <app-invaid-text [text]="'Kod kamida 4 ta belgidan iborat bo‘lishi kerak.'"
               *ngIf="ruleForm.controls.name.errors && ruleForm.controls.name.errors['minlength']"></app-invaid-text>
           </div>
         </div>
@@ -48,7 +48,7 @@
           <div
             *ngIf="ruleForm.controls.phone_number.invalid && (ruleForm.controls.phone_number.dirty  || ruleForm.controls.phone_number.touched)"
           >
-            <app-invaid-text [text]="'Phone number is required.'"  *ngIf="ruleForm.controls.phone_number.errors && ruleForm.controls.phone_number.errors['required']"></app-invaid-text>
+            <app-invaid-text [text]="'Telefon raqami kiritilishi shart.'"  *ngIf="ruleForm.controls.phone_number.errors && ruleForm.controls.phone_number.errors['required']"></app-invaid-text>
             <app-invaid-text [text]="'Please enter in the format ##-###-##-##.'"  *ngIf="ruleForm.controls.phone_number.errors && ruleForm.controls.phone_number.errors['pattern']"></app-invaid-text>
           </div>
 
@@ -68,16 +68,16 @@
           <!--          ></p-inputNumber>-->
           <div
             *ngIf="ruleForm.controls.password.errors && ruleForm.controls.password.invalid && ruleForm.controls.password.touched">
-            <app-invaid-text [text]="'Password is required.'"
+            <app-invaid-text [text]="'Parol kiritilishi shart.'"
               *ngIf="ruleForm.controls.password.errors['required']"></app-invaid-text>
-            <app-invaid-text [text]="'Password must be at least 8 characters long.'"
+            <app-invaid-text [text]="'Parol kamida 8 ta belgidan iborat bo‘lishi kerak.'"
               *ngIf="!ruleForm.controls.password.errors['pattern'] && ruleForm.controls.password.errors['minlength']"></app-invaid-text>
-            <app-invaid-text [text]="'Password must contain at least one letter and one number.'"
+            <app-invaid-text [text]="'Parolda kamida bitta harf va bitta raqam bo‘lishi kerak.'"
               *ngIf="ruleForm.controls.password.errors['pattern']"></app-invaid-text>
           </div>
         </div>
         <div class="relative flex justify-center">
-          <app-invaid-text class="w-full flex justify-center" [text]="'Проверьте правильность введенных данных'"
+          <app-invaid-text class="w-full flex justify-center" [text]="'Kiritilgan ma’lumotlarni tekshiring'"
             *ngIf="infoError"></app-invaid-text>
         </div>
       </div>
