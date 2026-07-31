@@ -1,14 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CheckboxModule } from 'primeng/checkbox';
-import { InputSwitchModule } from 'primeng/inputswitch';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { FormsModule } from '@angular/forms';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { ButtonModule } from 'primeng/button';
 import { SliderModule } from 'primeng/slider';
 import { FilterForm } from '@services/interfaces';
 import { QueryService } from '@services/query';
-import { DropdownModule } from 'primeng/dropdown';
+import { SelectModule } from 'primeng/select';
 import { RequestService } from '@/core/services/request/request.service';
 import { environment } from '@environments';
 import { MultiSelectModule } from 'primeng/multiselect';
@@ -20,7 +20,7 @@ import { ValidationErrorAnimation } from '@/core/common/animations';
   selector: 'app-filter',
   standalone: true,
   animations: [ValidationErrorAnimation],
-  imports: [InputSwitchModule, FormsModule, CheckboxModule, InputNumberModule, ButtonModule, SliderModule, DropdownModule, MultiSelectModule, NgIf],
+  imports: [ToggleSwitchModule, FormsModule, CheckboxModule, InputNumberModule, ButtonModule, SliderModule, SelectModule, MultiSelectModule, NgIf],
   templateUrl: './filter.component.html',
   styleUrl: './filter.component.css',
 })

@@ -34,6 +34,9 @@ export class ListCarouselComponent {
       940: {
         items: 3,
       },
+      1280: {
+        items: 4,
+      },
     },
     nav: true,
   };

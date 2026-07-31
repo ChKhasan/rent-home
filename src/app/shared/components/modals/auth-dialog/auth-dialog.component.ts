@@ -43,7 +43,7 @@ export class AuthDialogComponent {
     this.tokenHandle(data.response);
     this.closeDialog();
     this.ruleForm.reset();
-    this.toastService.showMessage('success', 'Success', data.message);
+    this.toastService.showMessage('success', 'Muvaffaqiyat', data.message);
     this.authService.authHandler();
     if (this.afterComplite) this.afterComplite();
   }
@@ -79,7 +79,7 @@ export class AuthDialogComponent {
       )
       .subscribe(
         (response: any) => {
-          this.eventPipe({ message: 'Добро пожаловать', response: response });
+          this.eventPipe({ message: 'Xush kelibsiz', response: response });
         },
         (error) => {
           if (error.status === 401) this.infoError = true;

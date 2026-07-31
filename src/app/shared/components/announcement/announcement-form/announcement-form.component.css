@@ -1,7 +1,50 @@
+.announcement-page {
+  background: #f7f8fa;
+  min-height: 100vh;
+}
+
+.page-heading {
+  margin-bottom: 8px;
+}
+
+.form-card,
+.form-status-card {
+  width: 100%;
+  background: #fff;
+  border: 1px solid #e4e7ec !important;
+  border-radius: 18px !important;
+  padding: 28px !important;
+  box-shadow: 0 16px 36px rgba(16, 24, 40, 0.06);
+}
+
+.form-status-inner,
+.form-shell {
+  width: 100%;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 24px;
+  align-items: start;
+}
+
+.form-grid > div {
+  min-width: 0;
+}
+
+.form-span-2 {
+  grid-column: 1 / -1;
+}
+
+.form-grid label {
+  line-height: 1.35;
+}
+
 .form-input input,
 :host ::ng-deep .p-multiselect,
 :host ::ng-deep .p-dropdown {
-  height: 44px;
+  height: 48px;
 }
 .form-input input,
 .form-input textarea,
@@ -11,10 +54,23 @@
   font-size: 16px;
   font-weight: 400;
   width: 100%;
-  border-radius: 8px;
+  border-radius: 10px;
   border: 1px solid var(--grey-300);
-  padding: 10px 18px;
+  padding: 11px 16px;
+  background: #fff;
 }
+:host ::ng-deep .p-inputnumber-input {
+  height: 48px;
+  width: 100%;
+}
+
+.form-input textarea {
+  min-height: 132px;
+  line-height: 1.45;
+  resize: vertical;
+  word-break: normal;
+}
+
 :host ::ng-deep .p-multiselect-label,
 :host ::ng-deep .p-dropdown-label {
   display: flex;
@@ -25,7 +81,7 @@
   font-family: var(--regular);
   font-size: 16px;
   font-weight: 400;
-  border-radius: 8px;
+  border-radius: 10px;
   border: 1px solid var(--grey-300);
 }
 :host ::ng-deep .p-dropdown {
@@ -33,14 +89,26 @@
   font-family: var(--regular);
   font-size: 16px;
   font-weight: 400;
-  border-radius: 8px;
+  border-radius: 10px;
   border: 1px solid var(--grey-300);
 }
+
+.form-input input:focus,
+.form-input textarea:focus,
+:host ::ng-deep .p-inputtext:enabled:focus,
+:host ::ng-deep .p-dropdown:not(.p-disabled).p-focus,
+:host ::ng-deep .p-multiselect:not(.p-disabled).p-focus {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: 0 0 0 3px rgba(95, 195, 129, 0.16);
+  border-color: var(--green);
+}
+
 textarea:focus {
   outline: 0 none;
   outline-offset: 0;
-  box-shadow: 0 0 0 0.2rem #b7e0b8;
-  border-color: #4caf50;
+  box-shadow: 0 0 0 3px rgba(95, 195, 129, 0.16);
+  border-color: var(--green);
 }
 :host ::ng-deep .p-inputnumber {
   width: 100%;
@@ -49,9 +117,109 @@ textarea:focus {
   width: 104px;
   height: 104px;
 }
+
+.photo-section .card {
+  justify-content: flex-start;
+}
+
+.feature-section,
+.pricing-section {
+  border-top: 1px solid #eef0f3;
+  padding-top: 20px;
+}
+
+.feature-section > div {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 24px;
+}
+
+.feature-section > div > div {
+  min-height: 48px;
+  border-bottom: 1px solid #f2f4f7;
+  padding: 8px 0;
+}
+
+.feature-section p {
+  word-break: normal;
+}
+
+.pricing-section {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 24px;
+}
+
+.map-action-row {
+  justify-content: flex-start;
+  max-width: 100%;
+  margin-top: 2px;
+}
+
 .map-btn {
-  transition: .3s;
+  min-width: 250px;
+  padding: 0 20px;
+  transition: 0.2s ease;
 }
 .map-btn:hover {
-  background-color: #a7c9fb;
+  background-color: #2f66b9;
+}
+
+.form-actions {
+  align-items: center;
+}
+
+.deal-type-option {
+  border: 1px solid var(--grey-300);
+  border-radius: 999px;
+  padding: 9px 20px;
+  font-weight: 600;
+  background-color: transparent;
+  color: var(--grey-600);
+  transition: all 0.2s ease;
+}
+
+.deal-type-option--active {
+  background-color: var(--green);
+  color: #fff;
+  border-color: var(--green);
+  box-shadow: 0 8px 20px rgba(64, 184, 105, 0.2);
+}
+
+@media (max-width: 768px) {
+  .announcement-page {
+    background: #fff;
+  }
+
+  .page-heading {
+    margin-bottom: 0;
+  }
+
+  .form-card,
+  .form-status-card {
+    border-radius: 14px !important;
+    padding: 16px !important;
+    box-shadow: none;
+  }
+
+  .form-grid,
+  .feature-section > div,
+  .pricing-section {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .form-span-2 {
+    grid-column: auto;
+  }
+
+  .feature-section,
+  .pricing-section {
+    padding-top: 16px;
+  }
+
+  .map-btn {
+    width: 100%;
+    min-width: 0;
+  }
 }

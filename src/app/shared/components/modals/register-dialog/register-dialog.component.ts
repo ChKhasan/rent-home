@@ -45,7 +45,7 @@ export class RegisterDialogComponent {
   eventPipe(data: any) {
     this.closeDialog();
     this.ruleForm.reset();
-    this.toastService.showMessage('success', 'Success', data.message);
+    this.toastService.showMessage('success', 'Muvaffaqiyat', data.message);
     console.log("completeCallback",this.completeCallback)
     if (this.completeCallback) this.completeCallback();
   }
@@ -69,7 +69,7 @@ export class RegisterDialogComponent {
       .subscribe(
         (response) => {
           this.eventPipe({
-            message: 'Вы успешно зарегистрировались',
+            message: "Ro'yxatdan muvaffaqiyatli o'tdingiz",
             response: response,
           });
         },

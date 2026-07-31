@@ -19,6 +19,10 @@
       <div class="flex flex-col gap-2 items-center relative">
         <label class="font-400 text-[--gray-6] text-base">Telefon raqamingiz</label>
         <p-inputOtp [length]="5" [(ngModel)]="code"></p-inputOtp>
+        <div *ngIf="localOtpCode" class="w-full rounded-[8px] bg-[--gray-1] px-4 py-3 text-center">
+          <p class="text-sm text-[--gray-6]">Local OTP kod</p>
+          <p class="text-[22px] font-700 text-[color:var(--green)] tracking-[4px]">{{ localOtpCode }}</p>
+        </div>
       </div>
       <!--      </div>-->
       <button pButton [loading]="loading" (click)="onSubmit()" class="w-full mt-[18px] h-12 items-center text-[17px] bg-[color:var(--green)] rounded-[8px] text-white font-600 flex justify-center">Tasdiqlash</button>

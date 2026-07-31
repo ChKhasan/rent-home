@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, ElementRef, HostListener, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { DatePipe, NgClass, NgForOf, NgIf, NgTemplateOutlet } from '@angular/common';
 import { SkeletonModule } from 'primeng/skeleton';
 import { NavigationExtras, Router, RouterLink } from '@angular/router';
@@ -16,6 +16,7 @@ import { ChatService } from '@services/chat';
 import { debounceTime, finalize, fromEvent } from 'rxjs';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { DialogModule } from 'primeng/dialog';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-chat',
@@ -47,13 +48,14 @@ export class ChatComponent implements OnInit, AfterViewInit {
   public scrollingCurrentDate: string = '';
   public showList = false;
   public emptyQuery: any = [];
-  constructor(public authService: AuthService, private chatService: ChatService, private queryService: QueryService, private router: Router) {}
+  private socketEventsBound = false;
+  constructor(public authService: AuthService, private chatService: ChatService, private queryService: QueryService, private router: Router, private destroyRef: DestroyRef) {}
 
   ngOnInit(): void {
     if (typeof window !== 'undefined') {
       this.emptyQuery = !Object.keys(this.queryService.activeQueryList()).length;
       if (!('userId' in this.queryService.activeQueryList())) this.updateShowList();
-      this.authService.getBooleanValue().subscribe((value) => {
+      this.authService.getBooleanValue().pipe(takeUntilDestroyed(this.destroyRef)).subscribe((value) => {
         if (value) this.firstConnection();
       });
     }
@@ -64,12 +66,18 @@ export class ChatComponent implements OnInit, AfterViewInit {
   };
 
   firstConnection() {
-    setTimeout(() => {
-      this.chatService.onMessage().subscribe((message) => {
-        this.loading = false;
-        this.commandController(message);
-      });
-    }, 100);
+    if (!this.socketEventsBound) {
+      this.socketEventsBound = true;
+      setTimeout(() => {
+        this.chatService
+          .onMessage()
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe((message) => {
+            this.loading = false;
+            this.commandController(message);
+          });
+      }, 100);
+    }
     this.__GET_USER_ROOMS();
   }
 
@@ -77,7 +85,10 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.loadingRooms = true;
     this.chatService
       .getUserRooms()
-      .pipe(finalize(() => (this.loadingRooms = false)))
+      .pipe(
+        finalize(() => (this.loadingRooms = false)),
+        takeUntilDestroyed(this.destroyRef)
+      )
       .subscribe((response: IUserRooms[]) => {
         if (response.length > 0) {
           this.userRooms = response
@@ -113,6 +124,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
   roomIdMergeQuery(room: any) {
+    if (!room?.id) return;
     let navigationExtras: NavigationExtras = {
       queryParams: { roomId: room.id },
     };
@@ -122,7 +134,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
   sendMessage(): void {
-    let receiver = Number(this.queryService.activeQueryList()['userId']) || this.isRoom.user.id;
+    let receiver = Number(this.queryService.activeQueryList()['userId']) || this.isRoom?.user?.id;
     if (this.authService.auth && this.authService.user.id && this.message.length > 0 && (this.userRooms.length || receiver)) {
       this.loading = true;
       this.pendingMessages.push({
@@ -170,7 +182,9 @@ export class ChatComponent implements OnInit, AfterViewInit {
     let currentRoom = this.userRooms.find((elem: any) => {
       return elem.users.find((item: any) => item.id === message.message.user_id);
     });
+    if (!currentRoom) return;
     let currentUser = currentRoom.users.find((item: any) => item.id === message.message.user_id);
+    if (!currentUser) return;
     currentUser.is_online = message.type === 'online';
   }
 
@@ -214,12 +228,14 @@ export class ChatComponent implements OnInit, AfterViewInit {
       this.readNewMessage(message);
     } else {
       let curentRoom = this.userRooms.find((elem: any) => elem.id === message.room);
+      if (!curentRoom) return;
       curentRoom.message = message.message;
       curentRoom.messages.unshift(message);
     }
   }
 
   handlerRoom = (room: IUserRooms) => {
+    if (!room?.id) return;
     let navigationExtras: NavigationExtras = {
       queryParams: { roomId: room.id },
     };
@@ -235,7 +251,10 @@ export class ChatComponent implements OnInit, AfterViewInit {
       this.loadingMessages = true;
       this.chatService
         .getMessages(id)
-        .pipe(finalize(() => (this.loadingMessages = false)))
+        .pipe(
+          finalize(() => (this.loadingMessages = false)),
+          takeUntilDestroyed(this.destroyRef)
+        )
         .subscribe((response: IMessageObj) => {
           let isFirstUnread = false;
           this.messages = response.messages
@@ -265,7 +284,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     if (this.parentDiv) {
       const scroll$ = fromEvent(this.parentDiv.nativeElement, 'scroll');
-      scroll$.pipe(debounceTime(1000)).subscribe(() => {
+      scroll$.pipe(debounceTime(1000), takeUntilDestroyed(this.destroyRef)).subscribe(() => {
         this.onParentDivScrolled();
       });
     }

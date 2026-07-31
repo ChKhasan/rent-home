@@ -4,7 +4,6 @@ import { AngularYandexMapsModule } from 'angular8-yandex-maps';
 import { NgForOf, NgIf } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { finalize } from 'rxjs';
-import { CryptoService } from '@services/crypto';
 import { RequestService } from '@services/request';
 import { environment } from '@environments';
 
@@ -29,10 +28,7 @@ export class MapDialogComponent implements OnInit {
   public busRoute: any = {};
   @Input() formHandle!: Function;
 
-  constructor(
-    private cryptoService: CryptoService,
-    private requestService: RequestService,
-  ) {}
+  constructor(private requestService: RequestService) {}
 
   showDialog() {
     this.visible = true;
@@ -54,12 +50,10 @@ export class MapDialogComponent implements OnInit {
   }
 
   transportParams(coords: number[]) {
-    const secretKey = this.cryptoService.getKey();
     return {
       location_x: coords[0],
       location_y: coords[1],
       nearby: 500,
-      key: secretKey,
       city: 'tashkent',
     };
   }
@@ -114,10 +108,8 @@ export class MapDialogComponent implements OnInit {
   };
 
   handleBusRoute(number: any) {
-    const secretKey = this.cryptoService.getKey();
     const formData = {
       id: number,
-      key: secretKey,
     };
     this.activeBus = number;
     this.__GET_BUS_ROUTE(formData, number);

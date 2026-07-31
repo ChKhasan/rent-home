@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { NgForOf, NgIf, NgClass } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { SkeletonModule } from 'primeng/skeleton';
-import { ChartModule } from 'primeng/chart';
 import { environment } from '@environments';
 import { RequestService } from '@services/request';
 import { finalize } from 'rxjs';
@@ -38,6 +37,29 @@ interface AgencyStatsResponse {
   announcements: AnnouncementStat[];
 }
 
+interface TopAnnouncementView extends AnnouncementStat {
+  activityTotal: number;
+  exposureTotalValue: number;
+  scorePercent: number;
+  filterPercent: number;
+  recommendationPercent: number;
+}
+
+interface PeriodSummaryView {
+  key: RangeKey;
+  label: string;
+  value: number;
+  percent: number;
+  averageLabel: string;
+}
+
+interface SourceSummaryView {
+  label: string;
+  value: number;
+  percent: number;
+  className: string;
+}
+
 @Component({
   selector: 'app-agency-dashboard',
   standalone: true,
@@ -47,7 +69,6 @@ interface AgencyStatsResponse {
     NgClass,
     ButtonModule,
     SkeletonModule,
-    ChartModule,
     RouterLink,
   ],
   templateUrl: './dashboard.component.html',
@@ -62,13 +83,9 @@ export class AgencyDashboardComponent implements OnInit {
   stats: AgencyStatsResponse | null = null;
   activeRange: RangeKey = 'today';
 
-  viewsChartData: any;
-  viewsChartOptions: any;
-  exposureChartData: any;
-  exposureChartOptions: any;
-  topAnnouncementsChartData: any;
-  topAnnouncementsChartOptions: any;
-  topAnnouncementsList: AnnouncementStat[] = [];
+  periodSummaries: PeriodSummaryView[] = [];
+  sourceSummaries: SourceSummaryView[] = [];
+  topAnnouncementsList: TopAnnouncementView[] = [];
 
   readonly summaryOrder: RangeKey[] = ['today', 'week', 'month'];
   readonly rangeLabels: Record<RangeKey, string> = {
@@ -151,128 +168,94 @@ export class AgencyDashboardComponent implements OnInit {
   }
 
   resetCharts() {
-    this.viewsChartData = null;
-    this.exposureChartData = null;
-    this.topAnnouncementsChartData = null;
+    this.periodSummaries = [];
+    this.sourceSummaries = [];
     this.topAnnouncementsList = [];
   }
 
   buildViewsChart() {
-    const labels = this.summaryOrder.map((key) => this.rangeLabels[key]);
-    const data = this.summaryOrder.map((key) => this.stats?.summary?.[key] || 0);
-    this.viewsChartData = {
-      labels,
-      datasets: [
-        {
-          label: 'Ko‘rishlar',
-          backgroundColor: '#22c55e',
-          borderRadius: 8,
-          data,
-        },
-      ],
-    };
-    this.viewsChartOptions = {
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          display: false,
-        },
-      },
-      scales: {
-        x: {
-          grid: {
-            display: false,
-          },
-        },
-        y: {
-          beginAtZero: true,
-          ticks: {
-            precision: 0,
-          },
-        },
-      },
-    };
+    const values = this.summaryOrder.map((key) => this.stats?.summary?.[key] || 0);
+    const maxValue = Math.max(...values, 1);
+    this.periodSummaries = this.summaryOrder.map((key, index) => {
+      const value = values[index];
+      return {
+        key,
+        label: this.rangeLabels[key],
+        value,
+        percent: Math.max(Math.round((value / maxValue) * 100), value > 0 ? 4 : 0),
+        averageLabel: this.getAverageLabel(key, value),
+      };
+    });
   }
 
   buildExposureChart() {
     const filter = this.stats?.range_exposures?.filter || 0;
     const recommendation = this.stats?.range_exposures?.recommendation || 0;
-    this.exposureChartData = {
-      labels: ['Filtr', 'Tavsiyalar'],
-      datasets: [
-        {
-          data: [filter, recommendation],
-          backgroundColor: ['#0ea5e9', '#f97316'],
-          hoverOffset: 8,
-        },
-      ],
-    };
-    this.exposureChartOptions = {
-      maintainAspectRatio: false,
-      cutout: '60%',
-      plugins: {
-        legend: {
-          position: 'bottom',
-        },
+    const total = this.stats?.range_exposures?.total || filter + recommendation;
+    this.sourceSummaries = [
+      {
+        label: "Filtr natijalari",
+        value: filter,
+        percent: this.toPercent(filter, total),
+        className: 'source-filter',
       },
-    };
+      {
+        label: 'Tavsiyalar',
+        value: recommendation,
+        percent: this.toPercent(recommendation, total),
+        className: 'source-recommendation',
+      },
+    ];
   }
 
   buildTopAnnouncements() {
     const items = (this.stats?.announcements || []).slice(0, 5);
-    this.topAnnouncementsList = items;
-    if (!items.length) {
-      this.topAnnouncementsChartData = null;
-      return;
-    }
-    this.topAnnouncementsChartData = {
-      labels: items.map((item) => item.title),
-      datasets: [
-        {
-          label: 'Ko‘rishlar',
-          backgroundColor: '#22c55e',
-          data: items.map((item) => item.views),
-          borderRadius: 6,
-        },
-        {
-          label: 'Filtr ko‘rsatishlar',
-          backgroundColor: '#0ea5e9',
-          data: items.map((item) => item.filter_exposures || 0),
-          borderRadius: 6,
-        },
-        {
-          label: 'Tavsiyalar',
-          backgroundColor: '#f97316',
-          data: items.map((item) => item.recommendation_exposures || 0),
-          borderRadius: 6,
-        },
-      ],
-    };
-    this.topAnnouncementsChartOptions = {
-      indexAxis: 'y',
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: 'bottom',
-        },
-      },
-      scales: {
-        x: {
-          beginAtZero: true,
-          ticks: {
-            precision: 0,
-          },
-        },
-        y: {
-          grid: {
-            display: false,
-          },
-        },
-      },
-    };
+    const maxActivity = Math.max(...items.map((item) => this.getActivityTotal(item)), 1);
+    this.topAnnouncementsList = items.map((item) => this.toTopAnnouncementView(item, maxActivity));
   }
 
   getRangeLabel(key: RangeKey) {
     return this.rangeLabels[key];
+  }
+
+  get selectedPeriodSummary(): PeriodSummaryView | undefined {
+    return this.periodSummaries.find((item) => item.key === this.activeRange);
+  }
+
+  get sourceTotal(): number {
+    return this.sourceSummaries.reduce((sum, item) => sum + item.value, 0);
+  }
+
+  private toTopAnnouncementView(item: AnnouncementStat, maxActivity: number): TopAnnouncementView {
+    const filter = item.filter_exposures || 0;
+    const recommendation = item.recommendation_exposures || 0;
+    const exposureTotal = item.exposure_total || filter + recommendation;
+    const activityTotal = this.getActivityTotal(item);
+
+    return {
+      ...item,
+      activityTotal,
+      exposureTotalValue: exposureTotal,
+      scorePercent: Math.max(Math.round((activityTotal / maxActivity) * 100), activityTotal > 0 ? 4 : 0),
+      filterPercent: this.toPercent(filter, exposureTotal),
+      recommendationPercent: this.toPercent(recommendation, exposureTotal),
+    };
+  }
+
+  private getActivityTotal(item: AnnouncementStat): number {
+    return (item.views || 0) + (item.filter_exposures || 0) + (item.recommendation_exposures || 0);
+  }
+
+  private toPercent(value: number, total: number): number {
+    return total > 0 ? Math.round((value / total) * 100) : 0;
+  }
+
+  private getAverageLabel(key: RangeKey, value: number): string {
+    if (key === 'today') {
+      return 'Bugungi jami';
+    }
+    const days = key === 'week' ? 7 : 30;
+    const average = Math.round(value / days);
+    return `Kuniga o'rtacha ${average}`;
   }
 }

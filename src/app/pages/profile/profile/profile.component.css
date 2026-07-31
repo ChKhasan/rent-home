@@ -1,12 +1,201 @@
+.profile-page {
+  background: #f7f8fa;
+  min-height: 100vh;
+}
+
+.profile-toolbar {
+  gap: 18px;
+}
+
+.profile-actions {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.profile-action-btn,
+.logout-btn,
+.profile-edit-btn {
+  min-height: 48px;
+  transition: 0.2s ease;
+}
+
+.profile-action-btn:hover,
+.profile-edit-btn:hover {
+  transform: translateY(-1px);
+}
+
+.agency-action {
+  border: 1px solid #d7f0df;
+}
+
+.logout-btn:hover {
+  background: rgba(212, 38, 32, 0.06);
+}
+
+.profile-summary-card,
+.profile-edit-panel {
+  width: 100%;
+  background: #fff;
+  border: 1px solid #e4e7ec;
+  border-radius: 18px;
+  box-shadow: 0 16px 36px rgba(16, 24, 40, 0.06);
+}
+
+.profile-summary-card {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding: 30px 34px;
+}
+
+.profile-avatar {
+  border-radius: 999px;
+  background: #eef1f5;
+  box-shadow: inset 0 0 0 1px #d9dee7;
+}
+
+.profile-avatar .image {
+  background: #eef1f5;
+}
+
+.profile-summary-body {
+  flex: 1;
+  min-width: 0;
+  gap: 18px;
+}
+
+.profile-identity h5 {
+  color: #101828;
+  line-height: 1.18;
+  word-break: break-word;
+}
+
+.profile-eyebrow {
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0;
+  margin-bottom: 4px;
+}
+
+.profile-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.profile-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  padding: 7px 12px;
+  border: 1px solid #e4e7ec;
+  border-radius: 999px;
+  color: #475367;
+  font-size: 14px;
+  background: #fafbfc;
+}
+
+.profile-meta i {
+  color: var(--green);
+  font-size: 13px;
+}
+
+.profile-edit-btn {
+  color: #344054;
+  border-color: #d0d5dd !important;
+}
+
+.profile-edit-panel {
+  padding: 28px;
+}
+
+.profile-edit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.profile-form-section {
+  border-top: 1px solid #eef0f3;
+  padding-top: 22px;
+}
+
+.profile-section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.profile-section-title i {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  color: var(--green);
+  background: rgba(95, 195, 129, 0.12);
+}
+
+.profile-section-title h5 {
+  margin: 0;
+  color: #101828;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.profile-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 24px;
+}
+
+.profile-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.profile-field--full {
+  grid-column: 1 / -1;
+}
+
+.profile-form-actions {
+  align-items: center;
+  padding-top: 2px;
+}
+
 :host ::ng-deep .p-inputmask,
 :host ::ng-deep .password-input input {
-  border-radius: 8px;
-  border: 2px solid var(--input-stroke);
-  background: var(--gray-1);
+  border-radius: 10px;
+  border: 1px solid var(--grey-300);
+  background: #fff;
   height: 48px;
   font-family: var(--medium);
   color: var(--dark-5);
   width: 100%;
+  padding: 11px 16px;
+  box-shadow: none;
+  transition: 0.2s ease;
+}
+:host ::ng-deep .password-input input:enabled:focus,
+:host ::ng-deep .profile-input input:enabled:focus {
+  outline: 0 none;
+  outline-offset: 0;
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(95, 195, 129, 0.16);
 }
 :host ::ng-deep .password-input span {
   width: 100%;
@@ -48,8 +237,91 @@
   border-bottom-right-radius: 16px;
 }
 
-@media (max-width: 768px) {
+:host ::ng-deep .profile-upload .file-upload,
 :host ::ng-deep .file-upload {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--green);
+  border: 0;
+  color: #fff;
+  box-shadow: 0 10px 22px rgba(64, 184, 105, 0.24);
+}
+
+:host ::ng-deep .profile-upload .file-upload .p-button-label,
+:host ::ng-deep .file-upload .p-button-label {
+  display: none;
+}
+
+:host ::ng-deep .profile-upload .file-upload .p-button-icon,
+:host ::ng-deep .file-upload .p-button-icon {
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .profile-page {
+    background: #fff;
+  }
+
+  .profile-toolbar {
+    align-items: stretch;
+  }
+
+  .profile-actions {
+    width: 100%;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .profile-action-btn,
+  .logout-btn,
+  .profile-edit-btn {
+    min-height: 40px;
+  }
+
+  .profile-summary-card {
+    align-items: center;
+    gap: 14px;
+    padding: 16px;
+    border-radius: 14px;
+    box-shadow: none;
+  }
+
+  .profile-summary-body {
+    gap: 10px;
+  }
+
+  .profile-meta {
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .profile-meta span {
+    min-height: 30px;
+    font-size: 12px;
+    padding: 5px 9px;
+  }
+
+  .profile-edit-panel {
+    padding: 16px;
+    border-radius: 14px;
+    box-shadow: none;
+  }
+
+  .profile-form-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .profile-field--full {
+    grid-column: auto;
+  }
+
+  .profile-section-title h5 {
+    font-size: 16px;
+  }
+
+  :host ::ng-deep .file-upload {
     width: 30px;
     height: 30px;
   }

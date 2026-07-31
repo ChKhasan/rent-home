@@ -6,7 +6,6 @@ import { RegisterDialogComponent } from '../../modals/register-dialog/register-d
 import { AuthDialogComponent } from '../../modals/auth-dialog/auth-dialog.component';
 import { NumberDialogComponent } from '../../modals/number-dialog/number-dialog.component';
 import { SmsDialogComponent } from '../../modals/sms-dialog/sms-dialog.component';
-import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { DropdownComponent } from '../../dropdown/dropdown.component';
 import { AuthService } from '@services/auth';
@@ -14,7 +13,7 @@ import { ButtonModule } from 'primeng/button';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, NgIf, ToastModule, RegisterDialogComponent, AuthDialogComponent, NumberDialogComponent, SmsDialogComponent, DropdownModule, FormsModule, ButtonModule, DropdownComponent],
+  imports: [RouterLink, NgIf, ToastModule, RegisterDialogComponent, AuthDialogComponent, NumberDialogComponent, SmsDialogComponent, FormsModule, ButtonModule, DropdownComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })

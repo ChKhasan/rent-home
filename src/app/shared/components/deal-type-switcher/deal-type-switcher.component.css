@@ -1,0 +1,39 @@
+.deal-type-switcher {
+  display: inline-flex;
+  padding: 4px;
+  border: 1px solid var(--grey-300);
+  border-radius: 999px;
+  background-color: #fff;
+  gap: 4px;
+}
+
+.deal-type-switcher__btn {
+  border: none;
+  background: transparent;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  color: var(--grey-600);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.deal-type-switcher__btn--active {
+  background-color: var(--green);
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(64, 184, 105, 0.25);
+}
+
+@media (max-width: 768px) {
+  .deal-type-switcher {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .deal-type-switcher__btn {
+    flex: 1;
+    padding: 8px 0;
+    font-size: 14px;
+  }
+}

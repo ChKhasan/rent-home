@@ -4,12 +4,16 @@
     <ul class="flex justify-between">
       <li *ngFor="let menuItem of menuList">
         <button *ngIf="menuItem.isPath === '/profile'; else list" (click)="menuItem.action()" [ngClass]="{ active: isPath.includes('profile') }" class="flex flex-col gap-[6px] font-400 text-[12px] text-[--gray-6] bg-[transparent] items-center">
-          <span class="w-10 h-[26px] flex justify-center items-center rounded-[4px]" [innerHTML]="sanitize(menuItem.icon)"></span>
+          <span class="nav-icon w-10 h-[26px] flex justify-center items-center rounded-[4px]">
+            <i [class]="menuItem.iconClass"></i>
+          </span>
           {{ menuItem.title }}
         </button>
         <ng-template #list>
           <button [routerLink]="menuItem.isPath" [routerLinkActiveOptions]="{ exact: menuItem.isPath === '/' }" routerLinkActive="active" class="flex flex-col gap-[6px] font-400 text-[12px] text-[--gray-6] bg-[transparent] items-center">
-            <span class="w-10 h-[26px] flex justify-center items-center rounded-[4px]" [innerHTML]="sanitize(menuItem.icon)"></span>
+            <span class="nav-icon w-10 h-[26px] flex justify-center items-center rounded-[4px]">
+              <i [class]="menuItem.iconClass"></i>
+            </span>
             {{ menuItem.title }}
           </button>
         </ng-template>

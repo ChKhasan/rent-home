@@ -38,6 +38,8 @@ export class LikesService {
     );
   }
   delete(payload: { id: number }): Observable<IAnnouncementListItem[]> {
-    return this._httpsClient.delete<IAnnouncementListItem[]>(environment.authUrls.DELETE_LIKES + '/' + payload.id).pipe(debounceTime(300));
+    return this._httpsClient
+      .delete<IAnnouncementListItem[]>(`${environment.authUrls.DELETE_LIKES}/by-announcement/${payload.id}/`)
+      .pipe(debounceTime(300));
   }
 }

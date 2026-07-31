@@ -12,6 +12,12 @@ import { finalize } from 'rxjs';
 import { RequestService } from '@services/request';
 import { environment } from '@environments';
 
+interface PhoneVerificationResponse {
+  phone_number?: string;
+  otp_code?: string | number;
+  local_otp?: boolean;
+}
+
 @Component({
   selector: 'app-number-dialog',
   standalone: true,
@@ -20,6 +26,7 @@ import { environment } from '@environments';
   styleUrl: './number-dialog.component.css',
 })
 export class NumberDialogComponent {
+  private readonly localOtpCodeStorageKey = 'local_otp_code';
   visible: boolean = false;
   loading: boolean = false;
   @Input() url: string | undefined;
@@ -49,14 +56,34 @@ export class NumberDialogComponent {
   postLogin() {
     this.loading = true;
     const data = this.dataTransform();
+    localStorage.removeItem(this.localOtpCodeStorageKey);
 
     this.requestService
-      .requestData(environment.urls.POST_NUMBER, 'POST', data)
+      .requestData<PhoneVerificationResponse>(environment.urls.POST_NUMBER, 'POST', data)
       .pipe(finalize(() => (this.loading = false)))
-      .subscribe((response) => {
-        this.eventPipe();
-      },(error) => {
-        console.log(error)
+      .subscribe({
+        next: (response) => {
+          const otpCode = response?.otp_code;
+          const shouldStoreLocalOtp =
+            !environment.production &&
+            response?.local_otp === true &&
+            otpCode !== undefined &&
+            otpCode !== null &&
+            String(otpCode).trim() !== '';
+
+          if (shouldStoreLocalOtp) {
+            localStorage.setItem(
+              this.localOtpCodeStorageKey,
+              JSON.stringify({ code: String(otpCode), local_otp: true })
+            );
+          }
+          this.eventPipe();
+        },
+        error: (error) => {
+          if (!environment.production) {
+            console.error('Phone verification failed', error);
+          }
+        },
       });
   }
   showDialog() {

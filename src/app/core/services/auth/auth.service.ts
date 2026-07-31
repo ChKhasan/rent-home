@@ -22,21 +22,32 @@ export class AuthService {
   }
   constructor(private location: Location, private router: Router, private requestService: RequestService) {}
 
-  authHandler() {
+  authHandler(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       const AUTH_TOKEN = localStorage.getItem(environment.accessToken);
       const REFRESH_TOKEN = localStorage.getItem(environment.refreshToken);
       if (Boolean(AUTH_TOKEN) || Boolean(REFRESH_TOKEN)) {
-        this.requestService.getData<IUserInfo>(environment.authUrls.GET_ME).subscribe((response: IUserInfo) => {
-          if (response) {
-            this.user = response;
-            this.auth = true;
-            this.setBooleanValue(this.auth);
+        this.requestService.getData<IUserInfo>(environment.authUrls.GET_ME).subscribe({
+          next: (response: IUserInfo) => {
+            if (response) {
+              this.user = response;
+              this.auth = true;
+              this.setBooleanValue(this.auth);
+            }
             resolve();
-          }
+          },
+          error: () => {
+            this.auth = false;
+            this.user = {};
+            this.setBooleanValue(false);
+            resolve();
+          },
         });
       } else {
         this.auth = false;
+        this.user = {};
+        this.setBooleanValue(false);
+        resolve();
       }
     });
   }
@@ -56,7 +67,6 @@ export class AuthService {
           resolve(response);
         },
         error: (err) => {
-          console.error('Token refresh failed:', err);
           this.tokenClear();
           reject(err);
         },
@@ -70,6 +80,9 @@ export class AuthService {
   tokenClear() {
     localStorage.removeItem(environment.refreshToken);
     localStorage.removeItem(environment.accessToken);
+    this.auth = false;
+    this.user = {};
+    this.setBooleanValue(false);
   }
   logout() {
     localStorage.removeItem(environment.accessToken);

@@ -1,15 +1,22 @@
-<div class="announcements py-[60px] md:py-[18px]">
-  <div class="max-w-[1120px] mx-auto px-4">
-    <div class="title flex justify-between items-center">
-      <h3 class="text-[40px] font-medium text-[--green] md:text-2xl">E`lonlar berish</h3>
+<div class="announcements announcement-page py-[60px] md:py-[18px]">
+  <div class="max-w-[1180px] mx-auto px-4">
+    <div class="title page-heading flex justify-between items-center">
+      <div>
+        <h3 class="text-[40px] font-medium text-[--green] md:text-2xl">
+          {{ isAgencyMode ? "Agentlik nomidan e'lon berish" : "E'lon berish" }}
+        </h3>
+        <p *ngIf="isAgencyMode" class="text-[--grey-500] text-sm mt-1">
+          Bu e'lon shaxsiy profilingizda emas, agentlik kabinetida boshqariladi.
+        </p>
+      </div>
     </div>
     <div *ngIf="isEdit"
-      class="forma mt-6 md:max-w-full mx-auto md:bg-transparent border-solid border rounded-2xl border-[--grey-300] p-4 md:p-4">
-      <div class="max-w-[552px] md:max-w-full">
+      class="forma form-status-card mt-6 md:max-w-full mx-auto md:bg-transparent border-solid border rounded-2xl border-[--grey-300] p-4 md:p-4">
+      <div class="form-status-inner">
         <div class="flex justify-between items-center">
           <label class="font-medium text-[14px] text-[--grey-900]" [ngClass]="status ? 'text-[--green]':'text-[--red]'">
             {{status ? 'E`lon faol':'E`lon faol emas'}}</label>
-          <p-inputSwitch (onChange)="statusChange($event)" [(ngModel)]="status" />
+          <p-toggleswitch (onChange)="statusChange($event)" [(ngModel)]="status" />
         </div>
 
       </div>
@@ -17,28 +24,42 @@
 
     <div class="body mt-[30px]" [formGroup]="ruleForm">
       <div
-        class="forma md:max-w-full mx-auto md:bg-transparent border-solid border rounded-2xl border-[--grey-300] p-4 md:p-4">
-        <div class="max-w-[552px] md:max-w-full">
-          <div class="form-grid flex flex-col gap-4">
-            <div class="flex flex-col gap-1 relative">
-              <label class="font-medium text-[14px] text-[--grey-900]" for="name">E`lon nomi*</label>
+        class="forma form-card md:max-w-full mx-auto md:bg-transparent border-solid border rounded-2xl border-[--grey-300] p-4 md:p-4">
+        <div class="form-shell">
+          <div class="form-grid">
+            <div class="form-span-2 flex flex-col gap-1 relative">
+              <label class="font-medium text-[14px] text-[--grey-900]" for="name">E'lon nomi*</label>
               <div class="relative w-full flex items-center form-input">
-                <input pInputText [disabled]="true" [ngClass]="{
+                <input pInputText [ngClass]="{
                     'ng-invalid ng-dirty': ruleForm.controls.title.touched && ruleForm.controls.title.errors && ruleForm.controls.title.errors['required'],
                   }" type="text" id="name" formControlName="title" />
               </div>
               <div
                 *ngIf="ruleForm.controls.title.invalid && (ruleForm.controls.title.dirty || ruleForm.controls.title.touched)">
-                <app-invaid-text [text]="'This field is required.'"
+                <app-invaid-text [text]="'Bu maydon to‘ldirilishi shart.'"
                   *ngIf="ruleForm.controls.title.errors && ruleForm.controls.title.errors['required']"></app-invaid-text>
-                <app-invaid-text [text]="'Title must be at least 6 characters long.'"
+                <app-invaid-text [text]="'E’lon nomi kamida 6 ta belgidan iborat bo‘lishi kerak.'"
                   *ngIf="ruleForm.controls.title.errors && ruleForm.controls.title.errors['minlength']"></app-invaid-text>
+              </div>
+            </div>
+            <div class="flex flex-col gap-2">
+              <label class="font-medium text-[14px] text-[--grey-900]">Kelishuv turi*</label>
+              <div class="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  class="deal-type-option"
+                  *ngFor="let option of dealTypeOptions"
+                  [ngClass]="{'deal-type-option--active': selectedDealType === option.value}"
+                  (click)="onDealTypeChange(option.value)"
+                >
+                  {{ option.label }}
+                </button>
               </div>
             </div>
             <div class="flex flex-col gap-1 relative">
               <label class="font-medium text-[--grey-900] text-[14px]" for="name">Viloyat</label>
               <div class="relative w-full flex items-center form-input">
-                <p-dropdown class="w-full" styleClass="w-full" [options]="dictionaryService.regions"
+                <p-select class="w-full" styleClass="w-full" [options]="dictionaryService.regions"
                   formControlName="region" optionLabel="name" optionValue="id" placeholder="Viloyat"
                   (onChange)="onRegionChange($event.value)" />
               </div>
@@ -46,7 +67,7 @@
             <div class="flex flex-col gap-1 relative">
               <label class="font-medium text-[--grey-900] text-[14px]" for="name">Tuman</label>
               <div class="relative w-full flex items-center form-input">
-                <p-dropdown class="w-full" [disabled]="!ruleForm.get('region')?.value" styleClass="w-full"
+                <p-select class="w-full" [disabled]="!ruleForm.get('region')?.value" styleClass="w-full"
                   [options]="dictionaryService.districts" formControlName="district" optionLabel="name" optionValue="id"
                   placeholder="Tuman" />
               </div>
@@ -66,9 +87,9 @@
               </div>
               <div
                 *ngIf="ruleForm.controls.lessee_types.invalid && (ruleForm.controls.lessee_types.dirty || ruleForm.controls.lessee_types.touched)">
-                <app-invaid-text [text]="'This field is required.'"
+                <app-invaid-text [text]="'Bu maydon to‘ldirilishi shart.'"
                   *ngIf="ruleForm.controls.lessee_types.errors && ruleForm.controls.lessee_types.errors['required']"></app-invaid-text>
-                <app-invaid-text [text]="'lessee_types must be at least 6 characters long.'"
+                <app-invaid-text [text]="'Kamida bitta ijarachi turini tanlang.'"
                   *ngIf="ruleForm.controls.lessee_types.errors && ruleForm.controls.lessee_types.errors['minlength']"></app-invaid-text>
               </div>
             </div>
@@ -77,13 +98,13 @@
               <div class="relative w-full flex items-center form-input">
                 <input pInputText [ngClass]="{
                     'ng-invalid ng-dirty': ruleForm.controls.address.touched && ruleForm.controls.address.errors && ruleForm.controls.address.errors['required'],
-                  }" type="text" id="address" placeholder="Местоположение" formControlName="address" />
+                  }" type="text" id="address" placeholder="Manzilni kiriting" formControlName="address" />
               </div>
               <div
                 *ngIf="ruleForm.controls.address.invalid && (ruleForm.controls.address.dirty || ruleForm.controls.address.touched)">
-                <app-invaid-text [text]="'This field is required.'"
+                <app-invaid-text [text]="'Bu maydon to‘ldirilishi shart.'"
                   *ngIf="ruleForm.controls.address.errors && ruleForm.controls.address.errors['required']"></app-invaid-text>
-                <app-invaid-text [text]="'Address must be at least 10 characters long.'"
+                <app-invaid-text [text]="'Manzil kamida 10 ta belgidan iborat bo‘lishi kerak.'"
                   *ngIf="ruleForm.controls.address.errors && ruleForm.controls.address.errors['minlength']"></app-invaid-text>
               </div>
             </div>
@@ -108,25 +129,25 @@
                   formControlName="floor"></p-inputNumber>
               </div>
             </div>
-            <div class="flex flex-col gap-1 relative">
+            <div class="form-span-2 flex flex-col gap-1 relative">
               <label class="font-medium text-[14px] text-[--grey-900]" for="desc">Tavsif*</label>
               <div class="relative w-full flex items-center form-input">
-                <textarea rows="5" cols="30" pInputTextarea [ngClass]="{
+                <textarea rows="5" cols="30" pTextarea [ngClass]="{
                     'ng-invalid ng-dirty': ruleForm.controls.description.touched && ruleForm.controls.description.errors && ruleForm.controls.description.errors['required'],
                   }" type="text" id="desc"
-                  placeholder="Подумайте, какие подробности вы хотели бы узнать из объявления. И добавьте их в описание"
+                  placeholder="Uy, sharoit, qo‘shimcha qulayliklar va muhim talablarni qisqa yozing"
                   formControlName="description"></textarea>
               </div>
               <div
                 *ngIf="ruleForm.controls.description.invalid && (ruleForm.controls.description.dirty || ruleForm.controls.description.touched)">
-                <app-invaid-text [text]="'This field is required.'"
+                <app-invaid-text [text]="'Bu maydon to‘ldirilishi shart.'"
                   *ngIf="ruleForm.controls.description.errors && ruleForm.controls.description.errors['required']"></app-invaid-text>
-                <app-invaid-text [text]="'Description must be at least 10 characters long.'"
+                <app-invaid-text [text]="'Tavsif kamida 10 ta belgidan iborat bo‘lishi kerak.'"
                   *ngIf="ruleForm.controls.description.errors && ruleForm.controls.description.errors['minlength']"></app-invaid-text>
               </div>
             </div>
-            <div class="clearfix flex flex-col gap-4" [pTooltip]="tooltipContent">
-              <label class="font-medium text-[14px] text-[--grey-900]" for="address">Uyning sur`atlari (Max Photo
+            <div class="form-span-2 photo-section clearfix flex flex-col gap-4" [pTooltip]="tooltipContent">
+              <label class="font-medium text-[14px] text-[--grey-900]" for="address">Uyning sur'atlari (Max Photo
                 10)*</label>
               <div class="card flex justify-content-center flex-wrap gap-4">
                 <p-fileUpload [disabled]="!status" styleClass="file-upload" list-type="picture" mode="basic"
@@ -155,11 +176,10 @@
             </div>
             <ng-template #tooltipContent>
               <div class="flex align-items-center">
-                <span>Добавьте в объявление настоящие фото товара, а не фото из интернета, чтобы повысить доверие
-                  покупателей. Поддерживаются файлы до 5МБ в формате .jpg .jpeg, .webp, .png, .gif/.</span>
+                <span>E’longa internetdan olingan emas, haqiqiy suratlarni yuklang. JPG, JPEG, WEBP, PNG va GIF formatlari qo‘llab-quvvatlanadi.</span>
               </div>
             </ng-template>
-            <div class="flex flex-col gap-3 mb-4">
+            <div class="feature-section flex flex-col gap-3 mb-4">
               <div class="flex flex-col gap-3">
                 <div class="flex justify-between items-center">
                   <p class="flex text-[color:var(--dark-4)] text-[16px] gap-[8px] items-center">
@@ -181,7 +201,7 @@
 
                     Konditsioner
                   </p>
-                  <p-inputSwitch formControlName="conditioner" inputId="conditioner" />
+                  <p-toggleswitch formControlName="conditioner" inputId="conditioner" />
                 </div>
                 <div class="flex justify-between items-center">
                   <p class="flex text-[color:var(--dark-4)] text-[16px] gap-[8px] items-center">
@@ -192,7 +212,7 @@
                     </svg>
                     Muzalatgich
                   </p>
-                  <p-inputSwitch formControlName="fridge" inputId="fridge" />
+                  <p-toggleswitch formControlName="fridge" inputId="fridge" />
                 </div>
                 <div class="flex justify-between items-center">
                   <p class="flex text-[color:var(--dark-4)] text-[16px] gap-[8px] items-center">
@@ -204,7 +224,7 @@
 
                     Kir yuvish mashinasi
                   </p>
-                  <p-inputSwitch formControlName="washing_machine" inputId="washing_machine" />
+                  <p-toggleswitch formControlName="washing_machine" inputId="washing_machine" />
                 </div>
                 <div class="flex justify-between items-center">
                   <p class="flex text-[color:var(--dark-4)] text-[16px] gap-[8px] items-center">
@@ -229,9 +249,9 @@
                         d="M22.9004 18.5554C23.1459 19.0501 22.9439 19.6502 22.4492 19.8957C21.9545 20.1413 21.3544 19.9393 21.1089 19.4446C20.8534 18.9298 20.4681 18.423 20.0158 18.0554C19.5638 17.688 19.0984 17.5 18.6574 17.5C18.1052 17.5 17.6574 17.0523 17.6574 16.5C17.6574 15.9477 18.1052 15.5 18.6574 15.5C19.6809 15.5 20.5776 15.9346 21.2774 16.5034C21.9769 17.0721 22.533 17.8152 22.9004 18.5554Z"
                         fill="#475367"></path>
                     </svg>
-                    Sheriklikga
+                    Sheriklikka
                   </p>
-                  <p-inputSwitch formControlName="partnership" inputId="partnership" />
+                  <p-toggleswitch formControlName="partnership" inputId="partnership" />
                 </div>
                 <div class="flex justify-between items-center w-full">
                   <p class="flex text-[color:var(--dark-4)] text-[16px] gap-[8px] items-center">
@@ -243,12 +263,12 @@
 
                     Pul birligi (Valyuta)
                   </p>
-                  <p-dropdown class="w-[200px]" styleClass="w-[200px]" [options]="currenyTypes"
+                  <p-select class="w-[200px]" styleClass="w-[200px]" [options]="currenyTypes"
                     formControlName="currency" optionLabel="label" optionValue="value" placeholder="Tuman" />
                 </div>
               </div>
             </div>
-            <div class="flex flex-col gap-[30px]">
+            <div class="pricing-section flex flex-col gap-[30px]">
               <div class="flex flex-col gap-1 relative">
                 <label class="font-medium text-[14px] text-[--grey-900]" for="integeronly">Narxi</label>
                 <div class="relative w-full flex items-center form-input">
@@ -279,7 +299,7 @@
                 </div>
               </div>
             </div>
-            <div class="flex justify-end max-w-[60%] md:max-w-full mt-4 cursor-pointer">
+            <div class="form-span-2 map-action-row flex justify-end max-w-[60%] md:max-w-full mt-4 cursor-pointer">
               <button [disabled]="!status" (click)="openMapDialog()"
                 class="map-btn h-12 w-[250px] md:w-full flex items-center justify-center bg-[#3A75CE] rounded-lg text-white font-500 gap-2">
                 Haritadan joyni ko’rsatish
@@ -299,8 +319,8 @@
           </div>
         </div>
       </div>
-      <div class="flex justify-start md:flex-col  gap-3 mt-4 ">
-        <p-button *ngIf="status" pRipple pButton [loading]="_formControl.loading" (click)="onSubmit()"
+      <div class="form-actions flex justify-start md:flex-col gap-3 mt-4">
+        <p-button *ngIf="status" [loading]="_formControl.loading" (click)="onSubmit()"
           class="px-0 py-0 bg-[transparent] w-[128px] rounded-[12px] border-0 md:w-full"
           styleClass="btn w-[270px] md:w-full px-0 py-0 p-ripple h-12 md:h-11 rounded-[12px] bg-[var(--green)] text-white flex font-semibold md:text-sm items-center justify-center">Saqlash</p-button>
         <p-button *ngIf="!status" pTooltip="E'lonni tahrirlash uchun e'lon aktiv bo'lishi kerak" tooltipPosition="top"

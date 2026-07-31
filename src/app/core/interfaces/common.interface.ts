@@ -1,4 +1,5 @@
 import type { components, paths } from './schema';
+import type { DealType } from '@/core/constants/deal-type';
 
 export type IAnnouncementInfo = paths['/api/announcement/{id}/']['get']['responses']['200']['content']['application/json'];
 export type IAnnouncementListItem = paths['/api/announcement/']['get']['responses']['200']['content']['application/json']['results'];
@@ -68,6 +69,7 @@ export interface FilterForm {
   district: null | number;
   currency: any;
   floor: null | number;
+  deal_type?: DealType;
 }
 
 export interface IUserRooms {

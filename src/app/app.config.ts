@@ -9,6 +9,8 @@ import { MessageService } from 'primeng/api';
 import { loggerInterceptor } from './core/interceptors/logger/logger.interceptor';
 import { errorInterceptor } from './core/interceptors/error/error.interceptor';
 import { AngularYandexMapsModule } from 'angular8-yandex-maps';
+import { providePrimeNG } from 'primeng/config';
+import Aura from '@primeng/themes/aura';
 
 export let appConfig: ApplicationConfig;
 appConfig = {
@@ -23,6 +25,11 @@ appConfig = {
     provideClientHydration(),
     provideHttpClient(withInterceptors([loggerInterceptor, errorInterceptor]), withFetch()),
     provideAnimations(),
+    providePrimeNG({
+      theme: {
+        preset: Aura,
+      },
+    }),
     MessageService,
     AngularYandexMapsModule,
   ],

@@ -1,0 +1,13 @@
+<div class="deal-type-switcher" role="tablist" aria-label="E`lon turi">
+  <button
+    *ngFor="let option of options"
+    type="button"
+    class="deal-type-switcher__btn"
+    [class.deal-type-switcher__btn--active]="(dealType$ | async) === option.value"
+    (click)="select(option.value)"
+    role="tab"
+    [attr.aria-selected]="(dealType$ | async) === option.value"
+  >
+    {{ option.label }}
+  </button>
+</div>

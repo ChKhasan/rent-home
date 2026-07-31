@@ -3,7 +3,13 @@
   <app-auth-dialog [url]="'profile'" [openRegister]="openRegister"></app-auth-dialog>
   <app-number-dialog [completeCallback]="completeCallback" [url]="'profile'"></app-number-dialog>
   <app-sms-dialog [completeCallback]="completeSmsCallback" [anotherPhoneNumber]="anotherPhoneNumber"></app-sms-dialog>
-  <p-toast [breakpoints]="{ '920px': { width: '90%'} }"></p-toast>
+  <p-toast
+    key="global"
+    position="bottom-right"
+    styleClass="global-toast"
+    [baseZIndex]="5000"
+    [breakpoints]="{ '920px': { width: 'calc(100vw - 32px)', right: '16px', left: '16px' } }">
+  </p-toast>
   <div class="h-[80px] md:h-16  items-center 2xl:container mx-auto flex justify-between px-4">
     <div class="md:hidden flex gap-[40px] items-center">
       <a [routerLink]="'/'" class="logo text-[color:var(--green)]">
@@ -144,7 +150,7 @@
 
           </ng-template>
 
-          <span class="md:hidden text-white"> {{authService.user.name || 'Sign up'}}</span>
+          <span class="md:hidden text-white"> {{authService.user.name || 'Ro‘yxatdan o‘tish'}}</span>
         </span>
       </p-button>
       <a [routerLink]="'/'" class="logo hidden md:block text-[color:var(--green)]">

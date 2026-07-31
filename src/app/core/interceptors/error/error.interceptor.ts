@@ -19,33 +19,32 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((error: HttpErrorResponse) => {
       if (error.status == 401 && router.url.includes('profile')) {
         router.navigate(['/']).then((r) => {});
-        toast.showMessage('error', 'Error', error.statusText);
+        toast.showMessage('error', 'Xatolik', 'Sessiya muddati tugadi.');
       }
-      if (error.status === 401 && typeof window !== 'undefined') {
+      if (error.status === 401 && typeof window !== 'undefined' && !modifiedRequest.url.includes('/api/token/')) {
         return from(authService.refreshToken()).pipe(
           switchMap((response) => {
-            console.log('response token', response);
             const clonedRequest = addAuthorizationHeader(modifiedRequest, response?.access);
-            // Retry the request with the new token
             return next(clonedRequest);
           }),
           catchError((refreshError) => {
-            // Handle errors during token refresh
-            console.error('Token refresh failed:', refreshError);
-            authService.logout(); // Optionally log out the user
+            authService.logout();
             return throwError(() => error);
           })
         );
       }
       if (error.status != 401) {
-        toast.showMessage('error', 'Error', error?.error?.message || error.statusText);
+        const detail =
+          error.status === 0
+            ? "Server bilan aloqa o'rnatilmadi."
+            : error?.error?.message || error.statusText;
+        toast.showMessage('error', 'Xatolik', detail);
       }
       return throwError(() => error);
     })
   );
 };
 function addAuthorizationHeader(request: HttpRequest<any>, token: string): HttpRequest<any> {
-  console.log("token",token)
   return request.clone({
     setHeaders: {
       Authorization: `Bearer ${token}`,

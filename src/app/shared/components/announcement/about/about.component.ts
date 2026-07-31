@@ -11,7 +11,7 @@ import { PricePipe } from '@/shared/pipes/price/price.pipe';
   styleUrl: './about.component.css',
 })
 export class AboutComponent implements OnInit{
-  @Input() announcement!: any;
+  @Input() announcement: any = { lessee_types: [] };
   ngOnInit(): void {
 
   }

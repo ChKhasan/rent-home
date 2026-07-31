@@ -6,7 +6,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InvaidTextComponent } from '@components/form/invaid-text/invaid-text.component';
 import { NgClass, NgIf } from '@angular/common';
 import { PaginatorModule } from 'primeng/paginator';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { emailControl, firstControl, lastControl, nameControl } from '@/core/common/form-control';
 import { AuthService } from '@services/auth';
 import { ToastService } from '@services/toast';
@@ -28,16 +28,19 @@ import { take } from 'rxjs/operators';
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [RouterLink,DialogModule, SelectButtonModule, InputMaskModule, InputNumberModule, InputTextModule, InvaidTextComponent, NgIf, PaginatorModule, ReactiveFormsModule, NgClass, ButtonModule, FileUploadModule, LikesComponent, AnnouncementsComponent],
+  imports: [RouterLink, DialogModule, SelectButtonModule, InputMaskModule, InputNumberModule, InputTextModule, InvaidTextComponent, NgIf, PaginatorModule, FormsModule, ReactiveFormsModule, NgClass, ButtonModule, FileUploadModule, LikesComponent, AnnouncementsComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
 })
 export class ProfileComponent implements OnInit {
   loading: boolean = false;
   private token: any;
+  private profileSnapshot: any = {};
+  private avatarSnapshot: string = '';
   public headers: any;
   uploadedFiles: any[] = [];
   public avatar: string = '';
+  public profileUser: Partial<IUserInfo> = {};
   public tab: string = 'announcements';
   public isEdit: boolean = false;
   public logoutDialog: boolean = false
@@ -79,14 +82,18 @@ export class ProfileComponent implements OnInit {
 
   __GET_USER() {
     this.requestService.getData<IUserInfo>(environment.authUrls.GET_ME).subscribe((data: IUserInfo) => {
+      this.profileUser = data;
+      this.authService.user = { ...this.authService.user, ...data };
       this.avatar = data.images.length > 0 ? data.images[0].image : '';
-      this.ruleForm.patchValue({
+      this.avatarSnapshot = this.avatar;
+      this.profileSnapshot = {
         name: data.name || '',
         first_name: data.first_name || '',
         last_name: data.last_name || '',
         email: data.email || '',
         images: data.images ? data.images.map((elem: UserImages) => elem.uuid) : [],
-      });
+      };
+      this.ruleForm.patchValue(this.profileSnapshot);
     });
   }
 
@@ -107,8 +114,7 @@ export class ProfileComponent implements OnInit {
   }
 
   eventPipe(data: any) {
-    this.ruleForm.reset();
-    this.toastService.showMessage('success', 'Success', data.message);
+    this.toastService.showMessage('success', 'Muvaffaqiyat', data.message);
   }
 
   putUser() {
@@ -120,7 +126,7 @@ export class ProfileComponent implements OnInit {
       .subscribe((response) => {
         this.__GET_USER();
         this.authService.authHandler();
-        this.eventPipe({ message: 'Успешно изменено', response: response });
+        this.eventPipe({ message: "Profil ma'lumotlari yangilandi", response: response });
         this.isEdit = false;
       });
   }
@@ -146,6 +152,23 @@ export class ProfileComponent implements OnInit {
       ...this.ruleForm.value,
     };
   }
+
+  get displayName(): string {
+    const user = Object.keys(this.profileUser).length ? this.profileUser : this.authService.user || {};
+    return [user.first_name, user.name, user.last_name].filter(Boolean).join(' ') || 'Profil';
+  }
+
+  startEdit() {
+    this.isEdit = true;
+  }
+
+  cancelEdit() {
+    this.ruleForm.reset(this.profileSnapshot);
+    this.uploadedFiles = [];
+    this.avatar = this.avatarSnapshot;
+    this.isEdit = false;
+  }
+
   logout() {
     this.authService.logout();
     this.authService.user = {}

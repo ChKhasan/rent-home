@@ -88,7 +88,7 @@
                       class="bg-[#fff] text-[#000] text-[14px] rounded-xl py-1 px-3">{{message.created_at | date:
                       topDateFormat}}</span>
                   </div>
-                  <div class="unread" *ngIf="message.is_first">Непрочитанные сообщения</div>
+                  <div class="unread" *ngIf="message.is_first">O‘qilmagan xabarlar</div>
                   <div [attr.data-info]="message.created_at" [attr.id]="'child_' + message.id" #childRef
                     class="inline-flex w-full message-item"
                     [class]="message.sender === authService.user.id ? 'justify-end' : 'justify-start'">

@@ -1,175 +1,265 @@
 <section class="agency-dashboard">
   <header class="dashboard-header">
-    <div>
+    <div class="header-copy">
       <p class="eyebrow">Agentlik paneli</p>
       <h1>E'lonlarni boshqarish</h1>
-      <p class="description">
-        Agentligingizdagi barcha xodimlar tomonidan yaratilgan e’lonlarni ko‘rish va nazorat qilish.
-      </p>
+      <p class="description">Agentlik e'lonlari, ko'rishlar va xodimlar faolligini bir joyda kuzating.</p>
     </div>
-    <button
-      pButton
-      type="button"
-      [routerLink]="'/profile/create'"
-      class="btn rounded-xl bg-[--green] text-white px-6 py-3 text-sm font-semibold"
-    >
-      Yangi e'lon qo'shish
-    </button>
+
+    <div class="header-actions">
+      <button pButton type="button" icon="pi pi-list" [routerLink]="'/profile/agency'" class="secondary-action">
+        E'lonlar
+      </button>
+      <button
+        pButton
+        type="button"
+        icon="pi pi-plus"
+        [routerLink]="'/profile/create'"
+        [queryParams]="selectedAgencyId ? { agency: selectedAgencyId } : null"
+        [disabled]="!selectedAgencyId"
+        class="primary-action"
+      >
+        Yangi e'lon
+      </button>
+    </div>
   </header>
 
   <section class="agency-context">
     <ng-container *ngIf="membershipsLoading">
-      <div class="skeleton-group">
-        <p-skeleton height="48px"></p-skeleton>
-        <p-skeleton height="38px"></p-skeleton>
+      <div class="context-skeleton">
+        <p-skeleton height="96px"></p-skeleton>
+        <p-skeleton height="96px"></p-skeleton>
+        <p-skeleton height="96px"></p-skeleton>
       </div>
     </ng-container>
 
     <ng-container *ngIf="!membershipsLoading && memberships.length === 0">
-      <div class="empty-state">
+      <div class="empty-state compact">
+        <i class="pi pi-briefcase"></i>
         <h3>Agentlik topilmadi</h3>
-        <p>
-          Siz hali hech qanday agentlikka ulanmagansiz. Administrator sizni agentlikka qo‘shgandan so‘ng bu sahifa faollashadi.
-        </p>
+        <p>Administrator sizni agentlikka qo'shgandan so'ng bu sahifa faollashadi.</p>
       </div>
     </ng-container>
 
-    <div class="agency-selector" *ngIf="!membershipsLoading && memberships.length > 0">
-      <div class="info-cards">
-        <div class="info-card">
-          <p>Agentlik</p>
-          <h4>{{ activeMembership?.agency?.name }}</h4>
+    <div class="agency-summary" *ngIf="!membershipsLoading && memberships.length > 0">
+      <div class="agency-main-card">
+        <div class="agency-avatar">
+          {{ activeMembership?.agency?.name?.charAt(0) || 'A' }}
         </div>
-        <div class="info-card">
-          <p>Rol</p>
-          <h4>{{ activeMembership?.role === 'owner' ? 'Owner' : 'Staff' }}</h4>
+        <div>
+          <p class="eyebrow">Joriy agentlik</p>
+          <h2>{{ activeMembership?.agency?.name || 'Agentlik' }}</h2>
+          <p class="description">Rol: {{ activeMembership?.role === 'owner' ? 'Owner' : 'Staff' }}</p>
         </div>
-        <div class="info-card" [ngClass]="{ inactive: !activeMembership?.agency?.is_active }">
+      </div>
+
+      <div class="status-card" [ngClass]="{ inactive: !activeMembership?.agency?.is_active }">
+        <span class="status-dot"></span>
+        <div>
           <p>Holat</p>
-          <h4>{{ activeMembership?.agency?.is_active ? 'Aktiv' : 'O‘chirilgan' }}</h4>
+          <strong>{{ activeMembership?.agency?.is_active ? 'Aktiv' : 'O‘chirilgan' }}</strong>
+        </div>
+      </div>
+
+      <div class="status-card">
+        <i class="pi pi-users"></i>
+        <div>
+          <p>Agentliklar</p>
+          <strong>{{ memberships.length }}</strong>
         </div>
       </div>
     </div>
   </section>
 
   <section class="stats-panel" *ngIf="memberships.length > 0">
+    <div class="stats-toolbar">
+      <div>
+        <p class="eyebrow">Statistika</p>
+        <h2>{{ stats?.range_label || rangeLabels[activeRange] }}</h2>
+        <p class="description">Tanlangan davr uchun ko'rish va ko'rsatishlar</p>
+      </div>
+
+      <div class="range-buttons">
+        <button
+          *ngFor="let key of summaryOrder"
+          type="button"
+          [class.active]="key === activeRange"
+          [disabled]="statsLoading"
+          (click)="selectRange(key)"
+        >
+          {{ getRangeLabel(key) }}
+        </button>
+      </div>
+    </div>
+
     <ng-container *ngIf="statsLoading">
-      <div class="skeleton-group mt-2">
-        <p-skeleton height="140px" width="100%"></p-skeleton>
+      <div class="metrics-grid">
+        <p-skeleton *ngFor="let item of summaryOrder" height="116px"></p-skeleton>
+        <p-skeleton height="116px"></p-skeleton>
       </div>
     </ng-container>
 
     <ng-container *ngIf="!statsLoading && stats as data; else statsFallback">
-      <div class="stats-header">
-        <div>
-          <p class="eyebrow">Statistika</p>
-          <h2>{{ data.range_label }}</h2>
-          <p class="description">Tanlangan davr uchun ko‘rish va ko‘rsatishlar</p>
-        </div>
-        <div class="range-buttons">
-          <button
-            *ngFor="let key of summaryOrder"
-            pButton
-            type="button"
-            [label]="getRangeLabel(key)"
-            [class.active]="key === activeRange"
-            (click)="selectRange(key)"
-          ></button>
-        </div>
-      </div>
-
       <div class="metrics-grid">
-        <div class="metric-card">
+        <article class="metric-card accent-green">
+          <span class="metric-icon"><i class="pi pi-eye"></i></span>
           <p>Tanlangan davr</p>
           <h3>{{ data.range_views || 0 }}</h3>
-          <span>ko‘rishlar</span>
-        </div>
-        <div class="metric-card">
-          <p>Filtr ko‘rsatishlari</p>
+          <small>ko'rishlar</small>
+        </article>
+
+        <article class="metric-card accent-blue">
+          <span class="metric-icon"><i class="pi pi-filter"></i></span>
+          <p>Filtr ko'rsatishlari</p>
           <h3>{{ data.range_exposures?.filter || 0 }}</h3>
-          <span>Natijalar ro‘yxati</span>
-        </div>
-        <div class="metric-card">
+          <small>Natijalar ro'yxati</small>
+        </article>
+
+        <article class="metric-card accent-orange">
+          <span class="metric-icon"><i class="pi pi-star"></i></span>
           <p>Tavsiyalar</p>
           <h3>{{ data.range_exposures?.recommendation || 0 }}</h3>
-          <span>Rekomendatsiya bloklari</span>
-        </div>
-        <div class="metric-card">
-          <p>Jami ko‘rsatishlar</p>
+          <small>Rekomendatsiya bloklari</small>
+        </article>
+
+        <article class="metric-card accent-slate">
+          <span class="metric-icon"><i class="pi pi-chart-line"></i></span>
+          <p>Jami ko'rsatishlar</p>
           <h3>{{ data.range_exposures?.total || 0 }}</h3>
-          <span>Filtr + tavsiya</span>
-        </div>
+          <small>Filtr + tavsiya</small>
+        </article>
       </div>
 
-      <div class="charts-grid">
-        <div class="chart-card">
+      <div class="insights-grid">
+        <article class="insight-card period-card">
           <div class="card-header">
             <div>
-              <h3>Ko‘rishlar dinamikasi</h3>
-              <p class="description">Bugungi, 7 va 30 kunlik taqqoslash</p>
+              <h3>Ko'rishlar xulosasi</h3>
+              <p class="description">Davra bo'yicha jami ko'rishlar va kunlik o'rtacha</p>
             </div>
           </div>
-          <div class="chart-wrapper" *ngIf="viewsChartData; else noViews">
-            <p-chart type="bar" [data]="viewsChartData" [options]="viewsChartOptions"></p-chart>
+
+          <div class="period-highlight" *ngIf="selectedPeriodSummary as selected">
+            <div>
+              <p>{{ selected.label }}</p>
+              <strong>{{ selected.value }}</strong>
+              <span>ko'rish</span>
+            </div>
+            <small>{{ selected.averageLabel }}</small>
           </div>
+
+          <div class="period-list" *ngIf="periodSummaries.length; else noViews">
+            <div class="period-row" *ngFor="let item of periodSummaries" [ngClass]="{ active: item.key === activeRange }">
+              <div class="period-row-head">
+                <div>
+                  <strong>{{ item.label }}</strong>
+                  <span>{{ item.averageLabel }}</span>
+                </div>
+                <b>{{ item.value }}</b>
+              </div>
+              <div class="period-track" aria-hidden="true">
+                <span [style.width.%]="item.percent"></span>
+              </div>
+            </div>
+          </div>
+
           <ng-template #noViews>
             <div class="empty-state">
-              <p>Ko‘rishlar topilmadi.</p>
+              <p>Ko'rishlar topilmadi.</p>
             </div>
           </ng-template>
-        </div>
-        <div class="chart-card">
+        </article>
+
+        <article class="insight-card source-card">
           <div class="card-header">
             <div>
-              <h3>Ko‘rsatishlar manbasi</h3>
-              <p class="description">Filtr va tavsiya ulushi</p>
+              <h3>Manbalar ulushi</h3>
+              <p class="description">Tanlangan davrdagi ko'rsatishlar qayerdan kelgan</p>
             </div>
           </div>
-          <div class="chart-wrapper" *ngIf="exposureChartData; else noExposures">
-            <p-chart type="doughnut" [data]="exposureChartData" [options]="exposureChartOptions"></p-chart>
+
+          <div class="source-total">
+            <p>Jami ko'rsatish</p>
+            <strong>{{ sourceTotal }}</strong>
           </div>
+
+          <div class="source-list" *ngIf="sourceSummaries.length && sourceTotal > 0; else noExposures">
+            <div class="source-row" *ngFor="let item of sourceSummaries">
+              <div class="source-row-head">
+                <span>
+                  <i [ngClass]="item.className"></i>
+                  {{ item.label }}
+                </span>
+                <strong>{{ item.value }} · {{ item.percent }}%</strong>
+              </div>
+              <div class="source-track" aria-hidden="true">
+                <span [ngClass]="item.className" [style.width.%]="item.percent"></span>
+              </div>
+            </div>
+          </div>
+
           <ng-template #noExposures>
             <div class="empty-state">
-              <p>Ko‘rsatishlar mavjud emas.</p>
+              <p>Ko'rsatishlar mavjud emas.</p>
             </div>
           </ng-template>
-        </div>
+        </article>
       </div>
 
-      <div class="top-card">
+      <article class="top-card">
         <div class="card-header">
           <div>
             <h3>Eng aktiv e'lonlar</h3>
-            <p class="description">Top 5 e’lon bo‘yicha ko‘rish va ko‘rsatishlar</p>
+            <p class="description">Top 5 e'lon bo'yicha ko'rish va ko'rsatishlar</p>
           </div>
         </div>
-        <div class="chart-wrapper" *ngIf="topAnnouncementsChartData; else noTop">
-          <p-chart type="bar" [data]="topAnnouncementsChartData" [options]="topAnnouncementsChartOptions"></p-chart>
+
+        <div class="top-ranking" *ngIf="topAnnouncementsList.length; else noTop">
+          <ul class="top-list">
+            <li *ngFor="let item of topAnnouncementsList; index as idx">
+              <span class="rank">{{ idx + 1 }}</span>
+              <div class="top-list-body">
+                <div class="announcement-row">
+                  <strong>{{ item.title }}</strong>
+                  <span>{{ item.activityTotal }} jami</span>
+                </div>
+
+                <div class="score-track" aria-hidden="true">
+                  <span [style.width.%]="item.scorePercent"></span>
+                </div>
+
+                <div class="metric-pills">
+                  <span><i class="pi pi-eye"></i>{{ item.views || 0 }} ko'rish</span>
+                  <span><i class="pi pi-filter"></i>{{ item.filter_exposures || 0 }} filtr</span>
+                  <span><i class="pi pi-star"></i>{{ item.recommendation_exposures || 0 }} tavsiya</span>
+                </div>
+
+                <div class="source-split" *ngIf="item.exposureTotalValue > 0">
+                  <span class="split-filter" [style.width.%]="item.filterPercent"></span>
+                  <span class="split-recommendation" [style.width.%]="item.recommendationPercent"></span>
+                </div>
+                <div class="split-labels" *ngIf="item.exposureTotalValue > 0">
+                  <span>Filtr {{ item.filterPercent }}%</span>
+                  <span>Tavsiya {{ item.recommendationPercent }}%</span>
+                </div>
+              </div>
+            </li>
+          </ul>
         </div>
+
         <ng-template #noTop>
           <div class="empty-state">
-            <p>Hozircha e’lonlar bo‘yicha statistika mavjud emas.</p>
+            <p>Hozircha e'lonlar bo'yicha statistika mavjud emas.</p>
           </div>
         </ng-template>
-        <ul class="top-list" *ngIf="topAnnouncementsList.length">
-          <li *ngFor="let item of topAnnouncementsList; index as idx">
-            <span>{{ idx + 1 }}.</span>
-            <div>
-              <strong>{{ item.title }}</strong>
-              <small>{{ item.views }} ko‘rish • {{ item.filter_exposures || 0 }} filtr • {{
-                item.recommendation_exposures || 0
-              }} tavsiya</small>
-            </div>
-          </li>
-        </ul>
-      </div>
+      </article>
     </ng-container>
 
     <ng-template #statsFallback>
       <div class="empty-state">
+        <i class="pi pi-chart-bar"></i>
         <p>{{ statsError || 'Statistikani ko‘rish uchun agentlikka ulanishingiz kerak.' }}</p>
       </div>
     </ng-template>
   </section>
-
 </section>

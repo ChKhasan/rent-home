@@ -1,67 +1,47 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './pages/home/home.component';
-import { CreateComponent } from './pages/announcement/create/create.component';
-import { EditComponent } from './pages/announcement/edit/edit.component';
-import { ProfileLayoutComponent } from './shared/components/layouts/profile-layout/profile-layout.component';
-import { AnnouncementsComponent } from './pages/profile/announcements/announcements.component';
-import { ListComponent } from './pages/announcements/list/list.component';
-import { ProfileComponent } from './pages/profile/profile/profile.component';
-import { ViewComponent } from './pages/announcements/view/view.component';
-import { MapComponent } from './pages/map/map.component';
-import { MapLayoutComponent } from './shared/components/layouts/map-layout/map-layout.component';
-import { LayoutComponent } from './shared/components/layouts/layout/layout.component';
 import { authGuard } from './core/guards/auth.guard';
-import { LikesComponent } from './pages/likes/likes.component';
-import { ChatComponent } from './pages/chat/chat.component';
-import { ProfileAnnouncementComponent } from './pages/profile/profile-announcement/profile-announcement.component';
-import { AgencyComponent } from './pages/profile/agency/agency.component';
-import { AgencyDashboardComponent } from './pages/profile/agency/pages/dashboard/dashboard.component';
-import { AgencyAnnouncementsComponent } from './pages/profile/agency/pages/announcements/announcements.component';
-import { AgencyAnalyticsComponent } from './pages/profile/agency/pages/analytics/analytics.component';
-import { AgencyInfoComponent } from './pages/profile/agency/pages/info/info.component';
-import { AgencyStaffComponent } from './pages/profile/agency/pages/staff/staff.component';
 import { agencyGuard } from './core/guards/agency.guard';
 
 export const routes: Routes = [
   {
     path: '',
-    component: LayoutComponent,
+    loadComponent: () => import('./shared/components/layouts/layout/layout.component').then((m) => m.LayoutComponent),
     children: [
-      { path: '', component: HomeComponent },
-      { path: 'announcements', component: ListComponent },
-      { path: 'announcements/:id', component: ViewComponent },
-      { path: 'likes', component: LikesComponent },
+      { path: '', loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent) },
+      { path: 'announcements', loadComponent: () => import('./pages/announcements/list/list.component').then((m) => m.ListComponent) },
+      { path: 'announcements/:id', loadComponent: () => import('./pages/announcements/view/view.component').then((m) => m.ViewComponent) },
+      { path: 'likes', loadComponent: () => import('./pages/likes/likes.component').then((m) => m.LikesComponent) },
       {
         path: 'map',
-        component: MapLayoutComponent,
-        children: [{ path: '', component: MapComponent }],
+        loadComponent: () => import('./shared/components/layouts/map-layout/map-layout.component').then((m) => m.MapLayoutComponent),
+        children: [{ path: '', loadComponent: () => import('./pages/map/map.component').then((m) => m.MapComponent) }],
       },
     ],
   },
- 
   {
     path: 'profile',
-    component: ProfileLayoutComponent,
+    loadComponent: () => import('./shared/components/layouts/profile-layout/profile-layout.component').then((m) => m.ProfileLayoutComponent),
     canActivate: [authGuard],
     children: [
-      { path: '', component: ProfileComponent },
-      { path: 'create', component: CreateComponent },
-      { path: 'announcements/:id', component: EditComponent },
-      { path: 'announcements-view/:id', component: ProfileAnnouncementComponent },
-      { path: 'announcements', component: AnnouncementsComponent },
-      { path: 'chat', component: ChatComponent },
+      { path: '', loadComponent: () => import('./pages/profile/profile/profile.component').then((m) => m.ProfileComponent) },
+      { path: 'create', loadComponent: () => import('./pages/announcement/create/create.component').then((m) => m.CreateComponent) },
+      { path: 'announcements/:id', loadComponent: () => import('./pages/announcement/edit/edit.component').then((m) => m.EditComponent) },
+      { path: 'announcements-view/:id', loadComponent: () => import('./pages/profile/profile-announcement/profile-announcement.component').then((m) => m.ProfileAnnouncementComponent) },
+      { path: 'announcements', loadComponent: () => import('./pages/profile/announcements/announcements.component').then((m) => m.AnnouncementsComponent) },
+      { path: 'chat', loadComponent: () => import('./pages/chat/chat.component').then((m) => m.ChatComponent) },
       {
         path: 'agency',
-        component: AgencyComponent,
+        loadComponent: () => import('./pages/profile/agency/agency.component').then((m) => m.AgencyComponent),
         canActivate: [agencyGuard],
         children: [
-          { path: '', component: AgencyAnnouncementsComponent },
-          { path: 'dashboard', component: AgencyDashboardComponent },
-          { path: 'staff', component: AgencyStaffComponent },
-          { path: 'info', component: AgencyInfoComponent },
-          { path: 'analytics', component: AgencyAnalyticsComponent },
+          { path: '', loadComponent: () => import('./pages/profile/agency/pages/announcements/announcements.component').then((m) => m.AgencyAnnouncementsComponent) },
+          { path: 'dashboard', loadComponent: () => import('./pages/profile/agency/pages/dashboard/dashboard.component').then((m) => m.AgencyDashboardComponent) },
+          { path: 'staff', loadComponent: () => import('./pages/profile/agency/pages/staff/staff.component').then((m) => m.AgencyStaffComponent) },
+          { path: 'info', loadComponent: () => import('./pages/profile/agency/pages/info/info.component').then((m) => m.AgencyInfoComponent) },
+          { path: 'analytics', loadComponent: () => import('./pages/profile/agency/pages/analytics/analytics.component').then((m) => m.AgencyAnalyticsComponent) },
         ],
       },
     ],
   },
+  { path: '**', redirectTo: '' },
 ];

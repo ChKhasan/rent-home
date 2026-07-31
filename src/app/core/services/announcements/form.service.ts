@@ -7,6 +7,7 @@ import { finalize } from 'rxjs';
 import { RequestService } from '@services/request';
 import { environment } from '@environments';
 import { Transport } from '@/core/interfaces/common.interface';
+import { DEFAULT_DEAL_TYPE } from '@/core/constants/deal-type';
 
 @Injectable({
   providedIn: 'root',
@@ -36,37 +37,60 @@ export class FormService {
     area: new FormControl(null),
     floor: new FormControl(null),
     lessee_types: new FormControl([],[Validators.required, Validators.minLength(1)]),
+    deal_type: new FormControl(DEFAULT_DEAL_TYPE, [Validators.required]),
+    agency: new FormControl<number | null>(null),
   });
   public loading: boolean = false;
+  private agencyId: number | null = null;
   constructor(private toastService: ToastService, private router: Router, private requestService: RequestService) {}
 
-  public onSubmit(isEdit: Boolean, id: any) {
+  public setAgencyContext(agencyId: number | null): void {
+    this.agencyId = agencyId;
+    this.ruleForm.patchValue({ agency: agencyId });
+  }
+
+  public onSubmit(isEdit: boolean, id: number | string | null) {
     this.ruleForm.markAllAsTouched();
     if (this.ruleForm.valid) {
       isEdit ? this.putForm(id) : this.postForm();
-    } else {
     }
+  }
+
+  private payload() {
+    return {
+      ...this.ruleForm.value,
+      agency: this.agencyId,
+    };
+  }
+
+  private navigateAfterSave() {
+    if (this.agencyId) {
+      this.router.navigate(['/profile/agency'], { queryParams: { agency: this.agencyId } });
+      return;
+    }
+    this.router.navigate(['/profile']);
   }
 
   postForm(): void {
     this.loading = true;
     this.requestService
-      .requestData(environment.authUrls.POST_ANNONCEMENTS, 'POST', this.ruleForm.value)
+      .requestData(environment.authUrls.POST_ANNONCEMENTS, 'POST', this.payload())
       .pipe(finalize(() => (this.loading = false)))
       .subscribe((response) => {
-        this.toastService.showMessage('success', 'Success', 'Объявление успешно создано');
-        this.router.navigate(['/profile']).then((r) => {});
+        this.toastService.showMessage('success', 'Muvaffaqiyat', "E'lon muvaffaqiyatli yaratildi");
+        this.navigateAfterSave();
       });
   }
 
-  putForm(id: any): void {
+  putForm(id: number | string | null): void {
+    if (!id) return;
     this.loading = true;
     this.requestService
-      .requestData(environment.authUrls.PUT_ANNONCEMENTS + id + '/', 'PUT', this.ruleForm.value)
+      .requestData(environment.authUrls.PUT_ANNONCEMENTS + id + '/', 'PUT', this.payload())
       .pipe(finalize(() => (this.loading = false)))
       .subscribe((response) => {
-        this.toastService.showMessage('success', 'Success', 'Объявление успешно изменено');
-        this.router.navigate(['/profile']);
+        this.toastService.showMessage('success', 'Muvaffaqiyat', "E'lon muvaffaqiyatli yangilandi");
+        this.navigateAfterSave();
       });
   }
 }

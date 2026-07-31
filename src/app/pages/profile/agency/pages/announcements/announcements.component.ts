@@ -66,8 +66,9 @@ export class AgencyAnnouncementsComponent implements OnInit {
             this.totalPage = 0;
             return;
           }
-          const firstAgency = this.memberships[0].agency.id;
-          this.selectAgency(firstAgency, false);
+          const queryAgency = Number(this.queryService.activeQueryList()['agency']);
+          const selectedAgency = this.memberships.find((membership) => membership.agency.id === queryAgency);
+          this.selectAgency(selectedAgency?.agency.id || this.memberships[0].agency.id, false);
         },
         error: () => {
           this.memberships = [];

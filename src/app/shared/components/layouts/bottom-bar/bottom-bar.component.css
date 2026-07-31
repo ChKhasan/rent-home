@@ -10,11 +10,14 @@ ul {
   background-color: var(--green);
 }
 
-.active svg path {
-  fill: #fff;
+.nav-icon i {
+  color: #8e8e93;
+  font-size: 17px;
+  line-height: 1;
 }
-:host ::ng-deep .active svg path {
-  fill: #fff;
+
+.active .nav-icon i {
+  color: #fff;
 }
 .active {
   color: #000;

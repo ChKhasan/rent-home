@@ -13,7 +13,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "externalDependencies": [""],
             "outputPath": "dist/ijara_angular",
             "index": "src/index.html",
             "browser": "src/main.ts",
@@ -31,15 +30,13 @@
             "styles": [
               "src/styles.css",
               "src/assets/fonts/style.css",
-              "node_modules/primeng/resources/primeng.css",
-              "node_modules/primeng/resources/themes/saga-green/theme.css",
               "node_modules/primeicons/primeicons.css",
               "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.carousel.min.css",
               "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.theme.default.min.css",
             ],
             "scripts": [],
             "server": "src/main.server.ts",
-            "prerender": true,
+            "prerender": false,
             "ssr": {
               "entry": "server.ts"
             }
@@ -54,8 +51,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "8kb",
+                  "maximumError": "10kb"
                 }
               ],
               "outputHashing": "all"
@@ -95,6 +92,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
+            "main": "src/test.ts",
             "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "assets": ["src/favicon.ico", "src/assets"],

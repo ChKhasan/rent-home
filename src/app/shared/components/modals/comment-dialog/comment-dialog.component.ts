@@ -10,14 +10,14 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ToastService } from '@services/toast';
 import { CommentsService } from '@services/comments';
 import { ICommentResquestBody } from '@services/interfaces';
-import { InputTextareaModule } from 'primeng/inputtextarea';
+import { TextareaModule } from 'primeng/textarea';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-comment-dialog',
   standalone: true,
-  imports: [ButtonModule, DialogModule, InputMaskModule, InputNumberModule, InputTextModule, InvaidTextComponent, NgIf, ReactiveFormsModule, NgClass, InputTextareaModule],
+  imports: [ButtonModule, DialogModule, InputMaskModule, InputNumberModule, InputTextModule, InvaidTextComponent, NgIf, ReactiveFormsModule, NgClass, TextareaModule],
   templateUrl: './comment-dialog.component.html',
   styleUrl: './comment-dialog.component.css',
 })
@@ -49,7 +49,7 @@ export class CommentDialogComponent {
   eventPipe(data: any) {
     this.closeDialog();
     this.ruleForm.reset();
-    this.toastService.showMessage('success', 'Success', data.message);
+    this.toastService.showMessage('success', 'Muvaffaqiyat', data.message);
   }
 
   postComment() {
@@ -63,7 +63,7 @@ export class CommentDialogComponent {
       )
       .subscribe((response) => {
         this.eventPipe({
-          message: 'Комментарий успешно отправлен',
+          message: 'Izoh muvaffaqiyatli yuborildi',
           response: response,
         });
       });

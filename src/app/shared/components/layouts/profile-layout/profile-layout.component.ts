@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { FooterComponent } from '../footer/footer.component';
 import { HeaderComponent } from '../header/header.component';
 import { BottomBarComponent } from '../bottom-bar/bottom-bar.component';
 import { Location, NgClass, NgIf } from '@angular/common';
 import { filter } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-profile-layout',
   standalone: true,
@@ -17,11 +18,12 @@ export class ProfileLayoutComponent implements OnInit {
   constructor(
     private location: Location,
     private router: Router,
+    private destroyRef: DestroyRef,
   ) {
     this.currentPath = this.location.path();
   }
   ngOnInit() {
-    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd), takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.currentPath = this.location.path();
     });
   }

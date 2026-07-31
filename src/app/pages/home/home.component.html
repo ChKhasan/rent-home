@@ -3,12 +3,15 @@
     <app-banner></app-banner>
   </div>
 
-  <div class="max-w-[1120px] mx-auto px-4 flex flex-col md:gap-5 gap-8">
+  <div class="max-w-[1440px] mx-auto px-4 flex flex-col md:gap-5 gap-8">
+    <div class="flex justify-end md:justify-start">
+      <app-deal-type-switcher></app-deal-type-switcher>
+    </div>
     <div>
       <h3 class="font-medium text-[40px] text-[--green] md:text-2xl">Tavsiya qilingan e`lonlar</h3>
       <p class="text-[28px] md:text-sm text-[--brown-900] md:mt-0 mt-2">Uy qidirmoqdamisiz? Unda biz yordam beramiz!</p>
     </div>
-    <div class="grid grid-cols-3 md:grid-cols-1 gap-[10px] md:gap-3 mt-[15px]"
+    <div class="grid grid-cols-4 xl:grid-cols-3 md:grid-cols-1 gap-[10px] md:gap-3 mt-[15px]"
       *ngIf="rec_loading; else announcementsBlock1">
       <p-skeleton *ngFor="let item of [1, 2, 3]" class="w-full" styleClass="ng_skeleton"></p-skeleton>
     </div>
@@ -28,7 +31,7 @@
       <p class="text-[28px] md:text-sm text-[--brown-900] md:mt-0 mt-2 break-keep">Uy qidirmoqdamisiz? Unda biz sizga yordam
         beramiz</p>
     </div>
-    <div class="grid grid-cols-3 md:grid-cols-1 gap-[10px] md:gap-3 md:mt-3 mt-[15px]"
+    <div class="grid grid-cols-4 xl:grid-cols-3 md:grid-cols-1 gap-[10px] md:gap-3 md:mt-3 mt-[15px]"
       *ngIf="loading; else announcementsList">
       <p-skeleton *ngFor="let item of [1, 2, 3]" class="w-full" styleClass="ng_skeleton"></p-skeleton>
     </div>
