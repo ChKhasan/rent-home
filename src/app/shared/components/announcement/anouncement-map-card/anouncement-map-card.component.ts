@@ -3,11 +3,13 @@ import { TagModule } from 'primeng/tag';
 import { IAnnouncementInfo } from '@services/interfaces';
 import { PriceBlockComponent } from '../price-block/price-block.component';
 import { GalleriaModule } from 'primeng/galleria';
+import { PublisherMetaComponent } from '../publisher-meta/publisher-meta.component';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-anouncement-map-card',
   standalone: true,
-  imports: [TagModule, PriceBlockComponent, GalleriaModule],
+  imports: [TagModule, PriceBlockComponent, GalleriaModule, PublisherMetaComponent, NgIf],
   templateUrl: './anouncement-map-card.component.html',
   styleUrl: './anouncement-map-card.component.css',
 })

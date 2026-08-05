@@ -3,14 +3,10 @@ import { NgClass, NgForOf, NgIf } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { FilterComponent } from '@components/announcement/filter/filter.component';
 import { AngularYandexMapsModule } from 'angular8-yandex-maps';
-import { AnouncementMapCardComponent } from '@components/announcement/anouncement-map-card/anouncement-map-card.component';
 import { QueryService } from '@services/query';
 import { finalize, Subscription } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { StyleClassModule } from 'primeng/styleclass';
-import { SubwayIconComponent } from '@/shared/icons/subway-icon/subway-icon.component';
-import { BusIconComponent } from '@/shared/icons/bus-icon/bus-icon.component';
-import { MiniBusIconComponent } from '@/shared/icons/mini-bus-icon/mini-bus-icon.component';
 import { BadgeModule } from 'primeng/badge';
 import { TOP_COLORS } from '@/core/constants/map';
 import { BottomSheetComponent } from '@components/modals/bottom-sheet/bottom-sheet.component';
@@ -23,17 +19,17 @@ import { AnnouncementsCardComponent } from '../../shared/components/cards/announ
 import { DialogModule } from 'primeng/dialog';
 import { Location } from '@angular/common';
 import { MultiSelectModule } from 'primeng/multiselect';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { DealTypeService } from '@/core/services/deal-type/deal-type.service';
 import { DealType, DEFAULT_DEAL_TYPE, isDealType } from '@/core/constants/deal-type';
 import { DealTypeSwitcherComponent } from '@components/deal-type-switcher/deal-type-switcher.component';
+import { LucideBusFront, LucideCarTaxiFront, LucideTrainFront } from '@lucide/angular';
 
 type TransportToggleKey = 'showBus' | 'showSubway' | 'showMiniBus';
 
 @Component({
   selector: 'app-map',
   standalone: true,
-  imports: [NgClass, MultiSelectModule, ProgressSpinnerModule, RouterLink, DialogModule, FormsModule, SelectButtonModule, AngularYandexMapsModule, AnouncementMapCardComponent, NgIf, NgForOf, ButtonModule, StyleClassModule, SubwayIconComponent, BusIconComponent, MiniBusIconComponent, BadgeModule, BottomSheetComponent, AnnouncementsCardComponent, DealTypeSwitcherComponent],
+  imports: [NgClass, MultiSelectModule, RouterLink, DialogModule, FormsModule, SelectButtonModule, AngularYandexMapsModule, NgIf, NgForOf, ButtonModule, StyleClassModule, BadgeModule, AnnouncementsCardComponent, DealTypeSwitcherComponent, LucideBusFront, LucideCarTaxiFront, LucideTrainFront],
   templateUrl: './map.component.html',
   styleUrl: './map.component.css',
 })
@@ -76,7 +72,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   public subways: any = [];
   public buses: any = [];
   public transports: any = [];
-  public transportLoading: boolean = false;
+  public loadingRouteIds = new Set<string>();
   public selectRoutes: any = [];
   public routeTransports: any = [];
   public announcements: any = [];
@@ -84,6 +80,19 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   public zoom: any = 10;
   public currentDealType: DealType = DEFAULT_DEAL_TYPE;
   private dealTypeSubscription?: Subscription;
+  private deepLinkedAnnouncement: any | null = null;
+
+  get transportLoading(): boolean {
+    return this.loadingRouteIds.size > 0;
+  }
+
+  isTransportLoading(transport: any): boolean {
+    return this.loadingRouteIds.has(this.routeKey(transport?.ri ?? transport));
+  }
+
+  isTransportSelected(transport: any): boolean {
+    return this.routeTransports.some((ri: any) => Number(ri) === Number(transport?.ri));
+  }
 
   constructor(public router: Router, private queryService: QueryService, private requestService: RequestService, public location: Location, private dealTypeService: DealTypeService) {}
 
@@ -98,6 +107,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       this.currentDealType = type;
       this.syncDealTypeQuery(type);
     });
+    this.loadDeepLinkedAnnouncement();
   }
 
   ngOnDestroy(): void {
@@ -257,7 +267,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   handleBusRoute(number: any) {
-    if (this.selectRoutes.some((elem: any) => Number(elem.ri) === Number(number))) return;
+    if (this.selectRoutes.some((elem: any) => Number(elem.ri) === Number(number)) || this.isTransportLoading(number)) return;
     const formData = {
       id: number,
     };
@@ -265,12 +275,15 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   __GET_BUS_ROUTE = async (formData: any, number: any) => {
-    this.transportLoading = true;
+    const routeKey = this.routeKey(number);
+    this.loadingRouteIds = new Set(this.loadingRouteIds).add(routeKey);
     this.requestService
       .requestData(environment.urls.POST_BUSROUTES, 'POST', formData)
       .pipe(
         finalize(() => {
-          this.transportLoading = false;
+          const loadingRouteIds = new Set(this.loadingRouteIds);
+          loadingRouteIds.delete(routeKey);
+          this.loadingRouteIds = loadingRouteIds;
         })
       )
       .subscribe(async (data: any) => {
@@ -315,35 +328,74 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   };
   __GET_ANNOUNCEMENTS = () => {
-    const params = { ...this.queryService.activeQueryList(), deal_type: this.currentDealType };
+    const { announcement: _announcement, ...activeFilters } = this.queryService.activeQueryList();
+    const params = { ...activeFilters, deal_type: this.currentDealType };
     this.requestService.getData<IAnnouncementList>(environment.urls.GET_ANNONCEMENTS, this.queryService.generatorHttpParams(params)).subscribe((response: IAnnouncementList) => {
       this.refreshRouteTransports();
       const results = Array.isArray(response?.results) ? response.results : [];
-      this.announcements = results.flatMap((item: any) => {
-        const latitude = Number(item.location_x);
-        const longitude = Number(item.location_y);
-        const hasValidCoordinates =
-          Number.isFinite(latitude) &&
-          Number.isFinite(longitude) &&
-          Math.abs(latitude) <= 90 &&
-          Math.abs(longitude) <= 180;
-
-        return hasValidCoordinates
-          ? [
-              {
-                ...item,
-                location_x: latitude,
-                location_y: longitude,
-                geometry: [latitude, longitude],
-              },
-            ]
-          : [];
-      });
-      if (this.announcements.length > 0) {
+      this.announcements = results
+        .map((item: any) => this.normalizeAnnouncement(item))
+        .filter(Boolean);
+      if (this.deepLinkedAnnouncement && this.deepLinkedAnnouncement.deal_type === this.currentDealType) {
+        this.announcements = [
+          this.deepLinkedAnnouncement,
+          ...this.announcements.filter((item: any) => item.id !== this.deepLinkedAnnouncement.id),
+        ];
+        this.focusDeepLinkedAnnouncement();
+      } else if (this.announcements.length > 0) {
         this.mapCenter = [...this.announcements[0].geometry];
       }
     });
   };
+
+  private loadDeepLinkedAnnouncement(): void {
+    const rawId = this.queryService.activeQueryList()['announcement'];
+    const id = Number(Array.isArray(rawId) ? rawId[0] : rawId);
+    if (!Number.isInteger(id) || id <= 0) return;
+
+    this.requestService.getData<any>(`${environment.urls.GET_ANNONCEMENTS}${id}/`).subscribe({
+      next: (item) => {
+        const normalized = this.normalizeAnnouncement(item);
+        if (!normalized) return;
+        this.deepLinkedAnnouncement = normalized;
+        if (isDealType(item.deal_type)) {
+          this.currentDealType = item.deal_type;
+          this.dealTypeService.setDealType(item.deal_type);
+          void this.router.navigate([], {
+            queryParams: { deal_type: item.deal_type },
+            queryParamsHandling: 'merge',
+            replaceUrl: true,
+          });
+        }
+        this.announcements = [
+          normalized,
+          ...this.announcements.filter((announcement: any) => announcement.id !== normalized.id),
+        ];
+        this.focusDeepLinkedAnnouncement();
+        this.__GET_ANNOUNCEMENTS();
+      },
+    });
+  }
+
+  private normalizeAnnouncement(item: any): any | null {
+    const latitude = Number(item?.location_x);
+    const longitude = Number(item?.location_y);
+    const hasValidCoordinates =
+      Number.isFinite(latitude) &&
+      Number.isFinite(longitude) &&
+      Math.abs(latitude) <= 90 &&
+      Math.abs(longitude) <= 180;
+    if (!hasValidCoordinates) return null;
+    return { ...item, location_x: latitude, location_y: longitude, geometry: [latitude, longitude] };
+  }
+
+  private focusDeepLinkedAnnouncement(): void {
+    if (!this.deepLinkedAnnouncement) return;
+    this.mapCenter = [...this.deepLinkedAnnouncement.geometry];
+    this.zoom = 15;
+    this.currentAnnouce = this.deepLinkedAnnouncement;
+    this.showInfo = true;
+  }
 
   private applyDealTypeFromQuery() {
     const urlDealType = this.readDealTypeFromQuery();
@@ -446,5 +498,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.selectedTransports[type].some((elem: any) => Number(elem.ri) === Number(transport.ri))) {
       this.selectedTransports[type].push(transport);
     }
+  }
+
+  private routeKey(value: any): string {
+    return String(value ?? '');
   }
 }

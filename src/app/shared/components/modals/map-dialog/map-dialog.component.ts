@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
 import { AngularYandexMapsModule } from 'angular8-yandex-maps';
-import { NgForOf, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { finalize } from 'rxjs';
 import { RequestService } from '@services/request';
@@ -10,7 +10,7 @@ import { environment } from '@environments';
 @Component({
   selector: 'app-map-dialog',
   standalone: true,
-  imports: [DialogModule, AngularYandexMapsModule, NgIf, NgForOf, ButtonModule],
+  imports: [DialogModule, AngularYandexMapsModule, NgIf, ButtonModule],
   templateUrl: './map-dialog.component.html',
   styleUrl: './map-dialog.component.css',
 })

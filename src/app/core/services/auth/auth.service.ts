@@ -85,12 +85,10 @@ export class AuthService {
     this.setBooleanValue(false);
   }
   logout() {
-    localStorage.removeItem(environment.accessToken);
-    localStorage.removeItem(environment.refreshToken);
+    this.tokenClear();
     let currentPath = this.location.path();
     if (currentPath.includes('/profile')) {
       this.router.navigate(['/']).then(() => {});
     }
-    this.authHandler().then(() => {});
   }
 }

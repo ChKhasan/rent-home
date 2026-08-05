@@ -24,6 +24,8 @@ export const environment = {
     GET_RECOMMENDATION_VIEW: '/api/recommendations/last-viewed-similar/',
   },
   authUrls: {
+    GET_PUBLISHER_CAPABILITIES: '/api/publisher-capabilities/',
+    BROKER_PROFILE_ME: '/api/broker-profile/me/',
     POST_ANNONCEMENTS: '/api/announcement/',
     POST_ANNONCEMENT_STATUS: '/api/status-update/announcement',
     PUT_ANNONCEMENTS: '/api/announcement/',

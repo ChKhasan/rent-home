@@ -1,5 +1,5 @@
 <div class="flex flex-col gap-8 md:gap-[10px]">
-  <h4 class="font-medium text-black text-[32px] md:text-xl">{{ announcement?.title }}</h4>
+  <h1 class="font-medium text-primary text-[32px] md:text-xl">{{ announcement?.title }}</h1>
 
   <div class="flex flex-col gap-3 md:gap-1" *ngIf="announcement?.floor && announcement?.room_count && announcement?.area">
     <h5 class="font-medium text-2xl md:text-lg">Ma`lumotlar:</h5>
@@ -109,4 +109,3 @@
     <h4 class="font-medium text-[28px] md:text-xl">{{announcement?.total_price | price}} {{announcement?.currency}} oyiga</h4>
   </div>
 </div>
-

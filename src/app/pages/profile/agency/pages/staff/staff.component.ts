@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgClass, NgForOf, NgIf } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
@@ -15,6 +15,7 @@ import { environment } from '@environments';
 import { RequestService } from '@services/request';
 import { ToastService } from '@services/toast';
 import { IAgencyMembership } from '@services/interfaces';
+import { HttpErrorResponse } from '@angular/common/http';
 
 interface AgencyMember {
   id: number;
@@ -25,8 +26,9 @@ interface AgencyMember {
     last_name?: string | null;
     phone_number?: string | null;
   };
-  role: 'owner' | 'staff';
+  role: 'OWNER' | 'MANAGER' | 'BROKER';
   is_active: boolean;
+  assigned_count?: number;
 }
 
 @Component({
@@ -34,6 +36,7 @@ interface AgencyMember {
   standalone: true,
   imports: [
     ReactiveFormsModule,
+    FormsModule,
     NgIf,
     NgForOf,
     NgClass,
@@ -65,13 +68,16 @@ export class AgencyStaffComponent implements OnInit {
   savingRole = false;
   savingPassword = false;
   savingStatus = false;
+  reassignMemberId: number | null = null;
+  addServerError = '';
+  roleServerError = '';
 
   addForm = new FormGroup({
     phone_number: new FormControl('', {
       nonNullable: true,
       validators: [Validators.required, Validators.pattern(/^\+998 \d{2} \d{3} \d{2} \d{2}$/)],
     }),
-    role: new FormControl<'owner' | 'staff'>('staff', { nonNullable: true }),
+    role: new FormControl<'OWNER' | 'MANAGER' | 'BROKER'>('BROKER', { nonNullable: true }),
   });
 
   passwordForm = new FormGroup({
@@ -79,7 +85,7 @@ export class AgencyStaffComponent implements OnInit {
   });
 
   roleForm = new FormGroup({
-    role: new FormControl<'owner' | 'staff'>('staff', { nonNullable: true }),
+    role: new FormControl<'OWNER' | 'MANAGER' | 'BROKER'>('BROKER', { nonNullable: true }),
   });
 
   constructor(
@@ -88,16 +94,42 @@ export class AgencyStaffComponent implements OnInit {
   ) {}
 
   roleOptions = [
-    { label: 'Xodim', value: 'staff' },
-    { label: 'Egasi', value: 'owner' },
+    { label: 'Makler', value: 'BROKER' },
+    { label: 'Menejer', value: 'MANAGER' },
+    { label: 'Agentlik egasi', value: 'OWNER' },
   ];
+
+  get availableRoleOptions() {
+    return this.isOwner ? this.roleOptions : this.roleOptions.filter((option) => option.value !== 'OWNER');
+  }
+
+  canManageMember(member: AgencyMember): boolean {
+    if (this.isProtectedOwner(member)) return false;
+    return this.isOwner || member.role !== 'OWNER';
+  }
+
+  isProtectedOwner(member: AgencyMember): boolean {
+    return member.role === 'OWNER'
+      && member.id === this.membership?.id
+      && this.ownerMembersCount <= 1;
+  }
+
+  get replacementOptions() {
+    return this.members
+      .filter((member) => member.is_active && member.id !== this.activeMember?.id)
+      .map((member) => ({ label: `${this.getMemberName(member)} · ${this.getRoleLabel(member.role)}`, value: member.id }));
+  }
 
   ngOnInit(): void {
     this.fetchMembership();
   }
 
   get isOwner() {
-    return this.membership?.role === 'owner';
+    return this.membership?.role === 'OWNER';
+  }
+
+  get canManageStaff() {
+    return this.membership?.role === 'OWNER' || this.membership?.role === 'MANAGER';
   }
 
   get agencyId() {
@@ -117,7 +149,7 @@ export class AgencyStaffComponent implements OnInit {
   }
 
   get ownerMembersCount() {
-    return this.members.filter((member) => member.role === 'owner').length;
+    return this.members.filter((member) => member.role === 'OWNER').length;
   }
 
   fetchMembership() {
@@ -132,7 +164,7 @@ export class AgencyStaffComponent implements OnInit {
             return;
           }
           this.membership = memberships[0];
-          if (this.isOwner) {
+          if (this.canManageStaff) {
             this.fetchMembers();
           }
         },
@@ -159,7 +191,8 @@ export class AgencyStaffComponent implements OnInit {
   }
 
   openAddModal() {
-    this.addForm.reset({ role: 'staff', phone_number: '' });
+    this.addForm.reset({ role: 'BROKER', phone_number: '' });
+    this.addServerError = '';
     this.showAddModal = true;
   }
 
@@ -178,7 +211,7 @@ export class AgencyStaffComponent implements OnInit {
       agency: this.agencyId,
       phone_number: this.normalizePhone(this.addForm.controls.phone_number.value),
       user: null,
-      role: this.addForm.value.role ?? 'staff',
+      role: this.addForm.value.role ?? 'BROKER',
       is_active: true,
     };
     this.savingMember = true;
@@ -188,18 +221,18 @@ export class AgencyStaffComponent implements OnInit {
       .subscribe({
         next: () => {
           this.toastService.showMessage('success', 'Saqlandi', 'Xodim qoʻshildi');
-          this.addForm.reset({ role: 'staff', phone_number: '' });
+          this.addForm.reset({ role: 'BROKER', phone_number: '' });
           this.showAddModal = false;
           this.fetchMembers();
         },
-        error: () => {
-          this.toastService.showMessage('error', 'Xatolik', 'Xodim qoʻshishda xato');
-        },
+        error: (error: HttpErrorResponse) => (this.addServerError = this.getApiErrorMessage(error, 'Xodimni qo‘shib bo‘lmadi.')),
       });
   }
 
   openStatusModal(member: AgencyMember) {
+    if (this.isProtectedOwner(member)) return;
     this.activeMember = member;
+    this.reassignMemberId = null;
     this.showStatusModal = true;
   }
 
@@ -207,12 +240,14 @@ export class AgencyStaffComponent implements OnInit {
     if (this.savingStatus) return;
     this.showStatusModal = false;
     this.activeMember = undefined;
+    this.reassignMemberId = null;
   }
 
   toggleMember() {
     if (!this.activeMember) return;
     const nextStatus = !this.activeMember.is_active;
-    const payload = { is_active: nextStatus };
+    if (!nextStatus && (this.activeMember.assigned_count || 0) > 0 && !this.reassignMemberId) return;
+    const payload = { is_active: nextStatus, reassign_to: !nextStatus ? this.reassignMemberId : null };
     this.savingStatus = true;
     this.requestService
       .requestData(environment.authUrls.PATCH_AGENCY_MEMBERS + this.activeMember.id + '/', 'PATCH', payload)
@@ -233,7 +268,9 @@ export class AgencyStaffComponent implements OnInit {
   }
 
   openRoleModal(member: AgencyMember) {
+    if (this.isProtectedOwner(member)) return;
     this.activeMember = member;
+    this.roleServerError = '';
     this.roleForm.reset({ role: member.role });
     this.showRoleModal = true;
   }
@@ -242,7 +279,7 @@ export class AgencyStaffComponent implements OnInit {
     if (this.savingRole) return;
     this.showRoleModal = false;
     this.activeMember = undefined;
-    this.roleForm.reset({ role: 'staff' });
+    this.roleForm.reset({ role: 'BROKER' });
   }
 
   updateRole() {
@@ -264,11 +301,9 @@ export class AgencyStaffComponent implements OnInit {
           this.toastService.showMessage('success', 'Yangilandi', 'Xodim roli yangilandi');
           this.showRoleModal = false;
           this.activeMember = undefined;
-          this.roleForm.reset({ role: 'staff' });
+          this.roleForm.reset({ role: 'BROKER' });
         },
-        error: () => {
-          this.toastService.showMessage('error', 'Xatolik', 'Rolni yangilab bo‘lmadi');
-        },
+        error: (error: HttpErrorResponse) => (this.roleServerError = this.getApiErrorMessage(error, 'Rolni yangilab bo‘lmadi.')),
       });
   }
 
@@ -324,11 +359,13 @@ export class AgencyStaffComponent implements OnInit {
   }
 
   getRoleLabel(role?: AgencyMember['role']): string {
-    return role === 'owner' ? 'Egasi' : 'Xodim';
+    if (role === 'OWNER') return 'Agentlik egasi';
+    if (role === 'MANAGER') return 'Menejer';
+    return 'Makler';
   }
 
   getRoleSeverity(role?: AgencyMember['role']): 'warn' | 'info' {
-    return role === 'owner' ? 'warn' : 'info';
+    return role === 'OWNER' ? 'warn' : 'info';
   }
 
   getStatusLabel(member?: AgencyMember): string {
@@ -361,5 +398,18 @@ export class AgencyStaffComponent implements OnInit {
   private normalizePhone(phone: string): string {
     const digits = phone.replace(/\D/g, '');
     return digits.startsWith('998') ? `+${digits}` : `+998${digits}`;
+  }
+
+  private getApiErrorMessage(error: HttpErrorResponse, fallback: string): string {
+    const payload = error?.error;
+    if (typeof payload === 'string' && payload.trim()) return payload;
+    if (payload?.detail) return String(payload.detail);
+    if (payload?.message) return String(payload.message);
+    if (payload && typeof payload === 'object') {
+      const firstValue = Object.values(payload)[0];
+      if (Array.isArray(firstValue) && firstValue.length) return String(firstValue[0]);
+      if (typeof firstValue === 'string') return firstValue;
+    }
+    return fallback;
   }
 }

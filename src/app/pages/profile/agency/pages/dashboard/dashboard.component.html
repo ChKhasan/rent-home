@@ -49,7 +49,7 @@
         <div>
           <p class="eyebrow">Joriy agentlik</p>
           <h2>{{ activeMembership?.agency?.name || 'Agentlik' }}</h2>
-          <p class="description">Rol: {{ activeMembership?.role === 'owner' ? 'Owner' : 'Staff' }}</p>
+          <p class="description">Rol: {{ activeMembership?.role === 'OWNER' ? 'Agentlik egasi' : activeMembership?.role === 'MANAGER' ? 'Menejer' : 'Makler' }}</p>
         </div>
       </div>
 
@@ -79,11 +79,12 @@
         <p class="description">Tanlangan davr uchun ko'rish va ko'rsatishlar</p>
       </div>
 
-      <div class="range-buttons">
+      <div class="range-buttons" role="group" aria-label="Statistika davri">
         <button
           *ngFor="let key of summaryOrder"
           type="button"
           [class.active]="key === activeRange"
+          [attr.aria-pressed]="key === activeRange"
           [disabled]="statsLoading"
           (click)="selectRange(key)"
         >

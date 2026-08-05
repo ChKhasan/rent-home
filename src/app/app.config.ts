@@ -1,4 +1,4 @@
-import { ApplicationConfig } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom, inject, provideAppInitializer } from '@angular/core';
 import { provideRouter, withInMemoryScrolling, withRouterConfig } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -8,9 +8,17 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { MessageService } from 'primeng/api';
 import { loggerInterceptor } from './core/interceptors/logger/logger.interceptor';
 import { errorInterceptor } from './core/interceptors/error/error.interceptor';
-import { AngularYandexMapsModule } from 'angular8-yandex-maps';
+import { AngularYandexMapsModule, YaConfig } from 'angular8-yandex-maps';
 import { providePrimeNG } from 'primeng/config';
-import Aura from '@primeng/themes/aura';
+import { ThemeService } from './core/services/theme/theme.service';
+import { NexthomePreset } from './core/theme/nexthome.preset';
+import { getRuntimeConfig } from './core/config/runtime-config';
+
+const yandexMapsConfig: YaConfig = {
+  apikey: getRuntimeConfig().yandexMapsApiKey || undefined,
+  coordorder: 'latlong',
+  lang: 'en_US',
+};
 
 export let appConfig: ApplicationConfig;
 appConfig = {
@@ -27,10 +35,14 @@ appConfig = {
     provideAnimations(),
     providePrimeNG({
       theme: {
-        preset: Aura,
+        preset: NexthomePreset,
+        options: {
+          darkModeSelector: '[data-theme="dark"]',
+        },
       },
     }),
+    provideAppInitializer(() => inject(ThemeService).initialize()),
     MessageService,
-    AngularYandexMapsModule,
+    importProvidersFrom(AngularYandexMapsModule.forRoot(yandexMapsConfig)),
   ],
 };

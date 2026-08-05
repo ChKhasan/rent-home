@@ -1,0 +1,10 @@
+:host {
+  display: block;
+}
+
+.validation-error {
+  margin: 2px 0 0;
+  color: var(--status-danger, #e24c4c);
+  font-size: 12px;
+  line-height: 1.35;
+}

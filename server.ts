@@ -12,23 +12,33 @@ export function app(): express.Express {
   const browserDistFolder = resolve(serverDistFolder, '../browser');
   const indexHtml = join(serverDistFolder, 'index.server.html');
 
-  const commonEngine = new CommonEngine();
+  const commonEngine = new CommonEngine({
+    allowedHosts: ['localhost', '127.0.0.1', 'nexthome.uz', 'www.nexthome.uz'],
+  });
 
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
 
-  // Example Express Rest API endpoints
-  // server.get('/api/**', (req, res) => { });
+  server.get('/assets/runtime-config.js', (_req, res) => {
+    const config = JSON.stringify({
+      yandexMapsApiKey: process.env['NEXTHOME_YANDEX_MAPS_API_KEY'] ?? '',
+    }).replace(/</g, '\\u003c');
+
+    res
+      .type('application/javascript')
+      .set('Cache-Control', 'no-store')
+      .send(`window.__NEXTHOME_RUNTIME_CONFIG__ = ${config};`);
+  });
+
   // Serve static files from /browser
-  server.get(
-    '*.*',
+  server.use(
     express.static(browserDistFolder, {
       maxAge: '1y',
     }),
   );
 
   // All regular routes use the Angular engine
-  server.get('*', (req, res, next) => {
+  server.get('/{*splat}', (req, res, next) => {
     const { protocol, originalUrl, baseUrl, headers } = req;
 
     commonEngine

@@ -1,64 +1,55 @@
-<div class="pb-[120px] md:pb-0">
-  <div class="my-4 md:px-4">
-    <app-banner></app-banner>
-  </div>
+<main class="home-page">
+  <app-banner></app-banner>
 
-  <div class="max-w-[1440px] mx-auto px-4 flex flex-col md:gap-5 gap-8">
-    <div class="flex justify-end md:justify-start">
-      <app-deal-type-switcher></app-deal-type-switcher>
-    </div>
-    <div>
-      <h3 class="font-medium text-[40px] text-[--green] md:text-2xl">Tavsiya qilingan e`lonlar</h3>
-      <p class="text-[28px] md:text-sm text-[--brown-900] md:mt-0 mt-2">Uy qidirmoqdamisiz? Unda biz yordam beramiz!</p>
-    </div>
-    <div class="grid grid-cols-4 xl:grid-cols-3 md:grid-cols-1 gap-[10px] md:gap-3 mt-[15px]"
-      *ngIf="rec_loading; else announcementsBlock1">
-      <p-skeleton *ngFor="let item of [1, 2, 3]" class="w-full" styleClass="ng_skeleton"></p-skeleton>
-    </div>
-    <ng-template #announcementsBlock1>
-      <!-- <div class="grid grid-cols-3 md:grid-cols-2 gap-[10px] md:gap-3"> -->
-      <!-- <ng-container *ngFor="let announcement of announcements">
-          <app-announcements-card [announcement]="announcement"></app-announcements-card>
-        </ng-container> -->
-      <!-- </div> -->
-      <div class="mr-[-15px] ml-[-15px] " #owlCarousel>
-        <app-list-carousel [announcements]="rec_announcements"></app-list-carousel>
+  <div class="home-content">
+    <section *ngIf="rec_loading; else recommendations" class="home-loading" aria-label="Tavsiyalar yuklanmoqda">
+      <div class="home-loading__heading"></div>
+      <div class="home-loading__grid">
+        <app-listing-card-skeleton *ngFor="let item of skeletonList"></app-listing-card-skeleton>
       </div>
+    </section>
+    <ng-template #recommendations>
+      <app-listing-rail
+        *ngIf="rec_announcements.length; else recommendationsState"
+        [announcements]="rec_announcements"
+        title="Tavsiya qilingan e'lonlar"
+        subtitle="Sizning qidiruvingizga yaqin takliflar"
+      ></app-listing-rail>
+      <ng-template #recommendationsState>
+        <section class="home-state" aria-labelledby="recommendations-title">
+          <div>
+            <h2 id="recommendations-title">Tavsiya qilingan e'lonlar</h2>
+            <p>{{ recommendationsError ? "Tavsiyalarni yuklab bo'lmadi." : "Hozircha mos tavsiyalar yo'q." }}</p>
+          </div>
+          <button *ngIf="recommendationsError" type="button" (click)="__GET__REC_ANNOUNCEMENTS()">Qayta urinish</button>
+          <a *ngIf="!recommendationsError" routerLink="/announcements">Barchasini ko'rish</a>
+        </section>
+      </ng-template>
     </ng-template>
 
-    <div id="newBlock">
-      <h3 class="font-medium text-[40px] text-[--green] md:text-2xl">Boshqa e`lonlar</h3>
-      <p class="text-[28px] md:text-sm text-[--brown-900] md:mt-0 mt-2 break-keep">Uy qidirmoqdamisiz? Unda biz sizga yordam
-        beramiz</p>
-    </div>
-    <div class="grid grid-cols-4 xl:grid-cols-3 md:grid-cols-1 gap-[10px] md:gap-3 md:mt-3 mt-[15px]"
-      *ngIf="loading; else announcementsList">
-      <p-skeleton *ngFor="let item of [1, 2, 3]" class="w-full" styleClass="ng_skeleton"></p-skeleton>
-    </div>
-    <ng-template #announcementsList>
-      <div class="relative ">
-        <div class="mr-[-15px] ml-[-15px] " #owlCarousel>
-          <app-list-carousel [announcements]="announcements"></app-list-carousel>
-        </div>
+    <section *ngIf="loading; else newestListings" class="home-loading" aria-label="Yangi e'lonlar yuklanmoqda">
+      <div class="home-loading__heading"></div>
+      <div class="home-loading__grid">
+        <app-listing-card-skeleton *ngFor="let item of skeletonList"></app-listing-card-skeleton>
       </div>
+    </section>
+    <ng-template #newestListings>
+      <app-listing-rail
+        *ngIf="announcements.length; else newestState"
+        [announcements]="announcements"
+        title="Yangi e'lonlar"
+        subtitle="Yaqinda joylangan ijara va sotuv variantlari"
+      ></app-listing-rail>
+      <ng-template #newestState>
+        <section class="home-state" aria-labelledby="newest-title">
+          <div>
+            <h2 id="newest-title">Yangi e'lonlar</h2>
+            <p>{{ announcementsError ? "E'lonlarni yuklab bo'lmadi." : "Hozircha yangi e'lonlar yo'q." }}</p>
+          </div>
+          <button *ngIf="announcementsError" type="button" (click)="__GET_ANNOUNCEMENTS()">Qayta urinish</button>
+          <a *ngIf="!announcementsError" routerLink="/announcements">Barchasini ko'rish</a>
+        </section>
+      </ng-template>
     </ng-template>
-    <button [routerLink]="'/announcements'"
-      class="btn border md:text-sm ml-auto border-[--grey-300] border-solid p-4 md:p-3 font-semibold flex gap-2 items-center bg-transparent rounded-xl">Hamma
-      E`lonlar
-      <svg width="24" height="24" class="md:!w-5 md:!h-5" viewBox="0 0 24 24" fill="none"
-        xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M16.0832 13.3707C16.808 12.6006 16.808 11.3994 16.0832 10.6293L8.7282 2.81464C8.34969 2.41246 7.71681 2.39329 7.31464 2.7718C6.91246 3.15032 6.89329 3.78319 7.2718 4.18537L14.6268 12L7.2718 19.8146C6.89329 20.2168 6.91247 20.8497 7.31464 21.2282C7.71681 21.6067 8.34969 21.5875 8.7282 21.1854L16.0832 13.3707Z"
-          fill="currentColor" />
-      </svg>
-    </button>
-    <!-- <ng-template #carouselList> -->
-    <!-- <div class="relative ">
-      <div class="mr-[-15px] ml-[-15px] " #owlCarousel>
-        <app-list-carousel [announcements]="announcements"></app-list-carousel>
-      </div>
-    </div> -->
-
-    <!-- </ng-template> -->
   </div>
-</div>
+</main>

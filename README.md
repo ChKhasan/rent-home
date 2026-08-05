@@ -14,6 +14,18 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
+## Runtime configuration
+
+The SSR server reads the following environment variables at startup:
+
+- `NEXTHOME_YANDEX_MAPS_API_KEY`: domain-restricted Yandex Maps JavaScript API key.
+- `NG_ALLOWED_HOSTS`: comma-separated Angular SSR host allowlist when the built-in defaults are not enough.
+- `PORT`: SSR server port, defaults to `4000`.
+
+The server exposes the map key through the non-cacheable `/assets/runtime-config.js` endpoint. Static
+deployments must replace `browser/assets/runtime-config.js` during deployment without committing the
+real key to the repository.
+
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).

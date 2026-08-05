@@ -1,25 +1,24 @@
-import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { MyAnnouncementsCardComponent } from '@components/cards/my-announcements-card/my-announcements-card.component';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgForOf, NgIf } from '@angular/common';
 import { SkeletonModule } from 'primeng/skeleton';
 import { PaginationComponent } from '@components/pagination/pagination.component';
 import { finalize } from 'rxjs';
 import { IAnnouncementList } from '@services/interfaces';
 import { QueryService } from '@services/query';
-import { TabComponent } from '@components/profile/tab/tab.component';
 import { RequestService } from '@services/request';
 import { environment } from '@environments';
 import { AnnouncementsCardComponent } from "@components/cards/announcements-card/announcements-card.component";
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-announcements',
   standalone: true,
-  imports: [RouterLink, MyAnnouncementsCardComponent, NgForOf, SkeletonModule, NgIf, PaginationComponent, TabComponent, AnnouncementsCardComponent],
+  imports: [NgForOf, SkeletonModule, NgIf, PaginationComponent, AnnouncementsCardComponent, RouterLink],
   templateUrl: './announcements.component.html',
   styleUrl: './announcements.component.css',
 })
 export class AnnouncementsComponent implements OnInit {
+  @Input() embedded = false;
   public announcements: any;
   public skeletonList = [1, 2, 3, 4, 5];
   public loading: boolean = true;

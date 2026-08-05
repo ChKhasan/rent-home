@@ -1,100 +1,122 @@
-/*@import "./assets/fonts/style.css";*/
+@import "./theme.tokens.css";
 
 @tailwind components;
 @tailwind utilities;
 
 @font-face {
-  font-family: "gilroy-400";
-  src: url(./assets/fonts/Gilroy-Regular.ttf);
+  font-family: "Gilroy";
+  src: url(./assets/fonts/Gilroy-Regular.ttf) format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: "gilroy-500";
-  src: url(./assets/fonts/Gilroy-Medium.ttf);
+  font-family: "Gilroy";
+  src: url(./assets/fonts/Gilroy-Medium.ttf) format("truetype");
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: "gilroy-600";
-  src: url(./assets/fonts/Gilroy-SemiBold.ttf);
+  font-family: "Gilroy";
+  src: url(./assets/fonts/Gilroy-SemiBold.ttf) format("truetype");
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: "gilroy-700";
-  src: url(./assets/fonts/Gilroy-Bold.ttf);
+  font-family: "Gilroy";
+  src: url(./assets/fonts/Gilroy-Bold.ttf) format("truetype");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
 }
 
 
 :root {
   /* fonts */
-  --regular: "gilroy-400";
-  --medium: "gilroy-500";
-  --semiBold: "gilroy-600";
-  --bold: "gilroy-700";
+  --regular: "Gilroy", sans-serif;
+  --medium: "Gilroy", sans-serif;
+  --semiBold: "Gilroy", sans-serif;
+  --bold: "Gilroy", sans-serif;
 
-  /* colors */
-  --primary-color: #ff0000; /* Change to your desired color */
-  --error-400: #d42620;
-  --el-color-primary: #5fc381 !important;
-  --green: #5fc381;
-  --green-100: #91d6a8;
-  --gray-5: #aeaeb2;
-  --gray-1: #fafafc;
-  --grey-1: #f2f2f7;
-  --gray-2: #e5e5ea;
-  --grey-3: #d1d1d6;
-  --gray-4: #c7c7cc;
-  --gray-6: #8e8e93;
-  --dark-1: #636366;
-  --dark-3: #3a3a3c;
-  --dark-4: #2c2c2e;
-  --dark-5: #1c1c1e;
-  --grey-100: #f0f2f5;
-  --grey-300: #d0d5dd;
-  --grey-400: #98a2b3;
-  --grey-600: #667185;
-  --grey-900: #101928;
-  --input-stroke: #d1ddd1;
-  --btn-blue: #3a75ce;
-  --red: #f50000;
-  --ant-primary-color: #5fc381; /* Change this to your desired primary color */
-  --input-color: #fafafc;
-  --brown-900: #3e3838;
-  --success-75: #b5e3c4;
+  /* Compatibility aliases while component styles migrate to semantic roles. */
+  --primary-color: var(--action-primary);
+  --error-400: var(--status-danger);
+  --el-color-primary: var(--action-primary) !important;
+  --green: var(--action-primary);
+  --green-100: var(--action-primary-hover);
+  --gray-5: var(--text-muted);
+  --gray-1: var(--bg-surface);
+  --grey-1: var(--bg-subtle);
+  --gray-2: var(--border-default);
+  --grey-3: var(--border-default);
+  --gray-4: var(--border-strong);
+  --gray-6: var(--text-muted);
+  --dark-1: var(--text-secondary);
+  --dark-3: var(--text-primary);
+  --dark-4: var(--text-primary);
+  --dark-5: var(--text-primary);
+  --grey-100: var(--bg-subtle);
+  --grey-300: var(--border-default);
+  --grey-400: var(--text-muted);
+  --grey-600: var(--text-secondary);
+  --grey-900: var(--text-primary);
+  --input-stroke: var(--border-default);
+  --btn-blue: var(--status-info);
+  --red: var(--status-danger);
+  --ant-primary-color: var(--action-primary);
+  --input-color: var(--field-bg);
+  --brown-900: var(--text-primary);
+  --success-75: var(--status-success-soft);
+  --action-primary-soft: var(--action-soft);
+  --shadow-overlay: 0 14px 36px var(--shadow-color);
 }
 
 
 
 .font-400 {
   font-family: var(--regular);
+  font-weight: 400;
 }
 
 .font-500 {
   font-family: var(--medium);
+  font-weight: 500;
 }
 
 .font-600 {
   font-family: var(--semiBold);
+  font-weight: 600;
 }
 
 .font-700 {
   font-family: var(--bold);
+  font-weight: 700;
 }
 
 html {
   scroll-behavior: smooth;
+  background: var(--bg-canvas);
 }
 
 body {
-  font-family: "Inter", sans-serif;
+  min-width: 320px;
+  min-height: 100dvh;
+  font-family: "Gilroy", sans-serif;
   font-style: normal;
-  line-height: normal;
+  line-height: 1.5;
   font-weight: 400;
-}
-
-body {
   margin: 0;
   padding: 0;
-  word-break: break-all;
+  color: var(--text-primary);
+  background: var(--bg-canvas);
+  word-break: normal;
+  overflow-wrap: break-word;
+  transition: color 160ms ease-out, background-color 160ms ease-out;
 }
 
 p {
@@ -113,8 +135,9 @@ h6 {
 }
 
 .container {
-  max-width: 1440px;
+  width: min(100%, 1280px);
   margin: 0 auto;
+  padding-inline: clamp(16px, 2.5vw, 32px);
 }
 
 img,
@@ -136,12 +159,51 @@ video {
 }
 
 a {
-  text-decoration: auto;
+  color: inherit;
+  text-decoration: none;
 }
 
 button {
   cursor: pointer;
   border: none;
+  font: inherit;
+}
+
+button,
+a,
+input,
+select,
+textarea,
+[tabindex]:not([tabindex="-1"]) {
+  outline: none;
+}
+
+button:focus-visible,
+a:focus-visible,
+[tabindex]:not([tabindex="-1"]):not(.p-select):not(.p-multiselect):not(.p-select-label):not(.p-multiselect-label):not(.p-dropdown-label):focus-visible {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus-ring) 58%, transparent);
+}
+
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+.p-inputtext:enabled:focus,
+.p-textarea:enabled:focus {
+  border-color: var(--action-primary);
+  box-shadow: none;
+}
+
+.p-select.p-component.p-inputwrapper:is(:focus-visible, :focus-within, .p-focus, .p-inputwrapper-focus),
+.p-multiselect.p-component.p-inputwrapper:is(:focus-visible, :focus-within, .p-focus, .p-inputwrapper-focus),
+.p-dropdown.p-component.p-inputwrapper:is(:focus-visible, :focus-within, .p-focus, .p-inputwrapper-focus) {
+  border-color: var(--action-primary);
+  box-shadow: none;
+}
+
+.p-select [tabindex]:focus-visible,
+.p-multiselect [tabindex]:focus-visible,
+.p-dropdown [tabindex]:focus-visible {
+  box-shadow: none;
 }
 
 ul {
@@ -155,9 +217,115 @@ ul {
   background-color: var(--green);
 }
 .btn {
-  transition: 0.2s linear;
+  min-height: 44px;
+  transition: color 140ms ease-out, background-color 140ms ease-out, border-color 140ms ease-out;
 }
-.btn:hover {
-  background: var(--green-100) !important;
-  color: #fff;
+
+.btn-primary,
+.primary-action {
+  color: var(--text-inverse);
+  background: var(--action-primary);
+}
+
+.btn-primary:hover,
+.primary-action:hover {
+  background: var(--action-primary-hover);
+}
+
+.bg-white {
+  background-color: var(--bg-surface) !important;
+}
+
+.text-black {
+  color: var(--text-primary) !important;
+}
+
+.theme-surface,
+.card {
+  color: var(--text-primary);
+  background: var(--bg-surface);
+  border-color: var(--border-default);
+}
+
+input,
+textarea,
+select,
+.p-inputtext,
+.p-select,
+.p-multiselect,
+.p-textarea {
+  color: var(--text-primary);
+  background: var(--field-bg);
+  border-color: var(--border-default);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
+}
+
+input:disabled,
+textarea:disabled,
+select:disabled,
+.p-disabled {
+  color: var(--text-secondary);
+  background: var(--field-disabled);
+  opacity: 0.72;
+}
+
+.p-dialog,
+.p-popover,
+.p-menu,
+.p-select-overlay,
+.p-multiselect-overlay,
+.p-toast-message {
+  color: var(--text-primary);
+  background: var(--bg-elevated);
+  border-color: var(--border-default);
+}
+
+.p-dialog-mask {
+  background: var(--overlay);
+}
+
+.p-tag-success {
+  color: var(--status-success);
+  background: var(--status-success-soft);
+}
+
+.p-tag-warn {
+  color: var(--status-warning);
+  background: var(--status-warning-soft);
+}
+
+.p-tag-danger {
+  color: var(--status-danger);
+  background: var(--status-danger-soft);
+}
+
+.p-paginator :is(.p-paginator-page, .p-paginator-prev, .p-paginator-next) {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+@media (max-width: 576px) {
+  .container {
+    padding-inline: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }

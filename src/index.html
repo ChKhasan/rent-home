@@ -1,10 +1,29 @@
 <!doctype html>
-<html lang="en">
+<html lang="uz">
   <head>
     <meta charset="utf-8" />
-    <title>Rent Home</title>
+    <title>Nexthome</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f6f7f7" />
+    <script src="assets/runtime-config.js"></script>
+    <script>
+      (() => {
+        try {
+          const stored = localStorage.getItem('nexthome-theme');
+          const preference = stored === 'light' || stored === 'dark' || stored === 'system' ? stored : 'system';
+          const resolved = preference === 'system'
+            ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+            : preference;
+          document.documentElement.dataset.theme = resolved;
+          document.documentElement.style.colorScheme = resolved;
+          document.querySelector('meta[name="theme-color"]')
+            ?.setAttribute('content', resolved === 'dark' ? '#111312' : '#f6f7f7');
+        } catch {
+          document.documentElement.dataset.theme = 'light';
+        }
+      })();
+    </script>
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
   </head>
   <body>

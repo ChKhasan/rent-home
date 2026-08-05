@@ -53,7 +53,7 @@ export class AgencyInfoComponent implements OnInit {
           }
           const membership = memberships[0];
           this.agency = membership.agency;
-          this.isOwner = membership.role === 'owner';
+          this.isOwner = membership.role === 'OWNER';
           this.patchForm();
         },
         error: () => {

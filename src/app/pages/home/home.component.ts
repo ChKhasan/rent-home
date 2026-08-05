@@ -1,51 +1,53 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HeaderComponent } from '@components/layouts/header/header.component';
-import { ButtonModule } from 'primeng/button';
-import { AsyncPipe, NgClass, NgForOf, NgIf } from '@angular/common';
-import { PaginatorModule } from 'primeng/paginator';
-import { ReactiveFormsModule } from '@angular/forms';
-import { finalize } from 'rxjs';
-import { MessageService } from 'primeng/api';
-import { ValidationErrorAnimation } from '@animations';
-import { ToastModule } from 'primeng/toast';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, OnDestroy } from '@angular/core';
+import { NgForOf, NgIf } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { finalize, Subscription } from 'rxjs';
 import { BannerComponent } from '@components/home/banner/banner.component';
-import { AnnouncementsCardComponent } from '@components/cards/announcements-card/announcements-card.component';
-import { SkeletonModule } from 'primeng/skeleton';
-import { PaginationComponent } from '@components/pagination/pagination.component';
 import { QueryService } from '@services/query';
-import { TagModule } from 'primeng/tag';
-import { BannerTemplateComponent } from '@components/home/banner-template/banner-template.component';
 import { environment } from '@environments';
 import { RequestService } from '@services/request';
-import { ListCarouselComponent } from '@components/announcement/list-carousel/list-carousel.component';
-import { RouterLink } from '@angular/router';
+import { ListingRailComponent } from '@components/announcement/listing-rail/listing-rail.component';
+import { ListingCardSkeletonComponent } from '@components/cards/listing-card-skeleton/listing-card-skeleton.component';
 import { AuthService } from '@/core/services/auth/auth.service';
 import { DealTypeService } from '@/core/services/deal-type/deal-type.service';
 import { DealType, DEFAULT_DEAL_TYPE, isDealType } from '@/core/constants/deal-type';
-import { Subscription } from 'rxjs';
-import { DealTypeSwitcherComponent } from '@components/deal-type-switcher/deal-type-switcher.component';
+import { IAnnouncementListItem } from '@services/interfaces';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink, ButtonModule, NgIf, PaginatorModule, ReactiveFormsModule, NgClass, NgForOf, AsyncPipe, ToastModule, BannerComponent, AnnouncementsCardComponent, SkeletonModule, PaginationComponent, TagModule, BannerTemplateComponent, ListCarouselComponent, DealTypeSwitcherComponent],
+  imports: [
+    NgIf,
+    NgForOf,
+    RouterLink,
+    BannerComponent,
+    ListingRailComponent,
+    ListingCardSkeletonComponent,
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
-  animations: [ValidationErrorAnimation],
-  providers: [MessageService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  public loading: boolean = true;
-  public rec_loading: boolean = false;
-  public skeletonList = [1, 2, 3, 4, 5, 6];
-  public announcements?: any;
-  public rec_announcements?: any;
-  public totalPage: number = 0;
+  public loading = true;
+  public rec_loading = true;
+  public announcementsError = false;
+  public recommendationsError = false;
+  public skeletonList = [1, 2, 3, 4];
+  public announcements: IAnnouncementListItem[] = [];
+  public rec_announcements: IAnnouncementListItem[] = [];
+  public totalPage = 0;
   public currentDealType: DealType = DEFAULT_DEAL_TYPE;
   private headers: Record<string, string> = {};
   private dealTypeSubscription?: Subscription;
 
-  constructor(private queryConfig: QueryService, private requestService: RequestService, private authService: AuthService, private dealTypeService: DealTypeService) {}
+  constructor(
+    private readonly queryConfig: QueryService,
+    private readonly requestService: RequestService,
+    private readonly authService: AuthService,
+    private readonly dealTypeService: DealTypeService,
+    private readonly cdr: ChangeDetectorRef,
+  ) {}
 
   ngOnInit(): void {
     if (typeof window !== 'undefined') {
@@ -102,23 +104,42 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   __GET__REC_ANNOUNCEMENTS = () => {
-    this.loading = true;
+    this.rec_loading = true;
+    this.recommendationsError = false;
     this.requestService
-      .getData(environment.urls.GET_HOME_RECOMMENDATIONS, this.buildParams(), { ...this.headers })
-      .pipe(finalize(() => (this.loading = false)))
-      .subscribe((response: any) => {
-        this.rec_announcements = response;
-        this.totalPage = response.count;
+      .getData<IAnnouncementListItem[]>(environment.urls.GET_HOME_RECOMMENDATIONS, this.buildParams(), { ...this.headers })
+      .pipe(finalize(() => {
+        this.rec_loading = false;
+        this.cdr.markForCheck();
+      }))
+      .subscribe({
+        next: (response: IAnnouncementListItem[]) => {
+          this.rec_announcements = response || [];
+        },
+        error: () => {
+          this.recommendationsError = true;
+          this.cdr.markForCheck();
+        },
       });
   };
   __GET_ANNOUNCEMENTS = () => {
-    this.rec_loading = true;
+    this.loading = true;
+    this.announcementsError = false;
     this.requestService
       .getData(environment.urls.GET_ANNONCEMENTS, this.buildParams(), { ...this.headers })
-      .pipe(finalize(() => (this.rec_loading = false)))
-      .subscribe((response: any) => {
-        this.announcements = response.results;
-        this.totalPage = response.count;
+      .pipe(finalize(() => {
+        this.loading = false;
+        this.cdr.markForCheck();
+      }))
+      .subscribe({
+        next: (response: any) => {
+          this.announcements = response?.results || [];
+          this.totalPage = response?.count || 0;
+        },
+        error: () => {
+          this.announcementsError = true;
+          this.cdr.markForCheck();
+        },
       });
   };
 }

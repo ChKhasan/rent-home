@@ -17,8 +17,15 @@
     <div>
       <!--      <div [formGroup]="ruleForm" class="flex flex-col gap-[18px]">-->
       <div class="flex flex-col gap-2 items-center relative">
-        <label class="font-400 text-[--gray-6] text-base">Telefon raqamingiz</label>
-        <p-inputOtp [length]="5" [(ngModel)]="code"></p-inputOtp>
+        <label id="otp-label" class="font-400 text-[--gray-6] text-base">Tasdiqlash kodi</label>
+        <p-inputOtp [length]="5" [integerOnly]="true" [(ngModel)]="code" aria-labelledby="otp-label">
+          <ng-template #input let-token let-events="events" let-index="index">
+            <input pInputText [value]="token" maxlength="1" inputmode="numeric"
+              [attr.aria-label]="'Tasdiqlash kodi, ' + index + '-raqam'"
+              (input)="events.input($event)" (keydown)="events.keydown($event)"
+              (focus)="events.focus($event)" (blur)="events.blur($event)" (paste)="events.paste($event)" />
+          </ng-template>
+        </p-inputOtp>
         <div *ngIf="localOtpCode" class="w-full rounded-[8px] bg-[--gray-1] px-4 py-3 text-center">
           <p class="text-sm text-[--gray-6]">Local OTP kod</p>
           <p class="text-[22px] font-700 text-[color:var(--green)] tracking-[4px]">{{ localOtpCode }}</p>

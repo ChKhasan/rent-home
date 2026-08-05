@@ -1,12 +1,7 @@
-<header [ngClass]="{ 'md:hidden': currentPath.includes('/profile/chat') }">
-  <app-header></app-header>
-</header>
-<div [ngClass]="{ 'md:pb-16': !currentPath.includes('/profile/chat') }">
-  <router-outlet></router-outlet>
+<div class="app-shell" [class.app-shell--chat]="isChatRoute">
+  <app-header *ngIf="!isChatRoute"></app-header>
+  <main class="app-shell__content">
+    <router-outlet></router-outlet>
+  </main>
+  <app-footer *ngIf="!isChatRoute"></app-footer>
 </div>
-<!-- <div [ngClass]="{ 'md:hidden': currentPath.includes('/profile/chat') }">
-  <app-bottom-bar></app-bottom-bar>
-</div> -->
-<footer [ngClass]="{ 'md:hidden': currentPath.includes('/profile/chat') }">
-  <app-footer></app-footer>
-</footer>

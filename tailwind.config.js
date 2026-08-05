@@ -25,7 +25,17 @@ module.exports = {
     colors: {
       transparent: "transparent",
       current: "currentColor",
-      white: "#ffffff",
+      white: "var(--bg-surface)",
+      black: "var(--text-primary)",
+      canvas: "var(--bg-canvas)",
+      surface: "var(--bg-surface)",
+      elevated: "var(--bg-elevated)",
+      subtle: "var(--bg-subtle)",
+      primary: "var(--text-primary)",
+      secondary: "var(--text-secondary)",
+      muted: "var(--text-muted)",
+      action: "var(--action-primary)",
+      border: "var(--border-default)",
     },
     extend: {
       fontFamily: {

@@ -1,4 +1,14 @@
-<div *ngIf="bottomSheetVisible" class="h-[100vh] w-full wrapper fixed bottom-0 left-0 bg-[#2E2E2E99]" (click)="close()"></div>
-<div class="bottom-sheet rounded-t-[24px] bg-white fixed w-full overflow-y-scroll bottom-0 max-h-[90vh] z-[100]"  (touchstart)="onTouchStart($event)"  (touchmove)="onTouchMove($event)" *ngIf="bottomSheetVisible" [@slideBottom]>
-  <ng-content></ng-content>
-</div>
+<button *ngIf="bottomSheetVisible" type="button" class="sheet-backdrop" [attr.aria-label]="closeLabel" (click)="close()"></button>
+<section #sheet *ngIf="bottomSheetVisible" class="bottom-sheet" role="dialog" aria-modal="true"
+  [attr.aria-labelledby]="titleId" tabindex="-1" [@slideBottom] [@.disabled]="reducedMotion">
+  <header class="bottom-sheet__header">
+    <span class="bottom-sheet__handle" aria-hidden="true"></span>
+    <h2 [id]="titleId">{{ title }}</h2>
+    <button type="button" [attr.aria-label]="closeLabel" (click)="close()">
+      <svg lucideX [size]="21" aria-hidden="true"></svg>
+    </button>
+  </header>
+  <div class="bottom-sheet__body">
+    <ng-content></ng-content>
+  </div>
+</section>

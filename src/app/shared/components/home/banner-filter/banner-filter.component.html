@@ -1,48 +1,179 @@
-<div>
-  <div class="flex flex-col gap-4">
-    <div class="flex justify-content-center">
-      <p-selectButton styleClass="!rounded-2xl !w-full" [(ngModel)]="filter.partnership" [options]="stateOptions"
-        aria-labelledby="basic" optionLabel="label" optionValue="value" />
-    </div>
-    <div class="flex flex-col gap-1 relative">
-      <label class="font-medium text-[--grey-900] text-[14px]" for="name">Viloyat</label>
-      <div class="relative w-full flex items-center form-input">
-        <p-select class="w-full" [options]="dictionaryService.regions" [(ngModel)]="filter.region" optionLabel="name"
-          optionValue="id" placeholder="Viloyat" (onChange)="onRegionChange($event.value)" />
+<form class="quick-search" aria-label="Uy qidirish" (ngSubmit)="search()">
+  <div class="quick-search__controls">
+    <fieldset class="quick-search__group quick-search__group--deal">
+      <legend>E'lon turi</legend>
+      <div class="quick-search__segments">
+        <button
+          *ngFor="let option of dealTypeOptions"
+          type="button"
+          [class.quick-search__segment--active]="filter.deal_type === option.value"
+          [attr.aria-pressed]="filter.deal_type === option.value"
+          (click)="selectDealType(option.value)"
+        >
+          {{ option.label }}
+        </button>
       </div>
-    </div>
-    <div class="flex flex-col gap-1 relative">
-      <label class="font-medium text-[--grey-900] text-[14px]" for="name">Tuman</label>
-      <div class="relative w-full flex items-center form-input">
-        <p-select class="w-full" [disabled]="!filter.region" [options]="dictionaryService.districts"
-          [(ngModel)]="filter.distirct" optionLabel="name" optionValue="id" placeholder="Tuman" />
+    </fieldset>
+
+    <fieldset class="quick-search__group quick-search__group--occupancy quick-search__advanced">
+      <legend>Ijara turi</legend>
+      <div class="quick-search__segments">
+        <button
+          *ngFor="let option of occupancyOptions"
+          type="button"
+          [class.quick-search__segment--active]="filter.partnership === option.value"
+          [attr.aria-pressed]="filter.partnership === option.value"
+          (click)="selectOccupancy(option.value)"
+        >
+          {{ option.label }}
+        </button>
       </div>
+    </fieldset>
+
+    <div class="quick-search__group quick-search__group--region">
+      <label for="hero-region">Viloyat</label>
+      <p-select
+        inputId="hero-region"
+        name="hero-region"
+        [options]="dictionaryService.regions"
+        [(ngModel)]="filter.region"
+        optionLabel="name"
+        optionValue="id"
+        placeholder="Hududni tanlang"
+        [filter]="true"
+        filterPlaceholder="Viloyatni qidiring"
+        [showClear]="true"
+        [appendTo]="'body'"
+        (onChange)="onRegionChange($event.value)"
+      />
     </div>
-    <div class="grid gap-4 grid-cols-2">
-      <div class="flex flex-col gap-1 relative">
-        <label class="font-medium text-[--grey-900] text-[14px]" for="name">Xonalar soni</label>
-        <div class="relative w-full flex items-center form-input">
-          <input pInputText [(ngModel)]="filter.room_count" type="text" />
-        </div>
-      </div>
-      <div class="flex flex-col gap-1 relative">
-        <label class="font-medium text-[--grey-900] text-[14px]" for="name">Qavat</label>
-        <div class="relative w-full flex items-center form-input">
-          <input pInputText [(ngModel)]="filter.floor" type="text" />
-        </div>
-      </div>
+
+    <div class="quick-search__group quick-search__group--district quick-search__advanced">
+      <label for="hero-district">Tuman</label>
+      <p-select
+        inputId="hero-district"
+        name="hero-district"
+        [disabled]="!filter.region"
+        [options]="dictionaryService.districts"
+        [(ngModel)]="filter.district"
+        optionLabel="name"
+        optionValue="id"
+        placeholder="Tumanni tanlang"
+        [filter]="true"
+        filterPlaceholder="Tumanni qidiring"
+        [showClear]="true"
+        [appendTo]="'body'"
+      />
     </div>
-    <button (click)="toFilter()" pButton
-      class="md:py-3 py-[14px] w-100 w-full !bg-[--green] text-base md:text-[14px] ga2 rounded-[8px] text-white font-semibold flex justify-center px-0 btn  border-0">
-      <span class="description flex gap-2">
-        <svg width="21" height="21" viewBox="0 0 21 21" class="!md:w-4 !md:h-4" fill="none"
-          xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" clip-rule="evenodd"
-            d="M9.5 0.5C4.52944 0.5 0.5 4.52944 0.5 9.5C0.5 14.4706 4.52944 18.5 9.5 18.5C11.625 18.5 13.578 17.7635 15.1177 16.5319L18.7929 20.2071C19.1834 20.5976 19.8166 20.5976 20.2071 20.2071C20.5976 19.8166 20.5976 19.1834 20.2071 18.7929L16.5319 15.1177C17.7635 13.578 18.5 11.625 18.5 9.5C18.5 4.52944 14.4706 0.5 9.5 0.5ZM2.5 9.5C2.5 5.63401 5.63401 2.5 9.5 2.5C13.366 2.5 16.5 5.63401 16.5 9.5C16.5 13.366 13.366 16.5 9.5 16.5C5.63401 16.5 2.5 13.366 2.5 9.5Z"
-            fill="white" />
-        </svg>
-        Qidirish
+
+    <label class="quick-search__group quick-search__group--rooms quick-search__advanced">
+      <span>Xonalar</span>
+      <input
+        name="hero-room-count"
+        [(ngModel)]="filter.room_count"
+        inputmode="numeric"
+        type="number"
+        min="1"
+        max="20"
+        placeholder="1+"
+      />
+    </label>
+
+    <label class="quick-search__group quick-search__group--price quick-search__advanced">
+      <span>Maksimal narx</span>
+      <span class="quick-search__price-control">
+        <input
+          name="hero-max-price"
+          [(ngModel)]="filter.total_price__lte"
+          inputmode="numeric"
+          type="number"
+          min="0"
+          placeholder="Masalan, 500"
+        />
+        <select name="hero-currency" [(ngModel)]="filter.currency" aria-label="Pul birligi">
+          <option *ngFor="let currency of currencyOptions" [value]="currency.value">
+            {{ currency.value }}
+          </option>
+        </select>
       </span>
-    </button>
+    </label>
+
+    <div class="quick-search__actions">
+      <button type="submit" class="quick-search__submit">
+        <svg lucideSearch [size]="20" aria-hidden="true"></svg>
+        <span>Qidirish</span>
+      </button>
+      <button type="button" class="quick-search__mobile-filter" (click)="openAdvancedFilters()">
+        <svg lucideSlidersHorizontal [size]="20" aria-hidden="true"></svg>
+        <span>Filtrlar<span *ngIf="advancedFilterCount"> ({{ advancedFilterCount }})</span></span>
+      </button>
+    </div>
   </div>
-</div>
+</form>
+
+<app-bottom-sheet #advancedSheet title="Batafsil filtrlar" closeLabel="Batafsil filtrlarni yopish">
+  <div class="quick-search-sheet">
+    <div class="quick-search-sheet__body">
+      <fieldset class="quick-search-sheet__section">
+        <legend>Ijara turi</legend>
+        <div class="quick-search__segments quick-search__segments--sheet">
+          <button
+            *ngFor="let option of occupancyOptions"
+            type="button"
+            [class.quick-search__segment--active]="filter.partnership === option.value"
+            [attr.aria-pressed]="filter.partnership === option.value"
+            (click)="selectOccupancy(option.value)"
+          >
+            {{ option.label }}
+          </button>
+        </div>
+      </fieldset>
+
+      <div class="quick-search-sheet__section">
+        <label for="mobile-district">Tuman</label>
+        <p-select
+          inputId="mobile-district"
+          [disabled]="!filter.region"
+          [options]="dictionaryService.districts"
+          [(ngModel)]="filter.district"
+          optionLabel="name"
+          optionValue="id"
+          placeholder="Tumanni tanlang"
+          [filter]="true"
+          filterPlaceholder="Tumanni qidiring"
+          [showClear]="true"
+          [appendTo]="'body'"
+        />
+      </div>
+
+      <label class="quick-search-sheet__section">
+        <span>Xonalar soni</span>
+        <input [(ngModel)]="filter.room_count" inputmode="numeric" type="number" min="1" max="20" placeholder="1+" />
+      </label>
+
+      <div class="quick-search-sheet__section">
+        <label for="mobile-max-price">Maksimal narx</label>
+        <div class="quick-search__price-control quick-search__price-control--sheet">
+          <input
+            id="mobile-max-price"
+            [(ngModel)]="filter.total_price__lte"
+            inputmode="numeric"
+            type="number"
+            min="0"
+            placeholder="Masalan, 500"
+          />
+          <select [(ngModel)]="filter.currency" aria-label="Pul birligi">
+            <option *ngFor="let currency of currencyOptions" [value]="currency.value">
+              {{ currency.value }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <footer class="quick-search-sheet__footer">
+      <button type="button" class="quick-search-sheet__clear" (click)="clearAdvancedFilters()">Tozalash</button>
+      <button type="button" class="quick-search-sheet__apply" (click)="applyAdvancedFilters()">Tanlovni saqlash</button>
+    </footer>
+  </div>
+</app-bottom-sheet>

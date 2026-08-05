@@ -19,4 +19,19 @@ describe('MapComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('shows loading only for the route being fetched', () => {
+    component.loadingRouteIds = new Set(['5']);
+
+    expect(component.transportLoading).toBeTrue();
+    expect(component.isTransportLoading({ ri: 5 })).toBeTrue();
+    expect(component.isTransportLoading({ ri: 6 })).toBeFalse();
+  });
+
+  it('matches selected routes regardless of id type', () => {
+    component.routeTransports = ['5'];
+
+    expect(component.isTransportSelected({ ri: 5 })).toBeTrue();
+    expect(component.isTransportSelected({ ri: 6 })).toBeFalse();
+  });
 });

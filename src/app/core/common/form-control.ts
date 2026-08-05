@@ -1,7 +1,7 @@
 import { FormControl, Validators } from '@angular/forms';
 
 export const nameControl = new FormControl('', [Validators.required, Validators.minLength(4)]);
-export const lastControl = new FormControl('', [Validators.required, Validators.minLength(4)]);
+export const lastControl = new FormControl('', [Validators.minLength(4)]);
 export const firstControl = new FormControl('', [Validators.required, Validators.minLength(4)]);
 export const titleControl = new FormControl('', [Validators.required, Validators.minLength(6)]);
 export const descControl = new FormControl('', [Validators.required, Validators.minLength(10)]);

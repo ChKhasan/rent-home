@@ -34,16 +34,29 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         );
       }
       if (error.status != 401) {
-        const detail =
-          error.status === 0
-            ? "Server bilan aloqa o'rnatilmadi."
-            : error?.error?.message || error.statusText;
+        const detail = error.status === 0
+          ? "Server bilan aloqa o'rnatilmadi."
+          : getErrorDetail(error);
         toast.showMessage('error', 'Xatolik', detail);
       }
       return throwError(() => error);
     })
   );
 };
+
+function getErrorDetail(error: HttpErrorResponse): string {
+  const payload = error.error;
+  if (typeof payload === 'string' && payload.trim()) return payload;
+  if (payload?.detail) return String(payload.detail);
+  if (payload?.message) return String(payload.message);
+  if (payload && typeof payload === 'object') {
+    const firstValue = Object.values(payload)[0];
+    if (Array.isArray(firstValue) && firstValue.length) return String(firstValue[0]);
+    if (typeof firstValue === 'string') return firstValue;
+  }
+  return error.statusText || 'So‘rovni bajarib bo‘lmadi.';
+}
+
 function addAuthorizationHeader(request: HttpRequest<any>, token: string): HttpRequest<any> {
   return request.clone({
     setHeaders: {

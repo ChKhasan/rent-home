@@ -1,11 +1,14 @@
 :host ::ng-deep .chat-toast .p-toast-message {
-  border: 0 !important;
-  border-radius: 16px;
-  box-shadow:
-    0px 2px 10px 0px #0000004d,
-    0px 0px 1px 0px #0000001a;
-  background: #f7f7f7;
+  border: 1px solid var(--border-default) !important;
+  border-radius: 8px;
+  color: var(--text-primary);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-overlay);
 }
 :host ::ng-deep .chat-toast .p-toast-message-content {
   padding: 16px;
+}
+
+:host ::ng-deep .chat-toast__title {
+  color: var(--text-primary);
 }

@@ -1,0 +1,11 @@
+.app-shell {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-canvas);
+}
+
+.app-shell__content {
+  min-width: 0;
+  flex: 1 0 auto;
+}

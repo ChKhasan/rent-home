@@ -1,80 +1,337 @@
-:host ::ng-deep .p-selectbutton .p-highlight {
-  background: var(--green);
+:host {
+  --quick-search-surface: color-mix(in srgb, var(--bg-elevated) 95%, transparent);
+  --quick-search-control-surface: var(--field-bg);
+  --quick-search-text: var(--text-primary);
+  --quick-search-muted: var(--text-secondary);
+  --quick-search-border: var(--border-default);
+
+  min-width: 0;
+  display: block;
 }
-:host ::ng-deep .p-selectbutton .p-button {
-  width: auto;
-  display: flex;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: 500;
+
+:host-context([data-theme='dark']) {
+  --quick-search-surface: var(--media-surface);
+  --quick-search-control-surface: color-mix(in srgb, var(--bg-canvas) 74%, transparent);
+  --quick-search-text: var(--text-on-media);
+  --quick-search-muted: var(--text-on-media-muted);
+  --quick-search-border: color-mix(in srgb, var(--text-on-media) 24%, transparent);
 }
-:host ::ng-deep .p-selectbutton {
+
+.quick-search {
+  padding: 16px;
+  border: 1px solid var(--quick-search-border);
+  border-radius: 8px;
+  color: var(--quick-search-text);
+  background: var(--quick-search-surface);
+  backdrop-filter: blur(14px);
+  box-shadow: var(--shadow-sm);
+}
+
+.quick-search__controls {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns:
+    minmax(176px, 0.95fr)
+    minmax(220px, 1.2fr)
+    minmax(164px, 0.95fr)
+    minmax(154px, 0.9fr)
+    minmax(92px, 0.52fr)
+    minmax(180px, 1.05fr)
+    minmax(132px, 0.76fr);
+  align-items: end;
+  gap: 10px;
 }
-:host ::ng-deep .p-selectbutton .p-button:first-child {
-  border-top-left-radius: 16px;
-  border-bottom-left-radius: 16px;
-}
-:host ::ng-deep .p-selectbutton .p-button:last-child {
-  border-top-right-radius: 16px;
-  border-bottom-right-radius: 16px;
-}
-.form-input input,
-:host ::ng-deep .p-dropdown {
-  height: 44px;
-}
-.form-input input,
-.form-input textarea,
-:host ::ng-deep input {
-  color: var(--dark-5);
-  font-family: var(--regular);
-  font-size: 16px;
-  font-weight: 400;
-  width: 100%;
-  border-radius: 8px;
-  border: 2px solid var(--grey-300);
-  background: var(--input-color);
-  padding: 13px 18px;
-}
-:host ::ng-deep .p-dropdown {
-  color: var(--dark-5);
-  font-family: var(--regular);
-  font-size: 16px;
-  font-weight: 400;
-  width: 100%;
-  border-radius: 8px;
-  border: 2px solid var(--grey-300);
-  background: var(--input-color);
-}
-:host ::ng-deep .p-dropdown .p-placeholder {
+
+.quick-search__group {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
   display: flex;
-  align-items: center;
-  padding-left: 8px !important;
-  font-family: "inter";
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 20px;
-  text-align: left;
-  color: var(--grey-400);
+  flex-direction: column;
+  gap: 5px;
 }
-textarea:focus {
-  outline: 0 none;
-  outline-offset: 0;
-  box-shadow: 0 0 0 0.2rem #b7e0b8;
-  border-color: #4caf50;
-}
-:host ::ng-deep .p-inputnumber {
+
+.quick-search__group > span,
+.quick-search__group > label,
+.quick-search__group > legend {
   width: 100%;
+  padding: 0;
+  color: var(--quick-search-muted);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 18px;
 }
-:host ::ng-deep .file-upload {
-  width: 104px;
-  height: 104px;
+
+.quick-search__segments {
+  min-width: 0;
+  height: 50px;
+  padding: 2px;
+  border: 1px solid var(--quick-search-border);
+  border-radius: 8px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 3px;
+  background: var(--quick-search-control-surface);
+}
+
+.quick-search__segments button {
+  min-width: 0;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  color: var(--quick-search-muted);
+  background: transparent;
+  font-size: 14px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.quick-search__segments .quick-search__segment--active {
+  color: var(--text-inverse);
+  background: var(--action-primary);
+}
+
+/* PrimeNG does not expose these select surface parts through component inputs. */
+:host ::ng-deep .quick-search .p-select {
+  width: 100%;
+  min-height: 48px;
+  border: 1px solid var(--quick-search-border);
+  border-radius: 8px;
+  color: var(--quick-search-text);
+  background: var(--quick-search-control-surface);
+}
+
+:host ::ng-deep .quick-search .p-select-label,
+:host ::ng-deep .quick-search .p-select-dropdown,
+:host ::ng-deep .quick-search .p-select-clear-icon {
+  color: var(--quick-search-text);
+}
+
+.quick-search input,
+.quick-search select,
+.quick-search-sheet input,
+.quick-search-sheet select {
+  width: 100%;
+  min-width: 0;
+  height: 48px;
+  padding: 0 12px;
+  border: 1px solid var(--quick-search-border);
+  border-radius: 8px;
+  color: var(--quick-search-text);
+  background: var(--quick-search-control-surface);
+}
+
+.quick-search input::placeholder {
+  color: var(--quick-search-muted);
+}
+
+.quick-search__price-control {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 62px;
+}
+
+.quick-search__price-control input {
+  border-radius: 8px 0 0 8px;
+}
+
+.quick-search__price-control select {
+  padding-inline: 7px 4px;
+  border-left: 0;
+  border-radius: 0 8px 8px 0;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.quick-search__actions {
+  min-width: 132px;
+  display: grid;
+}
+
+.quick-search__submit,
+.quick-search__mobile-filter,
+.quick-search-sheet__apply,
+.quick-search-sheet__clear {
+  min-height: 48px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding-inline: 18px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.quick-search__submit,
+.quick-search-sheet__apply {
+  border: 1px solid var(--action-primary);
+  color: var(--text-inverse);
+  background: var(--action-primary);
+}
+
+.quick-search__submit:hover,
+.quick-search-sheet__apply:hover {
+  background: var(--action-primary-hover);
+}
+
+.quick-search__mobile-filter {
+  display: none;
+}
+
+.quick-search-sheet {
+  min-height: 0;
+  color: var(--text-primary);
+  background: var(--bg-elevated);
+}
+
+.quick-search-sheet__body {
+  display: grid;
+  gap: 20px;
+  padding: 20px 16px 24px;
+}
+
+.quick-search-sheet__section {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.quick-search-sheet__section > span,
+.quick-search-sheet__section > label,
+.quick-search-sheet__section > legend {
+  padding: 0;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.quick-search__segments--sheet {
+  height: 50px;
+  border-color: var(--border-default);
+  background: var(--bg-subtle);
+}
+
+.quick-search__segments--sheet button {
+  min-height: 40px;
+  color: var(--text-secondary);
+}
+
+:host ::ng-deep .quick-search-sheet .p-select {
+  width: 100%;
+  min-height: 48px;
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  color: var(--text-primary);
+  background: var(--field-bg);
+}
+
+.quick-search-sheet input,
+.quick-search-sheet select {
+  height: 48px;
+  border-color: var(--border-default);
+  color: var(--text-primary);
+  background: var(--field-bg);
+}
+
+.quick-search__price-control--sheet {
+  grid-template-columns: minmax(0, 1fr) 82px;
+}
+
+.quick-search-sheet__footer {
+  position: sticky;
+  bottom: 0;
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--border-default);
+  display: grid;
+  grid-template-columns: minmax(104px, auto) 1fr;
+  gap: 12px;
+  background: var(--bg-elevated);
+}
+
+.quick-search-sheet__clear {
+  border: 1px solid var(--border-strong);
+  color: var(--text-secondary);
+  background: var(--bg-surface);
+}
+
+@media (max-width: 1323px) and (min-width: 769px) {
+  .quick-search__controls {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .quick-search__group--price {
+    grid-column: span 2;
+  }
+
+  .quick-search__actions {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 900px) and (min-width: 769px) {
+  .quick-search__controls {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .quick-search__group--district {
+    grid-column: span 2;
+  }
 }
 
 @media (max-width: 768px) {
-  .form-input input,
-  :host ::ng-deep .p-dropdown {
-    height: 36px;
+  .quick-search {
+    padding: 12px;
+  }
+
+  .quick-search__controls {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .quick-search__advanced {
+    display: none;
+  }
+
+  .quick-search__group > span,
+  .quick-search__group > label,
+  .quick-search__group > legend {
+    font-size: 11px;
+    line-height: 16px;
+  }
+
+  .quick-search__segments,
+  :host ::ng-deep .quick-search .p-select {
+    min-height: 48px;
+  }
+
+  .quick-search__segments button {
+    min-height: 44px;
+  }
+
+  .quick-search__actions {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px;
+  }
+
+  .quick-search__submit,
+  .quick-search__mobile-filter {
+    min-height: 48px;
+  }
+
+  .quick-search__mobile-filter {
+    display: inline-flex;
+    min-width: 108px;
+    padding: 0 12px;
+    border: 1px solid var(--quick-search-border);
+    color: var(--quick-search-text);
+    background: var(--quick-search-control-surface);
   }
 }

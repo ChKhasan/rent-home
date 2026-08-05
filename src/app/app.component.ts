@@ -47,6 +47,11 @@ export class AppComponent implements OnInit, OnDestroy {
         if (value) {
           this.firstSocketConnection();
           this.likesFirstGetter();
+        } else {
+          this.chatService.disconnect();
+          this.chatService.clearRooms();
+          this.newGroup = {};
+          this.messageService.clear('confirm');
         }
       });
     }
@@ -54,14 +59,14 @@ export class AppComponent implements OnInit, OnDestroy {
 
   firstSocketConnection() {
     let currentPath = this.location.path();
-    this.chatService.webSocketConnection();
-    if (!currentPath.includes('/profile/chat')) {
-      if (!this.socketEventsBound) {
-        this.sokectEventHandler();
-        this.socketEventsBound = true;
-      }
-      this.chatService.__GET_USER_ROOMS();
+    if (!this.socketEventsBound) {
+      this.sokectEventHandler();
+      this.socketEventsBound = true;
     }
+    if (!currentPath.includes('/profile/chat')) {
+      this.chatService.__GET_USER_ROOMS(this.authService.user.id);
+    }
+    this.chatService.webSocketConnection();
   }
 
   likesFirstGetter() {
@@ -100,6 +105,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   commandController(message: any) {
+    if (!message?.type) return;
     switch (message.type) {
       case 'group_created':
         this.createGroup(message.message);
@@ -111,37 +117,51 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   createGroup(message: any) {
-    this.newGroup = {
-      ...message,
-      message: '',
-      user: message.users.find((elem: any) => elem.id !== this.authService.user.id),
-    };
+    if (this.location.path().includes('/profile/chat')) return;
+    this.newGroup = this.chatService.upsertRoom(message, this.authService.user.id);
   }
 
   addMessage(message: any) {
     let currentPath = this.location.path();
-    if (message.sender !== this.authService.user.id && !currentPath.includes('/profile/chat')) this.showTopCenter(message);
+    if (currentPath.includes('/profile/chat')) return;
+    this.chatService.touchRoom(message, this.authService.user.id);
+    if (message.sender !== this.authService.user.id) this.showTopCenter(message);
   }
 
   showTopCenter(message: IMessage) {
-    let room = this.chatService.userRooms.find((elem: any) => elem.id === message.room);
-    let user = room.users.find((elem: any) => elem.id !== this.authService.user.id);
-    if (!user) {
-      user = {
-        user: this.newGroup.user,
-      };
-    }
-    this.messageService.clear();
-    if (user)
-      this.messageService.add({
-        key: 'confirm',
-        severity: 'success',
-        summary: message.message,
-        data: {
-          ...room,
-          user
+    const room = this.chatService.userRooms.find((elem: any) => elem.id === message.room) ||
+      (this.newGroup?.id === message.room ? this.newGroup : null);
+    if (!room) {
+      this.chatService.getUserRooms().pipe(takeUntil(this.destroy$)).subscribe({
+        next: (rooms) => {
+          this.chatService.userRooms = this.chatService.prepareRooms(rooms, this.authService.user.id);
+          const loadedRoom = this.chatService.userRooms.find((item) => item.id === message.room);
+          this.showMessageToast(message, loadedRoom || null);
         },
+        error: () => this.showMessageToast(message, null),
       });
+      return;
+    }
+    this.showMessageToast(message, room);
+  }
+
+  private showMessageToast(message: IMessage, room: any): void {
+    const user = room?.user || room?.users?.find((elem: any) => elem.id !== this.authService.user.id) || {
+      id: message.sender,
+      name: 'Yangi xabar',
+      images: [],
+    };
+    this.messageService.clear();
+    this.messageService.add({
+      key: 'confirm',
+      severity: 'success',
+      summary: message.message,
+      data: {
+        ...(room || {}),
+        id: message.room,
+        user,
+      },
+    });
   }
 
   toChat(data: any) {

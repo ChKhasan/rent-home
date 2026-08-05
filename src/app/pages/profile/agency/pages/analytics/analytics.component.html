@@ -6,11 +6,12 @@
       <p class="description">Ko'rishlar, ko'rsatishlar va e'lonlar samaradorligini davrlar kesimida kuzating.</p>
     </div>
 
-    <div class="range-buttons">
+    <div class="range-buttons" role="group" aria-label="Statistika davri">
       <button
         *ngFor="let range of ranges"
         type="button"
         [class.active]="range.key === activeRange"
+        [attr.aria-pressed]="range.key === activeRange"
         [disabled]="loading"
         (click)="selectRange(range.key)"
       >
@@ -155,7 +156,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let item of announcementRows; trackBy: trackByAnnouncementId">
-                <td>
+                <td data-label="E'lon">
                   <div class="announcement-cell">
                     <strong>{{ item.title || 'Nomsiz e’lon' }}</strong>
                     <div class="activity-track" aria-hidden="true">
@@ -163,17 +164,17 @@
                     </div>
                   </div>
                 </td>
-                <td><strong>{{ item.activityTotal }}</strong></td>
-                <td>{{ item.views || 0 }}</td>
-                <td>
+                <td data-label="Faollik"><strong>{{ item.activityTotal }}</strong></td>
+                <td data-label="Ko'rish">{{ item.views || 0 }}</td>
+                <td data-label="Filtr">
                   <span>{{ item.filter_exposures || 0 }}</span>
                   <small *ngIf="item.exposureTotalValue"> · {{ item.filterPercent }}%</small>
                 </td>
-                <td>
+                <td data-label="Tavsiya">
                   <span>{{ item.recommendation_exposures || 0 }}</span>
                   <small *ngIf="item.exposureTotalValue"> · {{ item.recommendationPercent }}%</small>
                 </td>
-                <td>{{ formatDate(item.last_view) }}</td>
+                <td data-label="Oxirgi signal">{{ formatDate(item.last_view) }}</td>
               </tr>
             </tbody>
           </table>

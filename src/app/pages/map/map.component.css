@@ -1,20 +1,99 @@
 .map {
-  height: 100vh;
+  min-width: 0;
+  height: 100%;
+  padding: 8px;
+  border-color: var(--border-default) !important;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--bg-surface);
+}
+
+.map-page {
+  width: min(100% - 32px, 1280px);
+  min-height: calc(100dvh - 68px);
+  margin: 0 auto;
+  padding: 24px 0;
+  color: var(--text-primary);
+  background: var(--bg-canvas);
+}
+
+.map-page h1 {
+  color: var(--text-primary);
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.map-page__copy {
+  color: var(--text-muted);
+  font-size: 15px;
+}
+
+.map-workspace {
+  height: calc(100dvh - 210px);
+  min-height: 520px;
   max-height: 900px;
+  display: grid;
+  gap: 16px;
+  overflow: hidden;
+}
+
+.transport-panel {
+  min-width: 0;
+  padding: 14px;
+  border-color: var(--border-default) !important;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--bg-surface);
+}
+
+:host ::ng-deep ya-map {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: none !important;
 }
 
 .filter-toolbar::-webkit-scrollbar {
   display: none;
 }
 
-.buses {
-  transition: 0.2s;
-  box-shadow: 0 0 2px rgb(0 0 0/20%), 0 -1px 0 rgb(0 0 0/2%);
+:host ::ng-deep .buses {
+  min-height: 44px;
+  border-color: var(--border-default) !important;
+  border-radius: 6px;
+  justify-content: flex-start !important;
+  color: var(--text-secondary) !important;
+  background: transparent !important;
+  box-shadow: none;
+  text-align: left;
+  transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease;
 }
 
-.bus-list .active {
-  /*background: var(--green);*/
-  /* color: #fff; */
+:host ::ng-deep .bus-list li.active .buses {
+  border-color: color-mix(in srgb, var(--action-primary) 42%, var(--border-default)) !important;
+  color: var(--text-primary) !important;
+  background: var(--action-soft) !important;
+  box-shadow: inset 3px 0 0 var(--action-primary);
+}
+
+:host ::ng-deep .bus-list li.active .buses::after {
+  content: '\e909';
+  margin-left: auto;
+  color: var(--action-primary);
+  font-family: 'primeicons';
+  font-size: 13px;
+}
+
+:host ::ng-deep .bus-list li.route-loading .buses {
+  cursor: wait !important;
+  opacity: 1;
+}
+
+:host ::ng-deep .bus-list li.route-loading .buses::after {
+  display: none;
+}
+
+:host ::ng-deep .bus-list span {
+  color: inherit !important;
 }
 
 .filter-toolbar {
@@ -39,7 +118,7 @@
 
 .active svg path,
 .navbar .active path {
-  fill: var(--green) !important;
+  fill: var(--action-primary) !important;
 }
 
 ul {
@@ -54,13 +133,14 @@ ul button {
   transform: rotate(180deg);
 }
 
-:host ::ng-deep .p-button-loading-icon {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+:host ::ng-deep .bus-list .p-button-loading-icon {
+  position: static;
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  order: 3;
+  margin-left: auto;
+  color: var(--action-primary);
 }
 
 .open-transport-btn {
@@ -75,7 +155,7 @@ ul button {
 }
 
 .open-tab {
-  box-shadow: 0px 9px 18px 0px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-sm);
 }
 ::-webkit-scrollbar {
   width: 5px;
@@ -94,26 +174,76 @@ ul button {
 }
 
 .map-grid {
-  grid-template-columns: 1fr 300px;
+  grid-template-columns: minmax(0, 1fr) 320px;
 }
 
-:host ::ng-deep .p-selectbutton .p-highlight {
-  background: var(--green);
+.transport-tabs {
+  margin-bottom: 16px;
 }
 
-:host ::ng-deep .p-selectbutton .p-button {
-  padding: 0 !important;
-  height: 44px;
+:host ::ng-deep .transport-tabs .p-selectbutton {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 3px;
+  padding: 3px;
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  background: var(--bg-subtle);
+}
+
+:host ::ng-deep .transport-tabs .p-togglebutton {
+  min-width: 0;
+  height: 38px;
+  padding: 0 2px;
+  border: 0 !important;
+  border-radius: 6px !important;
+  color: var(--text-secondary);
+  background: transparent;
+  box-shadow: none;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+:host ::ng-deep .transport-tabs .p-togglebutton-content {
+  width: 100%;
+  height: 100%;
   display: flex;
-  justify-content: center;
   align-items: center;
-}
-:host ::ng-deep .p-selectbutton .p-button {
-  width: auto;
-  display: flex;
   justify-content: center;
-  font-size: 14px;
-  font-weight: 500;
+  padding: 0;
+  border-radius: inherit;
+  background: transparent;
+  box-shadow: none;
+}
+
+:host ::ng-deep .transport-tabs .p-togglebutton:hover:not(.p-togglebutton-checked) {
+  color: var(--text-primary);
+  background: var(--bg-elevated);
+}
+
+:host ::ng-deep .transport-tabs .p-togglebutton-checked {
+  color: var(--text-inverse);
+  background: var(--action-primary);
+  box-shadow: 0 1px 3px var(--shadow-color);
+}
+
+:host ::ng-deep .transport-tabs .p-togglebutton:focus-visible {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus-ring) 35%, transparent);
+}
+
+.transport-tab__content {
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+
+.transport-tab__content span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 :host ::ng-deep .p-multiselect-label {
   display: flex;
@@ -121,20 +251,8 @@ ul button {
   gap: 2px;
 }
 :host ::ng-deep .p-multiselect-token {
-  background: var(--green);
-  color: #fff;
-}
-:host ::ng-deep .p-selectbutton {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-}
-:host ::ng-deep .p-selectbutton .p-button:first-child {
-  border-top-left-radius: 16px;
-  border-bottom-left-radius: 16px;
-}
-:host ::ng-deep .p-selectbutton .p-button:last-child {
-  border-top-right-radius: 16px;
-  border-bottom-right-radius: 16px;
+  color: var(--action-primary);
+  background: var(--action-soft);
 }
 :host ::ng-deep .p-dialog-content {
   padding: 0 !important;
@@ -142,7 +260,86 @@ ul button {
 :host ::ng-deep .p-dialog {
   box-shadow: none !important;
 }
+
+.map-toolbar-icon {
+  color: var(--action-primary);
+}
 @media (max-width: 768px) {
+  .map-page {
+    width: 100%;
+    height: calc(100dvh - 60px);
+    min-height: 560px;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .map-page > .flex {
+    position: relative;
+    height: 100%;
+    gap: 0;
+  }
+
+  .map-page > .flex > div:first-child {
+    position: absolute;
+    z-index: 20;
+    top: 12px;
+    right: 16px;
+    left: 16px;
+    min-width: 0;
+    padding: 10px 12px;
+    border: 1px solid var(--border-default);
+    border-radius: 8px;
+    background: var(--map-panel-bg);
+    box-shadow: var(--shadow-sm);
+    backdrop-filter: blur(14px);
+  }
+
+  .map-page > .flex > div:first-child > div {
+    gap: 2px;
+  }
+
+  .map-page h1 {
+    font-size: 21px;
+    line-height: 1.2;
+  }
+
+  .map-page__copy {
+    font-size: 13px;
+    line-height: 1.35;
+  }
+
+  .map-page > .flex > div:nth-child(2) {
+    position: absolute;
+    z-index: 20;
+    top: 100px;
+    right: 16px;
+    left: 16px;
+  }
+
+  .map-workspace {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    max-height: none;
+    overflow: hidden;
+  }
+
+  .transport-panel {
+    position: absolute;
+    z-index: 20;
+    top: 152px;
+    right: 16px;
+    left: 16px;
+    padding: 10px;
+    border-radius: 8px;
+    background: var(--map-panel-bg);
+    box-shadow: var(--shadow-sm);
+    backdrop-filter: blur(14px);
+  }
+
   .open-transport-btn {
     position: relative;
     padding: 0 0 5px 0;
@@ -166,14 +363,53 @@ ul button {
     background-color: var(--green);
   }
   .map {
-    height: 481px;
+    position: absolute;
+    inset: 0;
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
   }
 }
-.loading-box {
-  filter: blur(4px);
-  background-color: rgb(255, 255, 255, 0.5);
+.map-route-status {
+  position: absolute;
+  z-index: 1000;
+  bottom: 20px;
+  left: 50%;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  color: var(--text-primary);
+  background: var(--map-panel-bg);
+  box-shadow: var(--shadow-sm);
+  font-size: 13px;
+  font-weight: 600;
   pointer-events: none;
+  transform: translateX(-50%);
+  backdrop-filter: blur(12px);
 }
-:host ::ng-deep .p-progress-spinner-circle {
-  stroke: var(--green) !important;
+
+.route-spinner {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 15px;
+  border: 2px solid color-mix(in srgb, var(--action-primary) 22%, transparent);
+  border-top-color: var(--action-primary);
+  border-radius: 50%;
+  animation: route-spin 700ms linear infinite;
+}
+
+@keyframes route-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .route-spinner {
+    animation: none;
+    border-color: var(--action-primary);
+  }
 }

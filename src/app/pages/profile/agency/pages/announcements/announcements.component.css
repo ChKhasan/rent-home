@@ -1,91 +1,123 @@
 .agency-dashboard {
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 24px;
+  color: var(--text-primary);
 }
 
 .dashboard-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   gap: 16px;
+}
+
+.dashboard-header > div {
+  min-width: 0;
 }
 
 .dashboard-header h1 {
   margin: 4px 0;
+  color: var(--text-primary);
   font-size: 1.8rem;
-  color: #0f172a;
 }
 
 .eyebrow {
-  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-size: .8rem;
+  font-weight: 700;
+  letter-spacing: 0;
   text-transform: uppercase;
-  color: #94a3b8;
-  letter-spacing: 0.08em;
 }
 
 .description {
-  color: #475569;
+  max-width: 70ch;
   margin: 0;
+  color: var(--text-secondary);
 }
 
 .agency-context,
 .announcements-panel {
-  background: #fff;
-  border-radius: 20px;
-  padding: 24px;
-  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  background: var(--bg-surface);
 }
 
 .agency-selector {
   display: flex;
   flex-wrap: wrap;
-  gap: 24px;
   align-items: flex-end;
+  gap: 20px;
 }
 
 .info-cards {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(140px, 1fr));
+  flex: 1;
+  gap: 12px;
 }
 
 .info-card {
-  min-width: 160px;
-  padding: 16px;
-  border-radius: 16px;
-  background: #f8fafc;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  background: var(--bg-subtle);
 }
 
 .info-card.inactive {
-  background: rgba(244, 63, 94, 0.08);
-  color: #b91c1c;
+  color: var(--status-danger);
+  background: var(--status-danger-soft);
 }
 
 .info-card p {
   margin: 0;
-  color: #94a3b8;
-  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-size: .85rem;
 }
 
 .info-card h4 {
   margin: 6px 0 0;
-  font-size: 1.1rem;
+  overflow: hidden;
+  color: inherit;
+  font-size: 1rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .announcements-panel .panel-header {
+  margin-bottom: 20px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  justify-content: space-between;
+}
+
+.announcement-grid,
+.skeleton-grid {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+}
+
+.announcement-grid > app-my-announcements-card {
+  min-width: 0;
+  max-width: 100%;
+  display: block;
+  overflow: hidden;
 }
 
 .empty-state {
-  text-align: center;
   padding: 32px;
-  border: 1px dashed rgba(148, 163, 184, 0.6);
-  border-radius: 16px;
-  color: #475569;
+  border: 1px dashed var(--border-strong);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  text-align: center;
+  background: var(--bg-subtle);
 }
 
 .skeleton-group {
@@ -93,19 +125,27 @@
   gap: 16px;
 }
 
+@media (min-width: 1280px) {
+  .announcement-grid,
+  .skeleton-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 800px) {
   .dashboard-header {
-    flex-direction: column;
     align-items: flex-start;
+    flex-direction: column;
   }
 
   .agency-selector {
-    flex-direction: column;
     align-items: stretch;
+    flex-direction: column;
   }
 
   .info-cards {
     width: 100%;
+    grid-template-columns: 1fr;
   }
 
   .agency-context,

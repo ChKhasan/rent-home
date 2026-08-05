@@ -2,16 +2,39 @@
   <div class="2xl:container mx-auto px-4">
 
     <div class="carousel">
+      <nav *ngIf="profile" class="profile-context" aria-label="E'lon boshqaruvi">
+        <a routerLink="/profile/announcements" class="profile-context__back">
+          <i class="pi pi-arrow-left" aria-hidden="true"></i>
+          E'lonlarim
+        </a>
+        <span class="profile-context__status" [attr.data-status]="announcement.moderation_status">
+          {{ moderationLabel }}
+        </span>
+        <a [routerLink]="['/profile/announcements', announcement.id]" class="profile-context__edit">
+          <i class="pi pi-pencil" aria-hidden="true"></i>
+          Tahrirlash
+        </a>
+      </nav>
       <div class="body-container">
-        <div class="card border  border-solid border-[--grey-300] rounded-2xl p-4 md:border-[0] md:p-0">
-          <app-thumb-carousel [images]="images"></app-thumb-carousel>
+        <div class="card border border-solid rounded-lg p-4 md:border-[0] md:p-0">
+          <app-property-gallery [images]="images" [title]="announcement.title"></app-property-gallery>
           <div class="mt-6">
             <app-about [announcement]="announcement"></app-about>
-            <div
-              *ngIf="announcement.moderation_status === 'rejected'"
-              class="mt-4 p-4 rounded-xl bg-[#fff1f0] border border-[#ffa39e] text-[#a8071a] text-sm"
-            >
-              Bekor qilingan: {{ announcement.moderation_comment || 'Sabab ko‘rsatilmagan' }}
+            <section *ngIf="announcement.publisher_type" class="main-publisher">
+              <div class="main-publisher__copy">
+                <span>E'lon beruvchi</span>
+                <app-publisher-meta [announcement]="announcement" [compact]="false" [showDate]="true"></app-publisher-meta>
+              </div>
+              <button *ngIf="!profile && !isOwnListing" type="button" class="main-publisher__report" (click)="openReport()">
+                <i class="pi pi-flag" aria-hidden="true"></i>
+                Shikoyat
+              </button>
+            </section>
+            <div *ngIf="profile && announcement.moderation_status" class="moderation-context mt-4 p-4 text-sm"
+              [attr.data-status]="announcement.moderation_status">
+              <strong>{{ moderationLabel }}</strong>
+              <p *ngIf="announcement.moderation_status === 'pending'">E'lon moderator tekshiruvidan o'tgach ommaga ko'rinadi.</p>
+              <p *ngIf="announcement.moderation_status === 'rejected'">{{ announcement.moderation_comment || 'Sabab ko‘rsatilmagan' }}</p>
             </div>
           </div>
         </div>
@@ -23,12 +46,12 @@
     </div>
     <div class="mt-6 md:mt-0" *ngIf="!profile">
       <div>
-        <h3 class="font-medium text-[40px] text-[--green] md:text-2xl">O'xshash e`lonlar</h3>
-        <p class="text-[28px] md:text-sm text-[--brown-900] md:mt-0 mt-2">Uy kerarmi? Unda Biz yordam beramiz!</p>
+        <h3 class="font-medium text-[32px] text-primary md:text-2xl">O'xshash e'lonlar</h3>
+        <p class="text-lg md:text-sm text-secondary md:mt-0 mt-2">Sizga mos boshqa variantlar</p>
       </div>
       <div class="relative mt-4">
-        <div class="mr-[-15px] ml-[-15px]" *ngIf="rec_announcements.length > 3; else defaultAnnouncements" #owlCarousel>
-          <app-list-carousel [announcements]="rec_announcements"></app-list-carousel>
+        <div class="mr-[-15px] ml-[-15px]" *ngIf="rec_announcements.length > 3; else defaultAnnouncements">
+              <app-listing-rail [announcements]="rec_announcements" [viewAllLink]="null"></app-listing-rail>
         </div>
         <ng-template #defaultAnnouncements>
           <div class="grid grid-cols-3 gap-4 md:grid-cols-1 xl:grid-cols-2">
@@ -41,3 +64,32 @@
     </div>
   </div>
 </div>
+
+<aside *ngIf="!profile && !loading" class="mobile-detail-cta" aria-label="E'lon bilan bog'lanish">
+  <div class="mobile-detail-cta__price">
+    <strong>{{ displayPrice | price }} {{ announcement.currency }}</strong>
+    <span>{{ announcement.partnership && announcement.price_for_one ? 'bir kishi uchun' : 'oyiga' }}</span>
+  </div>
+  <a class="mobile-detail-cta__button mobile-detail-cta__button--primary"
+    [href]="contactPhone ? 'tel:' + contactPhone : null" [attr.aria-disabled]="!contactPhone">
+    <i class="pi pi-phone" aria-hidden="true"></i>
+    Qo'ng'iroq
+  </a>
+  <button type="button" class="mobile-detail-cta__button" [disabled]="!contactUserId || isOwnListing" (click)="toChat()">
+    <i class="pi pi-comments" aria-hidden="true"></i>
+    Chat
+  </button>
+</aside>
+
+<p-dialog [(visible)]="reportDialog" [modal]="true" [draggable]="false"
+  [style]="{ width: 'min(480px, calc(100vw - 32px))' }" header="Shikoyat" closeAriaLabel="Shikoyat oynasini yopish">
+  <div *ngIf="!reportSuccess; else reportDone" class="report-form">
+    <p>Publisher ma'lumoti noto'g'ri yoki makler yashirilgan bo'lsa, tafsilotni yozing.</p>
+    <textarea pTextarea [(ngModel)]="reportDetails" rows="5" placeholder="Muammoni kamida 10 ta belgi bilan yozing"></textarea>
+    <small *ngIf="reportDetails.length > 0 && reportDetails.trim().length < 10">Kamida 10 ta belgi kiriting.</small>
+    <p-button [loading]="reporting" [disabled]="reportDetails.trim().length < 10" (click)="submitReport()" styleClass="report-submit">Yuborish</p-button>
+  </div>
+  <ng-template #reportDone>
+    <div class="report-success"><i class="pi pi-check-circle"></i><strong>Shikoyat yuborildi</strong><p>Moderatorlar e'lon ma'lumotini tekshiradi.</p><button type="button" (click)="reportDialog = false">Yopish</button></div>
+  </ng-template>
+</p-dialog>

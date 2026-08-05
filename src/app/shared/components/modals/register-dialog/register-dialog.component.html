@@ -22,9 +22,9 @@
 
           <div
             *ngIf="ruleForm.controls.name.invalid && (ruleForm.controls.name.dirty || ruleForm.controls.name.touched)">
-            <app-invaid-text [text]="'Name is required.'"
+            <app-invaid-text [text]="'Ism kiritilishi shart.'"
               *ngIf="ruleForm.controls.name.errors && ruleForm.controls.name.errors['required']"></app-invaid-text>
-            <app-invaid-text [text]="'Kod kamida 4 ta belgidan iborat bo‘lishi kerak.'"
+            <app-invaid-text [text]="'Ism kamida 4 ta belgidan iborat bo‘lishi kerak.'"
               *ngIf="ruleForm.controls.name.errors && ruleForm.controls.name.errors['minlength']"></app-invaid-text>
           </div>
         </div>
@@ -55,9 +55,9 @@
         </div> -->
         <div class="flex flex-col gap-2 text-base relative w-full">
           <label class="font-400 text-[gray-6]" for="password">Parol</label>
-          <p-password show-password autocomplete="new-password" formControlName="password" id="password"
+          <p-password inputId="password" ariaLabel="Yangi parol" autocomplete="new-password" formControlName="password"
             class="password-input w-full h-12 rounded-[8px] border-[2px] border-solid border-[--input-stroke] bg-[--gray-1]"
-            [toggleMask]="true"></p-password>
+            [toggleMask]="true" [feedback]="false"></p-password>
           <!--          <p-inputNumber mode="decimal"-->
           <!--                         [maxlength]="6"-->
           <!--                         [useGrouping]="false"-->

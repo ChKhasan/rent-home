@@ -1,59 +1,82 @@
-<div class="user-list h-full flex flex-col md:max-h-[100vh] md:h-[100vh]  bg-white md:border-0 md:rounded-none">
-  <div class="px-6 py-6 md:py-3 md:px-3 md:flex md:gap-4 md:items-center">
-    <button (click)="goBack()"
-      class="hidden h-[28px] w-[28px] items-center justify-center rounded-[4px] bg-[--gray-1] md:flex">
-      <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" clip-rule="evenodd"
-          d="M5.53033 0.469668C5.2374 0.176777 4.7626 0.176777 4.4697 0.469668L0.469703 4.4697C0.176803 4.7626 0.176803 5.2374 0.469703 5.5303L4.4697 9.5303C4.7626 9.8232 5.2374 9.8232 5.53033 9.5303C5.82322 9.2374 5.82322 8.7626 5.53033 8.4697L2.0607 5L5.53033 1.53033C5.82322 1.23744 5.82322 0.762558 5.53033 0.469668Z"
-          fill="black" />
-      </svg>
+<div class="user-list">
+  <header class="user-list__header">
+    <button type="button" (click)="goBack()" aria-label="Chatdan chiqish" class="icon-button exit-button"
+      title="Chatdan chiqish">
+      <svg lucideArrowLeft [size]="21" aria-hidden="true"></svg>
     </button>
-    <div
-      class="search w-full border flex gap-6 border-solid border-[--grey-300] rounded-[12px] h-[52px] px-[22px] py-[14px]">
-      <input type="text" class="w-full h-full focus:outline-0 border-0" placeholder="Search" name="" id=""
-        [(ngModel)]="searchValue" (input)="onChangeSearch($event)" />
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" clip-rule="evenodd"
-          d="M20.25 11.5C20.25 16.3325 16.3325 20.25 11.5 20.25C6.66751 20.25 2.75 16.3325 2.75 11.5C2.75 6.66751 6.66751 2.75 11.5 2.75C16.3325 2.75 20.25 6.66751 20.25 11.5ZM11.5 21.75C17.1609 21.75 21.75 17.1609 21.75 11.5C21.75 5.83908 17.1609 1.25 11.5 1.25C5.83908 1.25 1.25 5.83908 1.25 11.5C1.25 17.1609 5.83908 21.75 11.5 21.75ZM20.5303 19.4697C20.2374 19.1768 19.7626 19.1768 19.4697 19.4697C19.1768 19.7626 19.1768 20.2374 19.4697 20.5303L21.4696 22.5303C21.7625 22.8232 22.2374 22.8232 22.5303 22.5303C22.8232 22.2374 22.8232 21.7625 22.5303 21.4696L20.5303 19.4697Z"
-          fill="#020105" />
-      </svg>
+    <div class="user-list__title">
+      <h1>Xabarlar</h1>
+      <p>{{ userRooms.length }} ta suhbat</p>
     </div>
+  </header>
+
+  <div class="search" role="search">
+    <svg lucideSearch [size]="20" aria-hidden="true"></svg>
+    <input type="search" placeholder="Suhbatlarni qidirish" aria-label="Suhbatlarni qidirish"
+      [(ngModel)]="searchValue" (input)="onChangeSearch()" />
+    <button *ngIf="searchValue" type="button" class="search__clear" (click)="clearSearch()"
+      aria-label="Qidiruvni tozalash">
+      <svg lucideX [size]="18" aria-hidden="true"></svg>
+    </button>
   </div>
 
-  <div class="px-4">
-    <div class="list flex flex-col gap-6" *ngIf="loading; else messagesList">
-      <p-skeleton *ngFor="let item of skeletonList" class="w-full" styleClass="ng_skeleton"></p-skeleton>
+  <div class="list-region">
+    <div class="room-list room-list--loading" *ngIf="loading; else roomsContent" aria-label="Suhbatlar yuklanmoqda">
+      <p-skeleton *ngFor="let item of skeletonList" styleClass="ng_skeleton"></p-skeleton>
     </div>
-    <ng-template #messagesList>
-      <div class="list  flex flex-col max-h-[670px] gap-1 md:max-h-fit overflow-y-scroll pb-4">
-        <div (click)="handlerRoom(room)" [ngClass]="{ active: isRoom.id === room.id }"
-          class="user-card px-4 cursor-pointer gap-2 flex py-[10px] rounded-[6px] " *ngFor="let room of userRooms">
-          <div
-            class="relative h-12 min-w-12 w-12 bg-white flex justify-center items-center border border-solid border-[--grey-100] rounded-full">
-            <div class="image h-10 min-w-10 w-10 rounded-full overflow-hidden">
-              <img *ngIf="room.user && room.user.images && room.user.images.length > 0; else image" [src]="room.user.images[0].image"
-                class="w-full h-full object-cover" alt="" />
-              <ng-template #image>
-                <img src="./assets/images/avatar.png" class="w-full h-full object-cover" alt="" />
-              </ng-template>
+    <ng-template #roomsContent>
+      <ul *ngIf="userRooms.length; else emptyRooms" class="room-list" aria-label="Suhbatlar">
+        <li *ngFor="let room of userRooms">
+          <button type="button" (click)="handlerRoom(room)" [ngClass]="{ active: isRoom?.id === room.id }"
+            [attr.aria-current]="isRoom?.id === room.id ? 'true' : null"
+            [attr.aria-label]="(room?.user?.name || 'Noma’lum foydalanuvchi') + ' bilan suhbat. ' + (room?.message || 'Xabar yo‘q')"
+            class="user-card">
+            <div class="room-avatar">
+              <div class="room-avatar__image">
+                <img *ngIf="room.user?.images?.length; else fallbackAvatar" [src]="room.user?.images?.[0]?.image"
+                  [alt]="room.user?.name || 'Foydalanuvchi'" />
+                <ng-template #fallbackAvatar>
+                  <img src="./assets/images/avatar.png" alt="" aria-hidden="true" />
+                </ng-template>
+              </div>
+              <span class="status-circle" [ngClass]="room.user?.is_online ? 'online' : 'offline'" aria-hidden="true"></span>
+              <span class="sr-only">{{ room.user?.is_online ? 'Onlayn' : 'Oflayn' }}</span>
             </div>
-            <div class="status-circle" [ngClass]="room.user?.is_online ? 'online' : 'offline'"></div>
-          </div>
 
-          <div class="body w-full flex flex-col justify-center gap-1">
-            <div class="flex justify-between items-center">
-              <h4 class="font-medium text-sm">{{ room?.user?.name }}</h4>
-              <p class="text-[12px] text-[--grey-300]">17:36</p>
+            <div class="room-copy">
+              <div class="room-copy__top">
+                <span class="room-name">{{ room?.user?.name || 'Noma’lum foydalanuvchi' }}</span>
+                <time class="room-time" [attr.datetime]="room?.last_message?.created_at">
+                  {{ formatRoomTime(room?.last_message?.created_at) }}
+                </time>
+              </div>
+              <div class="room-copy__bottom">
+                <p class="room-preview">{{ room?.message || 'Hali xabar yo‘q' }}</p>
+                <span *ngIf="getUnreadMessageCount(room) !== '0'" class="unread-badge"
+                  [attr.aria-label]="getUnreadMessageCount(room) + ' ta o‘qilmagan xabar'">
+                  {{ getUnreadMessageCount(room) }}
+                </span>
+              </div>
             </div>
-            <div class="flex gap-1 items-end justify-between">
-              <p class="text-xs text-[--grey-600]">
-                {{ room?.message }} <span class="text-transparent">.</span>
-              </p>
-              <p-badge *ngIf="getUnreadMessageCount(room.messages) !== '0'"
-                [value]="getUnreadMessageCount(room.messages)" severity="danger"></p-badge>
-            </div>
-          </div>
-        </div>
+          </button>
+        </li>
+      </ul>
+    </ng-template>
+
+    <ng-template #emptyRooms>
+      <div class="room-empty">
+        <div class="room-empty__icon"><svg lucideMessageCircle [size]="28" aria-hidden="true"></svg></div>
+        <h2>{{ searchValue ? 'Mos suhbat topilmadi' : 'Suhbatlar hozircha yo‘q' }}</h2>
+        <p *ngIf="searchValue; else firstConversation">Boshqa ism bilan qidirib ko‘ring.</p>
+        <ng-template #firstConversation>
+          <p>E'lon sahifasidan uy egasi yoki broker bilan yozishishni boshlashingiz mumkin.</p>
+        </ng-template>
+        <button *ngIf="searchValue; else browseListings" type="button" class="room-empty__action" (click)="clearSearch()">
+          Qidiruvni tozalash
+        </button>
+        <ng-template #browseListings>
+          <a routerLink="/announcements" class="room-empty__action">E'lonlarni ko‘rish</a>
+        </ng-template>
       </div>
     </ng-template>
   </div>

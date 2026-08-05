@@ -1,11 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputMaskModule } from 'primeng/inputmask';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { InputTextModule } from 'primeng/inputtext';
 import { NgClass, NgIf } from '@angular/common';
-import { PaginatorModule } from 'primeng/paginator';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ValidationErrorAnimation } from '@animations';
 import { InvaidTextComponent } from '../../form/invaid-text/invaid-text.component';
@@ -20,7 +17,7 @@ import { AuthService } from '@services/auth';
 @Component({
   selector: 'app-auth-dialog',
   standalone: true,
-  imports: [ButtonModule, DialogModule, InputMaskModule, InputNumberModule, InputTextModule, NgIf, PaginatorModule, ReactiveFormsModule, NgClass, InvaidTextComponent, PasswordModule],
+  imports: [ButtonModule, DialogModule, InputMaskModule, NgIf, ReactiveFormsModule, NgClass, InvaidTextComponent, PasswordModule],
   animations: [ValidationErrorAnimation],
   templateUrl: './auth-dialog.component.html',
   styleUrl: './auth-dialog.component.css',
@@ -29,6 +26,7 @@ export class AuthDialogComponent {
   visible: boolean = false;
   loading: boolean = false;
   infoError: boolean = false;
+  submitted: boolean = false;
   @Input() url: string | undefined;
   @Input() afterComplite: Function | undefined;
   @Input() openRegister: Function | undefined;
@@ -51,10 +49,11 @@ export class AuthDialogComponent {
   tokenHandle(data: any) {
     localStorage.setItem(environment.accessToken, data.access);
     localStorage.setItem(environment.refreshToken, data.refresh);
-    if (this.url) this.router.navigate([this.url]).then((r) => {});
+    if (this.url) this.router.navigateByUrl(this.url).then(() => {});
   }
 
   public onSubmit(): void {
+    this.submitted = true;
     this.ruleForm.markAllAsTouched();
     if (this.ruleForm.invalid) return;
     this.postLogin();
@@ -92,6 +91,10 @@ export class AuthDialogComponent {
   }
 
   showDialog() {
+    this.infoError = false;
+    this.submitted = false;
+    this.ruleForm.markAsPristine();
+    this.ruleForm.markAsUntouched();
     const phone_number = localStorage.getItem('phone_number') && JSON.parse(localStorage.getItem('phone_number') || '');
     if (phone_number) {
       this.ruleForm.setValue({
@@ -105,5 +108,7 @@ export class AuthDialogComponent {
 
   closeDialog() {
     this.visible = false;
+    this.infoError = false;
+    this.submitted = false;
   }
 }

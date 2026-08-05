@@ -45,6 +45,7 @@ export class ProfileComponent implements OnInit {
   public isEdit: boolean = false;
   public logoutDialog: boolean = false
   public hasAgencyAccess = false;
+  public hasBrokerProfile = false;
   public ruleForm = new FormGroup({
     name: nameControl,
     first_name: firstControl,
@@ -77,6 +78,7 @@ export class ProfileComponent implements OnInit {
       this.fileUploaderHeaders();
       this.__GET_USER();
       this.checkAgencyAccess();
+      this.checkPublisherCapabilities();
     }
   }
 
@@ -155,7 +157,8 @@ export class ProfileComponent implements OnInit {
 
   get displayName(): string {
     const user = Object.keys(this.profileUser).length ? this.profileUser : this.authService.user || {};
-    return [user.first_name, user.name, user.last_name].filter(Boolean).join(' ') || 'Profil';
+    const uniqueParts = [...new Set([user.first_name, user.name, user.last_name].map((part) => part?.trim()).filter(Boolean))];
+    return uniqueParts.join(' ') || 'Profil';
   }
 
   startEdit() {
@@ -177,6 +180,13 @@ export class ProfileComponent implements OnInit {
   private checkAgencyAccess() {
     this.agencyAccessService.hasMembership().pipe(take(1)).subscribe((flag) => {
       this.hasAgencyAccess = flag;
+    });
+  }
+
+  private checkPublisherCapabilities() {
+    this.requestService.getData<any>(environment.authUrls.GET_PUBLISHER_CAPABILITIES).subscribe({
+      next: (response) => (this.hasBrokerProfile = !!response?.publisher_capabilities?.independent_agent_available),
+      error: () => (this.hasBrokerProfile = false),
     });
   }
 }

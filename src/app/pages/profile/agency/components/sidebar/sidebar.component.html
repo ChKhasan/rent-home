@@ -1,21 +1,22 @@
 <aside class="agency-sidebar">
   <div class="sidebar-header">
-    <h2>Agentlik kabineti</h2>
-    <p>e'lonlarni boshqarish</p>
+    <div>
+      <h2>Agentlik kabineti</h2>
+      <p>E'lonlar va xodimlarni boshqarish</p>
+    </div>
+    <a routerLink="/profile/agency/info" class="settings-link" aria-label="Agentlik ma'lumotlarini ochish">
+      <i class="pi pi-cog" aria-hidden="true"></i>
+    </a>
   </div>
-  <nav>
+  <nav aria-label="Agentlik kabineti bo'limlari">
     <a
       *ngFor="let link of links"
       [routerLink]="link.routerLink"
       routerLinkActive="active"
       [routerLinkActiveOptions]="{ exact: link.routerLink === '/profile/agency' }"
       class="sidebar-link"
-      [class.disabled]="link.disabled"
-      [attr.aria-disabled]="link.disabled"
     >
-      <i [class]="link.icon"></i>
       <span>{{ link.label }}</span>
-      <small *ngIf="link.disabled">tez orada</small>
     </a>
   </nav>
 </aside>

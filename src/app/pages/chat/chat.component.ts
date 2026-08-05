@@ -1,30 +1,37 @@
-import { AfterViewInit, Component, DestroyRef, ElementRef, HostListener, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { DatePipe, NgClass, NgForOf, NgIf, NgTemplateOutlet } from '@angular/common';
 import { SkeletonModule } from 'primeng/skeleton';
 import { NavigationExtras, Router, RouterLink } from '@angular/router';
 import { ChatUserListComponent } from '@components/profile/chat-user-list/chat-user-list.component';
-import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { IMessage, IMessageObj, IUserRooms } from '@services/interfaces';
 import { QueryService } from '@services/query';
 import { AuthService } from '@services/auth';
-import { BadgeModule } from 'primeng/badge';
-import { ToastModule } from 'primeng/toast';
-import { RippleModule } from 'primeng/ripple';
-import { AvatarModule } from 'primeng/avatar';
 import { ChatService } from '@services/chat';
 import { debounceTime, finalize, fromEvent } from 'rxjs';
-import { animate, style, transition, trigger } from '@angular/animations';
-import { DialogModule } from 'primeng/dialog';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ChatUrlService } from '@/core/services/chatUrl/chatUrl.service';
+import { LucideArrowLeft, LucideMessageCircle, LucideSendHorizontal } from '@lucide/angular';
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [DialogModule, NgForOf, NgIf,RouterLink, SkeletonModule, ChatUserListComponent, ButtonModule, DatePipe, FormsModule, BadgeModule, ToastModule, RippleModule, AvatarModule, NgClass, NgTemplateOutlet],
+  imports: [
+    NgForOf,
+    NgIf,
+    RouterLink,
+    SkeletonModule,
+    ChatUserListComponent,
+    DatePipe,
+    FormsModule,
+    NgClass,
+    NgTemplateOutlet,
+    LucideArrowLeft,
+    LucideMessageCircle,
+    LucideSendHorizontal,
+  ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css',
-  animations: [trigger('slideInOut', [transition(':enter', [style({ transform: 'translateX(100%)' }), animate('200ms ease-in', style({ transform: 'translateX(0%)' }))]), transition(':leave', [animate('200ms ease-in', style({ transform: 'translateX(100%)' }))])])],
 })
 export class ChatComponent implements OnInit, AfterViewInit {
   @ViewChildren('childRef') childRefs!: QueryList<ElementRef>;
@@ -35,7 +42,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   public loadingRooms: boolean = false;
   public message: string = '';
   public dateFormat: string = 'dd.MM.YYYY HH:mm';
-  public topDateFormat: string = 'dd MMMM';
+  public topDateFormat: string = 'dd.MM.yyyy';
   public url: string = '';
   public loadingMessages: boolean = false;
   public skeletonList = [1, 2, 3, 4, 1, 2, 3];
@@ -47,14 +54,41 @@ export class ChatComponent implements OnInit, AfterViewInit {
   public showDate: boolean = false;
   public scrollingCurrentDate: string = '';
   public showList = false;
-  public emptyQuery: any = [];
+  public emptyQuery = true;
+  public invalidRoom = false;
+  public remoteTyping = false;
   private socketEventsBound = false;
-  constructor(public authService: AuthService, private chatService: ChatService, private queryService: QueryService, private router: Router, private destroyRef: DestroyRef) {}
+  private typingActive = false;
+  private typingStopTimer?: ReturnType<typeof setTimeout>;
+  private remoteTypingTimer?: ReturnType<typeof setTimeout>;
+
+  constructor(
+    public authService: AuthService,
+    private chatService: ChatService,
+    private queryService: QueryService,
+    private router: Router,
+    private destroyRef: DestroyRef,
+    private chatUrlService: ChatUrlService,
+  ) {
+    this.destroyRef.onDestroy(() => {
+      this.stopLocalTyping();
+      if (this.remoteTypingTimer) clearTimeout(this.remoteTypingTimer);
+    });
+  }
+
+  get canSend(): boolean {
+    return this.message.trim().length > 0 && !this.invalidRoom && !!this.getReceiverId();
+  }
+
+  private isMobileViewport(): boolean {
+    return typeof window !== 'undefined' && window.innerWidth <= 768;
+  }
 
   ngOnInit(): void {
     if (typeof window !== 'undefined') {
       this.emptyQuery = !Object.keys(this.queryService.activeQueryList()).length;
-      if (!('userId' in this.queryService.activeQueryList())) this.updateShowList();
+      const query = this.queryService.activeQueryList();
+      if (!('userId' in query) && !('roomId' in query)) this.updateShowList();
       this.authService.getBooleanValue().pipe(takeUntilDestroyed(this.destroyRef)).subscribe((value) => {
         if (value) this.firstConnection();
       });
@@ -68,15 +102,10 @@ export class ChatComponent implements OnInit, AfterViewInit {
   firstConnection() {
     if (!this.socketEventsBound) {
       this.socketEventsBound = true;
-      setTimeout(() => {
-        this.chatService
-          .onMessage()
-          .pipe(takeUntilDestroyed(this.destroyRef))
-          .subscribe((message) => {
-            this.loading = false;
-            this.commandController(message);
-          });
-      }, 100);
+      this.chatService
+        .onMessage()
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe((message) => this.commandController(message));
     }
     this.__GET_USER_ROOMS();
   }
@@ -89,38 +118,78 @@ export class ChatComponent implements OnInit, AfterViewInit {
         finalize(() => (this.loadingRooms = false)),
         takeUntilDestroyed(this.destroyRef)
       )
-      .subscribe((response: IUserRooms[]) => {
+      .subscribe({
+        next: (response: IUserRooms[]) => {
         if (response.length > 0) {
-          this.userRooms = response
-            .filter((item: any) => item.users.find((elem: any) => elem.id !== this.authService.user?.id)?.id && item.users.find((elem: any) => elem.id !== this.authService.user?.id)?.id !== this.authService.user.id)
-            .map((elem: IUserRooms) => {
-              return {
-                ...elem,
-                message: elem.messages.length > 0 ? elem.messages[elem.messages.length - 1].message : '',
-                user: elem.users.find((elem: any) => elem.id !== this.authService.user.id),
-              };
-            });
+          this.userRooms = this.chatService.prepareRooms(
+            response.filter((item: any) => item.users.some((user: any) => user.id !== this.authService.user?.id)),
+            this.authService.user.id,
+          );
           this.allUserRooms = [...this.userRooms];
+          this.chatService.userRooms = [...this.userRooms];
         } else {
-          this.showList = false;
+          this.showList = this.isMobileViewport();
+          this.userRooms = [];
+          this.allUserRooms = [];
+          this.chatService.userRooms = [];
         }
-        if (this.userRooms.length) this.findCurrentRoom();
+        this.findCurrentRoom();
+        },
+        error: () => {
+          this.userRooms = [];
+          this.allUserRooms = [];
+          this.findCurrentRoom();
+        },
       });
   }
 
   findCurrentRoom() {
-    let room = this.userRooms.find((elem: any) => elem.users.find((elem: any) => elem.id !== this.authService.user?.id)?.id === Number(this.queryService.activeQueryList()['userId']));
-    if (this.queryService.activeQueryList()['userId'] && !room) {
-      this.loadingMessages = false;
+    const query = this.queryService.activeQueryList();
+    const userId = Number(query['userId']);
+    const roomId = Number(query['roomId']);
+    const room = this.userRooms.find((item: any) => item.user?.id === userId);
+
+    this.invalidRoom = false;
+    if (userId) {
+      if (userId === this.authService.user.id) {
+        this.setInvalidRoom();
+      } else if (room) {
+        this.isRoom = room;
+        this.roomIdMergeQuery(room);
+      } else {
+        const recipient = this.chatUrlService.getRecipient(userId);
+        if (!recipient) {
+          this.setInvalidRoom();
+          return;
+        }
+        this.isRoom = { id: null, user: recipient, users: [recipient], messages: [] };
+        this.messages = [];
+        this.loadingMessages = false;
+      }
       return;
     }
-    if (!this.queryService.activeQueryList()['roomId']) {
-      this.isRoom = room || this.userRooms[0];
-      this.roomIdMergeQuery(this.isRoom);
-    } else {
-      this.isRoom = this.userRooms.find((elem: any) => elem.id === Number(this.queryService.activeQueryList()['roomId']));
+
+    if (roomId) {
+      const selectedRoom = this.userRooms.find((item: any) => item.id === roomId);
+      if (!selectedRoom) {
+        this.setInvalidRoom();
+        return;
+      }
+      this.isRoom = selectedRoom;
       Promise.resolve().then(() => this.__GET_MESSAGES());
+      return;
     }
+
+    this.isRoom = this.userRooms[0] || {};
+    if (this.isRoom?.id) this.roomIdMergeQuery(this.isRoom);
+  }
+
+  private setInvalidRoom(): void {
+    this.invalidRoom = true;
+    this.isRoom = {};
+    this.messages = [];
+    this.loadingMessages = false;
+    if (this.isMobileViewport() && this.userRooms.length) this.showList = true;
   }
 
   roomIdMergeQuery(room: any) {
@@ -134,28 +203,38 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
   sendMessage(): void {
-    let receiver = Number(this.queryService.activeQueryList()['userId']) || this.isRoom?.user?.id;
-    if (this.authService.auth && this.authService.user.id && this.message.length > 0 && (this.userRooms.length || receiver)) {
-      this.loading = true;
-      this.pendingMessages.push({
-        created_at: `${new Date()}`,
-        id: 1,
-        is_read: false,
-        message: this.message,
-        receiver: this.isRoom.id,
-        room: this.isRoom.receiver,
-        sender: this.authService.user.id,
-        pending: true,
-      });
-      const data = { message: this.message, receiver: receiver };
-      this.socketSender(data);
-      this.message = '';
-    } else {
+    const receiver = this.getReceiverId();
+    const text = this.message.trim();
+    if (!this.authService.auth || !this.authService.user.id || !receiver || !text || this.invalidRoom) return;
+
+    const clientId = `web-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+    const pendingMessage = {
+      created_at: new Date().toISOString(),
+      client_id: clientId,
+      is_read: false,
+      message: text,
+      receiver,
+      room: this.isRoom?.id || null,
+      sender: this.authService.user.id,
+      pending: true,
+      error: '',
+    };
+    this.pendingMessages.push(pendingMessage);
+    this.loading = true;
+    this.message = '';
+    this.stopLocalTyping();
+    if (!this.socketSender({ message: text, receiver, client_id: clientId })) {
+      this.handleSocketError({ client_id: clientId, message: 'Ulanish uzildi. Qayta urinib ko‘ring.' });
     }
   }
 
-  socketSender(data: any) {
-    this.chatService.send(data);
+  private getReceiverId(): number | null {
+    const receiver = Number(this.queryService.activeQueryList()['userId']) || Number(this.isRoom?.user?.id);
+    return receiver && receiver !== this.authService.user?.id ? receiver : null;
+  }
+
+  socketSender(data: any): boolean {
+    return this.chatService.send(data);
   }
 
   commandController(message: any) {
@@ -175,6 +254,12 @@ export class ChatComponent implements OnInit, AfterViewInit {
       case 'read':
         this.handleReadMessages(message);
         break;
+      case 'typing':
+        this.handleTyping(message.message);
+        break;
+      case 'error':
+        this.handleSocketError(message);
+        break;
     }
   }
 
@@ -189,15 +274,13 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
   createGroup(message: any) {
-    let newGroup = {
-      ...message,
-      message: '',
-      user: message.users.find((elem: any) => elem.id !== this.authService.user.id),
-    };
+    const newGroup = this.chatService.upsertRoom(message, this.authService.user.id);
     this.isRoom = newGroup;
     this.newGroup = true;
     if (this.queryService.activeQueryList()['userId']) this.removeNewUserInUrl(this.isRoom);
-    this.userRooms.unshift(newGroup);
+    this.chatUrlService.clearRecipient();
+    this.userRooms = [...this.chatService.userRooms];
+    this.allUserRooms = [...this.userRooms];
   }
 
   removeNewUserInUrl(isRoom: IUserRooms) {
@@ -211,26 +294,82 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
   addMessage(message: any) {
-    this.userRooms = this.userRooms.map((elem: any) => {
-      if (elem.id === message.room) {
-        return {
-          ...elem,
-          message: message.message || 'message',
-        };
-      } else {
-        return elem;
-      }
-    });
-    this.pendingMessages = [];
-    if (Number(this.queryService.activeQueryList()['roomId']) === message.room) {
-      this.messages.unshift(message);
+    this.chatService.touchRoom(message, this.authService.user.id);
+    this.userRooms = [...this.chatService.userRooms];
+    this.allUserRooms = [...this.userRooms];
+    if (message.client_id) {
+      this.pendingMessages = this.pendingMessages.filter((item: any) => item.client_id !== message.client_id);
+    }
+    this.loading = this.pendingMessages.some((item: any) => item.pending);
+    const activeRoomId = Number(this.queryService.activeQueryList()['roomId']) || Number(this.isRoom?.id);
+    if (activeRoomId === message.room) {
+      if (!this.messages.some((item) => item.id === message.id)) this.messages.unshift(message);
       this.scrollToTop();
       this.readNewMessage(message);
+      const activeRoom = this.userRooms.find((room: any) => room.id === message.room);
+      if (activeRoom && message.receiver === this.authService.user.id) activeRoom.unread_count = 0;
     } else {
       let curentRoom = this.userRooms.find((elem: any) => elem.id === message.room);
       if (!curentRoom) return;
       curentRoom.message = message.message;
-      curentRoom.messages.unshift(message);
+      curentRoom.messages = [message, ...(curentRoom.messages || [])];
+    }
+  }
+
+  private handleSocketError(message: any): void {
+    const pending = this.pendingMessages.find((item: any) => item.client_id === message.client_id);
+    if (!pending) return;
+    pending.pending = false;
+    pending.error = message.message || 'Xabar yuborilmadi.';
+    this.loading = this.pendingMessages.some((item: any) => item.pending);
+  }
+
+  retryPending(pending: any): void {
+    this.pendingMessages = this.pendingMessages.filter((item: any) => item.client_id !== pending.client_id);
+    this.message = pending.message;
+    this.sendMessage();
+  }
+
+  onMessageInput(value: string = this.message): void {
+    if (!this.isRoom?.id || !this.getReceiverId()) return;
+    if (!value.trim()) {
+      this.stopLocalTyping();
+      return;
+    }
+    if (!this.typingActive) {
+      this.typingActive = true;
+      this.sendTyping(true);
+    }
+    if (this.typingStopTimer) clearTimeout(this.typingStopTimer);
+    this.typingStopTimer = setTimeout(() => this.stopLocalTyping(), 3000);
+  }
+
+  onComposerKeydown(event: KeyboardEvent): void {
+    if (event.key !== 'Enter' || event.shiftKey || event.isComposing) return;
+    event.preventDefault();
+    this.sendMessage();
+  }
+
+  private sendTyping(isTyping: boolean): void {
+    const receiver = this.getReceiverId();
+    if (!receiver || !this.isRoom?.id) return;
+    this.socketSender({ type: 'typing', receiver, is_typing: isTyping });
+  }
+
+  private stopLocalTyping(): void {
+    if (this.typingStopTimer) clearTimeout(this.typingStopTimer);
+    this.typingStopTimer = undefined;
+    if (!this.typingActive) return;
+    this.typingActive = false;
+    this.sendTyping(false);
+  }
+
+  private handleTyping(message: any): void {
+    if (message?.room_id !== this.isRoom?.id || message.sender !== this.isRoom?.user?.id) return;
+    this.remoteTyping = !!message.is_typing;
+    if (this.remoteTypingTimer) clearTimeout(this.remoteTypingTimer);
+    if (this.remoteTyping) {
+      this.remoteTypingTimer = setTimeout(() => (this.remoteTyping = false), 4000);
     }
   }
 
@@ -243,6 +382,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
       this.__GET_MESSAGES();
     });
     this.isRoom = room;
+    this.invalidRoom = false;
+    this.remoteTyping = false;
     this.toggleUsersList(false);
   };
   __GET_MESSAGES = () => {
@@ -255,7 +396,9 @@ export class ChatComponent implements OnInit, AfterViewInit {
           finalize(() => (this.loadingMessages = false)),
           takeUntilDestroyed(this.destroyRef)
         )
-        .subscribe((response: IMessageObj) => {
+        .subscribe({
+          next: (response: IMessageObj) => {
+          this.invalidRoom = false;
           let isFirstUnread = false;
           this.messages = response.messages
             .map((elem: any) => {
@@ -277,6 +420,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
             setTimeout(() => {
               this.scrollCall();
             }, 0);
+          },
+          error: () => this.setInvalidRoom(),
         });
     }
   };
@@ -290,7 +435,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
     }
   }
   private lastScrollTop = 0;
-  @HostListener('scroll', ['$event'])
   private scrollAccess = true;
 
   onParentDivScrolled(): void {
@@ -331,6 +475,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
         visibleDataInfo.push(item.getAttribute('data-info') as string);
       }
     });
+    if (!visibleDataInfo.length) return;
     const dates = visibleDataInfo.map((dateStr) => new Date(dateStr));
 
     const minDate = new Date(Math.min(...dates.map((date) => date.getTime())));
@@ -365,7 +510,10 @@ export class ChatComponent implements OnInit, AfterViewInit {
   handleReadMessages(message: any) {
     let room = this.userRooms.find((elem: any) => elem.id === message.message.room_id);
     this.unreadToRead(message, this.messages, true);
-    this.unreadToRead(message, room.messages, false);
+    if (room) {
+      this.unreadToRead(message, room.messages || [], false);
+      room.unread_count = 0;
+    }
   }
 
   unreadToRead(message: any, rooms: any, userAccess: boolean) {
@@ -388,7 +536,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   @ViewChild('scrollableDiv') scrollableDiv!: ElementRef;
 
   scrollToTop() {
-    this.scrollableDiv.nativeElement.scrollTop = 0;
+    if (this.scrollableDiv?.nativeElement) this.scrollableDiv.nativeElement.scrollTop = 0;
   }
   compareDate(arg1?: string, arg2?: string) {
     const date = new Date();
@@ -401,10 +549,14 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
   private updateShowList(): void {
-    this.showList = window.innerWidth < 576;
+    this.showList = this.isMobileViewport();
   }
   toBack() {
-    this.userRooms.length ? (this.showList = true) : this.router.navigate(['/profile']).then(() => {});
+    if (this.userRooms.length && this.isMobileViewport()) {
+      this.showList = true;
+      return;
+    }
+    void this.router.navigate(['/profile']);
   }
   getUnreadMessageCount(messages: any): string {
     return messages && messages.length > 0 ? String(messages.filter((elem: any) => !elem.is_read && elem.sender !== this.authService.user.id).length) : '0';

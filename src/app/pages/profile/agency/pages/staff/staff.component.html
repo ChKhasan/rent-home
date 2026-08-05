@@ -6,7 +6,7 @@
       <p class="description">Xodim qo'shish, parolni yangilash va kabinetga kirish holatini boshqaring.</p>
     </div>
 
-    <div class="hero-actions" *ngIf="isOwner">
+    <div class="hero-actions" *ngIf="canManageStaff">
       <button
         pButton
         type="button"
@@ -37,7 +37,7 @@
     </section>
   </ng-container>
 
-  <ng-container *ngIf="!loadingMembership && !isOwner">
+  <ng-container *ngIf="!loadingMembership && !canManageStaff">
     <section class="panel-card access-card">
       <span class="access-icon"><i class="pi pi-lock"></i></span>
       <div>
@@ -47,7 +47,7 @@
     </section>
   </ng-container>
 
-  <ng-container *ngIf="isOwner">
+  <ng-container *ngIf="canManageStaff">
     <section class="summary-grid">
       <article class="summary-card">
         <span class="summary-icon green"><i class="pi pi-briefcase"></i></span>
@@ -101,12 +101,13 @@
               <th>Telefon</th>
               <th>Rol</th>
               <th>Holat</th>
+              <th>E'lonlar</th>
               <th>Amallar</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let member of members; trackBy: trackByMemberId">
-              <td>
+              <td data-label="Foydalanuvchi">
                 <div class="user-cell">
                   <span class="avatar">{{ getMemberInitial(member) }}</span>
                   <div>
@@ -115,23 +116,25 @@
                   </div>
                 </div>
               </td>
-              <td class="phone-cell">{{ member.user?.phone_number || '-' }}</td>
-              <td>
+              <td class="phone-cell" data-label="Telefon">{{ member.user?.phone_number || '-' }}</td>
+              <td data-label="Rol">
                 <p-tag [value]="getRoleLabel(member.role)" [severity]="getRoleSeverity(member.role)"></p-tag>
               </td>
-              <td>
+              <td data-label="Holat">
                 <p-tag
                   [value]="getStatusLabel(member)"
                   [severity]="member.is_active ? 'success' : 'danger'"
                 ></p-tag>
               </td>
-              <td>
-                <div class="row-actions">
+              <td data-label="E'lonlar">{{ member.assigned_count || 0 }}</td>
+              <td data-label="Amallar">
+                <div class="row-actions" *ngIf="canManageMember(member)">
                   <button
                     pButton
                     type="button"
                     icon="pi pi-user-edit"
                     class="icon-action"
+                    aria-label="Rolni tahrirlash"
                     pTooltip="Rolni tahrirlash"
                     tooltipPosition="top"
                     (click)="openRoleModal(member)"
@@ -141,6 +144,7 @@
                     type="button"
                     icon="pi pi-key"
                     class="icon-action"
+                    aria-label="Parolni yangilash"
                     pTooltip="Parolni yangilash"
                     tooltipPosition="top"
                     (click)="openPasswordModal(member)"
@@ -150,12 +154,14 @@
                     type="button"
                     [icon]="getStatusIcon(member)"
                     class="icon-action"
+                    [attr.aria-label]="getStatusTooltip(member)"
                     [ngClass]="{ danger: member.is_active, success: !member.is_active }"
                     [pTooltip]="getStatusTooltip(member)"
                     tooltipPosition="top"
                     (click)="openStatusModal(member)"
                   ></button>
                 </div>
+                <small *ngIf="isProtectedOwner(member)" class="protected-owner-note">Asosiy egasi</small>
               </td>
             </tr>
           </tbody>
@@ -196,14 +202,16 @@
         <small class="field-error" *ngIf="addForm.controls.phone_number.touched && addForm.controls.phone_number.invalid">
           Telefon raqamini to'liq kiriting.
         </small>
+        <small class="field-error" *ngIf="addServerError" role="alert">{{ addServerError }}</small>
       </div>
 
       <div class="form-field">
         <label for="staff-role">Rol</label>
         <p-select
           inputId="staff-role"
+          ariaLabel="Xodim roli"
           formControlName="role"
-          [options]="roleOptions"
+          [options]="availableRoleOptions"
           optionLabel="label"
           optionValue="value"
           appendTo="body"
@@ -251,13 +259,15 @@
         <label for="member-role">Rol</label>
         <p-select
           inputId="member-role"
+          ariaLabel="Xodim roli"
           formControlName="role"
-          [options]="roleOptions"
+          [options]="availableRoleOptions"
           optionLabel="label"
           optionValue="value"
           appendTo="body"
         ></p-select>
         <small>Egasi roli xodimlarni boshqarish huquqini beradi.</small>
+        <small class="field-error" *ngIf="roleServerError" role="alert">{{ roleServerError }}</small>
       </div>
     </form>
 
@@ -343,7 +353,12 @@
       </span>
       <h3>{{ getMemberName(activeMember) }}</h3>
       <p>{{ getStatusDialogDescription(activeMember) }}</p>
-      <small *ngIf="activeMember.role === 'owner'">Ehtiyot bo'ling: bu foydalanuvchi agentlik egasi rolida.</small>
+      <small *ngIf="activeMember.role === 'OWNER'">Ehtiyot bo'ling: bu foydalanuvchi agentlik egasi rolida.</small>
+      <div *ngIf="activeMember.is_active && (activeMember.assigned_count || 0) > 0" class="dialog-form w-full text-left mt-3">
+        <label for="replacement-member">{{ activeMember.assigned_count }} ta e'lon uchun yangi mas'ul*</label>
+        <p-select inputId="replacement-member" ariaLabel="Yangi mas'ul xodim" class="w-full" styleClass="w-full" [options]="replacementOptions"
+          [(ngModel)]="reassignMemberId" optionLabel="label" optionValue="value" placeholder="Mas'ul xodimni tanlang" />
+      </div>
     </div>
 
     <ng-template pTemplate="footer">
@@ -356,6 +371,7 @@
         class="dialog-primary"
         [ngClass]="{ danger: activeMember?.is_active }"
         [loading]="savingStatus"
+        [disabled]="activeMember?.is_active && (activeMember?.assigned_count || 0) > 0 && !reassignMemberId"
         (click)="toggleMember()"
       ></button>
     </ng-template>

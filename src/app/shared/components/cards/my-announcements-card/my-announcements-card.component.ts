@@ -2,11 +2,12 @@ import { Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgIf, NgOptimizedImage, NgClass } from '@angular/common';
 import { PricePipe } from '@/shared/pipes/price/price.pipe';
+import { PublisherMetaComponent } from '../../announcement/publisher-meta/publisher-meta.component';
 
 @Component({
   selector: 'app-my-announcements-card',
   standalone: true,
-  imports: [RouterLink, PricePipe, NgOptimizedImage, NgIf, NgClass],
+  imports: [RouterLink, PricePipe, NgOptimizedImage, NgIf, NgClass, PublisherMetaComponent],
   templateUrl: './my-announcements-card.component.html',
   styleUrl: './my-announcements-card.component.css',
 })

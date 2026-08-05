@@ -1,9 +1,55 @@
 import type { components, paths } from './schema';
 import type { DealType } from '@/core/constants/deal-type';
 
-export type IAnnouncementInfo = paths['/api/announcement/{id}/']['get']['responses']['200']['content']['application/json'];
-export type IAnnouncementListItem = paths['/api/announcement/']['get']['responses']['200']['content']['application/json']['results'];
-export type IAnnouncementRequestBody = paths['/api/announcement/']['post']['requestBody']['content']['application/json'];
+export type PublisherType = 'OWNER' | 'INDEPENDENT_AGENT' | 'AGENCY_AGENT';
+export type VerificationStatus = 'UNVERIFIED' | 'PENDING' | 'VERIFIED' | 'REJECTED' | 'EXPIRED';
+export type CommissionType = 'PERCENTAGE' | 'FIXED' | 'NONE';
+
+export interface IPublisherProjection {
+  type: PublisherType | null;
+  label: string;
+  display_name: string;
+  responsible_person?: {
+    id: number;
+    user_id: number;
+    name: string;
+    avatar?: string | null;
+  } | null;
+  agency?: {
+    id: number;
+    name: string;
+    logo?: string | null;
+    verification_status: VerificationStatus;
+  } | null;
+  broker_profile?: {
+    id: number;
+    verification_status: VerificationStatus;
+  } | null;
+  verification_status?: VerificationStatus | null;
+  phone?: string | null;
+  other_listing_count?: number;
+}
+
+export interface ICommissionProjection {
+  type: CommissionType;
+  value: string | null;
+  currency: 'UZS' | 'USD' | null;
+  label: string;
+}
+
+export interface IPublisherAnnouncementFields {
+  publisher_type?: PublisherType | null;
+  publisher?: IPublisherProjection | null;
+  commission?: ICommissionProjection | null;
+  commission_type?: CommissionType | null;
+  commission_value?: string | number | null;
+  commission_currency?: 'UZS' | 'USD' | null;
+  last_confirmed_at?: string | null;
+}
+
+export type IAnnouncementInfo = paths['/api/announcement/{id}/']['get']['responses']['200']['content']['application/json'] & IPublisherAnnouncementFields;
+export type IAnnouncementListItem = components['schemas']['Announcement'] & IPublisherAnnouncementFields;
+export type IAnnouncementRequestBody = paths['/api/announcement/']['post']['requestBody']['content']['application/json'] & IPublisherAnnouncementFields;
 
 export type Transport = components['schemas']['Transport'];
 
@@ -23,6 +69,8 @@ export interface IAgencyInfo {
   contact_phone?: string | null;
   logo?: string | null;
   is_active: boolean;
+  verification_status?: VerificationStatus;
+  verification_updated_at?: string | null;
   created?: string;
   updated?: string;
 }
@@ -70,6 +118,9 @@ export interface FilterForm {
   currency: any;
   floor: null | number;
   deal_type?: DealType;
+  publisher_type: PublisherType[];
+  verified_only: boolean;
+  commission_free: boolean;
 }
 
 export interface IUserRooms {
@@ -77,6 +128,8 @@ export interface IUserRooms {
   id: number;
   message?: string;
   messages: any[];
+  last_message?: IMessage | null;
+  unread_count?: number;
   name: string;
   user?: IUserForChat;
   users: IUserForChat[];
@@ -90,6 +143,7 @@ export interface IMessage {
   room: number;
   sender: number;
   is_first?: boolean;
+  client_id?: string;
 }
 
 export interface IMessageObj {
@@ -104,7 +158,7 @@ export interface IMessageObj {
 
 export interface IAgencyMembership {
   id: number;
-  role: 'owner' | 'staff';
+  role: 'OWNER' | 'MANAGER' | 'BROKER';
   is_active: boolean;
   created?: string;
   agency: {
@@ -116,6 +170,7 @@ export interface IAgencyMembership {
     contact_phone?: string | null;
     logo?: string | null;
     is_active: boolean;
+    verification_status?: VerificationStatus;
     created?: string;
     updated?: string;
   };

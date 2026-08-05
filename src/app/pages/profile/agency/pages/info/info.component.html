@@ -12,28 +12,13 @@
       </p>
     </div>
 
-    <form [formGroup]="form" class="info-form">
-      <div class="form-field">
-        <label>Nomi</label>
-        <input pInputText formControlName="name" placeholder="Agentlik nomi" />
-      </div>
-      <div class="form-field">
-        <label>INN</label>
-        <input pInputText formControlName="inn" placeholder="INN" />
-      </div>
-      <div class="form-field">
-        <label>Litsenziya raqami</label>
-        <input pInputText formControlName="license_number" placeholder="Litsenziya raqami" />
-      </div>
-      <div class="form-field">
-        <label>Manzil</label>
-        <input pInputText formControlName="address" placeholder="Manzil" />
-      </div>
-      <div class="form-field">
-        <label>Kontakt telefon</label>
-        <input pInputText formControlName="contact_phone" placeholder="+998 90 123 45 67" />
-      </div>
-    </form>
+    <dl class="info-list">
+      <div><dt>Nomi</dt><dd>{{ form.controls.name.value || 'Ko‘rsatilmagan' }}</dd></div>
+      <div><dt>INN</dt><dd>{{ form.controls.inn.value || 'Ko‘rsatilmagan' }}</dd></div>
+      <div><dt>Litsenziya raqami</dt><dd>{{ form.controls.license_number.value || 'Ko‘rsatilmagan' }}</dd></div>
+      <div><dt>Manzil</dt><dd>{{ form.controls.address.value || 'Ko‘rsatilmagan' }}</dd></div>
+      <div><dt>Kontakt telefon</dt><dd>{{ form.controls.contact_phone.value || 'Ko‘rsatilmagan' }}</dd></div>
+    </dl>
   </section>
 
   <ng-template #loadingState>

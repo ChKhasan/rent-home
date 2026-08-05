@@ -42,7 +42,7 @@ export class BottomBarComponent implements OnInit {
       isPath: '/likes',
     },
     {
-      title: 'Aloqa',
+      title: "E'lonlar",
       iconClass: 'pi pi-search',
       action: () => {
         this.router.navigate(['/announcements']);

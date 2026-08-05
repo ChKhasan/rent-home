@@ -2,14 +2,13 @@ import { Component, DestroyRef, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { FooterComponent } from '../footer/footer.component';
 import { HeaderComponent } from '../header/header.component';
-import { BottomBarComponent } from '../bottom-bar/bottom-bar.component';
-import { Location, NgClass, NgIf } from '@angular/common';
+import { Location, NgIf } from '@angular/common';
 import { filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-profile-layout',
   standalone: true,
-  imports: [RouterOutlet, FooterComponent, HeaderComponent, BottomBarComponent, NgIf, NgClass],
+  imports: [RouterOutlet, FooterComponent, HeaderComponent, NgIf],
   templateUrl: './profile-layout.component.html',
   styleUrl: './profile-layout.component.css',
 })
@@ -21,6 +20,10 @@ export class ProfileLayoutComponent implements OnInit {
     private destroyRef: DestroyRef,
   ) {
     this.currentPath = this.location.path();
+  }
+
+  get isChatRoute(): boolean {
+    return this.currentPath.includes('/profile/chat');
   }
   ngOnInit() {
     this.router.events.pipe(filter((event) => event instanceof NavigationEnd), takeUntilDestroyed(this.destroyRef)).subscribe(() => {

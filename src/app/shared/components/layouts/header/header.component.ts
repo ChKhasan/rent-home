@@ -1,19 +1,19 @@
-import { Component, ViewChild } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Component, DestroyRef, ViewChild } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { NgIf } from '@angular/common';
 import { ToastModule } from 'primeng/toast';
 import { RegisterDialogComponent } from '../../modals/register-dialog/register-dialog.component';
 import { AuthDialogComponent } from '../../modals/auth-dialog/auth-dialog.component';
 import { NumberDialogComponent } from '../../modals/number-dialog/number-dialog.component';
 import { SmsDialogComponent } from '../../modals/sms-dialog/sms-dialog.component';
-import { FormsModule } from '@angular/forms';
-import { DropdownComponent } from '../../dropdown/dropdown.component';
 import { AuthService } from '@services/auth';
-import { ButtonModule } from 'primeng/button';
+import { ThemePreference, ThemeService } from '../../../../core/services/theme/theme.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { AuthPromptService } from '@/core/services/auth-prompt/auth-prompt.service';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, NgIf, ToastModule, RegisterDialogComponent, AuthDialogComponent, NumberDialogComponent, SmsDialogComponent, FormsModule, ButtonModule, DropdownComponent],
+  imports: [RouterLink, RouterLinkActive, NgIf, ToastModule, RegisterDialogComponent, AuthDialogComponent, NumberDialogComponent, SmsDialogComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })
@@ -24,12 +24,27 @@ export class HeaderComponent {
   @ViewChild(NumberDialogComponent)
   numberDialogComponent!: NumberDialogComponent;
   @ViewChild(SmsDialogComponent) smsDialogComponent!: SmsDialogComponent;
-  public profileDrop: Boolean = false;
-  constructor(public router: Router, public authService: AuthService) {}
+  public themeMenuOpen = false;
+  public mobileMenuOpen = false;
+  public authRedirect = '/profile';
+
+  constructor(
+    public router: Router,
+    public authService: AuthService,
+    public theme: ThemeService,
+    authPrompt: AuthPromptService,
+    destroyRef: DestroyRef,
+  ) {
+    authPrompt.requests$.pipe(takeUntilDestroyed(destroyRef)).subscribe((redirectUrl) => {
+      this.authRedirect = redirectUrl;
+      this.openAuthDialog();
+    });
+  }
   openRegisterDialog() {
     this.registerDialogComponent.showDialog();
   }
   openAuthDialog() {
+    if (!this.authRedirect) this.authRedirect = '/profile';
     this.authDialogComponent.showDialog();
   }
   closeAuthDialog() {
@@ -54,7 +69,21 @@ export class HeaderComponent {
   };
   logout() {
     this.authService.logout();
-    this.profileDrop = false;
+  }
+
+  setTheme(preference: ThemePreference) {
+    this.theme.setPreference(preference);
+    this.themeMenuOpen = false;
+  }
+
+  createAnnouncement() {
+    this.authRedirect = '/profile/create';
+    this.authService.auth ? this.router.navigate(['profile/create']) : this.openAuthDialog();
+  }
+
+  openProfile() {
+    this.authRedirect = '/profile';
+    this.authService.auth ? this.router.navigate(['profile']) : this.openAuthDialog();
   }
 
   anotherPhoneNumber = () => {

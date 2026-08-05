@@ -1,6 +1,6 @@
 <div class="fixed bottom-0 w-full hidden md:block z-50">
-  <div class="w-full bg-white px-6 pb-[10px] pt-[14px] rounded-t-[12px] bottom-bar">
-    <a *ngIf="isPath.includes('/profile/announcements') && !isPath.includes('/profile/announcements/')" class="h-[52px] whitespace-nowrap py-[10px] flex items-center mb-2 justify-center rounded-[12px] text-white bg-[var(--green)] text-[16px] font-500 flex items-center gap-[10px]" [routerLink]="'/profile/create'">E'lon qo'shish</a>
+  <div class="bottom-bar w-full px-6 pb-[10px] pt-[14px]">
+    <a *ngIf="isPath.includes('/profile/announcements') && !isPath.includes('/profile/announcements/')" class="bottom-bar__cta" [routerLink]="'/profile/create'">E'lon qo'shish</a>
     <ul class="flex justify-between">
       <li *ngFor="let menuItem of menuList">
         <button *ngIf="menuItem.isPath === '/profile'; else list" (click)="menuItem.action()" [ngClass]="{ active: isPath.includes('profile') }" class="flex flex-col gap-[6px] font-400 text-[12px] text-[--gray-6] bg-[transparent] items-center">

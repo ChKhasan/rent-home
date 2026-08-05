@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
 import { agencyGuard } from './core/guards/agency.guard';
+import { pendingChangesGuard } from './core/guards/pending-changes.guard';
+import { brokerGuard } from './core/guards/broker.guard';
 
 export const routes: Routes = [
   {
@@ -10,6 +12,8 @@ export const routes: Routes = [
       { path: '', loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent) },
       { path: 'announcements', loadComponent: () => import('./pages/announcements/list/list.component').then((m) => m.ListComponent) },
       { path: 'announcements/:id', loadComponent: () => import('./pages/announcements/view/view.component').then((m) => m.ViewComponent) },
+      { path: 'brokers/:id', data: { kind: 'broker' }, loadComponent: () => import('./pages/publisher/public-profile/public-profile.component').then((m) => m.PublicPublisherProfileComponent) },
+      { path: 'agencies/:id', data: { kind: 'agency' }, loadComponent: () => import('./pages/publisher/public-profile/public-profile.component').then((m) => m.PublicPublisherProfileComponent) },
       { path: 'likes', loadComponent: () => import('./pages/likes/likes.component').then((m) => m.LikesComponent) },
       {
         path: 'map',
@@ -29,6 +33,12 @@ export const routes: Routes = [
       { path: 'announcements-view/:id', loadComponent: () => import('./pages/profile/profile-announcement/profile-announcement.component').then((m) => m.ProfileAnnouncementComponent) },
       { path: 'announcements', loadComponent: () => import('./pages/profile/announcements/announcements.component').then((m) => m.AnnouncementsComponent) },
       { path: 'chat', loadComponent: () => import('./pages/chat/chat.component').then((m) => m.ChatComponent) },
+      {
+        path: 'broker',
+        canActivate: [brokerGuard],
+        canDeactivate: [pendingChangesGuard],
+        loadComponent: () => import('./pages/profile/broker-cabinet/broker-cabinet.component').then((m) => m.BrokerCabinetComponent),
+      },
       {
         path: 'agency',
         loadComponent: () => import('./pages/profile/agency/agency.component').then((m) => m.AgencyComponent),

@@ -18,6 +18,7 @@
       <p-tag [icon]="announcement.washing_machine ? 'pi pi-check' : 'pi pi-times'" [severity]="announcement.washing_machine ? 'success' : 'danger'" value="Konditsioner"></p-tag>
     </div>
   </div>
+  <app-publisher-meta [announcement]="announcement" [compact]="true" [showDate]="false"></app-publisher-meta>
   <div class="mx-[-30px] mb-[-30px] md:mx-0 md-mb-0">
     <app-price-block [announcement]="announcement"></app-price-block>
   </div>

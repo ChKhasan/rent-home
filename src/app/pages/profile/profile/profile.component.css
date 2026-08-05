@@ -1,6 +1,6 @@
 .profile-page {
-  background: #f7f8fa;
-  min-height: 100vh;
+  background: var(--bg-canvas);
+  min-height: 100%;
 }
 
 .profile-toolbar {
@@ -15,8 +15,21 @@
 .profile-action-btn,
 .logout-btn,
 .profile-edit-btn {
-  min-height: 48px;
+  min-height: 44px;
+  border-radius: 8px;
   transition: 0.2s ease;
+}
+
+.profile-action-btn--primary {
+  border-color: var(--action-primary) !important;
+  background: var(--action-primary) !important;
+  color: var(--text-inverse) !important;
+}
+
+.profile-action-btn--secondary {
+  border-color: var(--border-default) !important;
+  background: var(--bg-surface) !important;
+  color: var(--text-primary) !important;
 }
 
 .profile-action-btn:hover,
@@ -25,7 +38,7 @@
 }
 
 .agency-action {
-  border: 1px solid #d7f0df;
+  border: 1px solid var(--border-default);
 }
 
 .logout-btn:hover {
@@ -35,10 +48,10 @@
 .profile-summary-card,
 .profile-edit-panel {
   width: 100%;
-  background: #fff;
-  border: 1px solid #e4e7ec;
-  border-radius: 18px;
-  box-shadow: 0 16px 36px rgba(16, 24, 40, 0.06);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
 }
 
 .profile-summary-card {
@@ -50,12 +63,12 @@
 
 .profile-avatar {
   border-radius: 999px;
-  background: #eef1f5;
-  box-shadow: inset 0 0 0 1px #d9dee7;
+  background: var(--bg-subtle);
+  box-shadow: inset 0 0 0 1px var(--border-default);
 }
 
 .profile-avatar .image {
-  background: #eef1f5;
+  background: var(--bg-subtle);
 }
 
 .profile-summary-body {
@@ -65,7 +78,7 @@
 }
 
 .profile-identity h5 {
-  color: #101828;
+  color: var(--text-primary);
   line-height: 1.18;
   word-break: break-word;
 }
@@ -91,11 +104,11 @@
   gap: 8px;
   min-height: 34px;
   padding: 7px 12px;
-  border: 1px solid #e4e7ec;
+  border: 1px solid var(--border-default);
   border-radius: 999px;
-  color: #475367;
+  color: var(--text-secondary);
   font-size: 14px;
-  background: #fafbfc;
+  background: var(--bg-subtle);
 }
 
 .profile-meta i {
@@ -104,8 +117,8 @@
 }
 
 .profile-edit-btn {
-  color: #344054;
-  border-color: #d0d5dd !important;
+  color: var(--text-primary);
+  border-color: var(--border-default) !important;
 }
 
 .profile-edit-panel {
@@ -126,7 +139,7 @@
 }
 
 .profile-form-section {
-  border-top: 1px solid #eef0f3;
+  border-top: 1px solid var(--border-subtle);
   padding-top: 22px;
 }
 
@@ -143,14 +156,14 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
-  color: var(--green);
-  background: rgba(95, 195, 129, 0.12);
+  border-radius: 8px;
+  color: var(--action-primary);
+  background: var(--action-soft);
 }
 
 .profile-section-title h5 {
   margin: 0;
-  color: #101828;
+  color: var(--text-primary);
   font-size: 18px;
   font-weight: 700;
 }
@@ -179,12 +192,12 @@
 
 :host ::ng-deep .p-inputmask,
 :host ::ng-deep .password-input input {
-  border-radius: 10px;
-  border: 1px solid var(--grey-300);
-  background: #fff;
+  border-radius: 8px;
+  border: 1px solid var(--border-default);
+  background: var(--input-bg);
   height: 48px;
   font-family: var(--medium);
-  color: var(--dark-5);
+  color: var(--text-primary);
   width: 100%;
   padding: 11px 16px;
   box-shadow: none;
@@ -205,7 +218,7 @@
 }
 .number-style {
   font-family: var(--medium);
-  color: var(--dark-5);
+  color: var(--text-primary);
 }
 .mask-input,
 .password-input {
@@ -215,7 +228,14 @@
 }
 
 :host ::ng-deep .p-selectbutton .p-highlight {
-  background: var(--green);
+  border-color: var(--action-primary);
+  background: var(--action-soft);
+  color: var(--action-primary);
+}
+
+.profile-toolbar h3,
+.title h3 {
+  color: var(--text-primary) !important;
 }
 :host ::ng-deep .p-selectbutton .p-button {
   width: auto;
@@ -229,23 +249,23 @@
   grid-template-columns: 1fr 1fr;
 }
 :host ::ng-deep .p-selectbutton .p-button:first-child {
-  border-top-left-radius: 16px;
-  border-bottom-left-radius: 16px;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
 }
 :host ::ng-deep .p-selectbutton .p-button:last-child {
-  border-top-right-radius: 16px;
-  border-bottom-right-radius: 16px;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
 }
 
 :host ::ng-deep .profile-upload .file-upload,
 :host ::ng-deep .file-upload {
   width: 42px;
   height: 42px;
-  border-radius: 12px;
+  border-radius: 8px;
   background: var(--green);
   border: 0;
-  color: #fff;
-  box-shadow: 0 10px 22px rgba(64, 184, 105, 0.24);
+  color: var(--text-inverse);
+  box-shadow: none;
 }
 
 :host ::ng-deep .profile-upload .file-upload .p-button-label,
@@ -260,7 +280,7 @@
 
 @media (max-width: 768px) {
   .profile-page {
-    background: #fff;
+    background: var(--bg-canvas);
   }
 
   .profile-toolbar {
@@ -276,14 +296,15 @@
   .profile-action-btn,
   .logout-btn,
   .profile-edit-btn {
-    min-height: 40px;
+    min-width: 44px;
+    min-height: 44px;
   }
 
   .profile-summary-card {
     align-items: center;
     gap: 14px;
     padding: 16px;
-    border-radius: 14px;
+    border-radius: 8px;
     box-shadow: none;
   }
 
@@ -304,7 +325,7 @@
 
   .profile-edit-panel {
     padding: 16px;
-    border-radius: 14px;
+    border-radius: 8px;
     box-shadow: none;
   }
 

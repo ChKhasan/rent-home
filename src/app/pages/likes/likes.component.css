@@ -1,7 +1,43 @@
 :host ::ng-deep .ng_skeleton {
   width: 100%;
-  border-radius: 18px;
+  border-radius: 8px;
   height: 490px !important;
+}
+
+.empty-state {
+  display: grid;
+  min-height: 240px;
+  place-items: center;
+  align-content: center;
+  gap: 8px;
+  padding: 24px;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.empty-state i {
+  color: var(--action-primary);
+  font-size: 32px;
+}
+
+.empty-state h3,
+.empty-state p {
+  margin: 0;
+}
+
+.empty-state h3 {
+  color: var(--text-primary);
+}
+
+.empty-state a {
+  min-height: 44px;
+  margin-top: 6px;
+  padding: 11px 16px;
+  border-radius: 8px;
+  background: var(--action-primary);
+  color: var(--text-inverse);
+  font-weight: 700;
+  text-decoration: none;
 }
 @media (max-width: 768px) {
   :host ::ng-deep .ng_skeleton {

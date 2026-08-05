@@ -1,5 +1,20 @@
 .bottom-bar {
-  box-shadow: 0 -4px 12px 0 rgba(0, 0, 0, 0.1);
+  border-top: 1px solid var(--border-default);
+  background: var(--bg-surface);
+  box-shadow: 0 -4px 12px var(--shadow-color);
+}
+
+.bottom-bar__cta {
+  min-height: 44px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: var(--action-primary);
+  color: var(--text-inverse);
+  font-weight: 700;
+  text-decoration: none;
 }
 
 ul {
@@ -7,18 +22,18 @@ ul {
 }
 
 .active span {
-  background-color: var(--green);
+  background-color: var(--action-soft);
 }
 
 .nav-icon i {
-  color: #8e8e93;
+  color: var(--text-muted);
   font-size: 17px;
   line-height: 1;
 }
 
 .active .nav-icon i {
-  color: #fff;
+  color: var(--action-primary);
 }
 .active {
-  color: #000;
+  color: var(--text-primary);
 }

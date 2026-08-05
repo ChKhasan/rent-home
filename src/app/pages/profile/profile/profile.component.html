@@ -2,22 +2,26 @@
   <img class="absolute top-0 z-[-1] hidden md:block" src="../../../../assets/images/image.png" alt="">
   <div class="max-w-[1180px] mx-auto px-4 flex flex-col gap-4">
     <div class="profile-toolbar flex justify-between items-center md:flex-col">
-      <h3 class="text-[40px] font-medium text-[--green] md:text-[24px] md:mb-3">Shaxsiy kabinet</h3>
+      <h1 class="text-[40px] font-medium text-[--green] md:text-[24px] md:mb-3">Shaxsiy kabinet</h1>
       <div class="profile-actions flex gap-3">
-        <button [routerLink]="'/profile/chat'" pButton type="button" icon="pi pi-comments"
-          class="btn profile-action-btn md:px-4 rounded-xl flex md:gap-0 gap-2 items-center bg-[--green] text-white" iconPos="left">
+        <button [routerLink]="'/profile/chat'" pButton type="button" icon="pi pi-comments" aria-label="Yozishmalarim"
+          class="btn profile-action-btn profile-action-btn--secondary md:px-4 flex md:gap-0 gap-2 items-center" iconPos="left">
 
           <span class="md:hidden">Yozishmalarim</span>
         </button>
-        <button [routerLink]="'/profile/create'" pButton type="button" icon="pi pi-plus"
-          class="btn profile-action-btn md:px-4 rounded-xl flex md:gap-0 gap-2  items-center bg-[--green] text-white" iconPos="left">
-          <span class="md:hidden">E'lon yaratish</span>
+        <button [routerLink]="'/profile/create'" pButton type="button" icon="pi pi-plus" aria-label="E'lon joylash"
+          class="btn profile-action-btn profile-action-btn--primary md:px-4 flex md:gap-0 gap-2 items-center" iconPos="left">
+          <span class="md:hidden">E'lon joylash · Uy egasi sifatida</span>
         </button>
-        <button *ngIf="hasAgencyAccess" [routerLink]="'/profile/agency'" pButton type="button" icon="pi pi-briefcase"
-          class="btn profile-action-btn agency-action md:px-4 rounded-xl flex md:gap-0 gap-2 items-center bg-[--grey-100] text-[--green]" iconPos="left">
+        <button *ngIf="hasBrokerProfile" [routerLink]="'/profile/broker'" pButton type="button" icon="pi pi-id-card" aria-label="Makler kabineti"
+          class="btn profile-action-btn profile-action-btn--secondary md:px-4 flex md:gap-0 gap-2 items-center" iconPos="left">
+          <span class="md:hidden">Makler kabineti</span>
+        </button>
+        <button *ngIf="hasAgencyAccess" [routerLink]="'/profile/agency'" pButton type="button" icon="pi pi-briefcase" aria-label="Agentlik kabineti"
+          class="btn profile-action-btn profile-action-btn--secondary agency-action md:px-4 flex md:gap-0 gap-2 items-center" iconPos="left">
           <span class="md:hidden">Agentlik kabineti</span>
         </button>
-        <button (click)="logoutDialog = true"
+        <button type="button" aria-label="Kabinetdan chiqish" (click)="logoutDialog = true"
           class="logout-btn border-solid border-[2px] border-[--error-400] rounded-xl md:px-4 text-[14px] flex items-center gap-2 bg-transparent font-semibold p-3 md:py-2 md:text-xs md:border-[1px] text-[--error-400]">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -55,6 +59,7 @@
           </div>
         <p-fileUpload *ngIf="isEdit" class="profile-upload desktop-upload flex md:hidden items-center absolute right-[-18px] bottom-[6px]"
             styleClass="file-upload" mode="basic" name="image" [url]="imageUploadUrl"
+            [chooseButtonProps]="{ ariaLabel: 'Profil rasmini yuklash' }"
             (onUpload)="onUpload($event)" [auto]="true" method="post" [multiple]="true" accept="image/*"
             [maxFileSize]="1000000" [headers]="headers"></p-fileUpload>
         </div>
@@ -62,7 +67,6 @@
       <div
         class="profile-summary-body body flex flex-col justify-center items-start md:flex-row md:justify-between md:items-center md:w-full">
         <div class="profile-identity flex flex-col justify-center items-start">
-          <p class="profile-eyebrow">Profil egasi</p>
           <h5 class="text-[32px] font-medium md:text-base break-keep">{{ displayName }}</h5>
           <div class="profile-meta">
             <span *ngIf="profileUser.phone_number"><i class="pi pi-phone"></i>{{ profileUser.phone_number }}</span>
@@ -70,9 +74,10 @@
           </div>
         </div>
         <p-fileUpload *ngIf="isEdit" class="profile-upload mobile-upload md:flex hidden items-center" styleClass="file-upload" mode="basic"
+          [chooseButtonProps]="{ ariaLabel: 'Profil rasmini yuklash' }"
           name="image" [url]="imageUploadUrl" (onUpload)="onUpload($event)" [auto]="true"
           method="post" [multiple]="true" accept="image/*" [maxFileSize]="1000000" [headers]="headers"></p-fileUpload>
-        <button *ngIf="!isEdit" (click)="startEdit()"
+        <button *ngIf="!isEdit" type="button" aria-label="Profilni tahrirlash" (click)="startEdit()"
           class="profile-edit-btn mt-3 md:mt-0 border-solid border-[2px] border-[--grey-300] rounded-xl text-[14px] flex items-center gap-2 bg-transparent font-semibold p-3">
           <i class="pi pi-pencil"></i>
           <span class="md:hidden">Tahrirlash</span>
@@ -96,7 +101,7 @@
     </div>
     <div *ngIf="!isEdit">
       <app-likes *ngIf="tab === 'likes'"></app-likes>
-      <app-announcements *ngIf="tab === 'announcements'"></app-announcements>
+      <app-announcements *ngIf="tab === 'announcements'" [embedded]="true"></app-announcements>
     </div>
     <div *ngIf="isEdit" class="profile-edit-panel body mt-4 md:mt-0 flex flex-col gap-6">
       <div class="profile-edit-header">
@@ -151,14 +156,12 @@
               <label class="font-medium text-black text-[14px]" for="last_name">Otasining ismi</label>
               <div class="relative w-full flex items-center password-input profile-input">
                 <input pInputText [ngClass]="{
-                    'ng-invalid ng-dirty': ruleForm.controls.last_name.touched && ruleForm.controls.last_name.errors && ruleForm.controls.last_name.errors['required'],
-                  }" type="text" id="last_name" placeholder="Otasining ismi" formControlName="last_name" />
+                    'ng-invalid ng-dirty': ruleForm.controls.last_name.touched && ruleForm.controls.last_name.invalid,
+                  }" type="text" id="last_name" placeholder="Otasining ismi (ixtiyoriy)" formControlName="last_name" />
               </div>
 
               <div
                 *ngIf="ruleForm.controls.last_name.invalid && (ruleForm.controls.last_name.dirty || ruleForm.controls.last_name.touched)">
-                <app-invaid-text [text]="'Otasining ismi kiritilishi shart.'"
-                  *ngIf="ruleForm.controls.last_name.errors && ruleForm.controls.last_name.errors['required']"></app-invaid-text>
                 <app-invaid-text [text]="'Otasining ismi kamida 4 ta belgidan iborat bo‘lishi kerak.'"
                   *ngIf="ruleForm.controls.last_name.errors && ruleForm.controls.last_name.errors['minlength']"></app-invaid-text>
               </div>

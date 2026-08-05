@@ -3,7 +3,6 @@ import { finalize, Subscription } from 'rxjs';
 import { RouterLink } from '@angular/router';
 import { PaginationComponent } from '@components/pagination/pagination.component';
 import { NgForOf, NgIf } from '@angular/common';
-import { SkeletonModule } from 'primeng/skeleton';
 import { QueryService } from '@services/query';
 import { FilterComponent } from '@components/announcement/filter/filter.component';
 import { BottomSheetComponent } from '@components/modals/bottom-sheet/bottom-sheet.component';
@@ -11,25 +10,52 @@ import { EmptyFoundComponent } from '@components/empty-found/empty-found.compone
 import { SORT_OPTIONS } from '@/core/constants/filter';
 import { RequestService } from '@services/request';
 import { environment } from '@environments';
-import { IAnnouncementList } from '@services/interfaces';
+import { IAnnouncementList, IAnnouncementListItem, PublisherType } from '@services/interfaces';
 import { AnnouncementsCardComponent } from '@components/cards/announcements-card/announcements-card.component';
-import { ButtonModule } from 'primeng/button';
+import { ListingCardSkeletonComponent } from '@components/cards/listing-card-skeleton/listing-card-skeleton.component';
 import { DealTypeService } from '@/core/services/deal-type/deal-type.service';
 import { DealType, DEFAULT_DEAL_TYPE, isDealType } from '@/core/constants/deal-type';
 import { DealTypeSwitcherComponent } from '@components/deal-type-switcher/deal-type-switcher.component';
+import { LucideArrowUpDown, LucideMap, LucideSlidersHorizontal, LucideX } from '@lucide/angular';
 @Component({
   selector: 'app-list',
   standalone: true,
-  imports: [PaginationComponent, NgForOf, ButtonModule, SkeletonModule, NgIf, FilterComponent, BottomSheetComponent, EmptyFoundComponent, AnnouncementsCardComponent, DealTypeSwitcherComponent],
+  imports: [
+    PaginationComponent,
+    NgForOf,
+    NgIf,
+    RouterLink,
+    FilterComponent,
+    BottomSheetComponent,
+    EmptyFoundComponent,
+    AnnouncementsCardComponent,
+    ListingCardSkeletonComponent,
+    DealTypeSwitcherComponent,
+    LucideArrowUpDown,
+    LucideMap,
+    LucideSlidersHorizontal,
+    LucideX,
+  ],
   templateUrl: './list.component.html',
   styleUrl: './list.component.css',
 })
 export class ListComponent implements OnInit, OnDestroy {
+  private readonly publisherLabels: Record<PublisherType, string> = {
+    OWNER: 'Uy egasidan',
+    INDEPENDENT_AGENT: 'Mustaqil makler',
+    AGENCY_AGENT: 'Agentlik',
+  };
   public loading: boolean = true;
   public skeletonList = [1, 2, 3, 4, 5, 6];
-  public announcements: any = [];
+  public announcements: IAnnouncementListItem[] = [];
   public totalPage: number = 0;
   public sortOptions = SORT_OPTIONS;
+  public readonly mobileSortOptions = [
+    { label: 'Eng yangilari', value: 'created' },
+    { label: 'Eng eskilari', value: 'created_reverse' },
+    { label: 'Narx: arzon', value: 'total_price' },
+    { label: 'Narx: qimmat', value: 'total_price_reverse' },
+  ];
   public currentSort: string = '';
   public currentDealType: DealType = DEFAULT_DEAL_TYPE;
   private dealTypeSubscription?: Subscription;
@@ -85,14 +111,13 @@ export class ListComponent implements OnInit, OnDestroy {
         this.totalPage = response.count;
       });
   };
-  filterSend = (e: any) => {
-    this.queryConfig.updateCustomQuery(e, this.__GET_ANNOUNCEMENTS);
+  filterSend = async (e: any) => {
+    await this.queryConfig.updateCustomQuery({ ...e, page: 1 }, this.__GET_ANNOUNCEMENTS);
     this.closeBottomSheet();
   };
-  clearFilter = () => {
-    this.queryConfig.clearFilter(this.__GET_ANNOUNCEMENTS).then(() => {
-      this.currentSort = 'appartment_status';
-    });
+  clearFilter = async () => {
+    await this.queryConfig.clearFilter(this.__GET_ANNOUNCEMENTS);
+    this.currentSort = '';
     this.closeBottomSheet();
   };
   sortHandle(option: any) {
@@ -105,4 +130,52 @@ export class ListComponent implements OnInit, OnDestroy {
   closeBottomSheet = () => {
     this.bottomSheetComponent.close();
   };
+
+  selectMobileSort(event: Event): void {
+    const ordering = (event.target as HTMLSelectElement).value;
+    this.currentSort = ordering;
+    void this.filterSend({ ordering: ordering || null });
+  }
+
+  get mapQueryParams(): Record<string, unknown> {
+    return this.queryConfig.activeQueryListWithoutDefault();
+  }
+
+  get activePublisherChips(): Array<{ type: PublisherType; label: string }> {
+    const raw = this.queryConfig.activeQueryList()['publisher_type'];
+    if (!raw) return [];
+    const allowed = Object.keys(this.publisherLabels) as PublisherType[];
+    return String(raw)
+      .split(',')
+      .filter((type): type is PublisherType => allowed.includes(type as PublisherType))
+      .map((type) => ({ type, label: this.publisherLabels[type] }));
+  }
+
+  get verifiedOnlyActive(): boolean {
+    return String(this.queryConfig.activeQueryList()['verified_only']) === 'true';
+  }
+
+  get commissionFreeActive(): boolean {
+    return String(this.queryConfig.activeQueryList()['commission_free']) === 'true';
+  }
+
+  get activeFilterCount(): number {
+    const ignored = new Set(['page', 'page_size', 'ordering', 'deal_type']);
+    return Object.entries(this.queryConfig.activeQueryList()).filter(([key, value]) => {
+      return !ignored.has(key) && value !== null && value !== undefined && value !== '' && value !== false;
+    }).length;
+  }
+
+  removePublisherType(type: PublisherType): void {
+    const remaining = this.activePublisherChips.filter((item) => item.type !== type).map((item) => item.type);
+    this.filterSend({ publisher_type: remaining.length ? remaining.join(',') : null });
+  }
+
+  removePublisherFlag(key: 'verified_only' | 'commission_free'): void {
+    this.filterSend({ [key]: null });
+  }
+
+  trackByAnnouncementId(_: number, announcement: IAnnouncementListItem): number {
+    return announcement.id;
+  }
 }

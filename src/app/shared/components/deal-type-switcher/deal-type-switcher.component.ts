@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { NgClass, NgForOf, AsyncPipe } from '@angular/common';
+import { NgForOf, AsyncPipe } from '@angular/common';
 import { DealTypeService } from '@/core/services/deal-type/deal-type.service';
 import { DEAL_TYPE_OPTIONS, DealType } from '@/core/constants/deal-type';
 
 @Component({
   selector: 'app-deal-type-switcher',
   standalone: true,
-  imports: [NgForOf, NgClass, AsyncPipe],
+  imports: [NgForOf, AsyncPipe],
   templateUrl: './deal-type-switcher.component.html',
   styleUrl: './deal-type-switcher.component.css',
 })
