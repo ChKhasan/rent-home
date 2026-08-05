@@ -1,0 +1,25 @@
+<div *ngIf="hasPublisher" class="publisher-meta" [class.publisher-meta--compact]="compact">
+  <span class="publisher-meta__publisher" [title]="publisherLabel">
+    <span [ngSwitch]="announcement.publisher_type" class="publisher-meta__icon" aria-hidden="true">
+      <svg *ngSwitchCase="'OWNER'" lucideHouse [size]="17"></svg>
+      <svg *ngSwitchCase="'AGENCY_AGENT'" lucideBuilding2 [size]="17"></svg>
+      <svg *ngSwitchDefault lucideUserRound [size]="17"></svg>
+    </span>
+    <span class="publisher-meta__identity">
+      <span class="publisher-meta__name">{{ publisherLabel }}</span>
+      <span class="publisher-meta__role">{{ publisherRoleLabel }}</span>
+    </span>
+  </span>
+  <span *ngIf="showCommission && announcement.commission?.label" class="publisher-meta__separator" aria-hidden="true">|</span>
+  <span *ngIf="showCommission && announcement.commission?.label" class="publisher-meta__item">{{ announcement.commission?.label }}</span>
+  <span *ngIf="verificationStatus === 'VERIFIED'" class="publisher-meta__verified">
+    <svg lucideBadgeCheck [size]="17" aria-hidden="true"></svg>
+    Tekshirilgan
+  </span>
+  <span *ngIf="!compact && verificationStatus && verificationStatus !== 'VERIFIED'" class="publisher-meta__status">
+    {{ verificationLabel }}
+  </span>
+  <span *ngIf="showDate && announcement.last_confirmed_at" class="publisher-meta__date">
+    {{ confirmedDateLabel }}
+  </span>
+</div>

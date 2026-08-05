@@ -1,0 +1,86 @@
+:root,
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg-canvas: #f6f7f7;
+  --bg-surface: #ffffff;
+  --bg-elevated: #ffffff;
+  --bg-subtle: #eef1ef;
+  --bg-soft-success: #e2f3e8;
+  --text-primary: #17201a;
+  --text-secondary: #5f6b63;
+  --text-muted: #637067;
+  --text-inverse: #ffffff;
+  --text-on-media: #ffffff;
+  --text-on-media-muted: rgba(255, 255, 255, 0.82);
+  --border-default: #dce3de;
+  --border-strong: #b8c3bc;
+  --action-primary: #147d3e;
+  --action-primary-hover: #106a34;
+  --action-soft: #e2f3e8;
+  --action-soft-hover: #d2ebdb;
+  --focus-ring: #67b884;
+  --status-info: #2563c5;
+  --status-info-soft: #e8f0ff;
+  --status-warning: #a45c08;
+  --status-warning-soft: #fff2dd;
+  --status-danger: #b52d35;
+  --status-danger-soft: #fdebed;
+  --status-success: #147d3e;
+  --status-success-soft: #e2f3e8;
+  --overlay: rgba(16, 24, 20, 0.48);
+  --shadow-color: rgba(17, 24, 20, 0.1);
+  --logo-foreground: #111713;
+  --field-bg: #ffffff;
+  --field-disabled: #eef1ef;
+  --selection-bg: #d8f0e1;
+  --map-panel-bg: rgba(255, 255, 255, 0.96);
+  --media-scrim: rgba(8, 14, 10, 0.58);
+  --media-surface: rgba(17, 24, 20, 0.86);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg-canvas: #111312;
+  --bg-surface: #1a1d1b;
+  --bg-elevated: #222624;
+  --bg-subtle: #292e2b;
+  --bg-soft-success: #203a29;
+  --text-primary: #f3f5f4;
+  --text-secondary: #b1b8b4;
+  --text-muted: #909a94;
+  --text-inverse: #0b120d;
+  --text-on-media: #ffffff;
+  --text-on-media-muted: rgba(255, 255, 255, 0.82);
+  --border-default: #3a413d;
+  --border-strong: #59625d;
+  --action-primary: #52cc7a;
+  --action-primary-hover: #69da8f;
+  --action-soft: #203a29;
+  --action-soft-hover: #294b35;
+  --focus-ring: #78d99a;
+  --status-info: #72a7ff;
+  --status-info-soft: #1c304c;
+  --status-warning: #f0b35e;
+  --status-warning-soft: #3c2d19;
+  --status-danger: #f47777;
+  --status-danger-soft: #482426;
+  --status-success: #65d68b;
+  --status-success-soft: #203a29;
+  --overlay: rgba(0, 0, 0, 0.68);
+  --shadow-color: rgba(0, 0, 0, 0.34);
+  --logo-foreground: #f3f5f4;
+  --field-bg: #222624;
+  --field-disabled: #292e2b;
+  --selection-bg: #294b35;
+  --map-panel-bg: rgba(26, 29, 27, 0.96);
+  --media-scrim: rgba(4, 8, 6, 0.68);
+  --media-surface: rgba(17, 22, 19, 0.9);
+}
+
+:root {
+  --border-subtle: var(--border-default);
+  --input-bg: var(--field-bg);
+  --info-border: var(--status-info);
+  --info-soft: var(--status-info-soft);
+  --shadow-sm: 0 8px 24px var(--shadow-color);
+}

@@ -1,0 +1,26 @@
+<main class="broker-cabinet py-8 md:py-4">
+  <div class="max-w-[820px] mx-auto px-4">
+    <header class="cabinet-header">
+      <div><p>Professional profil</p><h1>Makler kabineti</h1></div>
+      <a *ngIf="profile?.id && profile?.is_public" [routerLink]="'/brokers/' + profile.id">Public profilni ko'rish</a>
+    </header>
+    <div *ngIf="!loading && profile" class="verification-row">
+      <span>Tekshiruv holati</span>
+      <strong [class.verified]="profile.verification_status === 'VERIFIED'">{{ verificationLabel }}</strong>
+    </div>
+    <form *ngIf="!loading" [formGroup]="form" class="broker-form" (ngSubmit)="save()">
+      <div class="field">
+        <div class="field-heading">
+          <label for="bio">O'zingiz haqingizda</label>
+          <small aria-live="polite">{{ form.controls.bio.value.length }} / {{ bioMaxLength }}</small>
+        </div>
+        <textarea id="bio" pTextarea rows="6" formControlName="bio" [maxLength]="bioMaxLength" aria-describedby="bio-help"></textarea>
+        <small id="bio-help">Faoliyat tajribangiz va xizmatlaringizni qisqa yozing.</small>
+      </div>
+      <div class="field"><label for="languages">Tillar</label><input id="languages" pInputText formControlName="languagesText" placeholder="O'zbek, Rus, Ingliz" /><small>Vergul bilan ajrating</small></div>
+      <div class="field"><label for="regions">Xizmat hududlari</label><p-multiSelect inputId="regions" class="w-full" styleClass="w-full" [options]="dictionaryService.regions" formControlName="service_region_ids" optionLabel="name" optionValue="id" /></div>
+      <label class="public-toggle"><span><strong>Public profil</strong><small>Profil qidiruv va e'lonlarda ochiladi</small></span><p-toggleswitch formControlName="is_public" /></label>
+      <p-button type="submit" [loading]="saving" [disabled]="form.pristine" styleClass="save-button">Saqlash</p-button>
+    </form>
+  </div>
+</main>
