@@ -1,20 +1,48 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NgForOf, NgIf } from '@angular/common';
-import { IAnnouncementInfo } from '@services/interfaces';
-import { PricePipe } from '@/shared/pipes/price/price.pipe';
+import {
+  LucideBedDouble,
+  LucideBuilding2,
+  LucideCheck,
+  LucideMaximize2,
+  LucideRefrigerator,
+  LucideSnowflake,
+  LucideSparkles,
+  LucideUsers,
+  LucideWashingMachine,
+} from '@lucide/angular';
 
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [NgIf, NgForOf,PricePipe],
+  imports: [
+    NgIf,
+    NgForOf,
+    LucideBedDouble,
+    LucideBuilding2,
+    LucideCheck,
+    LucideMaximize2,
+    LucideRefrigerator,
+    LucideSnowflake,
+    LucideSparkles,
+    LucideUsers,
+    LucideWashingMachine,
+  ],
   templateUrl: './about.component.html',
   styleUrl: './about.component.css',
 })
-export class AboutComponent implements OnInit{
+export class AboutComponent {
   @Input() announcement: any = { lessee_types: [] };
-  ngOnInit(): void {
 
+  get hasAmenities(): boolean {
+    return Boolean(
+      this.announcement?.conditioner
+      || this.announcement?.fridge
+      || this.announcement?.washing_machine,
+    );
   }
-  constructor() {
+
+  get hasTenantConditions(): boolean {
+    return Boolean(this.announcement?.lessee_types?.length || this.announcement?.need_people_count);
   }
 }

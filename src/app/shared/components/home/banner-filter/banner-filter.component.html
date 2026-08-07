@@ -90,11 +90,16 @@
           min="0"
           placeholder="Masalan, 500"
         />
-        <select name="hero-currency" [(ngModel)]="filter.currency" aria-label="Pul birligi">
-          <option *ngFor="let currency of currencyOptions" [value]="currency.value">
-            {{ currency.value }}
-          </option>
-        </select>
+        <p-select
+          inputId="hero-currency"
+          name="hero-currency"
+          [(ngModel)]="filter.currency"
+          [options]="currencyOptions"
+          optionLabel="value"
+          optionValue="value"
+          ariaLabel="Pul birligi"
+          [appendTo]="'body'"
+        />
       </span>
     </label>
 
@@ -162,11 +167,15 @@
             min="0"
             placeholder="Masalan, 500"
           />
-          <select [(ngModel)]="filter.currency" aria-label="Pul birligi">
-            <option *ngFor="let currency of currencyOptions" [value]="currency.value">
-              {{ currency.value }}
-            </option>
-          </select>
+          <p-select
+            inputId="mobile-currency"
+            [(ngModel)]="filter.currency"
+            [options]="currencyOptions"
+            optionLabel="value"
+            optionValue="value"
+            ariaLabel="Pul birligi"
+            [appendTo]="'body'"
+          />
         </div>
       </div>
     </div>

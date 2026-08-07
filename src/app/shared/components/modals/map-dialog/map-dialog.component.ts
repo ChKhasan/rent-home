@@ -1,11 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
 import { AngularYandexMapsModule } from 'angular8-yandex-maps';
 import { NgIf } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
-import { finalize } from 'rxjs';
-import { RequestService } from '@services/request';
-import { environment } from '@environments';
 
 @Component({
   selector: 'app-map-dialog',
@@ -14,21 +11,11 @@ import { environment } from '@environments';
   templateUrl: './map-dialog.component.html',
   styleUrl: './map-dialog.component.css',
 })
-export class MapDialogComponent implements OnInit {
+export class MapDialogComponent {
   public visible: boolean = false;
-  public loading: boolean = false;
   public coords: number[] = [41.31340266251607, 69.28703784942628];
   public mapCenter: number[] = [41.31340266251607, 69.28703784942628];
-  public allTransports: any[] = [];
-  public routes: number[] = [];
-  public metroWays: any[] = [];
-  public busRoutes: any[] = [];
-  public activeBus = false;
-  public transportLoading: boolean = false;
-  public busRoute: any = {};
   @Input() formHandle!: Function;
-
-  constructor(private requestService: RequestService) {}
 
   showDialog() {
     this.visible = true;
@@ -38,100 +25,16 @@ export class MapDialogComponent implements OnInit {
     this.visible = false;
   }
 
-  ngOnInit() {
-    this.requestService.getData(environment.urls.GET_TRANSPORTS).subscribe((response: any) => {
-      this.allTransports = Object.values(response);
-    });
-  }
-
   handleMapClick(event: any) {
     this.coords = event.event.get('coords');
-    this.__GET_LOCATICON_TRANSPORTS(this.transportParams(this.coords));
-  }
-
-  transportParams(coords: number[]) {
-    return {
-      location_x: coords[0],
-      location_y: coords[1],
-      nearby: 500,
-      city: 'tashkent',
-    };
-  }
-
-  __GET_LOCATICON_TRANSPORTS(formData: any) {
-    this.requestService.requestData(environment.urls.POST_LOCATIONBUSES, 'POST', formData).subscribe((response: any) => {
-      this.routes = response.routes;
-      let allBusRoutes: any[] = [];
-      let metroRoutes: any[] = [];
-      let mashRoutes: any[] = [];
-      response.routes.forEach((elem: any) => {
-        let currentBus = this.allTransports.find((item: any) => Number(item.ri) === elem && item.type === 'BUS');
-
-        let currentMash = this.allTransports.find((item: any) => item.ri == elem && item.type == 'MARSHUTKA');
-        let currentMetro = this.allTransports.find((item: any) => item.ri == elem && item.type == 'METRO');
-        if (currentBus) allBusRoutes.push(currentBus);
-        if (currentMetro) metroRoutes.push(currentMetro);
-        if (currentMash) mashRoutes.push(currentMash);
-      });
-      const metroWaysData = metroRoutes.map((item) => {
-        return {
-          name: item.name,
-          type: 'METRO',
-        };
-      });
-      const busRoutesData = allBusRoutes.map((item) => {
-        return {
-          name: item.name,
-          ri: item.ri,
-          type: 'BUS',
-        };
-      });
-      this.metroWays = metroWaysData;
-      this.busRoutes = busRoutesData;
-      const transports = [...metroWaysData, ...busRoutesData];
-      this.formHandle({ transports: transports, coords: this.coords });
-    });
+    this.formHandle({ coords: this.coords });
   }
 
   handleLocation = (location: any) => {
     if (location.lat) {
       this.coords = [location.lat, location.lon];
       this.mapCenter = [location.lat, location.lon];
-      this.handleMapClick({
-        event: {
-          get: () => {
-            return [location.lat, location.lon];
-          },
-        },
-      });
+      this.formHandle({ coords: this.coords });
     }
-  };
-
-  handleBusRoute(number: any) {
-    const formData = {
-      id: number,
-    };
-    this.activeBus = number;
-    this.__GET_BUS_ROUTE(formData, number);
-  }
-
-  __GET_BUS_ROUTE = async (formData: any, number: any) => {
-    this.transportLoading = true;
-    this.busRoute = {};
-    this.requestService
-      .requestData(environment.urls.POST_BUSROUTES, formData)
-      .pipe(
-        finalize(() => {
-          this.transportLoading = false;
-        }),
-      )
-      .subscribe(async (data: any) => {
-        this.busRoute.x = data.scheme.forward.split(' ').map((elem: any) => {
-          return [Number(elem.split(',')[0]), Number(elem.split(',')[1])];
-        });
-        this.busRoute.y = data.scheme.backward.split(' ').map((elem: any) => {
-          return [Number(elem.split(',')[0]), Number(elem.split(',')[1])];
-        });
-      });
   };
 }

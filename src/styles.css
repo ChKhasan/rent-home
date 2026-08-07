@@ -285,6 +285,10 @@ select:disabled,
   border-color: var(--border-default);
 }
 
+body.no-scroll > .p-overlay {
+  z-index: 1200 !important;
+}
+
 .p-dialog-mask {
   background: var(--overlay);
 }

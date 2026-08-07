@@ -1,5 +1,6 @@
 import type { components, paths } from './schema';
 import type { DealType } from '@/core/constants/deal-type';
+import type { AnnouncementLocation } from '@/core/geo';
 
 export type PublisherType = 'OWNER' | 'INDEPENDENT_AGENT' | 'AGENCY_AGENT';
 export type VerificationStatus = 'UNVERIFIED' | 'PENDING' | 'VERIFIED' | 'REJECTED' | 'EXPIRED';
@@ -47,9 +48,9 @@ export interface IPublisherAnnouncementFields {
   last_confirmed_at?: string | null;
 }
 
-export type IAnnouncementInfo = paths['/api/announcement/{id}/']['get']['responses']['200']['content']['application/json'] & IPublisherAnnouncementFields;
-export type IAnnouncementListItem = components['schemas']['Announcement'] & IPublisherAnnouncementFields;
-export type IAnnouncementRequestBody = paths['/api/announcement/']['post']['requestBody']['content']['application/json'] & IPublisherAnnouncementFields;
+export type IAnnouncementInfo = paths['/api/announcement/{id}/']['get']['responses']['200']['content']['application/json'] & IPublisherAnnouncementFields & AnnouncementLocation;
+export type IAnnouncementListItem = components['schemas']['Announcement'] & IPublisherAnnouncementFields & AnnouncementLocation;
+export type IAnnouncementRequestBody = paths['/api/announcement/']['post']['requestBody']['content']['application/json'] & IPublisherAnnouncementFields & AnnouncementLocation;
 
 export type Transport = components['schemas']['Transport'];
 

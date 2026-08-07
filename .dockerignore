@@ -1,0 +1,11 @@
+.env
+.env.*
+!.env.example
+.angular
+dist
+node_modules
+npm-debug.log*
+coverage
+playwright-report
+test-results
+.git

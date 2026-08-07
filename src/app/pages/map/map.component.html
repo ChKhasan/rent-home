@@ -257,8 +257,8 @@
     [style]="{ width: '25rem' }" ariaLabelledBy="map-announcement-title">
     <span id="map-announcement-title" class="sr-only">Tanlangan e'lon</span>
     <button type="button" aria-label="E'lon ma'lumotini yopish" (click)="showInfo = false"
-      class="w-10 h-10 bg-[var(--gray-1)] absolute right-[-39px] top-8 rounded-r-[8px] border-[1px] border-l-[0] border-[color:var(--input-stroke)] border-solid">
-      <i class="map-toolbar-icon pi pi-angle-double-right" [ngClass]="{ 'rotate-180': showToolbar }"></i>
+      class="w-10 h-10 bg-[var(--gray-1)] absolute right-[-39px] top-8 rounded-r-[8px] border-[1px] border-l-[0] border-[color:var(--input-stroke)] border-solid flex items-center justify-center">
+      <svg class="map-toolbar-icon inline-block" lucideChevronsLeft [size]="20" aria-hidden="true"></svg>
     </button>
     <app-announcements-card *ngIf="showInfo" [more]="true" [close]="closeAnnouncementInfo"
       [announcement]="currentAnnouce"></app-announcements-card>

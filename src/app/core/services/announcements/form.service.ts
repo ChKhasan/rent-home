@@ -6,16 +6,15 @@ import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import { RequestService } from '@services/request';
 import { environment } from '@environments';
-import { Transport } from '@/core/interfaces/common.interface';
 import { DEFAULT_DEAL_TYPE } from '@/core/constants/deal-type';
 import { CommissionType, PublisherType } from '@/core/interfaces/common.interface';
+import { toGeoJSONPoint } from '@/core/geo';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FormService {
   public ruleForm = new FormGroup({
-    transports: new FormControl<Transport[]>([]),
     images: new FormControl<string[]>([]),
     title: titleControl,
     partnership: new FormControl(false),
@@ -66,6 +65,10 @@ export class FormService {
     const value = {
       ...this.ruleForm.value,
       agency: this.agencyId,
+      location: toGeoJSONPoint(
+        this.ruleForm.controls.location_x.value,
+        this.ruleForm.controls.location_y.value,
+      ),
     };
     if (value.publisher_type === 'OWNER') {
       value.agency = null;

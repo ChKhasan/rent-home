@@ -1,53 +1,106 @@
-<div class="flex flex-col justify-between price-block h-full rounded-2xl bg-white px-4 py-4 border-[1px] border-[--grey-300] border-solid">
-  <div>
-    <div class="map h-[396px] md:h-[300px] rounded-xl border border-solid border-[--grey-3] overflow-hidden" *ngIf="announcement?.location_x && !loading">
-      <ya-map [center]="[announcement.location_x, announcement.location_y]" [zoom]="zoom">
-        <ya-placemark [geometry]="[announcement.location_x, announcement.location_y]"></ya-placemark>
-      </ya-map>
+<section class="price-block" aria-labelledby="location-section-title">
+  <header class="location-header">
+    <div>
+      <span>Joylashuv</span>
+      <h2 id="location-section-title">Manzil va yaqin transport</h2>
     </div>
-    <div class="flex flex-col gap-4 mt-6">
-      <h5 class="font-medium text-[28px] md:text-xl flex gap-[5px]">
-        {{ announcement?.address }}
-      </h5>
-      <div class="flex gap-2 md:gap-4 items-center">
-        <span class="flex gap-2 items-center text-2xl md:text-base">
-          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="0.5" y="0.5" width="47" height="47" rx="7.5" stroke="#D0D5DD" />
-            <g clip-path="url(#clip0_302_13893)">
-              <path
-                d="M31.6107 32.132C31.3413 32.3347 31.024 32.436 30.6587 32.436C30.336 32.436 30.0302 32.3347 29.7413 32.132C29.4507 31.9284 29.3053 31.6351 29.3053 31.252V20.8347H29.2747L25.296 28.9107C25.1767 29.1703 25.0014 29.4002 24.7827 29.584C24.5898 29.7333 24.3329 29.808 24.012 29.808C23.692 29.808 23.4356 29.7333 23.2427 29.584C23.0236 29.4006 22.8482 29.1705 22.7293 28.9107L18.7507 20.836H18.72V31.2507C18.7274 31.424 18.6897 31.5962 18.6104 31.7505C18.5312 31.9048 18.4132 32.0358 18.268 32.1307C17.9954 32.3254 17.6697 32.4319 17.3347 32.436C16.9684 32.436 16.6564 32.3347 16.3987 32.132C16.1409 31.9284 16.012 31.6351 16.012 31.252V17.2773C16.012 16.8711 16.1409 16.492 16.3987 16.14C16.6547 15.788 17.1151 15.612 17.78 15.612C18.2733 15.612 18.6538 15.724 18.9213 15.948C19.188 16.1729 19.4289 16.5093 19.644 16.9573L24.0133 25.9627H24.0453L28.3827 16.9573C28.596 16.5093 28.8373 16.1729 29.1067 15.948C29.3733 15.724 29.7533 15.612 30.2467 15.612C30.9116 15.612 31.372 15.788 31.628 16.14C31.8858 16.4938 32.0147 16.8733 32.0147 17.2787V31.2493C32.0147 31.6342 31.8804 31.9276 31.612 32.1293L31.6107 32.132ZM23.968 37.6733C31.512 37.6733 37.6733 31.4867 37.6733 23.904C37.6733 16.4107 31.536 10.3267 23.968 10.3267C16.4027 10.3267 10.328 16.3747 10.328 23.904C10.328 31.3573 16.6147 37.6733 23.968 37.6733ZM23.968 40C15.3267 40 8 32.64 8 23.904C8 15.0867 15.12 8 23.968 8C32.816 8 40 15.12 40 23.904C40 32.7693 32.8 40 23.968 40Z"
-                fill="#475367"
-              />
-            </g>
-            <defs>
-              <clipPath id="clip0_302_13893">
-                <rect width="32" height="32" fill="white" transform="translate(8 8)" />
-              </clipPath>
-            </defs>
-          </svg>
-          Metro:
-        </span>
-        <span class="gap-1 text-lg border border-solid border-[--green-100] rounded-xl h-8 px-3 flex items-center">Yunusobod</span>
-      </div>
-      <div class="flex gap-2 items-center">
-        <span class="flex gap-2 items-center text-2xl md:text-base">
-          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="0.5" y="0.5" width="47" height="47" rx="7.5" stroke="#D0D5DD" />
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M17.3333 13.3333C16.597 13.3333 16 13.9303 16 14.6667V28C16 28.7364 16.597 29.3333 17.3333 29.3333H30.6667C31.403 29.3333 32 28.7364 32 28V14.6667C32 13.9303 31.403 13.3333 30.6667 13.3333H17.3333ZM18.6667 26.6667V16H29.3333V26.6667H18.6667Z" fill="#475367" />
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M16 9.33333C13.7909 9.33333 12 11.1242 12 13.3333V24.8449C11.4901 24.5502 10.8268 24.6209 10.3905 25.0572C9.86983 25.5779 9.86983 26.4221 10.3905 26.9428L12 28.5523V32C12 33.7416 13.1131 35.2233 14.6667 35.7724V36C14.6667 37.4728 15.8606 38.6667 17.3333 38.6667H18.6667C20.1394 38.6667 21.3333 37.4728 21.3333 36H26.6667C26.6667 37.4728 27.8606 38.6667 29.3333 38.6667H30.6667C32.1394 38.6667 33.3333 37.4728 33.3333 36V35.7724C34.8869 35.2233 36 33.7416 36 32V28.5523L37.6095 26.9428C38.1302 26.4221 38.1302 25.5779 37.6095 25.0572C37.1732 24.6209 36.5099 24.5502 36 24.8449V13.3333C36 11.1242 34.2091 9.33333 32 9.33333H16ZM14.6667 13.3333C14.6667 12.5969 15.2636 12 16 12H32C32.7364 12 33.3333 12.5969 33.3333 13.3333V32C33.3333 32.7364 32.7364 33.3333 32 33.3333H16C15.2636 33.3333 14.6667 32.7364 14.6667 32V13.3333Z" fill="#475367" />
-          </svg>
+    <a routerLink="/map" [queryParams]="mapQueryParams" class="map-link">
+      <svg lucideMap [size]="19" aria-hidden="true"></svg>
+      <span>Xaritada ko‘rish</span>
+      <svg lucideArrowUpRight [size]="16" aria-hidden="true"></svg>
+    </a>
+  </header>
 
-          Avtobuslar:
-        </span>
-        <span class="gap-1 text-lg border border-solid border-[--green-100] rounded-xl h-8 px-3 flex items-center">91</span>
-        <span class="gap-1 text-lg border border-solid border-[--green-100] rounded-xl h-8 px-3 flex items-center">131</span>
-      </div>
+  <p class="location-address">
+    <svg lucideMapPin [size]="20" aria-hidden="true"></svg>
+    <span>{{ announcement?.address || 'Manzil ko‘rsatilmagan' }}</span>
+  </p>
+
+  <div class="map" *ngIf="!loading && mapCenter as center">
+    <div class="route-map-status" *ngIf="routeLoadingId" role="status" aria-live="polite">
+      <svg lucideLoaderCircle [size]="17" aria-hidden="true"></svg>
+      <span>Yo‘nalish yuklanmoqda</span>
+    </div>
+    <ya-map [center]="center" [zoom]="zoom" (ready)="onMapReady($event)">
+      <ya-placemark [geometry]="center"
+        [properties]="{ hintContent: 'E’lon manzili', balloonContentHeader: 'E’lon manzili', balloonContentBody: announcement?.address || '' }"
+        [options]="propertyMarkerOptions"></ya-placemark>
+      <ng-container *ngIf="activeRoute as route">
+        <ya-geoobject *ngIf="route.forward.length" [feature]="{ geometry: { type: 'LineString', coordinates: route.forward } }" [options]="route.style.forward"></ya-geoobject>
+        <ya-geoobject *ngIf="route.backward.length" [feature]="{ geometry: { type: 'LineString', coordinates: route.backward } }" [options]="route.style.backward"></ya-geoobject>
+        <ya-geoobject *ngIf="walkingRouteStatus === 'fallback'"
+          [feature]="{ geometry: { type: 'LineString', coordinates: route.connector } }"
+          [options]="connectorOptions"></ya-geoobject>
+        <ya-geoobject *ngIf="route.walkingPath as walkingPath"
+          [feature]="{ geometry: { type: 'LineString', coordinates: walkingPath } }"
+          [options]="walkingPathOptions"></ya-geoobject>
+        <ya-multiroute *ngIf="!route.walkingPath && walkingRouteStatus !== 'fallback'"
+          [referencePoints]="[center, route.nearestPoint]"
+          [model]="walkingRouteModel"
+          [options]="walkingRouteOptions"
+          (ready)="onWalkingRouteReady($event)"></ya-multiroute>
+        <ya-placemark [geometry]="route.nearestPoint"
+          [properties]="{
+            iconCaption: route.transport.name,
+            hintContent: transportRouteTitle(route.transport),
+            balloonContentHeader: transportRouteTitle(route.transport),
+            balloonContentBody: routeDistanceText(route)
+          }"
+          [options]="route.style.marker"></ya-placemark>
+      </ng-container>
+    </ya-map>
+    <div class="map-route-legend" *ngIf="activeRoute as route" aria-label="Yo‘nalish chiziqlari">
+      <span><i class="map-route-legend__line map-route-legend__line--forward"
+        [style.background-color]="route.style.color"></i>Borish</span>
+      <span><i class="map-route-legend__line map-route-legend__line--backward"
+        [style.border-top-color]="route.style.color"></i>Qaytish</span>
     </div>
   </div>
 
-  <a [routerLink]="'/map'" [queryParams]="{ announcement: announcement?.id }" class="btn mt-6 cursor-pointer py-[14px] md:py-3 md:mt-6 w-full bg-[#fff] text-base md:text-sm border border-solid border-[--grey-300] text-[#000] font-600 flex justify-center gap-2 px-0 rounded-lg">
-    <svg _ngcontent-ng-c3016750896="" width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path _ngcontent-ng-c3016750896="" fill-rule="evenodd" clip-rule="evenodd" d="M4.85987 2.27805C3.53266 1.64605 2 2.61377 2 4.08377V15.7134C2 16.8705 2.66548 17.9245 3.7102 18.422L8.27007 20.5933C8.4406 20.6745 8.63065 20.7058 8.81821 20.6835L16.1311 19.8129L20.1401 21.7219C21.4673 22.3539 23 21.3862 23 19.9162V8.2866C23 7.12948 22.3345 6.07551 21.2898 5.57802L16.7299 3.40665C16.5634 3.32736 16.3782 3.29566 16.1948 3.31507L11.9198 3.76745C11.9099 3.76849 11.9 3.76969 11.8902 3.77103L8.86068 4.1832L4.85987 2.27805ZM21 19.9162L17.3 18.1543V5.8933L20.4299 7.38374C20.7782 7.54957 21 7.90089 21 8.2866V19.9162ZM15.3 17.8977V5.42092L12.145 5.75478L9.7 6.08744V18.5644L15.3 17.8977ZM4 4.08377L7.7 5.84568V18.1067L4.57007 16.6162C4.22183 16.4504 4 16.0991 4 15.7134V4.08377Z" fill="currentColor"></path></svg>
-    Xaritada ko‘rish
-  </a>
-</div>
+  <div class="location-content" *ngIf="!loading">
+    <div class="transport-list" *ngIf="transportGroups.length > 0">
+      <div class="transport-row" *ngFor="let group of transportGroups">
+        <span class="transport-label">
+          <span class="transport-icon" aria-hidden="true">
+            <svg *ngIf="group.type === 'METRO'" lucideTrainFront [size]="21"></svg>
+            <svg *ngIf="group.type === 'BUS'" lucideBusFront [size]="21"></svg>
+            <svg *ngIf="group.type === 'MARSHUTKA'" lucideCarTaxiFront [size]="21"></svg>
+          </span>
+          {{ group.label }}
+          <span class="transport-count">{{ group.items.length }}</span>
+        </span>
+        <span class="transport-values" [attr.aria-label]="group.label">
+          <ng-container *ngFor="let transport of group.items; trackBy: trackTransport">
+            <button *ngIf="isRouteSelectable(transport); else staticTransport" type="button" class="transport-chip transport-chip--button"
+              [class.transport-chip--active]="isRouteSelected(transport)" [disabled]="isRouteLoading(transport)"
+              [attr.aria-pressed]="isRouteSelected(transport)"
+              [title]="transportRouteTitle(transport) + ' yo‘nalishini xaritada ko‘rsatish'"
+              (click)="selectTransportRoute(transport)">
+              {{ transport.name }}
+              <svg *ngIf="isRouteLoading(transport)" class="transport-chip__spinner" lucideLoaderCircle [size]="14" aria-hidden="true"></svg>
+            </button>
+            <ng-template #staticTransport><span class="transport-chip">{{ transport.name }}</span></ng-template>
+          </ng-container>
+        </span>
+      </div>
+    </div>
+
+    <div class="route-summary" *ngIf="activeRoute as route" aria-live="polite">
+      <span class="route-summary__icon" aria-hidden="true"><svg lucideRoute [size]="20"></svg></span>
+      <span class="route-summary__copy">
+        <strong>{{ transportRouteTitle(route.transport) }}</strong>
+        <span *ngIf="walkingRouteStatus === 'loading'">
+          Piyoda yo‘li hisoblanmoqda
+          <svg class="route-summary__spinner" lucideLoaderCircle [size]="13" aria-hidden="true"></svg>
+        </span>
+        <span *ngIf="walkingRouteStatus === 'ready'">Yo‘nalishgacha piyoda: <b>{{ routeDistance(route) }}</b></span>
+        <span *ngIf="walkingRouteStatus === 'fallback'">Piyoda yo‘lini aniqlab bo‘lmadi. Taxminiy masofa: <b>{{ routeDistance(route) }}</b></span>
+      </span>
+      <button type="button" class="route-summary__close" title="Yo‘nalishni yopish" aria-label="Yo‘nalishni yopish" (click)="clearSelectedRoute()">
+        <svg lucideX [size]="18" aria-hidden="true"></svg>
+      </button>
+    </div>
+    <p class="route-error" *ngIf="routeError" role="alert">{{ routeError }}</p>
+  </div>
+</section>
 <app-auth-dialog></app-auth-dialog>

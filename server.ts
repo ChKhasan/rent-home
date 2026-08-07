@@ -12,12 +12,23 @@ export function app(): express.Express {
   const browserDistFolder = resolve(serverDistFolder, '../browser');
   const indexHtml = join(serverDistFolder, 'index.server.html');
 
+  const configuredHosts = (process.env['NG_ALLOWED_HOSTS'] ?? '')
+    .split(',')
+    .map((host) => host.trim())
+    .filter(Boolean);
   const commonEngine = new CommonEngine({
-    allowedHosts: ['localhost', '127.0.0.1', 'nexthome.uz', 'www.nexthome.uz'],
+    allowedHosts: configuredHosts.length
+      ? configuredHosts
+      : ['localhost', '127.0.0.1', 'nexthome.uz', 'www.nexthome.uz'],
   });
 
+  server.set('trust proxy', 1);
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
+
+  server.get('/health/live', (_req, res) => {
+    res.status(200).json({ status: 'ok' });
+  });
 
   server.get('/assets/runtime-config.js', (_req, res) => {
     const config = JSON.stringify({

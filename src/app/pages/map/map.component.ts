@@ -22,14 +22,15 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { DealTypeService } from '@/core/services/deal-type/deal-type.service';
 import { DealType, DEFAULT_DEAL_TYPE, isDealType } from '@/core/constants/deal-type';
 import { DealTypeSwitcherComponent } from '@components/deal-type-switcher/deal-type-switcher.component';
-import { LucideBusFront, LucideCarTaxiFront, LucideTrainFront } from '@lucide/angular';
+import { LucideBusFront, LucideCarTaxiFront, LucideChevronsLeft, LucideTrainFront } from '@lucide/angular';
+import { resolveAnnouncementCoordinates } from '@/core/geo';
 
 type TransportToggleKey = 'showBus' | 'showSubway' | 'showMiniBus';
 
 @Component({
   selector: 'app-map',
   standalone: true,
-  imports: [NgClass, MultiSelectModule, RouterLink, DialogModule, FormsModule, SelectButtonModule, AngularYandexMapsModule, NgIf, NgForOf, ButtonModule, StyleClassModule, BadgeModule, AnnouncementsCardComponent, DealTypeSwitcherComponent, LucideBusFront, LucideCarTaxiFront, LucideTrainFront],
+  imports: [NgClass, MultiSelectModule, RouterLink, DialogModule, FormsModule, SelectButtonModule, AngularYandexMapsModule, NgIf, NgForOf, ButtonModule, StyleClassModule, BadgeModule, AnnouncementsCardComponent, DealTypeSwitcherComponent, LucideBusFront, LucideCarTaxiFront, LucideChevronsLeft, LucideTrainFront],
   templateUrl: './map.component.html',
   styleUrl: './map.component.css',
 })
@@ -378,14 +379,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private normalizeAnnouncement(item: any): any | null {
-    const latitude = Number(item?.location_x);
-    const longitude = Number(item?.location_y);
-    const hasValidCoordinates =
-      Number.isFinite(latitude) &&
-      Number.isFinite(longitude) &&
-      Math.abs(latitude) <= 90 &&
-      Math.abs(longitude) <= 180;
-    if (!hasValidCoordinates) return null;
+    const coordinates = resolveAnnouncementCoordinates(item);
+    if (!coordinates) return null;
+    const [latitude, longitude] = coordinates;
     return { ...item, location_x: latitude, location_y: longitude, geometry: [latitude, longitude] };
   }
 

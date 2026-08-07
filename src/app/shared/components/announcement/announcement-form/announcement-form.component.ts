@@ -20,7 +20,7 @@ import { environment } from '@environments';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MapDialogComponent } from '../../modals/map-dialog/map-dialog.component';
 import { RequestService } from '@services/request';
-import { CommissionType, IGendersList, PublisherType, Transport, VerificationStatus } from '@services/interfaces';
+import { CommissionType, IGendersList, PublisherType, VerificationStatus } from '@services/interfaces';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { SelectModule } from 'primeng/select';
 import { MultiSelectModule } from 'primeng/multiselect';
@@ -29,6 +29,7 @@ import { ValidationErrorAnimation } from '@/core/common/animations';
 import { currenyTypes } from '@/core/constants/currency';
 import { DEFAULT_DEAL_TYPE, DEAL_TYPE_OPTIONS, DealType } from '@/core/constants/deal-type';
 import { finalize } from 'rxjs';
+import { resolveAnnouncementCoordinates } from '@/core/geo';
 
 @Component({
   selector: 'app-announcement-form',
@@ -65,11 +66,6 @@ export class AnnouncementFormComponent implements OnInit {
   private readonly id: number | string | null;
   public agencyId: number | null = null;
   public isAgencyMode = false;
-  formState = {
-    transports: [],
-    location_y: null,
-    location_x: null,
-  };
   @ViewChild(MapDialogComponent) mapDialogComponent!: MapDialogComponent;
   @Input() isEdit: boolean = false;
   public announcement!: any;
@@ -98,7 +94,6 @@ export class AnnouncementFormComponent implements OnInit {
 
   ngOnInit() {
     this.ruleForm.reset({
-      transports: [],
       images: [],
       title: '',
       partnership: false,
@@ -140,6 +135,7 @@ export class AnnouncementFormComponent implements OnInit {
     if (this.isEdit) {
       const detailUrl = this.isAgencyMode ? environment.authUrls.GET_AGENCY_ANNOUNCEMENTS : environment.authUrls.GET_MY_ANNONCEMENTS;
       this.requestService.getData<any>(detailUrl + this.id + `/`).subscribe((response: any): void => {
+        const coordinates = resolveAnnouncementCoordinates(response);
         this.announcement = response;
         this.status = response?.status;
         this.uploadedFiles = response.images;
@@ -148,15 +144,14 @@ export class AnnouncementFormComponent implements OnInit {
         this._formControl.setAgencyContext(this.agencyId);
         this.ruleForm.patchValue({
           lessee_types: response.lessee_types.map((elem: any) => elem.id),
-          transports: response.transports as Transport[],
           images: [],
           title: response.title,
           partnership: response.partnership,
           need_people_count: response.need_people_count,
           room_count: response.room_count,
           address: response.address,
-          location_x: typeof response.location_x === 'string' ? parseFloat(response.location_x) : response.location_x || null,
-          location_y: typeof response.location_y === 'string' ? parseFloat(response.location_y) : response.location_y || null,
+          location_x: coordinates?.[0] ?? null,
+          location_y: coordinates?.[1] ?? null,
           currency: response.currency,
           total_price: response.total_price,
           price_for_one: response.price_for_one,
@@ -452,7 +447,6 @@ export class AnnouncementFormComponent implements OnInit {
 
   formHandle = (obj: any) => {
     this.ruleForm.patchValue({
-      transports: obj.transports,
       location_x: obj.coords[0],
       location_y: obj.coords[1],
     });

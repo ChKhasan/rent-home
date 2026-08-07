@@ -19,4 +19,16 @@ describe('MapDialogComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('passes only selected coordinates to the announcement form', () => {
+    component.formHandle = jasmine.createSpy('formHandle');
+
+    component.handleMapClick({
+      event: { get: () => [41.3134, 69.28704] },
+    });
+
+    expect(component.formHandle).toHaveBeenCalledOnceWith({
+      coords: [41.3134, 69.28704],
+    });
+  });
 });

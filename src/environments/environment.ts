@@ -17,6 +17,7 @@ export const environment = {
     GET_COMMENTS: '/api/comment/',
     POST_LOCATIONBUSES: '/api/buses/',
     POST_BUSROUTES: '/api/bus/',
+    GET_WALKING_ROUTE: 'https://routing.openstreetmap.de/routed-foot/route/v1/driving',
     GET_GENDERS: '/api/lessee-types/',
     GET_REGIONS: '/api/regions/',
     GET_MIN_MAX_PRICE: '/api/max-and-min-price/announcement',

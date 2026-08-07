@@ -8,6 +8,7 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { AvatarModule } from 'primeng/avatar';
 import { CommentBlockComponent } from '../comment-block/comment-block.component';
 import { SkeletonModule } from 'primeng/skeleton';
+import { resolveAnnouncementCoordinates } from '@/core/geo';
 
 @Component({
   selector: 'app-info-tab',
@@ -26,6 +27,10 @@ export class InfoTabComponent {
   @ViewChild(CommentBlockComponent)
   commentBlockComponent!: CommentBlockComponent;
   @Input() announcement: any;
+
+  get mapCenter(): [number, number] | null {
+    return resolveAnnouncementCoordinates(this.announcement);
+  }
 
   constructor(public authService: AuthService) {}
 

@@ -1,24 +1,22 @@
 import { Component, Input, ViewChild } from '@angular/core';
-import { ButtonModule } from 'primeng/button';
 import { NgIf } from '@angular/common';
-import { SkeletonModule } from 'primeng/skeleton';
 import { AuthDialogComponent } from '../../modals/auth-dialog/auth-dialog.component';
-import { AngularYandexMapsModule } from 'angular8-yandex-maps';
 import { AuthService } from '@/core/services/auth/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { ChatUrlService } from '@/core/services/chatUrl/chatUrl.service';
 import { PublisherMetaComponent } from '../publisher-meta/publisher-meta.component';
+import { LucideBadgeCheck, LucideExternalLink, LucideMessageCircle, LucidePhone } from '@lucide/angular';
 @Component({
   selector: 'app-user-card',
   standalone: true,
-  imports: [ButtonModule, AngularYandexMapsModule, NgIf, SkeletonModule, AuthDialogComponent, PublisherMetaComponent, RouterLink],
+  imports: [NgIf, AuthDialogComponent, PublisherMetaComponent, RouterLink, LucideBadgeCheck, LucideExternalLink, LucideMessageCircle, LucidePhone],
   templateUrl: './user-card.component.html',
   styleUrl: './user-card.component.css',
 })
 export class UserCardComponent {
   @Input() announcement!: any;
+  @Input() hideMobileActions = false;
   public showNumber: boolean = false;
-  public loading: boolean = false;
   @ViewChild(AuthDialogComponent) authDialogComponent!: AuthDialogComponent;
   constructor(public authService: AuthService, private router: Router, private chatUrlService: ChatUrlService) {}
 
@@ -51,7 +49,8 @@ export class UserCardComponent {
     return null;
   }
   toChat() {
-    if (this.authService.auth && this.authService.user.id) {
+    if (!this.contactUserId || this.authService.user?.id === this.contactUserId) return;
+    if (this.authService.auth && this.authService.user?.id) {
       this.chatUrlService.save(this.announcement?.id, {
         id: this.contactUserId!,
         name: this.displayName,
