@@ -12,7 +12,15 @@ import { LucideArrowUpRight, LucideBusFront, LucideCarTaxiFront, LucideLoaderCir
 import { RequestService } from '@services/request';
 import { environment } from '@environments';
 import { finalize, Subscription } from 'rxjs';
-import { findNearestRoutePoint, formatRouteDistance, MapCoordinate, parseRoutePath } from './transport-route.utils';
+import {
+  findNearestRoutePoint,
+  findNearestRouteStop,
+  formatRouteDistance,
+  MapCoordinate,
+  parseRoutePath,
+  parseRouteStops,
+  RouteStop,
+} from './transport-route.utils';
 import { resolveAnnouncementCoordinates } from '@/core/geo';
 
 type TransportType = Transport['type'];
@@ -25,9 +33,10 @@ interface TransportGroup {
 
 interface TransportRouteStyle {
   color: string;
-  forward: Record<string, string | number>;
-  backward: Record<string, string | number>;
-  marker: Record<string, string | number>;
+  forward: Record<string, unknown>;
+  backward: Record<string, unknown>;
+  stop: Record<string, unknown>;
+  marker: Record<string, unknown>;
 }
 
 interface ActiveTransportRoute {
@@ -35,16 +44,18 @@ interface ActiveTransportRoute {
   style: TransportRouteStyle;
   forward: MapCoordinate[];
   backward: MapCoordinate[];
+  stops: RouteStop[];
+  nearestStop: RouteStop | null;
   nearestPoint: MapCoordinate;
-  connector: MapCoordinate[];
   distanceMeters: number;
   walkingDistanceMeters?: number;
   walkingPath?: MapCoordinate[];
 }
 
-type WalkingRouteStatus = 'idle' | 'loading' | 'ready' | 'fallback';
+type WalkingRouteStatus = 'idle' | 'loading' | 'ready' | 'error';
 
 interface TransportRouteResponse {
+  stops?: unknown;
   scheme?: {
     forward?: unknown;
     backward?: unknown;
@@ -52,13 +63,12 @@ interface TransportRouteResponse {
 }
 
 interface WalkingRouteResponse {
-  code?: string;
-  routes?: Array<{
-    distance?: unknown;
-    geometry?: {
-      coordinates?: unknown;
-    };
-  }>;
+  distance_meters?: unknown;
+  duration_seconds?: unknown;
+  geometry?: {
+    type?: unknown;
+    coordinates?: unknown;
+  };
 }
 
 interface AnnouncementUser {
@@ -82,19 +92,38 @@ const TRANSPORT_LABELS: Record<TransportType, string> = {
 };
 
 const TRANSPORT_ORDER: TransportType[] = ['METRO', 'BUS', 'MARSHUTKA'];
+const STOP_MARKER_MIN_ZOOM = 14;
 const TRANSPORT_COLLATOR = new Intl.Collator('uz', { numeric: true, sensitivity: 'base' });
+const STOP_ICON_PATHS: Record<TransportType, string> = {
+  BUS: '<path d="M4 6 2 7"/><path d="M10 6h4"/><path d="m22 7-2-1"/><rect width="16" height="16" x="4" y="3" rx="2"/><path d="M4 11h16"/><path d="M8 15h.01"/><path d="M16 15h.01"/><path d="M6 19v2"/><path d="M18 21v-2"/>',
+  MARSHUTKA: '<path d="M10 2h4"/><path d="m21 8-2 2-1.5-3.7A2 2 0 0 0 15.646 5H8.4a2 2 0 0 0-1.903 1.257L5 10 3 8"/><path d="M7 14h.01"/><path d="M17 14h.01"/><rect width="18" height="8" x="3" y="10" rx="2"/><path d="M5 18v2"/><path d="M19 18v2"/>',
+  METRO: '<path d="M8 3.1V7a4 4 0 0 0 8 0V3.1"/><path d="m9 15-1-1"/><path d="m15 15 1-1"/><path d="M9 19c-2.8 0-5-2.2-5-5v-4a8 8 0 0 1 16 0v4c0 2.8-2.2 5-5 5Z"/><path d="m8 19-2 3"/><path d="m16 19 2 3"/>',
+};
 const TRANSPORT_ROUTE_STYLES: Record<TransportType, TransportRouteStyle> = {
-  BUS: createRouteStyle('#168a4f', 'islands#blueMassTransitIcon'),
-  MARSHUTKA: createRouteStyle('#2563eb', 'islands#blueAutoIcon'),
-  METRO: createRouteStyle('#dc2626', 'islands#blueRapidTransitIcon'),
+  BUS: createRouteStyle('BUS', '#168a4f', 'islands#blueMassTransitIcon'),
+  MARSHUTKA: createRouteStyle('MARSHUTKA', '#2563eb', 'islands#blueAutoIcon'),
+  METRO: createRouteStyle('METRO', '#dc2626', 'islands#blueRapidTransitIcon'),
 };
 
-function createRouteStyle(color: string, markerPreset: string): TransportRouteStyle {
+function createRouteStyle(type: TransportType, color: string, markerPreset: string): TransportRouteStyle {
   return {
     color,
     forward: { strokeColor: color, strokeWidth: 5, strokeOpacity: 0.92 },
     backward: { strokeColor: color, strokeWidth: 5, strokeOpacity: 0.76, strokeStyle: 'shortdash' },
-    marker: { preset: markerPreset, iconColor: color, iconCaptionMaxWidth: 120 },
+    stop: createStopMarkerOptions(type, color),
+    marker: { preset: markerPreset, iconColor: color, iconCaptionMaxWidth: 160, zIndex: 140 },
+  };
+}
+
+function createStopMarkerOptions(type: TransportType, color: string): Record<string, unknown> {
+  // Yandex marker images render outside Angular, so the matching Lucide geometry is embedded here.
+  const icon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="1" y="1" width="22" height="22" rx="6" fill="${color}" stroke="white" stroke-width="2"/><g transform="translate(4 4) scale(.6667)" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">${STOP_ICON_PATHS[type]}</g></svg>`;
+  return {
+    iconLayout: 'default#image',
+    iconImageHref: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(icon)}`,
+    iconImageSize: [20, 20],
+    iconImageOffset: [-10, -10],
+    zIndex: 110,
   };
 }
 
@@ -148,43 +177,13 @@ export class PriceBlockComponent implements OnDestroy {
   public routeLoadingId: number | null = null;
   public routeError = '';
   public walkingRouteStatus: WalkingRouteStatus = 'idle';
+  public showRouteStops = false;
   public readonly propertyMarkerOptions = { preset: 'islands#redHomeIcon', iconColor: '#dc2626' };
-  public readonly connectorOptions = { strokeColor: '#111827', strokeWidth: 2, strokeOpacity: 0.72, strokeStyle: 'shortdash' };
   public readonly walkingPathOptions = { strokeColor: '#111827', strokeWidth: 4, strokeOpacity: 0.9, strokeStyle: 'shortdash' };
-  public readonly walkingRouteModel = {
-    params: {
-      routingMode: 'pedestrian' as const,
-      results: 1,
-      reverseGeocoding: false,
-    },
-  };
-  public readonly walkingRouteOptions = {
-    boundsAutoApply: false,
-    preventDragUpdate: true,
-    wayPointVisible: false,
-    viaPointVisible: false,
-    routeActiveMarkerVisible: false,
-    routeOpenBalloonOnClick: false,
-    routeStrokeColor: '#4b5563',
-    routeStrokeWidth: 3,
-    routeActiveStrokeColor: '#111827',
-    routeActiveStrokeWidth: 4,
-    routePedestrianSegmentStrokeColor: '#4b5563',
-    routePedestrianSegmentStrokeStyle: 'shortdash',
-    routePedestrianSegmentStrokeWidth: 3,
-    routeActivePedestrianSegmentStrokeColor: '#111827',
-    routeActivePedestrianSegmentStrokeStyle: 'shortdash',
-    routeActivePedestrianSegmentStrokeWidth: 4,
-  };
   private mapInstance: any;
   private routeRequest?: Subscription;
   private walkingRouteRequest?: Subscription;
   private routeRequestVersion = 0;
-  private walkingFallbackRequestVersion: number | null = null;
-  private walkingRouteInstance: any;
-  private walkingRouteSuccess?: () => void;
-  private walkingRouteFailure?: () => void;
-  private walkingRouteTimeout?: ReturnType<typeof setTimeout>;
   constructor(
     private router: Router,
     public authService: AuthService,
@@ -196,7 +195,6 @@ export class PriceBlockComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.routeRequest?.unsubscribe();
     this.walkingRouteRequest?.unsubscribe();
-    this.detachWalkingRouteListeners();
   }
   openAuthDialog() {
     this.authDialogComponent.showDialog();
@@ -233,6 +231,14 @@ export class PriceBlockComponent implements OnDestroy {
     return transport.id;
   }
 
+  trackRouteStop(_index: number, stop: RouteStop): string {
+    return stop.key;
+  }
+
+  isNearestStop(route: ActiveTransportRoute, stop: RouteStop): boolean {
+    return route.nearestStop?.key === stop.key;
+  }
+
   get mapQueryParams(): Record<string, string | number | null> {
     return {
       announcement: this.announcement?.id ?? null,
@@ -242,7 +248,13 @@ export class PriceBlockComponent implements OnDestroy {
 
   onMapReady(event: { target: any }): void {
     this.mapInstance = event.target;
+    this.updateRouteStopVisibility(this.mapInstance?.getZoom?.());
     if (this.activeRoute) this.fitMapToRoute();
+  }
+
+  onMapBoundsChange(event: { target?: any; event?: any }): void {
+    const zoom = event.event?.get?.('newZoom') ?? event.target?.getZoom?.();
+    this.updateRouteStopVisibility(zoom);
   }
 
   isRouteSelectable(transport: Transport): boolean {
@@ -264,9 +276,16 @@ export class PriceBlockComponent implements OnDestroy {
   }
 
   routeDistanceText(route: ActiveTransportRoute): string {
-    if (this.walkingRouteStatus === 'ready') return `Piyoda yo‘li: ${this.routeDistance(route)}`;
+    if (this.walkingRouteStatus === 'ready') {
+      const destination = route.nearestStop ? 'Bekatgacha' : 'Yo‘nalishgacha';
+      return `${destination} piyoda: ${this.routeDistance(route)}`;
+    }
     if (this.walkingRouteStatus === 'loading') return 'Piyoda yo‘li hisoblanmoqda';
-    return `Taxminiy masofa: ${this.routeDistance(route)}`;
+    return 'Piyoda yo‘lini hisoblab bo‘lmadi';
+  }
+
+  stopDirectionLabel(stop: RouteStop): string {
+    return stop.direction === 'forward' ? 'Borish bekati' : 'Qaytish bekati';
   }
 
   transportRouteTitle(transport: Transport): string {
@@ -306,16 +325,19 @@ export class PriceBlockComponent implements OnDestroy {
             this.routeError = "Bu transport yo'nalishini hozir xaritada ko'rsatib bo'lmadi.";
             return;
           }
+          const stops = parseRouteStops(response?.stops);
+          const stopProximity = findNearestRouteStop(this.mapCenter, stops);
           this.activeRoute = {
             transport,
             style: TRANSPORT_ROUTE_STYLES[transport.type],
             forward,
             backward,
-            nearestPoint: proximity.nearestPoint,
-            connector: [this.mapCenter, proximity.nearestPoint],
-            distanceMeters: proximity.distanceMeters,
+            stops,
+            nearestStop: stopProximity?.stop ?? null,
+            nearestPoint: stopProximity?.stop.coordinate ?? proximity.nearestPoint,
+            distanceMeters: stopProximity?.distanceMeters ?? proximity.distanceMeters,
           };
-          this.walkingRouteStatus = 'loading';
+          this.loadWalkingRoute(requestVersion, this.activeRoute);
           setTimeout(() => this.fitMapToRoute());
         },
         error: () => {
@@ -331,37 +353,6 @@ export class PriceBlockComponent implements OnDestroy {
     if (this.mapCenter && this.mapInstance) {
       this.mapInstance.setCenter(this.mapCenter, this.zoom, { duration: 250, checkZoomRange: true });
     }
-  }
-
-  onWalkingRouteReady(event: { target: any }): void {
-    this.detachWalkingRouteListeners();
-    const walkingRoute = event.target;
-    const requestVersion = this.routeRequestVersion;
-    this.walkingRouteInstance = walkingRoute;
-    this.walkingRouteSuccess = () => this.ngZone.run(() => {
-      if (requestVersion !== this.routeRequestVersion || walkingRoute !== this.walkingRouteInstance) return;
-      const distance = walkingRoute.getActiveRoute()?.properties.get('distance');
-      const distanceMeters = Number(distance?.value);
-      if (!Number.isFinite(distanceMeters) || distanceMeters <= 0 || !this.activeRoute) {
-        this.loadWalkingRouteFallback(requestVersion);
-        return;
-      }
-      this.clearWalkingRouteTimeout();
-      this.activeRoute.walkingDistanceMeters = distanceMeters;
-      this.walkingRouteStatus = 'ready';
-    });
-    this.walkingRouteFailure = () => this.ngZone.run(() => {
-      if (requestVersion === this.routeRequestVersion && walkingRoute === this.walkingRouteInstance) {
-        this.loadWalkingRouteFallback(requestVersion);
-      }
-    });
-    walkingRoute.model.events.add('requestsuccess', this.walkingRouteSuccess);
-    walkingRoute.model.events.add('requestfail', this.walkingRouteFailure);
-    this.walkingRouteTimeout = setTimeout(() => this.ngZone.run(() => {
-      if (requestVersion === this.routeRequestVersion && this.walkingRouteStatus === 'loading') {
-        this.loadWalkingRouteFallback(requestVersion);
-      }
-    }), 12_000);
   }
 
   private groupTransports(transports: readonly Transport[] | null | undefined): TransportGroup[] {
@@ -390,56 +381,47 @@ export class PriceBlockComponent implements OnDestroy {
   private resetWalkingRoute(): void {
     this.walkingRouteRequest?.unsubscribe();
     this.walkingRouteRequest = undefined;
-    this.walkingFallbackRequestVersion = null;
-    this.detachWalkingRouteListeners();
     this.walkingRouteStatus = 'idle';
   }
 
-  private loadWalkingRouteFallback(requestVersion: number): void {
+  private loadWalkingRoute(requestVersion: number, activeRoute: ActiveTransportRoute): void {
     if (
       requestVersion !== this.routeRequestVersion
-      || this.walkingFallbackRequestVersion === requestVersion
       || !this.mapCenter
-      || !this.activeRoute
+      || this.activeRoute !== activeRoute
     ) return;
 
-    const activeRoute = this.activeRoute;
-    const points = [this.mapCenter, activeRoute.nearestPoint]
-      .map(([latitude, longitude]) => `${longitude},${latitude}`)
-      .join(';');
-    this.walkingFallbackRequestVersion = requestVersion;
-    this.detachWalkingRouteListeners();
+    const [startLatitude, startLongitude] = this.mapCenter;
+    const [endLatitude, endLongitude] = activeRoute.nearestPoint;
     this.walkingRouteStatus = 'loading';
 
     const request = this.requestService
-      .getData<WalkingRouteResponse>(`${environment.urls.GET_WALKING_ROUTE}/${points}`, {
-        overview: 'full',
-        geometries: 'geojson',
-        steps: false,
+      .requestData<WalkingRouteResponse>(environment.urls.POST_WALKING_ROUTE, 'POST', {
+        start: { latitude: startLatitude, longitude: startLongitude },
+        end: { latitude: endLatitude, longitude: endLongitude },
       })
       .pipe(finalize(() => {
-        if (this.walkingFallbackRequestVersion === requestVersion) {
-          this.walkingFallbackRequestVersion = null;
+        if (requestVersion === this.routeRequestVersion) {
           this.walkingRouteRequest = undefined;
         }
       }))
       .subscribe({
         next: (response) => {
           if (requestVersion !== this.routeRequestVersion || this.activeRoute !== activeRoute) return;
-          const route = response?.routes?.[0];
-          const distanceMeters = Number(route?.distance);
-          const walkingPath = this.parseWalkingRoutePath(route?.geometry?.coordinates);
+          const distanceMeters = Number(response?.distance_meters);
+          const walkingPath = this.parseWalkingRoutePath(response?.geometry?.coordinates);
           if (!Number.isFinite(distanceMeters) || distanceMeters <= 0 || walkingPath.length < 2) {
-            this.walkingRouteStatus = 'fallback';
+            this.walkingRouteStatus = 'error';
             return;
           }
           activeRoute.walkingDistanceMeters = distanceMeters;
           activeRoute.walkingPath = walkingPath;
           this.walkingRouteStatus = 'ready';
+          setTimeout(() => this.fitMapToRoute());
         },
         error: () => {
           if (requestVersion === this.routeRequestVersion && this.activeRoute === activeRoute) {
-            this.walkingRouteStatus = 'fallback';
+            this.walkingRouteStatus = 'error';
           }
         },
       });
@@ -462,24 +444,20 @@ export class PriceBlockComponent implements OnDestroy {
     }, []);
   }
 
-  private detachWalkingRouteListeners(): void {
-    this.clearWalkingRouteTimeout();
-    const events = this.walkingRouteInstance?.model?.events;
-    if (events && this.walkingRouteSuccess) events.remove('requestsuccess', this.walkingRouteSuccess);
-    if (events && this.walkingRouteFailure) events.remove('requestfail', this.walkingRouteFailure);
-    this.walkingRouteInstance = undefined;
-    this.walkingRouteSuccess = undefined;
-    this.walkingRouteFailure = undefined;
-  }
-
-  private clearWalkingRouteTimeout(): void {
-    if (this.walkingRouteTimeout) clearTimeout(this.walkingRouteTimeout);
-    this.walkingRouteTimeout = undefined;
+  private updateRouteStopVisibility(value: unknown): void {
+    const visible = Number(value) >= STOP_MARKER_MIN_ZOOM;
+    if (visible === this.showRouteStops) return;
+    this.ngZone.run(() => {
+      this.showRouteStops = visible;
+    });
   }
 
   private fitMapToRoute(): void {
     if (!this.activeRoute || !this.mapCenter || !this.mapInstance) return;
-    const coordinates = [this.mapCenter, ...this.activeRoute.forward, ...this.activeRoute.backward];
+    const walkingPath = this.activeRoute.walkingPath;
+    const coordinates = walkingPath?.length
+      ? [this.mapCenter, this.activeRoute.nearestPoint, ...walkingPath]
+      : [this.mapCenter, ...this.activeRoute.forward, ...this.activeRoute.backward];
     const latitudes = coordinates.map((coordinate) => coordinate[0]);
     const longitudes = coordinates.map((coordinate) => coordinate[1]);
     const bounds = [

@@ -122,6 +122,14 @@
   background: transparent;
 }
 
+.map-route-legend__stop {
+  width: 9px;
+  height: 9px;
+  border: 2px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px currentcolor;
+}
+
 .location-content {
   display: flex;
   min-width: 0;

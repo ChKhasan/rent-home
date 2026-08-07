@@ -21,29 +21,32 @@
       <svg lucideLoaderCircle [size]="17" aria-hidden="true"></svg>
       <span>Yo‘nalish yuklanmoqda</span>
     </div>
-    <ya-map [center]="center" [zoom]="zoom" (ready)="onMapReady($event)">
+    <ya-map [center]="center" [zoom]="zoom" (ready)="onMapReady($event)" (boundschange)="onMapBoundsChange($event)">
       <ya-placemark [geometry]="center"
         [properties]="{ hintContent: 'E’lon manzili', balloonContentHeader: 'E’lon manzili', balloonContentBody: announcement?.address || '' }"
         [options]="propertyMarkerOptions"></ya-placemark>
       <ng-container *ngIf="activeRoute as route">
         <ya-geoobject *ngIf="route.forward.length" [feature]="{ geometry: { type: 'LineString', coordinates: route.forward } }" [options]="route.style.forward"></ya-geoobject>
         <ya-geoobject *ngIf="route.backward.length" [feature]="{ geometry: { type: 'LineString', coordinates: route.backward } }" [options]="route.style.backward"></ya-geoobject>
-        <ya-geoobject *ngIf="walkingRouteStatus === 'fallback'"
-          [feature]="{ geometry: { type: 'LineString', coordinates: route.connector } }"
-          [options]="connectorOptions"></ya-geoobject>
+        <ng-container *ngIf="showRouteStops">
+          <ng-container *ngFor="let stop of route.stops; trackBy: trackRouteStop">
+            <ya-placemark *ngIf="!isNearestStop(route, stop)" [geometry]="stop.coordinate"
+              [properties]="{
+                hintContent: stop.name,
+                balloonContentHeader: stop.name,
+                balloonContentBody: stopDirectionLabel(stop)
+              }"
+              [options]="route.style.stop"></ya-placemark>
+          </ng-container>
+        </ng-container>
         <ya-geoobject *ngIf="route.walkingPath as walkingPath"
           [feature]="{ geometry: { type: 'LineString', coordinates: walkingPath } }"
           [options]="walkingPathOptions"></ya-geoobject>
-        <ya-multiroute *ngIf="!route.walkingPath && walkingRouteStatus !== 'fallback'"
-          [referencePoints]="[center, route.nearestPoint]"
-          [model]="walkingRouteModel"
-          [options]="walkingRouteOptions"
-          (ready)="onWalkingRouteReady($event)"></ya-multiroute>
         <ya-placemark [geometry]="route.nearestPoint"
           [properties]="{
             iconCaption: route.transport.name,
-            hintContent: transportRouteTitle(route.transport),
-            balloonContentHeader: transportRouteTitle(route.transport),
+            hintContent: route.nearestStop?.name || transportRouteTitle(route.transport),
+            balloonContentHeader: route.nearestStop?.name || transportRouteTitle(route.transport),
             balloonContentBody: routeDistanceText(route)
           }"
           [options]="route.style.marker"></ya-placemark>
@@ -54,6 +57,8 @@
         [style.background-color]="route.style.color"></i>Borish</span>
       <span><i class="map-route-legend__line map-route-legend__line--backward"
         [style.border-top-color]="route.style.color"></i>Qaytish</span>
+      <span *ngIf="route.stops.length && showRouteStops"><i class="map-route-legend__stop"
+        [style.background-color]="route.style.color"></i>Bekatlar</span>
     </div>
   </div>
 
@@ -89,12 +94,16 @@
       <span class="route-summary__icon" aria-hidden="true"><svg lucideRoute [size]="20"></svg></span>
       <span class="route-summary__copy">
         <strong>{{ transportRouteTitle(route.transport) }}</strong>
+        <span *ngIf="route.nearestStop as stop">Eng yaqin bekat: <b>{{ stop.name }}</b></span>
         <span *ngIf="walkingRouteStatus === 'loading'">
           Piyoda yo‘li hisoblanmoqda
           <svg class="route-summary__spinner" lucideLoaderCircle [size]="13" aria-hidden="true"></svg>
         </span>
-        <span *ngIf="walkingRouteStatus === 'ready'">Yo‘nalishgacha piyoda: <b>{{ routeDistance(route) }}</b></span>
-        <span *ngIf="walkingRouteStatus === 'fallback'">Piyoda yo‘lini aniqlab bo‘lmadi. Taxminiy masofa: <b>{{ routeDistance(route) }}</b></span>
+        <span *ngIf="walkingRouteStatus === 'ready'">
+          {{ route.nearestStop ? 'Bekatgacha piyoda:' : 'Yo‘nalishgacha piyoda:' }}
+          <b>{{ routeDistance(route) }}</b>
+        </span>
+        <span *ngIf="walkingRouteStatus === 'error'">Piyoda yo‘lini hozir hisoblab bo‘lmadi</span>
       </span>
       <button type="button" class="route-summary__close" title="Yo‘nalishni yopish" aria-label="Yo‘nalishni yopish" (click)="clearSelectedRoute()">
         <svg lucideX [size]="18" aria-hidden="true"></svg>
