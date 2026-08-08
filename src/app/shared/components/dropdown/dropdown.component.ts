@@ -1,6 +1,5 @@
-import { Component, DestroyRef, HostListener, Input } from '@angular/core';
-import { NgClass, NgIf } from '@angular/common';
-import { CustomDropDownAnimation } from '@animations';
+import { Component, DestroyRef, HostListener, Input, ChangeDetectionStrategy } from '@angular/core';
+import { NgClass } from '@angular/common';
 import { Event, NavigationStart, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -8,10 +7,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-dropdown',
   standalone: true,
-  imports: [NgIf, NgClass],
+  imports: [NgClass],
   templateUrl: './dropdown.component.html',
   styleUrl: './dropdown.component.css',
-  animations: [CustomDropDownAnimation],
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class DropdownComponent {
   public profileDrop: Boolean = false;

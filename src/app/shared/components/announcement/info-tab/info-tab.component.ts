@@ -1,6 +1,6 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { DatePipe, NgClass, NgForOf, NgIf } from '@angular/common';
-import { AngularYandexMapsModule } from 'angular8-yandex-maps';
+import { YaMapComponent, YaPlacemarkDirective } from 'angular8-yandex-maps';
 import { CommentDialogComponent } from '../../modals/comment-dialog/comment-dialog.component';
 import { CommentCardComponent } from '../../cards/comment-card/comment-card.component';
 import { AuthService } from '@services/auth';
@@ -13,8 +13,9 @@ import { resolveAnnouncementCoordinates } from '@/core/geo';
 @Component({
   selector: 'app-info-tab',
   standalone: true,
-  imports: [NgIf, AngularYandexMapsModule, CommentDialogComponent, CommentCardComponent, NgForOf, FieldsetModule, AvatarModule, DatePipe, CommentBlockComponent, NgClass, SkeletonModule],
+  imports: [NgIf, YaMapComponent, YaPlacemarkDirective, CommentDialogComponent, CommentCardComponent, NgForOf, FieldsetModule, AvatarModule, DatePipe, CommentBlockComponent, NgClass, SkeletonModule],
   templateUrl: './info-tab.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './info-tab.component.css',
 })
 export class InfoTabComponent {

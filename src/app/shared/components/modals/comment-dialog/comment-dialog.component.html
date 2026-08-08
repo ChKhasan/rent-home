@@ -9,7 +9,7 @@
     padding: 0,
   }"
   [showHeader]="false"
->
+  >
   <div class="flex flex-col gap-[24px]">
     <div class="flex justify-center">
       <h2 class="font-600 text-[20px]">E'lon borasida izoh</h2>
@@ -32,10 +32,16 @@
             ></textarea>
           </div>
 
-          <div *ngIf="ruleForm.controls.comment.invalid && (ruleForm.controls.comment.dirty || ruleForm.controls.comment.touched)">
-            <app-invaid-text [text]="'Name is required.'" *ngIf="ruleForm.controls.comment.errors && ruleForm.controls.comment.errors['required']"></app-invaid-text>
-            <app-invaid-text [text]="'Izoh kamida 4 ta belgidan iborat bo‘lishi kerak.'" *ngIf="ruleForm.controls.comment.errors && ruleForm.controls.comment.errors['minlength']"></app-invaid-text>
-          </div>
+          @if (ruleForm.controls.comment.invalid && (ruleForm.controls.comment.dirty || ruleForm.controls.comment.touched)) {
+            <div>
+              @if (ruleForm.controls.comment.errors && ruleForm.controls.comment.errors['required']) {
+                <app-invaid-text [text]="'Name is required.'"></app-invaid-text>
+              }
+              @if (ruleForm.controls.comment.errors && ruleForm.controls.comment.errors['minlength']) {
+                <app-invaid-text [text]="'Izoh kamida 4 ta belgidan iborat bo‘lishi kerak.'"></app-invaid-text>
+              }
+            </div>
+          }
         </div>
       </div>
       <button pButton [loading]="loading" (click)="onSubmit()" class="w-full mt-[18px] h-12 items-center text-[17px] bg-[color:var(--green)] rounded-[8px] text-white font-600 flex justify-center">Yuborish</button>

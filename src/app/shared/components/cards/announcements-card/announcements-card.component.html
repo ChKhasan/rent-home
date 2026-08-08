@@ -4,120 +4,159 @@
     [routerLink]="detailLink"
     (click)="closeBottomSheet()"
     [attr.aria-label]="announcement.title + ' e\'lonini ochish'"
-  >
-    <img
-      *ngIf="imageUrl; else imagePlaceholder"
-      class="listing-card__image"
-      [src]="imageUrl"
-      [alt]="announcement.title + ' rasmi'"
-      width="800"
-      height="500"
-      loading="lazy"
-      decoding="async"
-      (error)="markImageFailed()"
-    />
-    <ng-template #imagePlaceholder>
+    >
+    @if (imageUrl) {
+      <img
+        class="listing-card__image"
+        [src]="imageUrl"
+        [alt]="announcement.title + ' rasmi'"
+        width="800"
+        height="500"
+        loading="lazy"
+        decoding="async"
+        (error)="markImageFailed()"
+        />
+    } @else {
       <span class="listing-card__placeholder" aria-hidden="true">
         <svg lucideBuilding2 [size]="34" [strokeWidth]="1.6"></svg>
         <span>Nexthome</span>
       </span>
-    </ng-template>
+    }
 
     <span class="listing-card__deal">{{ dealTypeLabel() }}</span>
-    <span *ngIf="imageCount > 1" class="listing-card__image-count">
-      <svg lucideImages [size]="16"></svg>
-      {{ imageCount }} ta
-    </span>
+    @if (imageCount > 1) {
+      <span class="listing-card__image-count">
+        <svg lucideImages [size]="16"></svg>
+        {{ imageCount }} ta
+      </span>
+    }
   </a>
 
-  <button
-    *ngIf="!edit"
-    type="button"
-    class="listing-card__favorite"
-    [class.listing-card__favorite--active]="isLiked"
-    [class.listing-card__favorite--loading]="loading"
-    [disabled]="loading"
-    [attr.aria-pressed]="isLiked"
-    [attr.aria-label]="isLiked ? 'Sevimlilardan olib tashlash' : 'Sevimlilarga qo\'shish'"
-    (click)="check_auth(announcement.id)"
-  >
-    <svg lucideHeart [size]="21" [strokeWidth]="2" [attr.fill]="isLiked ? 'currentColor' : 'none'"></svg>
-  </button>
+  @if (!edit) {
+    <button
+      type="button"
+      class="listing-card__favorite"
+      [class.listing-card__favorite--active]="isLiked"
+      [class.listing-card__favorite--loading]="loading"
+      [disabled]="loading"
+      [attr.aria-pressed]="isLiked"
+      [attr.aria-label]="isLiked ? 'Sevimlilardan olib tashlash' : 'Sevimlilarga qo\'shish'"
+      (click)="check_auth(announcement.id)"
+      >
+      <svg lucideHeart [size]="21" [strokeWidth]="2" [attr.fill]="isLiked ? 'currentColor' : 'none'"></svg>
+    </button>
+  }
 
-  <div *ngIf="edit" class="listing-card__moderation-stack">
-    <span class="listing-card__status" [attr.data-status]="announcement.status ? 'active' : 'inactive'">
-      {{ announcement.status ? 'Faol' : 'Faol emas' }}
-    </span>
-    <span class="listing-card__status" [attr.data-status]="announcement.moderation_status">
-      {{ moderationLabel() }}
-    </span>
-  </div>
+  @if (edit) {
+    <div class="listing-card__moderation-stack">
+      <span class="listing-card__status" [attr.data-status]="announcement.status ? 'active' : 'inactive'">
+        {{ announcement.status ? 'Faol' : 'Faol emas' }}
+      </span>
+      <span class="listing-card__status" [attr.data-status]="announcement.moderation_status">
+        {{ moderationLabel() }}
+      </span>
+    </div>
+  }
 
   <div class="listing-card__content">
     <div class="listing-card__price-row">
       <div class="listing-card__price-wrap">
         <p class="listing-card__price">
           {{ primaryPrice | price }} {{ announcement.currency }}
-          <span *ngIf="announcement.partnership && announcement.price_for_one">/ kishi</span>
+          @if (announcement.partnership && announcement.price_for_one) {
+            <span>/ kishi</span>
+          }
         </p>
-        <p *ngIf="totalPriceSupportingLabel" class="listing-card__total-price">
-          {{ totalPriceSupportingLabel }}
-        </p>
+        @if (totalPriceSupportingLabel) {
+          <p class="listing-card__total-price">
+            {{ totalPriceSupportingLabel }}
+          </p>
+        }
       </div>
-      <a
-        *ngIf="edit"
-        class="listing-card__edit"
-        [routerLink]="'/profile/announcements/' + announcement.id"
-        aria-label="E'lonni tahrirlash"
-      >
-        <svg lucidePencil [size]="19"></svg>
-      </a>
+      @if (edit) {
+        <a
+          class="listing-card__edit"
+          [routerLink]="'/profile/announcements/' + announcement.id"
+          aria-label="E'lonni tahrirlash"
+          >
+          <svg lucidePencil [size]="19"></svg>
+        </a>
+      }
     </div>
 
     <a class="listing-card__title" [routerLink]="detailLink" (click)="closeBottomSheet()">
       {{ announcement.title }}
     </a>
 
-    <p *ngIf="announcement.address" class="listing-card__location" [title]="announcement.address">
-      <svg lucideMapPin [size]="17"></svg>
-      <span>{{ announcement.address }}</span>
-    </p>
+    @if (announcement.address) {
+      <p class="listing-card__location" [title]="announcement.address">
+        <svg lucideMapPin [size]="17"></svg>
+        <span>{{ announcement.address }}</span>
+      </p>
+    }
 
-    <div
-      *ngIf="announcement.room_count || announcement.area || announcement.floor"
-      class="listing-card__facts"
-      role="group"
-      aria-label="Uy haqida qisqa ma'lumot"
-    >
-      <span *ngIf="announcement.room_count">
-        <svg lucideBedDouble [size]="17"></svg>
-        {{ announcement.room_count }} xona
-      </span>
-      <span *ngIf="announcement.area">
-        <svg lucideMaximize2 [size]="16"></svg>
-        {{ announcement.area }} m²
-      </span>
-      <span *ngIf="announcement.floor !== null && announcement.floor !== undefined">
-        <svg lucideBuilding2 [size]="17"></svg>
-        {{ announcement.floor }}-qavat
-      </span>
-    </div>
+    @if (announcement.room_count || announcement.area || announcement.floor) {
+      <div
+        class="listing-card__facts"
+        role="group"
+        aria-label="Uy haqida qisqa ma'lumot"
+        >
+        @if (announcement.room_count) {
+          <span>
+            <svg lucideBedDouble [size]="17"></svg>
+            {{ announcement.room_count }} xona
+          </span>
+        }
+        @if (announcement.area) {
+          <span>
+            <svg lucideMaximize2 [size]="16"></svg>
+            {{ announcement.area }} m²
+          </span>
+        }
+        @if (announcement.floor !== null && announcement.floor !== undefined) {
+          <span>
+            <svg lucideBuilding2 [size]="17"></svg>
+            {{ announcement.floor }}-qavat
+          </span>
+        }
+      </div>
+    }
 
-    <div *ngIf="visibleAmenities.length" class="listing-card__amenities" role="group" aria-label="Qulayliklar">
-      <span *ngIf="visibleAmenities[0] as amenity" [title]="amenity.label">
-        <svg *ngIf="amenity.key === 'conditioner'" lucideSnowflake [size]="16"></svg>
-        <svg *ngIf="amenity.key === 'washing_machine'" lucideWashingMachine [size]="16"></svg>
-        <svg *ngIf="amenity.key === 'fridge'" lucideRefrigerator [size]="16"></svg>
-        {{ amenity.label }}
-      </span>
-      <span *ngIf="visibleAmenities[1] as amenity" [title]="amenity.label">
-        <svg *ngIf="amenity.key === 'conditioner'" lucideSnowflake [size]="16"></svg>
-        <svg *ngIf="amenity.key === 'washing_machine'" lucideWashingMachine [size]="16"></svg>
-        <svg *ngIf="amenity.key === 'fridge'" lucideRefrigerator [size]="16"></svg>
-        {{ amenity.label }}
-      </span>
-      <span *ngIf="hiddenAmenityCount" class="listing-card__amenity-more">+{{ hiddenAmenityCount }}</span>
-    </div>
+    @if (visibleAmenities.length) {
+      <div class="listing-card__amenities" role="group" aria-label="Qulayliklar">
+        @if (visibleAmenities[0]; as amenity) {
+          <span [title]="amenity.label">
+            @if (amenity.key === 'conditioner') {
+              <svg lucideSnowflake [size]="16"></svg>
+            }
+            @if (amenity.key === 'washing_machine') {
+              <svg lucideWashingMachine [size]="16"></svg>
+            }
+            @if (amenity.key === 'fridge') {
+              <svg lucideRefrigerator [size]="16"></svg>
+            }
+            {{ amenity.label }}
+          </span>
+        }
+        @if (visibleAmenities[1]; as amenity) {
+          <span [title]="amenity.label">
+            @if (amenity.key === 'conditioner') {
+              <svg lucideSnowflake [size]="16"></svg>
+            }
+            @if (amenity.key === 'washing_machine') {
+              <svg lucideWashingMachine [size]="16"></svg>
+            }
+            @if (amenity.key === 'fridge') {
+              <svg lucideRefrigerator [size]="16"></svg>
+            }
+            {{ amenity.label }}
+          </span>
+        }
+        @if (hiddenAmenityCount) {
+          <span class="listing-card__amenity-more">+{{ hiddenAmenityCount }}</span>
+        }
+      </div>
+    }
 
     <app-publisher-meta
       class="listing-card__publisher"
@@ -128,21 +167,31 @@
     ></app-publisher-meta>
 
     <div class="listing-card__meta-footer">
-      <span *ngIf="announcement.commission?.label" class="listing-card__commission">
-        {{ announcement.commission?.label }}
-      </span>
-      <time *ngIf="createdDateLabel && effectiveVariant === 'default'" [attr.datetime]="announcement.created">
-        {{ createdDateLabel }}
-      </time>
-      <a *ngIf="more" class="listing-card__more" [routerLink]="detailLink" (click)="closeBottomSheet()">
-        Batafsil
-        <svg lucideChevronRight [size]="18"></svg>
-      </a>
+      @if (announcement.commission; as commission) {
+        @if (commission.label) {
+          <span class="listing-card__commission">
+            {{ commission.label }}
+          </span>
+        }
+      }
+      @if (createdDateLabel && effectiveVariant === 'default') {
+        <time [attr.datetime]="announcement.created">
+          {{ createdDateLabel }}
+        </time>
+      }
+      @if (more) {
+        <a class="listing-card__more" [routerLink]="detailLink" (click)="closeBottomSheet()">
+          Batafsil
+          <svg lucideChevronRight [size]="18"></svg>
+        </a>
+      }
     </div>
 
-    <div class="listing-card__moderation-note" *ngIf="edit && announcement.moderation_status === 'rejected'">
-      <strong>Moderator izohi:</strong>
-      <span>{{ announcement.moderation_comment || "E'lon ma'lumotlarini tekshirib, qayta yuboring." }}</span>
-    </div>
+    @if (edit && announcement.moderation_status === 'rejected') {
+      <div class="listing-card__moderation-note">
+        <strong>Moderator izohi:</strong>
+        <span>{{ announcement.moderation_comment || "E'lon ma'lumotlarini tekshirib, qayta yuboring." }}</span>
+      </div>
+    }
   </div>
 </article>

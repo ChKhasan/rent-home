@@ -32,6 +32,7 @@ export function app(): express.Express {
 
   server.get('/assets/runtime-config.js', (_req, res) => {
     const config = JSON.stringify({
+      primeUiLicenseKey: process.env['NEXTHOME_PRIMEUI_LICENSE_KEY'] ?? '',
       yandexMapsApiKey: process.env['NEXTHOME_YANDEX_MAPS_API_KEY'] ?? '',
     }).replace(/</g, '\\u003c');
 

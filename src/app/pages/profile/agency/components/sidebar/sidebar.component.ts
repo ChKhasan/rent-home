@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { NgForOf } from '@angular/common';
+
 
 interface SidebarLink {
   label: string;
@@ -10,8 +10,9 @@ interface SidebarLink {
 @Component({
   selector: 'app-agency-sidebar',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, NgForOf],
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './sidebar.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './sidebar.component.css',
 })
 export class AgencySidebarComponent {

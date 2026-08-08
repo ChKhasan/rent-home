@@ -4,23 +4,30 @@
     <div class="profile-toolbar flex justify-between items-center md:flex-col">
       <h1 class="text-[40px] font-medium text-[--green] md:text-[24px] md:mb-3">Shaxsiy kabinet</h1>
       <div class="profile-actions flex gap-3">
-        <button [routerLink]="'/profile/chat'" pButton type="button" icon="pi pi-comments" aria-label="Yozishmalarim"
-          class="btn profile-action-btn profile-action-btn--secondary md:px-4 flex md:gap-0 gap-2 items-center" iconPos="left">
-
+        <button [routerLink]="'/profile/chat'" pButton type="button" aria-label="Yozishmalarim"
+          class="btn profile-action-btn profile-action-btn--secondary md:px-4 flex md:gap-0 gap-2 items-center">
+          <i class="pi pi-comments" aria-hidden="true"></i>
           <span class="md:hidden">Yozishmalarim</span>
         </button>
-        <button [routerLink]="'/profile/create'" pButton type="button" icon="pi pi-plus" aria-label="E'lon joylash"
-          class="btn profile-action-btn profile-action-btn--primary md:px-4 flex md:gap-0 gap-2 items-center" iconPos="left">
+        <button [routerLink]="'/profile/create'" pButton type="button" aria-label="E'lon joylash"
+          class="btn profile-action-btn profile-action-btn--primary md:px-4 flex md:gap-0 gap-2 items-center">
+          <i class="pi pi-plus" aria-hidden="true"></i>
           <span class="md:hidden">E'lon joylash · Uy egasi sifatida</span>
         </button>
-        <button *ngIf="hasBrokerProfile" [routerLink]="'/profile/broker'" pButton type="button" icon="pi pi-id-card" aria-label="Makler kabineti"
-          class="btn profile-action-btn profile-action-btn--secondary md:px-4 flex md:gap-0 gap-2 items-center" iconPos="left">
-          <span class="md:hidden">Makler kabineti</span>
-        </button>
-        <button *ngIf="hasAgencyAccess" [routerLink]="'/profile/agency'" pButton type="button" icon="pi pi-briefcase" aria-label="Agentlik kabineti"
-          class="btn profile-action-btn profile-action-btn--secondary agency-action md:px-4 flex md:gap-0 gap-2 items-center" iconPos="left">
-          <span class="md:hidden">Agentlik kabineti</span>
-        </button>
+        @if (hasBrokerProfile) {
+          <button [routerLink]="'/profile/broker'" pButton type="button" aria-label="Makler kabineti"
+            class="btn profile-action-btn profile-action-btn--secondary md:px-4 flex md:gap-0 gap-2 items-center">
+            <i class="pi pi-id-card" aria-hidden="true"></i>
+            <span class="md:hidden">Makler kabineti</span>
+          </button>
+        }
+        @if (hasAgencyAccess) {
+          <button [routerLink]="'/profile/agency'" pButton type="button" aria-label="Agentlik kabineti"
+            class="btn profile-action-btn profile-action-btn--secondary agency-action md:px-4 flex md:gap-0 gap-2 items-center">
+            <i class="pi pi-briefcase" aria-hidden="true"></i>
+            <span class="md:hidden">Agentlik kabineti</span>
+          </button>
+        }
         <button type="button" aria-label="Kabinetdan chiqish" (click)="logoutDialog = true"
           class="logout-btn border-solid border-[2px] border-[--error-400] rounded-xl md:px-4 text-[14px] flex items-center gap-2 bg-transparent font-semibold p-3 md:py-2 md:text-xs md:border-[1px] text-[--error-400]">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -47,49 +54,65 @@
     </div>
     <div class="profile-summary-card">
       <!-- <div class="image">
-        <img *ngIf="authService.user?.images && authService.user?.images[0].image" class="w-[120px] h-[120px] rounded-full object-cover" [src]="authService.user?.images[0].image" alt="" />
-      </div> -->
-      <div class="image-block profile-avatar-block md:flex md:justify-center md:flex-col md:items-center">
-        <div class="profile-avatar relative md:mt-[0] w-[120px] h-[120px] md:w-[64px] md:h-[64px] flex items-center">
-          <div class="image w-full h-full rounded-full overflow-hidden">
-            <img *ngIf="avatar; else defaultImage" class="w-full h-full object-cover" [src]="avatar" alt="" />
-            <ng-template #defaultImage>
-              <img class="w-full h-full object-cover" src="assets/images/avatar.png" alt="" />
-            </ng-template>
-          </div>
-        <p-fileUpload *ngIf="isEdit" class="profile-upload desktop-upload flex md:hidden items-center absolute right-[-18px] bottom-[6px]"
+      <img *ngIf="authService.user?.images && authService.user?.images[0].image" class="w-[120px] h-[120px] rounded-full object-cover" [src]="authService.user?.images[0].image" alt="" />
+    </div> -->
+    <div class="image-block profile-avatar-block md:flex md:justify-center md:flex-col md:items-center">
+      <div class="profile-avatar relative md:mt-[0] w-[120px] h-[120px] md:w-[64px] md:h-[64px] flex items-center">
+        <div class="image w-full h-full rounded-full overflow-hidden">
+          @if (avatar) {
+            <img class="w-full h-full object-cover" [src]="avatar" alt="" />
+          } @else {
+            <img class="w-full h-full object-cover" src="assets/images/avatar.png" alt="" />
+          }
+        </div>
+        @if (isEdit) {
+          <p-fileupload class="profile-upload desktop-upload flex md:hidden items-center absolute right-[-18px] bottom-[6px]"
             styleClass="file-upload" mode="basic" name="image" [url]="imageUploadUrl"
-            [chooseButtonProps]="{ ariaLabel: 'Profil rasmini yuklash' }"
+            chooseLabel="Profil rasmini yuklash"
             (onUpload)="onUpload($event)" [auto]="true" method="post" [multiple]="true" accept="image/*"
-            [maxFileSize]="1000000" [headers]="headers"></p-fileUpload>
+          [maxFileSize]="1000000" [headers]="headers"></p-fileupload>
+        }
+      </div>
+    </div>
+    <div
+      class="profile-summary-body body flex flex-col justify-center items-start md:flex-row md:justify-between md:items-center md:w-full">
+      <div class="profile-identity flex flex-col justify-center items-start">
+        <h5 class="text-[32px] font-medium md:text-base break-keep">{{ displayName }}</h5>
+        <div class="profile-meta">
+          @if (profileUser.phone_number) {
+            <span><i class="pi pi-phone"></i>{{ profileUser.phone_number }}</span>
+          }
+          @if (profileUser.email) {
+            <span><i class="pi pi-envelope"></i>{{ profileUser.email }}</span>
+          }
         </div>
       </div>
-      <div
-        class="profile-summary-body body flex flex-col justify-center items-start md:flex-row md:justify-between md:items-center md:w-full">
-        <div class="profile-identity flex flex-col justify-center items-start">
-          <h5 class="text-[32px] font-medium md:text-base break-keep">{{ displayName }}</h5>
-          <div class="profile-meta">
-            <span *ngIf="profileUser.phone_number"><i class="pi pi-phone"></i>{{ profileUser.phone_number }}</span>
-            <span *ngIf="profileUser.email"><i class="pi pi-envelope"></i>{{ profileUser.email }}</span>
-          </div>
-        </div>
-        <p-fileUpload *ngIf="isEdit" class="profile-upload mobile-upload md:flex hidden items-center" styleClass="file-upload" mode="basic"
-          [chooseButtonProps]="{ ariaLabel: 'Profil rasmini yuklash' }"
+      @if (isEdit) {
+        <p-fileupload class="profile-upload mobile-upload md:flex hidden items-center" styleClass="file-upload" mode="basic"
+          chooseLabel="Profil rasmini yuklash"
           name="image" [url]="imageUploadUrl" (onUpload)="onUpload($event)" [auto]="true"
-          method="post" [multiple]="true" accept="image/*" [maxFileSize]="1000000" [headers]="headers"></p-fileUpload>
-        <button *ngIf="!isEdit" type="button" aria-label="Profilni tahrirlash" (click)="startEdit()"
+        method="post" [multiple]="true" accept="image/*" [maxFileSize]="1000000" [headers]="headers"></p-fileupload>
+      }
+      @if (!isEdit) {
+        <button type="button" aria-label="Profilni tahrirlash" (click)="startEdit()"
           class="profile-edit-btn mt-3 md:mt-0 border-solid border-[2px] border-[--grey-300] rounded-xl text-[14px] flex items-center gap-2 bg-transparent font-semibold p-3">
           <i class="pi pi-pencil"></i>
           <span class="md:hidden">Tahrirlash</span>
         </button>
-      </div>
+      }
     </div>
-    <div class="title flex justify-between items-center md:flex-col mt-4" *ngIf="!isEdit">
-      <h3 class="text-[40px] font-medium text-[--green] md:text-[24px] md:mb-3" *ngIf="tab === 'likes'">Saqlangan
+  </div>
+  @if (!isEdit) {
+    <div class="title flex justify-between items-center md:flex-col mt-4">
+      @if (tab === 'likes') {
+        <h3 class="text-[40px] font-medium text-[--green] md:text-[24px] md:mb-3">Saqlangan
         E`lonlar</h3>
-      <h3 class="text-[40px] font-medium text-[--green] md:text-[24px] md:mb-3" *ngIf="tab === 'announcements'">Mening
+      }
+      @if (tab === 'announcements') {
+        <h3 class="text-[40px] font-medium text-[--green] md:text-[24px] md:mb-3">Mening
         E`lonlarim</h3>
-      <p-selectButton styleClass="!rounded-2xl !w-full" [options]="stateOptions" [(ngModel)]="tab" optionValue="value">
+      }
+      <p-selectbutton styleClass="!rounded-2xl !w-full" [options]="stateOptions" [(ngModel)]="tab" optionValue="value">
         <ng-template let-item pTemplate>
           <div class="flex gap-2 items-center">
             <i [class]="item.icon"></i>
@@ -97,20 +120,27 @@
             <p class="md:hidden">{{ labels[item.value] }}</p>
           </div>
         </ng-template>
-      </p-selectButton>
+      </p-selectbutton>
     </div>
-    <div *ngIf="!isEdit">
-      <app-likes *ngIf="tab === 'likes'"></app-likes>
-      <app-announcements *ngIf="tab === 'announcements'" [embedded]="true"></app-announcements>
+  }
+  @if (!isEdit) {
+    <div>
+      @if (tab === 'likes') {
+        <app-likes></app-likes>
+      }
+      @if (tab === 'announcements') {
+        <app-announcements [embedded]="true"></app-announcements>
+      }
     </div>
-    <div *ngIf="isEdit" class="profile-edit-panel body mt-4 md:mt-0 flex flex-col gap-6">
+  }
+  @if (isEdit) {
+    <div class="profile-edit-panel body mt-4 md:mt-0 flex flex-col gap-6">
       <div class="profile-edit-header">
         <div>
           <p class="profile-eyebrow">Sozlamalar</p>
           <h4 class="text-2xl md:text-lg">Profil ma'lumotlari</h4>
         </div>
       </div>
-
       <div [formGroup]="ruleForm" class="profile-form">
         <div class="profile-form-section">
           <div class="profile-section-title">
@@ -125,16 +155,20 @@
                     'ng-invalid ng-dirty': ruleForm.controls.name.touched && ruleForm.controls.name.errors && ruleForm.controls.name.errors['required'],
                   }" type="text" id="name" placeholder="Ism..." formControlName="name" />
               </div>
-
-              <div
-                *ngIf="ruleForm.controls.name.invalid && (ruleForm.controls.name.dirty || ruleForm.controls.name.touched)">
-                <app-invaid-text [text]="'Ism kiritilishi shart.'"
-                  *ngIf="ruleForm.controls.name.errors && ruleForm.controls.name.errors['required']"></app-invaid-text>
-                <app-invaid-text [text]="'Ism kamida 4 ta belgidan iborat bo‘lishi kerak.'"
-                  *ngIf="ruleForm.controls.name.errors && ruleForm.controls.name.errors['minlength']"></app-invaid-text>
-              </div>
+              @if (ruleForm.controls.name.invalid && (ruleForm.controls.name.dirty || ruleForm.controls.name.touched)) {
+                <div
+                  >
+                  @if (ruleForm.controls.name.errors && ruleForm.controls.name.errors['required']) {
+                    <app-invaid-text [text]="'Ism kiritilishi shart.'"
+                    ></app-invaid-text>
+                  }
+                  @if (ruleForm.controls.name.errors && ruleForm.controls.name.errors['minlength']) {
+                    <app-invaid-text [text]="'Ism kamida 4 ta belgidan iborat bo‘lishi kerak.'"
+                    ></app-invaid-text>
+                  }
+                </div>
+              }
             </div>
-
             <div class="profile-field">
               <label class="font-medium text-black text-[14px]" for="first_name">Familiya</label>
               <div class="relative w-full flex items-center password-input profile-input">
@@ -142,16 +176,20 @@
                     'ng-invalid ng-dirty': ruleForm.controls.first_name.touched && ruleForm.controls.first_name.errors && ruleForm.controls.first_name.errors['required'],
                   }" type="text" id="first_name" placeholder="Familiyangiz" formControlName="first_name" />
               </div>
-
-              <div
-                *ngIf="ruleForm.controls.first_name.invalid && (ruleForm.controls.first_name.dirty || ruleForm.controls.first_name.touched)">
-                <app-invaid-text [text]="'Familiya kiritilishi shart.'"
-                  *ngIf="ruleForm.controls.first_name.errors && ruleForm.controls.first_name.errors['required']"></app-invaid-text>
-                <app-invaid-text [text]="'Familiya kamida 4 ta belgidan iborat bo‘lishi kerak.'"
-                  *ngIf="ruleForm.controls.first_name.errors && ruleForm.controls.first_name.errors['minlength']"></app-invaid-text>
-              </div>
+              @if (ruleForm.controls.first_name.invalid && (ruleForm.controls.first_name.dirty || ruleForm.controls.first_name.touched)) {
+                <div
+                  >
+                  @if (ruleForm.controls.first_name.errors && ruleForm.controls.first_name.errors['required']) {
+                    <app-invaid-text [text]="'Familiya kiritilishi shart.'"
+                    ></app-invaid-text>
+                  }
+                  @if (ruleForm.controls.first_name.errors && ruleForm.controls.first_name.errors['minlength']) {
+                    <app-invaid-text [text]="'Familiya kamida 4 ta belgidan iborat bo‘lishi kerak.'"
+                    ></app-invaid-text>
+                  }
+                </div>
+              }
             </div>
-
             <div class="profile-field profile-field--full">
               <label class="font-medium text-black text-[14px]" for="last_name">Otasining ismi</label>
               <div class="relative w-full flex items-center password-input profile-input">
@@ -159,16 +197,18 @@
                     'ng-invalid ng-dirty': ruleForm.controls.last_name.touched && ruleForm.controls.last_name.invalid,
                   }" type="text" id="last_name" placeholder="Otasining ismi (ixtiyoriy)" formControlName="last_name" />
               </div>
-
-              <div
-                *ngIf="ruleForm.controls.last_name.invalid && (ruleForm.controls.last_name.dirty || ruleForm.controls.last_name.touched)">
-                <app-invaid-text [text]="'Otasining ismi kamida 4 ta belgidan iborat bo‘lishi kerak.'"
-                  *ngIf="ruleForm.controls.last_name.errors && ruleForm.controls.last_name.errors['minlength']"></app-invaid-text>
-              </div>
+              @if (ruleForm.controls.last_name.invalid && (ruleForm.controls.last_name.dirty || ruleForm.controls.last_name.touched)) {
+                <div
+                  >
+                  @if (ruleForm.controls.last_name.errors && ruleForm.controls.last_name.errors['minlength']) {
+                    <app-invaid-text [text]="'Otasining ismi kamida 4 ta belgidan iborat bo‘lishi kerak.'"
+                    ></app-invaid-text>
+                  }
+                </div>
+              }
             </div>
           </div>
         </div>
-
         <div class="profile-form-section">
           <div class="profile-section-title">
             <i class="pi pi-envelope"></i>
@@ -182,25 +222,30 @@
                     'ng-invalid ng-dirty': ruleForm.controls.email.touched && ruleForm.controls.email.errors && ruleForm.controls.email.errors['required'],
                   }" type="text" id="email" placeholder="example@mail.ru" formControlName="email" />
               </div>
-
-              <div
-                *ngIf="ruleForm.controls.email.invalid && (ruleForm.controls.email.dirty || ruleForm.controls.email.touched)">
-                <app-invaid-text [text]="'Elektron pochta kiritilishi shart.'"
-                  *ngIf="ruleForm.controls.email.errors && ruleForm.controls.email.errors['required']"></app-invaid-text>
-                <app-invaid-text [text]="'To‘g‘ri elektron pochta manzilini kiriting.'"
-                  *ngIf="ruleForm.controls.email.errors && ruleForm.controls.email.errors['email']"></app-invaid-text>
-              </div>
+              @if (ruleForm.controls.email.invalid && (ruleForm.controls.email.dirty || ruleForm.controls.email.touched)) {
+                <div
+                  >
+                  @if (ruleForm.controls.email.errors && ruleForm.controls.email.errors['required']) {
+                    <app-invaid-text [text]="'Elektron pochta kiritilishi shart.'"
+                    ></app-invaid-text>
+                  }
+                  @if (ruleForm.controls.email.errors && ruleForm.controls.email.errors['email']) {
+                    <app-invaid-text [text]="'To‘g‘ri elektron pochta manzilini kiriting.'"
+                    ></app-invaid-text>
+                  }
+                </div>
+              }
             </div>
           </div>
         </div>
       </div>
-
       <div class="profile-form-actions flex md:w-full md:flex-col gap-3">
         <p-button [loading]="loading" (click)="onSubmit()" class="px-0 py-0 rounded-[12px]"
-          styleClass="btn w-[170px] md:w-full h-12 md:h-11 rounded-[12px] bg-[var(--green)] text-white flex items-center font-semibold justify-center">Saqlash</p-button>
+        styleClass="btn w-[170px] md:w-full h-12 md:h-11 rounded-[12px] bg-[var(--green)] text-white flex items-center font-semibold justify-center">Saqlash</p-button>
         <button (click)="cancelEdit()"
-          class="btn px-[22px] md:h-11 md:w-full md:justify-center font-semibold cursor-pointer bg-transparent whitespace-nowrap py-[10px] rounded-[12px] text-black border border-solid border-[--grey-300] text-[16px] font-500 flex items-center gap-[10px]">Bekor qilish</button>
+        class="btn px-[22px] md:h-11 md:w-full md:justify-center font-semibold cursor-pointer bg-transparent whitespace-nowrap py-[10px] rounded-[12px] text-black border border-solid border-[--grey-300] text-[16px] font-500 flex items-center gap-[10px]">Bekor qilish</button>
       </div>
     </div>
-  </div>
+  }
+</div>
 </div>

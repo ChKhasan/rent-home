@@ -1,15 +1,16 @@
-import { Component, DestroyRef, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { FooterComponent } from '../footer/footer.component';
 import { HeaderComponent } from '../header/header.component';
-import { Location, NgIf } from '@angular/common';
+import { Location } from '@angular/common';
 import { filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-profile-layout',
   standalone: true,
-  imports: [RouterOutlet, FooterComponent, HeaderComponent, NgIf],
+  imports: [RouterOutlet, FooterComponent, HeaderComponent],
   templateUrl: './profile-layout.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './profile-layout.component.css',
 })
 export class ProfileLayoutComponent implements OnInit {

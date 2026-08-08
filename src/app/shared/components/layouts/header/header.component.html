@@ -32,44 +32,65 @@
           (click)="themeMenuOpen = !themeMenuOpen">
           <i class="pi" [class.pi-desktop]="theme.preference() === 'system'" [class.pi-sun]="theme.preference() === 'light'" [class.pi-moon]="theme.preference() === 'dark'"></i>
         </button>
-        <div *ngIf="themeMenuOpen" class="theme-picker__menu" role="menu" aria-label="Ko‘rinish rejimi">
-          <button type="button" role="menuitemradio" [attr.aria-checked]="theme.preference() === 'system'" (click)="setTheme('system')">
-            <i class="pi pi-desktop"></i><span>Tizim</span><i *ngIf="theme.preference() === 'system'" class="pi pi-check"></i>
+        @if (themeMenuOpen) {
+          <div class="theme-picker__menu" role="menu" aria-label="Ko‘rinish rejimi">
+            <button type="button" role="menuitemradio" [attr.aria-checked]="theme.preference() === 'system'" (click)="setTheme('system')">
+              <i class="pi pi-desktop"></i><span>Tizim</span>@if (theme.preference() === 'system') {
+              <i class="pi pi-check"></i>
+            }
           </button>
           <button type="button" role="menuitemradio" [attr.aria-checked]="theme.preference() === 'light'" (click)="setTheme('light')">
-            <i class="pi pi-sun"></i><span>Yorug‘</span><i *ngIf="theme.preference() === 'light'" class="pi pi-check"></i>
-          </button>
-          <button type="button" role="menuitemradio" [attr.aria-checked]="theme.preference() === 'dark'" (click)="setTheme('dark')">
-            <i class="pi pi-moon"></i><span>Qorong‘i</span><i *ngIf="theme.preference() === 'dark'" class="pi pi-check"></i>
-          </button>
-        </div>
-      </div>
-
-      <a *ngIf="authService.auth" routerLink="/likes" class="icon-button desktop-action" title="Saqlanganlar" aria-label="Saqlangan e'lonlar">
-        <i class="pi pi-heart"></i>
-      </a>
-      <a *ngIf="authService.auth" routerLink="/profile/chat" class="icon-button desktop-action" title="Chat" aria-label="Chat">
-        <i class="pi pi-comments"></i>
-      </a>
-      <button type="button" class="primary-action desktop-action" (click)="createAnnouncement()">
-        <i class="pi pi-plus"></i><span>E'lon berish</span>
-      </button>
-      <button type="button" class="profile-button" (click)="openProfile()" [attr.aria-label]="authService.auth ? 'Profilni ochish' : 'Kirish'">
-        <img *ngIf="authService.user?.images?.[0]?.image; else profileIcon" [src]="authService.user?.images?.[0]?.image" alt="" />
-        <ng-template #profileIcon><i class="pi pi-user"></i></ng-template>
-        <span class="profile-button__label">{{ authService.auth ? (authService.user?.name || 'Profil') : 'Kirish' }}</span>
-      </button>
-      <button type="button" class="icon-button menu-button" aria-label="Menyuni ochish" [attr.aria-expanded]="mobileMenuOpen" (click)="mobileMenuOpen = !mobileMenuOpen">
-        <i class="pi" [class.pi-bars]="!mobileMenuOpen" [class.pi-times]="mobileMenuOpen"></i>
+            <i class="pi pi-sun"></i><span>Yorug‘</span>@if (theme.preference() === 'light') {
+            <i class="pi pi-check"></i>
+          }
+        </button>
+        <button type="button" role="menuitemradio" [attr.aria-checked]="theme.preference() === 'dark'" (click)="setTheme('dark')">
+          <i class="pi pi-moon"></i><span>Qorong‘i</span>@if (theme.preference() === 'dark') {
+          <i class="pi pi-check"></i>
+        }
       </button>
     </div>
-  </div>
+  }
+</div>
 
-  <nav *ngIf="mobileMenuOpen" class="mobile-menu" aria-label="Mobil navigatsiya">
+@if (authService.auth) {
+  <a routerLink="/likes" class="icon-button desktop-action" title="Saqlanganlar" aria-label="Saqlangan e'lonlar">
+    <i class="pi pi-heart"></i>
+  </a>
+}
+@if (authService.auth) {
+  <a routerLink="/profile/chat" class="icon-button desktop-action" title="Chat" aria-label="Chat">
+    <i class="pi pi-comments"></i>
+  </a>
+}
+<button type="button" class="primary-action desktop-action" (click)="createAnnouncement()">
+  <i class="pi pi-plus"></i><span>E'lon berish</span>
+</button>
+<button type="button" class="profile-button" (click)="openProfile()" [attr.aria-label]="authService.auth ? 'Profilni ochish' : 'Kirish'">
+  @if (authService.user?.images?.[0]?.image) {
+    <img [src]="$safeNavigationMigration(authService.user?.images?.[0]?.image)" alt="" />
+  } @else {
+    <i class="pi pi-user"></i>
+  }
+  <span class="profile-button__label">{{ authService.auth ? (authService.user?.name || 'Profil') : 'Kirish' }}</span>
+</button>
+<button type="button" class="icon-button menu-button" aria-label="Menyuni ochish" [attr.aria-expanded]="mobileMenuOpen" (click)="mobileMenuOpen = !mobileMenuOpen">
+  <i class="pi" [class.pi-bars]="!mobileMenuOpen" [class.pi-times]="mobileMenuOpen"></i>
+</button>
+</div>
+</div>
+
+@if (mobileMenuOpen) {
+  <nav class="mobile-menu" aria-label="Mobil navigatsiya">
     <a routerLink="/announcements" (click)="mobileMenuOpen = false"><i class="pi pi-list"></i>E'lonlar</a>
     <a routerLink="/map" (click)="mobileMenuOpen = false"><i class="pi pi-map"></i>Xarita</a>
-    <a *ngIf="authService.auth" routerLink="/likes" (click)="mobileMenuOpen = false"><i class="pi pi-heart"></i>Saqlanganlar</a>
-    <a *ngIf="authService.auth" routerLink="/profile/chat" (click)="mobileMenuOpen = false"><i class="pi pi-comments"></i>Chat</a>
+    @if (authService.auth) {
+      <a routerLink="/likes" (click)="mobileMenuOpen = false"><i class="pi pi-heart"></i>Saqlanganlar</a>
+    }
+    @if (authService.auth) {
+      <a routerLink="/profile/chat" (click)="mobileMenuOpen = false"><i class="pi pi-comments"></i>Chat</a>
+    }
     <button type="button" class="primary-action" (click)="createAnnouncement(); mobileMenuOpen = false"><i class="pi pi-plus"></i>E'lon berish</button>
   </nav>
+}
 </div>

@@ -3,7 +3,9 @@
     <ng-content select=".dbtn"></ng-content>
   </div>
 
-  <div [@errorAnimation] *ngIf="profileDrop" class="shadow-md top-[100%] footer z-50 absolute rounded-[12px] bg-white profile px-[24px] py-[24px] right-0 overflow-hidden">
-    <ng-content select=".dbody"></ng-content>
-  </div>
+  @if (profileDrop) {
+    <div class="shadow-md top-[100%] footer z-50 absolute rounded-[12px] bg-white profile px-[24px] py-[24px] right-0 overflow-hidden">
+      <ng-content select=".dbody"></ng-content>
+    </div>
+  }
 </div>

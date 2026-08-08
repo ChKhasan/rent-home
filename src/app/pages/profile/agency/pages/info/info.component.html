@@ -5,27 +5,27 @@
     <p class="description">Agentlik profili va huquqiy maʼlumotlar.</p>
   </header>
 
-  <section class="info-content" *ngIf="!loading; else loadingState">
-    <div class="alert">
-      <p>
-        Agentlik ma'lumotlarini o‘zgartirish hozircha admin panel orqali amalga oshiriladi. Bu sahifa faqat ko‘rish uchun.
-      </p>
-    </div>
-
-    <dl class="info-list">
-      <div><dt>Nomi</dt><dd>{{ form.controls.name.value || 'Ko‘rsatilmagan' }}</dd></div>
-      <div><dt>INN</dt><dd>{{ form.controls.inn.value || 'Ko‘rsatilmagan' }}</dd></div>
-      <div><dt>Litsenziya raqami</dt><dd>{{ form.controls.license_number.value || 'Ko‘rsatilmagan' }}</dd></div>
-      <div><dt>Manzil</dt><dd>{{ form.controls.address.value || 'Ko‘rsatilmagan' }}</dd></div>
-      <div><dt>Kontakt telefon</dt><dd>{{ form.controls.contact_phone.value || 'Ko‘rsatilmagan' }}</dd></div>
-    </dl>
-  </section>
-
-  <ng-template #loadingState>
+  @if (!loading) {
+    <section class="info-content">
+      <div class="alert">
+        <p>
+          Agentlik ma'lumotlarini o‘zgartirish hozircha admin panel orqali amalga oshiriladi. Bu sahifa faqat ko‘rish uchun.
+        </p>
+      </div>
+      <dl class="info-list">
+        <div><dt>Nomi</dt><dd>{{ form.controls.name.value || 'Ko‘rsatilmagan' }}</dd></div>
+        <div><dt>INN</dt><dd>{{ form.controls.inn.value || 'Ko‘rsatilmagan' }}</dd></div>
+        <div><dt>Litsenziya raqami</dt><dd>{{ form.controls.license_number.value || 'Ko‘rsatilmagan' }}</dd></div>
+        <div><dt>Manzil</dt><dd>{{ form.controls.address.value || 'Ko‘rsatilmagan' }}</dd></div>
+        <div><dt>Kontakt telefon</dt><dd>{{ form.controls.contact_phone.value || 'Ko‘rsatilmagan' }}</dd></div>
+      </dl>
+    </section>
+  } @else {
     <div class="skeleton-stack">
       <p-skeleton height="30px"></p-skeleton>
       <p-skeleton height="30px"></p-skeleton>
       <p-skeleton height="30px"></p-skeleton>
     </div>
-  </ng-template>
+  }
+
 </section>

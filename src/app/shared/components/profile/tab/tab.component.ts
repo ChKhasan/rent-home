@@ -1,16 +1,17 @@
-import { Component, DestroyRef, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { filter, take } from 'rxjs';
-import { Location, NgForOf } from '@angular/common';
-import { NgIf } from '@angular/common';
+import { Location } from '@angular/common';
+
 import { AgencyAccessService } from '@services/agency-access';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-tab',
   standalone: true,
-  imports: [NgIf, NgForOf, RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './tab.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './tab.component.css',
 })
 export class TabComponent implements OnInit {

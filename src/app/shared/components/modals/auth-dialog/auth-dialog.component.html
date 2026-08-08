@@ -28,7 +28,7 @@
           <label id="auth-phone-label" for="auth-phone">Telefon raqamingiz</label>
           <div class="auth-phone-field">
             <span class="auth-phone-prefix" aria-hidden="true">+998</span>
-            <p-inputMask
+            <p-inputmask
               mask="99 999 99 99"
               inputId="auth-phone"
               ariaLabelledBy="auth-phone-label"
@@ -43,21 +43,27 @@
               [ngClass]="{
                 'auth-control--invalid': submitted && ruleForm.controls.phone_number.invalid,
               }">
-            </p-inputMask>
+            </p-inputmask>
           </div>
 
-          <div
-            class="auth-field__error"
-            *ngIf="submitted && ruleForm.controls.phone_number.invalid">
-            <app-invaid-text
-              [text]="'Telefon raqami kiritilishi shart.'"
-              *ngIf="ruleForm.controls.phone_number.errors?.['required']">
-            </app-invaid-text>
-            <app-invaid-text
-              [text]="'Telefon raqamini 90 123 45 67 formatida kiriting.'"
-              *ngIf="!ruleForm.controls.phone_number.errors?.['required'] && ruleForm.controls.phone_number.errors?.['pattern']">
-            </app-invaid-text>
-          </div>
+          @if (submitted && ruleForm.controls.phone_number.invalid) {
+            <div
+              class="auth-field__error"
+              >
+              @if (ruleForm.controls.phone_number.errors?.['required']) {
+                <app-invaid-text
+                  [text]="'Telefon raqami kiritilishi shart.'"
+                  >
+                </app-invaid-text>
+              }
+              @if (!ruleForm.controls.phone_number.errors?.['required'] && ruleForm.controls.phone_number.errors?.['pattern']) {
+                <app-invaid-text
+                  [text]="'Telefon raqamini 90 123 45 67 formatida kiriting.'"
+                  >
+                </app-invaid-text>
+              }
+            </div>
+          }
         </div>
 
         <div class="auth-field">
@@ -75,27 +81,37 @@
             }">
           </p-password>
 
-          <div
-            class="auth-field__error"
-            *ngIf="submitted && ruleForm.controls.password.invalid">
-            <app-invaid-text
-              [text]="'Parol kiritilishi shart.'"
-              *ngIf="ruleForm.controls.password.errors?.['required']">
-            </app-invaid-text>
-            <app-invaid-text
-              [text]="'Parol kamida 8 ta belgidan iborat bo‘lishi kerak.'"
-              *ngIf="!ruleForm.controls.password.errors?.['required'] && !ruleForm.controls.password.errors?.['pattern'] && ruleForm.controls.password.errors?.['minlength']">
-            </app-invaid-text>
-            <app-invaid-text
-              [text]="'Parolda kamida bitta harf va bitta raqam bo‘lishi kerak.'"
-              *ngIf="!ruleForm.controls.password.errors?.['required'] && ruleForm.controls.password.errors?.['pattern']">
-            </app-invaid-text>
-          </div>
+          @if (submitted && ruleForm.controls.password.invalid) {
+            <div
+              class="auth-field__error"
+              >
+              @if (ruleForm.controls.password.errors?.['required']) {
+                <app-invaid-text
+                  [text]="'Parol kiritilishi shart.'"
+                  >
+                </app-invaid-text>
+              }
+              @if (!ruleForm.controls.password.errors?.['required'] && !ruleForm.controls.password.errors?.['pattern'] && ruleForm.controls.password.errors?.['minlength']) {
+                <app-invaid-text
+                  [text]="'Parol kamida 8 ta belgidan iborat bo‘lishi kerak.'"
+                  >
+                </app-invaid-text>
+              }
+              @if (!ruleForm.controls.password.errors?.['required'] && ruleForm.controls.password.errors?.['pattern']) {
+                <app-invaid-text
+                  [text]="'Parolda kamida bitta harf va bitta raqam bo‘lishi kerak.'"
+                  >
+                </app-invaid-text>
+              }
+            </div>
+          }
         </div>
       </div>
 
       <div class="auth-form__error" aria-live="polite">
-        <app-invaid-text [text]="'Telefon raqami yoki parol noto‘g‘ri'" *ngIf="infoError"></app-invaid-text>
+        @if (infoError) {
+          <app-invaid-text [text]="'Telefon raqami yoki parol noto‘g‘ri'"></app-invaid-text>
+        }
       </div>
 
       <button pButton type="submit" [loading]="loading" class="auth-submit">Kirish</button>

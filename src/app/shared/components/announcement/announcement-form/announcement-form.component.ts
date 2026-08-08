@@ -1,8 +1,8 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { InvaidTextComponent } from '../../form/invaid-text/invaid-text.component';
-import { DecimalPipe, NgForOf, NgIf } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 import { FormService } from '@/core/services/announcements/form.service';
 import { TooltipModule } from 'primeng/tooltip';
 import { ButtonModule } from 'primeng/button';
@@ -25,7 +25,6 @@ import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { SelectModule } from 'primeng/select';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { DictionaryService } from '@/core/services/dictionary/dictionary.service';
-import { ValidationErrorAnimation } from '@/core/common/animations';
 import { currenyTypes } from '@/core/constants/currency';
 import { DEFAULT_DEAL_TYPE, DEAL_TYPE_OPTIONS, DealType } from '@/core/constants/deal-type';
 import { finalize } from 'rxjs';
@@ -34,10 +33,10 @@ import { resolveAnnouncementCoordinates } from '@/core/geo';
 @Component({
   selector: 'app-announcement-form',
   standalone: true,
-  animations: [ValidationErrorAnimation],
-  imports: [FormsModule, InputTextModule, ToggleSwitchModule, MultiSelectModule, SelectModule, InvaidTextComponent, NgIf, ReactiveFormsModule, TooltipModule, DecimalPipe, ButtonModule, ToastModule, FileUploadModule, TextareaModule, CheckboxModule, InputMaskModule, InputNumberModule, NgForOf, ImageModule, RippleModule, MapDialogComponent],
+  imports: [FormsModule, InputTextModule, ToggleSwitchModule, MultiSelectModule, SelectModule, InvaidTextComponent, ReactiveFormsModule, TooltipModule, DecimalPipe, ButtonModule, ToastModule, FileUploadModule, TextareaModule, CheckboxModule, InputMaskModule, InputNumberModule, ImageModule, RippleModule, MapDialogComponent],
   providers: [FormService],
   templateUrl: './announcement-form.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './announcement-form.component.css',
 })
 export class AnnouncementFormComponent implements OnInit {

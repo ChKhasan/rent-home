@@ -1,4 +1,5 @@
 export interface NexthomeRuntimeConfig {
+  primeUiLicenseKey?: string;
   yandexMapsApiKey?: string;
 }
 

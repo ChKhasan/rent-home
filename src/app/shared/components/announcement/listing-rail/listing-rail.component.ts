@@ -9,7 +9,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { NgFor, NgIf } from '@angular/common';
+
 import { RouterLink } from '@angular/router';
 import { LucideChevronLeft, LucideChevronRight } from '@lucide/angular';
 import type { Swiper } from 'swiper/types';
@@ -26,13 +26,11 @@ type SwiperContainerElement = HTMLElement & {
   selector: 'app-listing-rail',
   standalone: true,
   imports: [
-    NgFor,
-    NgIf,
     RouterLink,
     AnnouncementsCardComponent,
     LucideChevronLeft,
-    LucideChevronRight,
-  ],
+    LucideChevronRight
+],
   templateUrl: './listing-rail.component.html',
   styleUrl: './listing-rail.component.css',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

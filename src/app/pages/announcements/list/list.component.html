@@ -1,41 +1,55 @@
 <div class="applications">
-  <div class="2xl:container mx-auto px-4">
+  <div class="applications__inner">
     <header class="list-header">
       <div>
         <h1 class="page-title">E'lonlar</h1>
-        <p class="result-copy">{{ totalPage }} ta natija <span *ngIf="activeFilterCount">· {{ activeFilterCount }} ta filtr faol</span></p>
+        <p class="result-copy">{{ totalPage }} ta natija @if (activeFilterCount) {
+          <span>· {{ activeFilterCount }} ta filtr faol</span>
+        }</p>
       </div>
       <div class="list-header__actions">
         <app-deal-type-switcher></app-deal-type-switcher>
       </div>
     </header>
-    <div *ngIf="activePublisherChips.length || verifiedOnlyActive || commissionFreeActive"
-      class="active-filter-chips" role="group" aria-label="Aktiv publisher filterlari">
-      <button *ngFor="let chip of activePublisherChips" type="button" (click)="removePublisherType(chip.type)"
-        class="active-filter-chip">
-        {{ chip.label }} <svg lucideX [size]="16" aria-hidden="true"></svg>
-      </button>
-      <button *ngIf="verifiedOnlyActive" type="button" (click)="removePublisherFlag('verified_only')"
-        class="active-filter-chip">
-        Tekshirilgan <svg lucideX [size]="16" aria-hidden="true"></svg>
-      </button>
-      <button *ngIf="commissionFreeActive" type="button" (click)="removePublisherFlag('commission_free')"
-        class="active-filter-chip">
-        Komissiyasiz <svg lucideX [size]="16" aria-hidden="true"></svg>
-      </button>
-    </div>
+    @if (activePublisherChips.length || verifiedOnlyActive || commissionFreeActive) {
+      <div
+        class="active-filter-chips" role="group" aria-label="Aktiv publisher filterlari">
+        @for (chip of activePublisherChips; track chip) {
+          <button type="button" (click)="removePublisherType(chip.type)"
+            class="active-filter-chip">
+            {{ chip.label }} <svg lucideX [size]="16" aria-hidden="true"></svg>
+          </button>
+        }
+        @if (verifiedOnlyActive) {
+          <button type="button" (click)="removePublisherFlag('verified_only')"
+            class="active-filter-chip">
+            Tekshirilgan <svg lucideX [size]="16" aria-hidden="true"></svg>
+          </button>
+        }
+        @if (commissionFreeActive) {
+          <button type="button" (click)="removePublisherFlag('commission_free')"
+            class="active-filter-chip">
+            Komissiyasiz <svg lucideX [size]="16" aria-hidden="true"></svg>
+          </button>
+        }
+      </div>
+    }
     <nav class="mobile-results-tools" aria-label="Natijalarni boshqarish">
       <button type="button" class="mobile-results-tool" (click)="openBottomSheet()">
         <svg lucideSlidersHorizontal [size]="18" aria-hidden="true"></svg>
         <span>Filtrlar</span>
-        <strong *ngIf="activeFilterCount" aria-label="{{ activeFilterCount }} ta faol filtr">{{ activeFilterCount }}</strong>
+        @if (activeFilterCount) {
+          <strong aria-label="{{ activeFilterCount }} ta faol filtr">{{ activeFilterCount }}</strong>
+        }
       </button>
       <label class="mobile-results-tool mobile-results-tool--sort">
         <svg lucideArrowUpDown [size]="18" aria-hidden="true"></svg>
         <span class="sr-only">Saralash</span>
         <select aria-label="E'lonlarni saralash" [value]="currentSort" (change)="selectMobileSort($event)">
           <option value="">Saralash</option>
-          <option *ngFor="let option of mobileSortOptions" [value]="option.value">{{ option.label }}</option>
+          @for (option of mobileSortOptions; track option) {
+            <option [value]="option.value">{{ option.label }}</option>
+          }
         </select>
       </label>
       <a class="mobile-results-tool" [routerLink]="['/map']" [queryParams]="mapQueryParams">
@@ -48,34 +62,41 @@
         <!-- <app-search [getData]="__GET_ANNOUNCEMENTS" [loading]="loading"></app-search> -->
         <app-filter ngSkipHydration [filterAction]="filterSend" [loading]="loading" [clearFilterAction]="clearFilter"></app-filter>
       </aside>
-      <div>
+      <div class="results-panel">
 
         <div class="results-toolbar md:hidden">
           <h6 class="sort-label">Saralash</h6>
           <div class="tab gap-[10px] flex px-[4px] items-center border border-solid py-[4px]">
-            <button *ngFor="let sort of sortOptions"
-              class="btn px-[20px] whitespace-nowrap py-[10px] text-[16px] font-500 flex items-center gap-[10px]"
-              [class]="{ active: sort.options.includes(currentSort),'pointer-events-none opacity-50': loading }"
-              (click)="sortHandle(sort.options)">
-              {{ sort.name }}
-              <svg lucideArrowUpDown [size]="18" [class.opacity-0]="!sort.options.includes(currentSort)" aria-hidden="true"></svg>
-            </button>
+            @for (sort of sortOptions; track sort) {
+              <button
+                class="btn px-[20px] whitespace-nowrap py-[10px] text-[16px] font-500 flex items-center gap-[10px]"
+                [class]="{ active: sort.options.includes(currentSort),'pointer-events-none opacity-50': loading }"
+                (click)="sortHandle(sort.options)">
+                {{ sort.name }}
+                <svg lucideArrowUpDown [size]="18" [class.opacity-0]="!sort.options.includes(currentSort)" aria-hidden="true"></svg>
+              </button>
+            }
           </div>
         </div>
 
-        <div class="results-grid" *ngIf="loading; else announcementsList">
-          <app-listing-card-skeleton *ngFor="let item of skeletonList"></app-listing-card-skeleton>
-        </div>
-        <ng-template #announcementsList>
+        @if (loading) {
           <div class="results-grid">
-            <ng-container *ngFor="let announcement of announcements; trackBy: trackByAnnouncementId">
-              <app-announcements-card [announcement]="announcement"></app-announcements-card>
-            </ng-container>
+            @for (item of skeletonList; track item) {
+              <app-listing-card-skeleton></app-listing-card-skeleton>
+            }
           </div>
-        </ng-template>
-        <div class="h-[40vh] flex items-center justify-center" *ngIf="announcements.length === 0 && !loading">
-          <app-empty-found></app-empty-found>
-        </div>
+        } @else {
+          <div class="results-grid">
+            @for (announcement of announcements; track trackByAnnouncementId($index, announcement)) {
+              <app-announcements-card [announcement]="announcement"></app-announcements-card>
+            }
+          </div>
+        }
+        @if (announcements.length === 0 && !loading) {
+          <div class="h-[40vh] flex items-center justify-center">
+            <app-empty-found></app-empty-found>
+          </div>
+        }
         <div class="flex justify-center mt-6">
           <app-pagination [getData]="__GET_ANNOUNCEMENTS" [totalPage]="totalPage"></app-pagination>
         </div>
@@ -85,5 +106,5 @@
 </div>
 <app-bottom-sheet title="E'lon filtrlari" closeLabel="Filtrlarni yopish">
   <app-filter ngSkipHydration [close]="closeBottomSheet" [filterAction]="filterSend" [loading]="loading"
-    [clearFilterAction]="clearFilter"></app-filter>
+  [clearFilterAction]="clearFilter"></app-filter>
 </app-bottom-sheet>

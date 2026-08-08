@@ -1,93 +1,103 @@
 <section class="property-gallery" [attr.aria-label]="title + ' rasmlari'">
   <div class="property-gallery__stage">
-    <ng-container *ngIf="galleryImages.length; else emptyGallery">
+    @if (galleryImages.length) {
       <swiper-container
         #mainSwiper
         class="property-gallery__main"
         init="false"
         (swiperinit)="updateFromSwiper($event, 'main')"
         (swiperslidechange)="updateFromSwiper($event, 'main')"
-      >
-        <swiper-slide *ngFor="let image of galleryImages; let index = index; trackBy: trackByImage">
-          <button
-            type="button"
-            class="property-gallery__media"
-            [attr.aria-label]="imageAlt(index) + 'ni to\'liq ekranda ochish'"
-            (click)="openFullscreen(index, $event.currentTarget)"
-          >
-            <img
-              *ngIf="!imageFailed(image); else imagePlaceholder"
-              [src]="image.image"
-              [alt]="imageAlt(index)"
-              width="1200"
-              height="750"
-              [attr.loading]="index === 0 ? 'eager' : 'lazy'"
-              [attr.fetchpriority]="index === 0 ? 'high' : 'auto'"
-              decoding="async"
-              (error)="markImageFailed(image)"
-            />
-            <ng-template #imagePlaceholder>
-              <span class="property-gallery__placeholder">
-                <svg lucideBuilding2 [size]="42" [strokeWidth]="1.5" aria-hidden="true"></svg>
-                <span>Rasm mavjud emas</span>
+        >
+        @for (image of galleryImages; track trackByImage(index, image); let index = $index) {
+          <swiper-slide>
+            <button
+              type="button"
+              class="property-gallery__media"
+              [attr.aria-label]="imageAlt(index) + 'ni to\'liq ekranda ochish'"
+              (click)="openFullscreen(index, $event.currentTarget)"
+              >
+              @if (!imageFailed(image)) {
+                <img
+                  [src]="image.image"
+                  [alt]="imageAlt(index)"
+                  width="1200"
+                  height="750"
+                  [attr.loading]="index === 0 ? 'eager' : 'lazy'"
+                  [attr.fetchpriority]="index === 0 ? 'high' : 'auto'"
+                  decoding="async"
+                  (error)="markImageFailed(image)"
+                  />
+              } @else {
+                <span class="property-gallery__placeholder">
+                  <svg lucideBuilding2 [size]="42" [strokeWidth]="1.5" aria-hidden="true"></svg>
+                  <span>Rasm mavjud emas</span>
+                </span>
+              }
+              <span class="property-gallery__expand" aria-hidden="true">
+                <svg lucideExpand [size]="20"></svg>
               </span>
-            </ng-template>
-            <span class="property-gallery__expand" aria-hidden="true">
-              <svg lucideExpand [size]="20"></svg>
-            </span>
-          </button>
-        </swiper-slide>
+            </button>
+          </swiper-slide>
+        }
       </swiper-container>
-
-      <div *ngIf="hasMultipleImages" class="property-gallery__navigation" aria-label="Rasmlar navigatsiyasi">
-        <button type="button" [disabled]="atBeginning" aria-label="Oldingi rasm" (click)="previous()">
-          <svg lucideChevronLeft [size]="22"></svg>
-        </button>
-        <button type="button" [disabled]="atEnd" aria-label="Keyingi rasm" (click)="next()">
-          <svg lucideChevronRight [size]="22"></svg>
-        </button>
-      </div>
-
+      @if (hasMultipleImages) {
+        <div class="property-gallery__navigation" aria-label="Rasmlar navigatsiyasi">
+          <button type="button" [disabled]="atBeginning" aria-label="Oldingi rasm" (click)="previous()">
+            <svg lucideChevronLeft [size]="22"></svg>
+          </button>
+          <button type="button" [disabled]="atEnd" aria-label="Keyingi rasm" (click)="next()">
+            <svg lucideChevronRight [size]="22"></svg>
+          </button>
+        </div>
+      }
       <span class="property-gallery__count" aria-hidden="true">
         {{ currentIndex + 1 }} / {{ galleryImages.length }}
       </span>
-    </ng-container>
-
-    <ng-template #emptyGallery>
+    } @else {
       <div class="property-gallery__empty">
         <svg lucideBuilding2 [size]="48" [strokeWidth]="1.5" aria-hidden="true"></svg>
         <span>Nexthome</span>
         <p>Rasm mavjud emas</p>
       </div>
-    </ng-template>
+    }
+
   </div>
 
-  <swiper-container
-    *ngIf="hasMultipleImages"
-    #thumbSwiper
-    class="property-gallery__thumbs"
-    init="false"
-  >
-    <swiper-slide *ngFor="let image of galleryImages; let index = index; trackBy: trackByImage">
-      <button
-        type="button"
-        class="property-gallery__thumbnail"
-        [class.property-gallery__thumbnail--active]="currentIndex === index"
-        [attr.aria-label]="(index + 1) + '-rasmni ko\'rsatish'"
-        [attr.aria-current]="currentIndex === index ? 'true' : null"
-        (click)="goTo(index)"
+  @if (hasMultipleImages) {
+    <swiper-container
+      #thumbSwiper
+      class="property-gallery__thumbs"
+      init="false"
       >
-        <img *ngIf="!imageFailed(image)" [src]="image.image" alt="" width="160" height="100" loading="lazy" />
-        <span *ngIf="imageFailed(image)" class="property-gallery__thumbnail-placeholder" aria-hidden="true">
-          <svg lucideBuilding2 [size]="20"></svg>
-        </span>
-      </button>
-    </swiper-slide>
-  </swiper-container>
+      @for (image of galleryImages; track trackByImage(index, image); let index = $index) {
+        <swiper-slide>
+          <button
+            type="button"
+            class="property-gallery__thumbnail"
+            [class.property-gallery__thumbnail--active]="currentIndex === index"
+            [attr.aria-label]="(index + 1) + '-rasmni ko\'rsatish'"
+            [attr.aria-current]="currentIndex === index ? 'true' : null"
+            (click)="goTo(index)"
+            >
+            @if (!imageFailed(image)) {
+              <img [src]="image.image" alt="" width="160" height="100" loading="lazy" />
+            }
+            @if (imageFailed(image)) {
+              <span class="property-gallery__thumbnail-placeholder" aria-hidden="true">
+                <svg lucideBuilding2 [size]="20"></svg>
+              </span>
+            }
+          </button>
+        </swiper-slide>
+      }
+    </swiper-container>
+  }
 
-  <p *ngIf="galleryImages.length" class="sr-only" aria-live="polite">
-    {{ currentIndex + 1 }}-rasm, jami {{ galleryImages.length }} ta
-  </p>
+  @if (galleryImages.length) {
+    <p class="sr-only" aria-live="polite">
+      {{ currentIndex + 1 }}-rasm, jami {{ galleryImages.length }} ta
+    </p>
+  }
 </section>
 
 <dialog
@@ -96,7 +106,7 @@
   aria-label="Rasmlarni to'liq ekranda ko'rish"
   (cancel)="onDialogCancel($event)"
   (close)="onDialogClosed()"
->
+  >
   <header class="property-gallery-dialog__header">
     <span>{{ currentIndex + 1 }} / {{ galleryImages.length }}</span>
     <button #closeButton type="button" aria-label="To'liq ekranni yopish" (click)="closeFullscreen()">
@@ -110,45 +120,49 @@
       class="property-gallery-dialog__swiper"
       init="false"
       (swiperslidechange)="updateFromSwiper($event, 'fullscreen')"
-    >
-      <swiper-slide *ngFor="let image of galleryImages; let index = index; trackBy: trackByImage">
-        <img
-          *ngIf="!imageFailed(image); else fullscreenPlaceholder"
-          [src]="image.image"
-          [alt]="imageAlt(index)"
-          width="1600"
-          height="1000"
-          decoding="async"
-          (error)="markImageFailed(image)"
-        />
-        <ng-template #fullscreenPlaceholder>
-          <span class="property-gallery-dialog__placeholder">
-            <svg lucideBuilding2 [size]="54" [strokeWidth]="1.4" aria-hidden="true"></svg>
-            <span>Rasm mavjud emas</span>
-          </span>
-        </ng-template>
-      </swiper-slide>
+      >
+      @for (image of galleryImages; track trackByImage(index, image); let index = $index) {
+        <swiper-slide>
+          @if (!imageFailed(image)) {
+            <img
+              [src]="image.image"
+              [alt]="imageAlt(index)"
+              width="1600"
+              height="1000"
+              decoding="async"
+              (error)="markImageFailed(image)"
+              />
+          } @else {
+            <span class="property-gallery-dialog__placeholder">
+              <svg lucideBuilding2 [size]="54" [strokeWidth]="1.4" aria-hidden="true"></svg>
+              <span>Rasm mavjud emas</span>
+            </span>
+          }
+        </swiper-slide>
+      }
     </swiper-container>
 
-    <button
-      *ngIf="hasMultipleImages"
-      type="button"
-      class="property-gallery-dialog__previous"
-      [disabled]="atBeginning"
-      aria-label="Oldingi rasm"
-      (click)="previous()"
-    >
-      <svg lucideChevronLeft [size]="24"></svg>
-    </button>
-    <button
-      *ngIf="hasMultipleImages"
-      type="button"
-      class="property-gallery-dialog__next"
-      [disabled]="atEnd"
-      aria-label="Keyingi rasm"
-      (click)="next()"
-    >
-      <svg lucideChevronRight [size]="24"></svg>
-    </button>
+    @if (hasMultipleImages) {
+      <button
+        type="button"
+        class="property-gallery-dialog__previous"
+        [disabled]="atBeginning"
+        aria-label="Oldingi rasm"
+        (click)="previous()"
+        >
+        <svg lucideChevronLeft [size]="24"></svg>
+      </button>
+    }
+    @if (hasMultipleImages) {
+      <button
+        type="button"
+        class="property-gallery-dialog__next"
+        [disabled]="atEnd"
+        aria-label="Keyingi rasm"
+        (click)="next()"
+        >
+        <svg lucideChevronRight [size]="24"></svg>
+      </button>
+    }
   </div>
 </dialog>

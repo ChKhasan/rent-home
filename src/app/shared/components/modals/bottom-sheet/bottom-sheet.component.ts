@@ -1,6 +1,5 @@
-import { Component, ElementRef, HostListener, Input, OnDestroy, ViewChild } from '@angular/core';
-import { animate, style, transition, trigger } from '@angular/animations';
-import { NgIf } from '@angular/common';
+import { Component, ElementRef, HostListener, Input, OnDestroy, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+
 import { LucideX } from '@lucide/angular';
 
 let bottomSheetId = 0;
@@ -8,10 +7,10 @@ let bottomSheetId = 0;
 @Component({
   selector: 'app-bottom-sheet',
   standalone: true,
-  imports: [NgIf, LucideX],
+  imports: [LucideX],
   templateUrl: './bottom-sheet.component.html',
   styleUrl: './bottom-sheet.component.css',
-  animations: [trigger('slideBottom', [transition(':enter', [style({ transform: 'translateY(100%)' }), animate('220ms ease-out', style({ transform: 'translateY(0)' }))]), transition(':leave', [animate('180ms ease-in', style({ transform: 'translateY(100%)' }))])])],
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class BottomSheetComponent implements OnDestroy {
   @Input() title = 'Filtrlar';
@@ -19,8 +18,6 @@ export class BottomSheetComponent implements OnDestroy {
   @ViewChild('sheet') private sheet?: ElementRef<HTMLElement>;
   readonly titleId = `bottom-sheet-title-${++bottomSheetId}`;
   bottomSheetVisible = false;
-  readonly reducedMotion = typeof window !== 'undefined'
-    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   private previouslyFocused: HTMLElement | null = null;
 
   open() {

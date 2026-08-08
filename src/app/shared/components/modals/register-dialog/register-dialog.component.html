@@ -20,69 +20,85 @@
               id="name" placeholder="Ism..." formControlName="name" autocomplete="off" />
           </div>
 
-          <div
-            *ngIf="ruleForm.controls.name.invalid && (ruleForm.controls.name.dirty || ruleForm.controls.name.touched)">
-            <app-invaid-text [text]="'Ism kiritilishi shart.'"
-              *ngIf="ruleForm.controls.name.errors && ruleForm.controls.name.errors['required']"></app-invaid-text>
-            <app-invaid-text [text]="'Ism kamida 4 ta belgidan iborat bo‘lishi kerak.'"
-              *ngIf="ruleForm.controls.name.errors && ruleForm.controls.name.errors['minlength']"></app-invaid-text>
-          </div>
+          @if (ruleForm.controls.name.invalid && (ruleForm.controls.name.dirty || ruleForm.controls.name.touched)) {
+            <div
+              >
+              @if (ruleForm.controls.name.errors && ruleForm.controls.name.errors['required']) {
+                <app-invaid-text [text]="'Ism kiritilishi shart.'"
+                ></app-invaid-text>
+              }
+              @if (ruleForm.controls.name.errors && ruleForm.controls.name.errors['minlength']) {
+                <app-invaid-text [text]="'Ism kamida 4 ta belgidan iborat bo‘lishi kerak.'"
+                ></app-invaid-text>
+              }
+            </div>
+          }
         </div>
         <!-- <div class="flex flex-col gap-2 relative">
-          <label class="font-400 text-[--gray-6] text-base" for="number">Telefon raqamingiz</label>
-          <div class="relative w-full flex items-center">
-            <p-inputMask
-              mask="99 999 99 99"
-              [ngClass]="{'ng-invalid ng-dirty': ruleForm.controls.phone_number.touched &&ruleForm.controls.phone_number.errors && ruleForm.controls.phone_number.errors['required'] }"
-              type="text"
-              class="mask-input  w-full"
-              pInputText
-              id="number"
-              formControlName="phone_number"
-              pattern="^\d{2} \d{3} \d{2} \d{2}$"
-              [autoClear]="false"
-            ></p-inputMask>
-            <span class="number-style h-full absolute left-[18px] flex items-center">+998</span>
-          </div>
+        <label class="font-400 text-[--gray-6] text-base" for="number">Telefon raqamingiz</label>
+        <div class="relative w-full flex items-center">
+          <p-inputmask
+            mask="99 999 99 99"
+            [ngClass]="{'ng-invalid ng-dirty': ruleForm.controls.phone_number.touched &&ruleForm.controls.phone_number.errors && ruleForm.controls.phone_number.errors['required'] }"
+            type="text"
+            class="mask-input  w-full"
+            pInputText
+            id="number"
+            formControlName="phone_number"
+            pattern="^\d{2} \d{3} \d{2} \d{2}$"
+            [autoClear]="false"
+          ></p-inputmask>
+          <span class="number-style h-full absolute left-[18px] flex items-center">+998</span>
+        </div>
 
-          <div
-            *ngIf="ruleForm.controls.phone_number.invalid && (ruleForm.controls.phone_number.dirty  || ruleForm.controls.phone_number.touched)"
+        <div
+          *ngIf="ruleForm.controls.phone_number.invalid && (ruleForm.controls.phone_number.dirty  || ruleForm.controls.phone_number.touched)"
           >
-            <app-invaid-text [text]="'Telefon raqami kiritilishi shart.'"  *ngIf="ruleForm.controls.phone_number.errors && ruleForm.controls.phone_number.errors['required']"></app-invaid-text>
-            <app-invaid-text [text]="'Please enter in the format ##-###-##-##.'"  *ngIf="ruleForm.controls.phone_number.errors && ruleForm.controls.phone_number.errors['pattern']"></app-invaid-text>
-          </div>
+          <app-invaid-text [text]="'Telefon raqami kiritilishi shart.'"  *ngIf="ruleForm.controls.phone_number.errors && ruleForm.controls.phone_number.errors['required']"></app-invaid-text>
+          <app-invaid-text [text]="'Please enter in the format ##-###-##-##.'"  *ngIf="ruleForm.controls.phone_number.errors && ruleForm.controls.phone_number.errors['pattern']"></app-invaid-text>
+        </div>
 
-        </div> -->
-        <div class="flex flex-col gap-2 text-base relative w-full">
-          <label class="font-400 text-[gray-6]" for="password">Parol</label>
-          <p-password inputId="password" ariaLabel="Yangi parol" autocomplete="new-password" formControlName="password"
-            class="password-input w-full h-12 rounded-[8px] border-[2px] border-solid border-[--input-stroke] bg-[--gray-1]"
-            [toggleMask]="true" [feedback]="false"></p-password>
-          <!--          <p-inputNumber mode="decimal"-->
-          <!--                         [maxlength]="6"-->
-          <!--                         [useGrouping]="false"-->
-          <!--                         placeholder="******"-->
-          <!--                         class="password-input w-full h-12 rounded-[8px] border-[2px] border-solid border-[&#45;&#45;input-stroke] bg-[&#45;&#45;gray-1]"-->
-          <!--                         pInputText id="password"-->
-          <!--                         formControlName="password"-->
-          <!--          ></p-inputNumber>-->
-          <div
-            *ngIf="ruleForm.controls.password.errors && ruleForm.controls.password.invalid && ruleForm.controls.password.touched">
+      </div> -->
+      <div class="flex flex-col gap-2 text-base relative w-full">
+        <label class="font-400 text-[gray-6]" for="password">Parol</label>
+        <p-password inputId="password" ariaLabel="Yangi parol" autocomplete="new-password" formControlName="password"
+          class="password-input w-full h-12 rounded-[8px] border-[2px] border-solid border-[--input-stroke] bg-[--gray-1]"
+        [toggleMask]="true" [feedback]="false"></p-password>
+        <!--          <p-inputnumber mode="decimal"-->
+        <!--                         [maxlength]="6"-->
+        <!--                         [useGrouping]="false"-->
+        <!--                         placeholder="******"-->
+        <!--                         class="password-input w-full h-12 rounded-[8px] border-[2px] border-solid border-[&#45;&#45;input-stroke] bg-[&#45;&#45;gray-1]"-->
+        <!--                         pInputText id="password"-->
+        <!--                         formControlName="password"-->
+      <!--          ></p-inputnumber>-->
+      @if (ruleForm.controls.password.errors && ruleForm.controls.password.invalid && ruleForm.controls.password.touched) {
+        <div
+          >
+          @if (ruleForm.controls.password.errors['required']) {
             <app-invaid-text [text]="'Parol kiritilishi shart.'"
-              *ngIf="ruleForm.controls.password.errors['required']"></app-invaid-text>
+            ></app-invaid-text>
+          }
+          @if (!ruleForm.controls.password.errors['pattern'] && ruleForm.controls.password.errors['minlength']) {
             <app-invaid-text [text]="'Parol kamida 8 ta belgidan iborat bo‘lishi kerak.'"
-              *ngIf="!ruleForm.controls.password.errors['pattern'] && ruleForm.controls.password.errors['minlength']"></app-invaid-text>
+            ></app-invaid-text>
+          }
+          @if (ruleForm.controls.password.errors['pattern']) {
             <app-invaid-text [text]="'Parolda kamida bitta harf va bitta raqam bo‘lishi kerak.'"
-              *ngIf="ruleForm.controls.password.errors['pattern']"></app-invaid-text>
-          </div>
+            ></app-invaid-text>
+          }
         </div>
-        <div class="relative flex justify-center">
-          <app-invaid-text class="w-full flex justify-center" [text]="'Kiritilgan ma’lumotlarni tekshiring'"
-            *ngIf="infoError"></app-invaid-text>
-        </div>
-      </div>
-      <button pButton [loading]="loading" (click)="onSubmit()"
-        class="w-full mt-[18px] h-12 items-center text-[17px] bg-[color:var(--green)] rounded-[8px] text-white font-600 flex justify-center">Tasdiqlash</button>
+      }
+    </div>
+    <div class="relative flex justify-center">
+      @if (infoError) {
+        <app-invaid-text class="w-full flex justify-center" [text]="'Kiritilgan ma’lumotlarni tekshiring'"
+        ></app-invaid-text>
+      }
     </div>
   </div>
+  <button pButton [loading]="loading" (click)="onSubmit()"
+  class="w-full mt-[18px] h-12 items-center text-[17px] bg-[color:var(--green)] rounded-[8px] text-white font-600 flex justify-center">Tasdiqlash</button>
+</div>
+</div>
 </p-dialog>

@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgFor, NgIf } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
@@ -19,8 +19,9 @@ type ProfileKind = 'broker' | 'agency';
 @Component({
   selector: 'app-public-publisher-profile',
   standalone: true,
-  imports: [NgIf, NgFor, FormsModule, ButtonModule, DialogModule, TextareaModule, SkeletonModule, AnnouncementsCardComponent],
+  imports: [FormsModule, ButtonModule, DialogModule, TextareaModule, SkeletonModule, AnnouncementsCardComponent],
   templateUrl: './public-profile.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './public-profile.component.css',
 })
 export class PublicPublisherProfileComponent implements OnInit {

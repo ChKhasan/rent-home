@@ -14,70 +14,82 @@
     <svg lucideSearch [size]="20" aria-hidden="true"></svg>
     <input type="search" placeholder="Suhbatlarni qidirish" aria-label="Suhbatlarni qidirish"
       [(ngModel)]="searchValue" (input)="onChangeSearch()" />
-    <button *ngIf="searchValue" type="button" class="search__clear" (click)="clearSearch()"
-      aria-label="Qidiruvni tozalash">
-      <svg lucideX [size]="18" aria-hidden="true"></svg>
-    </button>
+    @if (searchValue) {
+      <button type="button" class="search__clear" (click)="clearSearch()"
+        aria-label="Qidiruvni tozalash">
+        <svg lucideX [size]="18" aria-hidden="true"></svg>
+      </button>
+    }
   </div>
 
   <div class="list-region">
-    <div class="room-list room-list--loading" *ngIf="loading; else roomsContent" aria-label="Suhbatlar yuklanmoqda">
-      <p-skeleton *ngFor="let item of skeletonList" styleClass="ng_skeleton"></p-skeleton>
-    </div>
-    <ng-template #roomsContent>
-      <ul *ngIf="userRooms.length; else emptyRooms" class="room-list" aria-label="Suhbatlar">
-        <li *ngFor="let room of userRooms">
-          <button type="button" (click)="handlerRoom(room)" [ngClass]="{ active: isRoom?.id === room.id }"
-            [attr.aria-current]="isRoom?.id === room.id ? 'true' : null"
-            [attr.aria-label]="(room?.user?.name || 'Noma’lum foydalanuvchi') + ' bilan suhbat. ' + (room?.message || 'Xabar yo‘q')"
-            class="user-card">
-            <div class="room-avatar">
-              <div class="room-avatar__image">
-                <img *ngIf="room.user?.images?.length; else fallbackAvatar" [src]="room.user?.images?.[0]?.image"
-                  [alt]="room.user?.name || 'Foydalanuvchi'" />
-                <ng-template #fallbackAvatar>
-                  <img src="./assets/images/avatar.png" alt="" aria-hidden="true" />
-                </ng-template>
-              </div>
-              <span class="status-circle" [ngClass]="room.user?.is_online ? 'online' : 'offline'" aria-hidden="true"></span>
-              <span class="sr-only">{{ room.user?.is_online ? 'Onlayn' : 'Oflayn' }}</span>
-            </div>
-
-            <div class="room-copy">
-              <div class="room-copy__top">
-                <span class="room-name">{{ room?.user?.name || 'Noma’lum foydalanuvchi' }}</span>
-                <time class="room-time" [attr.datetime]="room?.last_message?.created_at">
-                  {{ formatRoomTime(room?.last_message?.created_at) }}
-                </time>
-              </div>
-              <div class="room-copy__bottom">
-                <p class="room-preview">{{ room?.message || 'Hali xabar yo‘q' }}</p>
-                <span *ngIf="getUnreadMessageCount(room) !== '0'" class="unread-badge"
-                  [attr.aria-label]="getUnreadMessageCount(room) + ' ta o‘qilmagan xabar'">
-                  {{ getUnreadMessageCount(room) }}
-                </span>
-              </div>
-            </div>
-          </button>
-        </li>
-      </ul>
-    </ng-template>
-
-    <ng-template #emptyRooms>
-      <div class="room-empty">
-        <div class="room-empty__icon"><svg lucideMessageCircle [size]="28" aria-hidden="true"></svg></div>
-        <h2>{{ searchValue ? 'Mos suhbat topilmadi' : 'Suhbatlar hozircha yo‘q' }}</h2>
-        <p *ngIf="searchValue; else firstConversation">Boshqa ism bilan qidirib ko‘ring.</p>
-        <ng-template #firstConversation>
-          <p>E'lon sahifasidan uy egasi yoki broker bilan yozishishni boshlashingiz mumkin.</p>
-        </ng-template>
-        <button *ngIf="searchValue; else browseListings" type="button" class="room-empty__action" (click)="clearSearch()">
-          Qidiruvni tozalash
-        </button>
-        <ng-template #browseListings>
-          <a routerLink="/announcements" class="room-empty__action">E'lonlarni ko‘rish</a>
-        </ng-template>
+    @if (loading) {
+      <div class="room-list room-list--loading" aria-label="Suhbatlar yuklanmoqda">
+        @for (item of skeletonList; track item) {
+          <p-skeleton styleClass="ng_skeleton"></p-skeleton>
+        }
       </div>
-    </ng-template>
+    } @else {
+      @if (userRooms.length) {
+        <ul class="room-list" aria-label="Suhbatlar">
+          @for (room of userRooms; track room) {
+            <li>
+              <button type="button" (click)="handlerRoom(room)" [ngClass]="{ active: isRoom?.id === room.id }"
+                [attr.aria-current]="isRoom?.id === room.id ? 'true' : null"
+                [attr.aria-label]="(room?.user?.name || 'Noma’lum foydalanuvchi') + ' bilan suhbat. ' + (room?.message || 'Xabar yo‘q')"
+                class="user-card">
+                <div class="room-avatar">
+                  <div class="room-avatar__image">
+                    @if (room.user?.images?.length) {
+                      <img [src]="room.user.images[0].image"
+                        [alt]="room.user.name || 'Foydalanuvchi'" />
+                    } @else {
+                      <img src="./assets/images/avatar.png" alt="" aria-hidden="true" />
+                    }
+                  </div>
+                  <span class="status-circle" [ngClass]="room.user?.is_online ? 'online' : 'offline'" aria-hidden="true"></span>
+                  <span class="sr-only">{{ room.user?.is_online ? 'Onlayn' : 'Oflayn' }}</span>
+                </div>
+                <div class="room-copy">
+                  <div class="room-copy__top">
+                    <span class="room-name">{{ room?.user?.name || 'Noma’lum foydalanuvchi' }}</span>
+                    <time class="room-time" [attr.datetime]="room?.last_message?.created_at">
+                      {{ formatRoomTime($safeNavigationMigration(room?.last_message?.created_at)) }}
+                    </time>
+                  </div>
+                  <div class="room-copy__bottom">
+                    <p class="room-preview">{{ room?.message || 'Hali xabar yo‘q' }}</p>
+                    @if (getUnreadMessageCount(room) !== '0') {
+                      <span class="unread-badge"
+                        [attr.aria-label]="getUnreadMessageCount(room) + ' ta o‘qilmagan xabar'">
+                        {{ getUnreadMessageCount(room) }}
+                      </span>
+                    }
+                  </div>
+                </div>
+              </button>
+            </li>
+          }
+        </ul>
+      } @else {
+        <div class="room-empty">
+          <div class="room-empty__icon"><svg lucideMessageCircle [size]="28" aria-hidden="true"></svg></div>
+          <h2>{{ searchValue ? 'Mos suhbat topilmadi' : 'Suhbatlar hozircha yo‘q' }}</h2>
+          @if (searchValue) {
+            <p>Boshqa ism bilan qidirib ko‘ring.</p>
+          } @else {
+            <p>E'lon sahifasidan uy egasi yoki broker bilan yozishishni boshlashingiz mumkin.</p>
+          }
+          @if (searchValue) {
+            <button type="button" class="room-empty__action" (click)="clearSearch()">
+              Qidiruvni tozalash
+            </button>
+          } @else {
+            <a routerLink="/announcements" class="room-empty__action">E'lonlarni ko‘rish</a>
+          }
+        </div>
+      }
+    }
+
   </div>
 </div>

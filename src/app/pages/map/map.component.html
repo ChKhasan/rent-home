@@ -37,7 +37,7 @@
                 hasBalloon: false,
               }" (click)="handleClusterClick($event)">
             <ya-placemark *ngFor="let announcement of announcements" [geometry]="announcement.geometry"
-              (yaclick)="handleAnnounce(announcement?.id)" [options]="{
+              (yaclick)="handleAnnounce($safeNavigationMigration(announcement?.id))" [options]="{
                   preset: 'islands#blueHomeIcon',
                   iconColor: '#00a000',
                 }"></ya-placemark>
@@ -59,7 +59,7 @@
       <aside class="transport-panel border border-solid">
         <div class="transport-tabs md:hidden">
           <span id="map-transport-tabs-label" class="sr-only">Transport turini tanlang</span>
-          <p-selectButton [options]="stateOptions" [(ngModel)]="tab" optionLabel="label" optionValue="value"
+          <p-selectbutton [options]="stateOptions" [(ngModel)]="tab" optionLabel="label" optionValue="value"
             ariaLabelledBy="map-transport-tabs-label">
             <ng-template #item let-item>
               <span class="transport-tab__content">
@@ -69,7 +69,7 @@
                 <span>{{ item.label }}</span>
               </span>
             </ng-template>
-          </p-selectButton>
+          </p-selectbutton>
         </div>
         <div>
           <div class="max-h-[100vh]">
@@ -84,7 +84,7 @@
               <h4 class="text-black font-semibold mb-4 text-[16]" *ngIf="['metro'].includes(tab)">Yaqin atrofdagi metro
                 liniyalari
               </h4>
-              <p-multiSelect styleClass="w-full border-solid border border-[--grey-300] rounded-[8px] flex items-center"
+              <p-multiselect styleClass="w-full border-solid border border-[--grey-300] rounded-[8px] flex items-center"
                 [maxSelectedLabels]="100" (onClear)="onClear()" [showClear]="false" optionValue="ri"
                 (onChange)="onChange($event)" class="w-full" placeholder="Transportni tanlang" inputId="float-label"
                 display="chip" [options]="transports" [(ngModel)]="routeTransports" optionLabel="name">
@@ -93,7 +93,7 @@
                     {{ option.name }}
                   </div>
                 </ng-template>
-              </p-multiSelect>
+              </p-multiselect>
               <p-button (click)="showTransports = true"
                 styleClass="py-3 bg-[color:var(--green)] mt-4 rounded-[8px] text-sm text-white font-600 flex justify-center gap-2 px-0 w-full"
                 class="px-0 hidden md:flex py-0 w-full rounded-[8px] bg-[transparent] border-0">
@@ -175,7 +175,7 @@
     <div class="border  rounded-2xl p-3">
       <div class="transport-tabs">
         <span id="dialog-transport-tabs-label" class="sr-only">Transport turini tanlang</span>
-        <p-selectButton [options]="stateOptions" [(ngModel)]="tab" optionLabel="label" optionValue="value"
+        <p-selectbutton [options]="stateOptions" [(ngModel)]="tab" optionLabel="label" optionValue="value"
           ariaLabelledBy="dialog-transport-tabs-label">
           <ng-template #item let-item>
             <span class="transport-tab__content">
@@ -185,7 +185,7 @@
               <span>{{ item.label }}</span>
             </span>
           </ng-template>
-        </p-selectButton>
+        </p-selectbutton>
       </div>
       <div>
         <div class="max-h-[100vh]">

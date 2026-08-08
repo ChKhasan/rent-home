@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { NgClass, NgForOf, NgIf } from '@angular/common';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { NgClass } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { SkeletonModule } from 'primeng/skeleton';
 import { RequestService } from '@services/request';
@@ -67,8 +67,9 @@ interface AnnouncementAnalyticsView extends AnnouncementStat {
 @Component({
   selector: 'app-agency-analytics',
   standalone: true,
-  imports: [NgIf, NgForOf, NgClass, ButtonModule, SkeletonModule],
+  imports: [NgClass, ButtonModule, SkeletonModule],
   templateUrl: './analytics.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './analytics.component.css',
 })
 export class AgencyAnalyticsComponent implements OnInit {

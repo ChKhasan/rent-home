@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CheckboxModule } from 'primeng/checkbox';
 import { FormsModule } from '@angular/forms';
 import { AutoCompleteModule } from 'primeng/autocomplete';
@@ -20,6 +20,7 @@ interface AutoCompleteCompleteEvent {
   standalone: true,
   imports: [CheckboxModule, AutoCompleteModule, FormsModule, ButtonModule, MultiSelectModule],
   templateUrl: './search.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './search.component.css',
 })
 export class SearchComponent implements OnInit {

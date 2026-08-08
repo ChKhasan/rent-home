@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { QueryService } from '@services/query';
 import { catchError, finalize, forkJoin, of } from 'rxjs';
 import { AnnouncementsCardComponent } from '@components/cards/announcements-card/announcements-card.component';
-import { NgForOf, NgIf } from '@angular/common';
+
 import { PaginationComponent } from '@components/pagination/pagination.component';
 import { SkeletonModule } from 'primeng/skeleton';
 import { RequestService } from '@services/request';
@@ -15,8 +15,9 @@ import { LikesService } from '@services/likes';
 @Component({
   selector: 'app-likes',
   standalone: true,
-  imports: [AnnouncementsCardComponent, NgForOf, NgIf, PaginationComponent, SkeletonModule, RouterLink],
+  imports: [AnnouncementsCardComponent, PaginationComponent, SkeletonModule, RouterLink],
   templateUrl: './likes.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './likes.component.css',
 })
 export class LikesComponent {

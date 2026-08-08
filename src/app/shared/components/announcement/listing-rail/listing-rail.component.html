@@ -1,53 +1,66 @@
 <section class="listing-rail" [attr.aria-label]="title || 'E\'lonlar'">
-  <header *ngIf="title" class="listing-rail__header">
-    <div class="listing-rail__heading">
-      <h2>{{ title }}</h2>
-      <p *ngIf="subtitle">{{ subtitle }}</p>
-    </div>
-
-    <div class="listing-rail__actions">
-      <a *ngIf="viewAllLink" [routerLink]="viewAllLink">Barchasini ko'rish</a>
-      <div *ngIf="useCarousel" class="listing-rail__navigation" aria-label="E'lonlar navigatsiyasi">
-        <button
-          type="button"
-          [disabled]="atBeginning"
-          aria-label="Oldingi e'lon"
-          (click)="slidePrevious()"
-        >
-          <svg lucideChevronLeft [size]="21"></svg>
-        </button>
-        <button
-          type="button"
-          [disabled]="atEnd"
-          aria-label="Keyingi e'lon"
-          (click)="slideNext()"
-        >
-          <svg lucideChevronRight [size]="21"></svg>
-        </button>
+  @if (title) {
+    <header class="listing-rail__header">
+      <div class="listing-rail__heading">
+        <h2>{{ title }}</h2>
+        @if (subtitle) {
+          <p>{{ subtitle }}</p>
+        }
       </div>
+      <div class="listing-rail__actions">
+        @if (viewAllLink) {
+          <a [routerLink]="viewAllLink">Barchasini ko'rish</a>
+        }
+        @if (useCarousel) {
+          <div class="listing-rail__navigation" aria-label="E'lonlar navigatsiyasi">
+            <button
+              type="button"
+              [disabled]="atBeginning"
+              aria-label="Oldingi e'lon"
+              (click)="slidePrevious()"
+              >
+              <svg lucideChevronLeft [size]="21"></svg>
+            </button>
+            <button
+              type="button"
+              [disabled]="atEnd"
+              aria-label="Keyingi e'lon"
+              (click)="slideNext()"
+              >
+              <svg lucideChevronRight [size]="21"></svg>
+            </button>
+          </div>
+        }
+      </div>
+    </header>
+  }
+
+  @if (announcements.length && !useCarousel) {
+    <div class="listing-rail__grid">
+      @for (announcement of announcements; track trackByAnnouncementId($index, announcement)) {
+        <app-announcements-card
+          [announcement]="announcement"
+          [variant]="variant"
+        ></app-announcements-card>
+      }
     </div>
-  </header>
+  }
 
-  <div *ngIf="announcements.length && !useCarousel" class="listing-rail__grid">
-    <app-announcements-card
-      *ngFor="let announcement of announcements; trackBy: trackByAnnouncementId"
-      [announcement]="announcement"
-      [variant]="variant"
-    ></app-announcements-card>
-  </div>
-
-  <swiper-container
-    *ngIf="announcements.length && useCarousel"
-    #swiper
-    class="listing-rail__swiper"
-    init="false"
-    (swiperinit)="updateNavigation($event)"
-    (swiperslidechange)="updateNavigation($event)"
-    (swiperreachbeginning)="updateNavigation($event)"
-    (swiperreachend)="updateNavigation($event)"
-  >
-    <swiper-slide *ngFor="let announcement of announcements; trackBy: trackByAnnouncementId">
-      <app-announcements-card [announcement]="announcement" [variant]="variant"></app-announcements-card>
-    </swiper-slide>
-  </swiper-container>
+  @if (announcements.length && useCarousel) {
+    <swiper-container
+      #swiper
+      class="listing-rail__swiper"
+      init="false"
+      (swiperinit)="updateNavigation($event)"
+      (swiperslidechange)="updateNavigation($event)"
+      (swiperreachbeginning)="updateNavigation($event)"
+      (swiperreachend)="updateNavigation($event)"
+      >
+      @for (announcement of announcements; track trackByAnnouncementId($index, announcement)) {
+        <swiper-slide>
+          <app-announcements-card [announcement]="announcement" [variant]="variant"></app-announcements-card>
+        </swiper-slide>
+      }
+    </swiper-container>
+  }
 </section>

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
@@ -14,15 +14,13 @@ import { environment } from '@environments';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { DictionaryService } from '@/core/services/dictionary/dictionary.service';
 import { currenyTypes } from '@/core/constants/currency';
-import { NgFor, NgIf } from '@angular/common';
-import { ValidationErrorAnimation } from '@/core/common/animations';
 import { LucideMap, LucideSearch } from '@lucide/angular';
 @Component({
   selector: 'app-filter',
   standalone: true,
-  animations: [ValidationErrorAnimation],
-  imports: [ToggleSwitchModule, FormsModule, CheckboxModule, InputNumberModule, ButtonModule, SliderModule, SelectModule, MultiSelectModule, NgFor, NgIf, RouterLink, LucideMap, LucideSearch],
+  imports: [ToggleSwitchModule, FormsModule, CheckboxModule, InputNumberModule, ButtonModule, SliderModule, SelectModule, MultiSelectModule, RouterLink, LucideMap, LucideSearch],
   templateUrl: './filter.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './filter.component.css',
 })
 export class FilterComponent implements OnInit {

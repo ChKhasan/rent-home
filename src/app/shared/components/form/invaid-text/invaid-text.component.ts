@@ -1,12 +1,11 @@
-import { Component, Input } from '@angular/core';
-import { ValidationErrorAnimation } from '@animations';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-invaid-text',
   standalone: true,
   imports: [],
-  animations: [ValidationErrorAnimation],
   templateUrl: './invaid-text.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './invaid-text.component.css',
 })
 export class InvaidTextComponent {

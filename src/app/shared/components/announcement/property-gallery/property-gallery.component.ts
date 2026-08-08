@@ -11,7 +11,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { NgFor, NgIf } from '@angular/common';
+
 import {
   LucideBuilding2,
   LucideChevronLeft,
@@ -35,14 +35,12 @@ type SwiperContainerElement = HTMLElement & {
   selector: 'app-property-gallery',
   standalone: true,
   imports: [
-    NgFor,
-    NgIf,
     LucideBuilding2,
     LucideChevronLeft,
     LucideChevronRight,
     LucideExpand,
-    LucideX,
-  ],
+    LucideX
+],
   templateUrl: './property-gallery.component.html',
   styleUrl: './property-gallery.component.css',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

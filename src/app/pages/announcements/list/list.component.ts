@@ -1,8 +1,8 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { finalize, Subscription } from 'rxjs';
 import { RouterLink } from '@angular/router';
 import { PaginationComponent } from '@components/pagination/pagination.component';
-import { NgForOf, NgIf } from '@angular/common';
+
 import { QueryService } from '@services/query';
 import { FilterComponent } from '@components/announcement/filter/filter.component';
 import { BottomSheetComponent } from '@components/modals/bottom-sheet/bottom-sheet.component';
@@ -22,8 +22,6 @@ import { LucideArrowUpDown, LucideMap, LucideSlidersHorizontal, LucideX } from '
   standalone: true,
   imports: [
     PaginationComponent,
-    NgForOf,
-    NgIf,
     RouterLink,
     FilterComponent,
     BottomSheetComponent,
@@ -34,9 +32,10 @@ import { LucideArrowUpDown, LucideMap, LucideSlidersHorizontal, LucideX } from '
     LucideArrowUpDown,
     LucideMap,
     LucideSlidersHorizontal,
-    LucideX,
-  ],
+    LucideX
+],
   templateUrl: './list.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './list.component.css',
 })
 export class ListComponent implements OnInit, OnDestroy {

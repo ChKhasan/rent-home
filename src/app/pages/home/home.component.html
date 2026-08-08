@@ -2,54 +2,68 @@
   <app-banner></app-banner>
 
   <div class="home-content">
-    <section *ngIf="rec_loading; else recommendations" class="home-loading" aria-label="Tavsiyalar yuklanmoqda">
-      <div class="home-loading__heading"></div>
-      <div class="home-loading__grid">
-        <app-listing-card-skeleton *ngFor="let item of skeletonList"></app-listing-card-skeleton>
-      </div>
-    </section>
-    <ng-template #recommendations>
-      <app-listing-rail
-        *ngIf="rec_announcements.length; else recommendationsState"
-        [announcements]="rec_announcements"
-        title="Tavsiya qilingan e'lonlar"
-        subtitle="Sizning qidiruvingizga yaqin takliflar"
-      ></app-listing-rail>
-      <ng-template #recommendationsState>
+    @if (rec_loading) {
+      <section class="home-loading" aria-label="Tavsiyalar yuklanmoqda">
+        <div class="home-loading__heading"></div>
+        <div class="home-loading__grid">
+          @for (item of skeletonList; track item) {
+            <app-listing-card-skeleton></app-listing-card-skeleton>
+          }
+        </div>
+      </section>
+    } @else {
+      @if (rec_announcements.length) {
+        <app-listing-rail
+          [announcements]="rec_announcements"
+          title="Tavsiya qilingan e'lonlar"
+          subtitle="Sizning qidiruvingizga yaqin takliflar"
+        ></app-listing-rail>
+      } @else {
         <section class="home-state" aria-labelledby="recommendations-title">
           <div>
             <h2 id="recommendations-title">Tavsiya qilingan e'lonlar</h2>
             <p>{{ recommendationsError ? "Tavsiyalarni yuklab bo'lmadi." : "Hozircha mos tavsiyalar yo'q." }}</p>
           </div>
-          <button *ngIf="recommendationsError" type="button" (click)="__GET__REC_ANNOUNCEMENTS()">Qayta urinish</button>
-          <a *ngIf="!recommendationsError" routerLink="/announcements">Barchasini ko'rish</a>
+          @if (recommendationsError) {
+            <button type="button" (click)="__GET__REC_ANNOUNCEMENTS()">Qayta urinish</button>
+          }
+          @if (!recommendationsError) {
+            <a routerLink="/announcements">Barchasini ko'rish</a>
+          }
         </section>
-      </ng-template>
-    </ng-template>
+      }
+    }
 
-    <section *ngIf="loading; else newestListings" class="home-loading" aria-label="Yangi e'lonlar yuklanmoqda">
-      <div class="home-loading__heading"></div>
-      <div class="home-loading__grid">
-        <app-listing-card-skeleton *ngFor="let item of skeletonList"></app-listing-card-skeleton>
-      </div>
-    </section>
-    <ng-template #newestListings>
-      <app-listing-rail
-        *ngIf="announcements.length; else newestState"
-        [announcements]="announcements"
-        title="Yangi e'lonlar"
-        subtitle="Yaqinda joylangan ijara va sotuv variantlari"
-      ></app-listing-rail>
-      <ng-template #newestState>
+    @if (loading) {
+      <section class="home-loading" aria-label="Yangi e'lonlar yuklanmoqda">
+        <div class="home-loading__heading"></div>
+        <div class="home-loading__grid">
+          @for (item of skeletonList; track item) {
+            <app-listing-card-skeleton></app-listing-card-skeleton>
+          }
+        </div>
+      </section>
+    } @else {
+      @if (announcements.length) {
+        <app-listing-rail
+          [announcements]="announcements"
+          title="Yangi e'lonlar"
+          subtitle="Yaqinda joylangan ijara va sotuv variantlari"
+        ></app-listing-rail>
+      } @else {
         <section class="home-state" aria-labelledby="newest-title">
           <div>
             <h2 id="newest-title">Yangi e'lonlar</h2>
             <p>{{ announcementsError ? "E'lonlarni yuklab bo'lmadi." : "Hozircha yangi e'lonlar yo'q." }}</p>
           </div>
-          <button *ngIf="announcementsError" type="button" (click)="__GET_ANNOUNCEMENTS()">Qayta urinish</button>
-          <a *ngIf="!announcementsError" routerLink="/announcements">Barchasini ko'rish</a>
+          @if (announcementsError) {
+            <button type="button" (click)="__GET_ANNOUNCEMENTS()">Qayta urinish</button>
+          }
+          @if (!announcementsError) {
+            <a routerLink="/announcements">Barchasini ko'rish</a>
+          }
         </section>
-      </ng-template>
-    </ng-template>
+      }
+    }
   </div>
 </main>

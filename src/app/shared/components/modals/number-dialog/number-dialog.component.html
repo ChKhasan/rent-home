@@ -9,8 +9,9 @@
     padding: 0,
   }"
   [showHeader]="false"
->
-  <div class="flex flex-col gap-[24px]">
+  >
+  @if (visible) {
+    <div class="flex flex-col gap-[24px]">
     <div class="flex justify-center">
       <span class="rounded-[18px] bg-white px-[20px] py-[20px] user-icon">
         <svg xmlns="http://www.w3.org/2000/svg" width="52" height="53" viewBox="0 0 52 53" fill="none">
@@ -65,7 +66,7 @@
         <div class="flex flex-col gap-2 relative">
           <label id="register-phone-label" class="font-400 text-[--gray-6] text-base" for="register-phone">Telefon raqamingiz</label>
           <div class="relative w-full flex items-center">
-            <p-inputMask
+            <p-inputmask
               mask="99 999 99 99"
               [ngClass]="{
                 'ng-invalid ng-dirty': ruleForm.controls.phone_number.touched && ruleForm.controls.phone_number.errors && ruleForm.controls.phone_number.errors['required'],
@@ -77,17 +78,24 @@
               formControlName="phone_number"
               pattern="^\d{2} \d{3} \d{2} \d{2}$"
               [autoClear]="false"
-            ></p-inputMask>
+            ></p-inputmask>
             <span class="number-style h-full absolute left-[18px] flex items-center">+998</span>
           </div>
 
-          <div *ngIf="ruleForm.controls.phone_number.invalid && (ruleForm.controls.phone_number.dirty || ruleForm.controls.phone_number.touched)">
-            <app-invaid-text [text]="'Telefon raqami kiritilishi shart.'" *ngIf="ruleForm.controls.phone_number.errors && ruleForm.controls.phone_number.errors['required']"></app-invaid-text>
-            <app-invaid-text [text]="'Telefon raqamini 90 123 45 67 formatida kiriting.'" *ngIf="ruleForm.controls.phone_number.errors && ruleForm.controls.phone_number.errors['pattern']"></app-invaid-text>
-          </div>
+          @if (ruleForm.controls.phone_number.invalid && (ruleForm.controls.phone_number.dirty || ruleForm.controls.phone_number.touched)) {
+            <div>
+              @if (ruleForm.controls.phone_number.errors && ruleForm.controls.phone_number.errors['required']) {
+                <app-invaid-text [text]="'Telefon raqami kiritilishi shart.'"></app-invaid-text>
+              }
+              @if (ruleForm.controls.phone_number.errors && ruleForm.controls.phone_number.errors['pattern']) {
+                <app-invaid-text [text]="'Telefon raqamini 90 123 45 67 formatida kiriting.'"></app-invaid-text>
+              }
+            </div>
+          }
         </div>
       </div>
       <button pButton [loading]="loading" (click)="onSubmit()" class="btn w-full mt-[18px] h-12 items-center text-[17px] bg-[color:var(--green)] rounded-[8px] text-white font-600 flex justify-center">Davom etish</button>
     </div>
-  </div>
+    </div>
+  }
 </p-dialog>

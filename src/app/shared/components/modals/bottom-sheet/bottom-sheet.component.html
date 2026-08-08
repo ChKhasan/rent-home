@@ -1,14 +1,18 @@
-<button *ngIf="bottomSheetVisible" type="button" class="sheet-backdrop" [attr.aria-label]="closeLabel" (click)="close()"></button>
-<section #sheet *ngIf="bottomSheetVisible" class="bottom-sheet" role="dialog" aria-modal="true"
-  [attr.aria-labelledby]="titleId" tabindex="-1" [@slideBottom] [@.disabled]="reducedMotion">
-  <header class="bottom-sheet__header">
-    <span class="bottom-sheet__handle" aria-hidden="true"></span>
-    <h2 [id]="titleId">{{ title }}</h2>
-    <button type="button" [attr.aria-label]="closeLabel" (click)="close()">
-      <svg lucideX [size]="21" aria-hidden="true"></svg>
-    </button>
-  </header>
-  <div class="bottom-sheet__body">
-    <ng-content></ng-content>
-  </div>
-</section>
+@if (bottomSheetVisible) {
+  <button type="button" class="sheet-backdrop" [attr.aria-label]="closeLabel" (click)="close()"></button>
+}
+@if (bottomSheetVisible) {
+  <section #sheet class="bottom-sheet" role="dialog" aria-modal="true"
+    [attr.aria-labelledby]="titleId" tabindex="-1">
+    <header class="bottom-sheet__header">
+      <span class="bottom-sheet__handle" aria-hidden="true"></span>
+      <h2 [id]="titleId">{{ title }}</h2>
+      <button type="button" [attr.aria-label]="closeLabel" (click)="close()">
+        <svg lucideX [size]="21" aria-hidden="true"></svg>
+      </button>
+    </header>
+    <div class="bottom-sheet__body">
+      <ng-content></ng-content>
+    </div>
+  </section>
+}

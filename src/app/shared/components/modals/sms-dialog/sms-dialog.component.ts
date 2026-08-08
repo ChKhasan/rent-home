@@ -1,10 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { InvaidTextComponent } from '../../form/invaid-text/invaid-text.component';
 import { InputMaskModule } from 'primeng/inputmask';
 import { DialogModule } from 'primeng/dialog';
-import { NgIf } from '@angular/common';
+
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { InputOtpModule } from 'primeng/inputotp';
@@ -14,8 +14,9 @@ import { RequestService } from '@services/request';
 @Component({
   selector: 'app-sms-dialog',
   standalone: true,
-  imports: [InputMaskModule, ReactiveFormsModule, DialogModule, InputTextModule, ButtonModule, InputOtpModule, FormsModule, NgIf],
+  imports: [InputMaskModule, ReactiveFormsModule, DialogModule, InputTextModule, ButtonModule, InputOtpModule, FormsModule],
   templateUrl: './sms-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './sms-dialog.component.css',
 })
 export class SmsDialogComponent {

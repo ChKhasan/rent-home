@@ -1,21 +1,22 @@
-import { ApplicationConfig, importProvidersFrom, inject, provideAppInitializer } from '@angular/core';
-import { provideRouter, withInMemoryScrolling, withRouterConfig } from '@angular/router';
+import { ApplicationConfig, inject, provideAppInitializer } from '@angular/core';
+import { provideRouter, withInMemoryScrolling } from '@angular/router';
 
 import { routes } from './app.routes';
-import { provideClientHydration } from '@angular/platform-browser';
+import { provideClientHydration, withNoIncrementalHydration } from '@angular/platform-browser';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import { MessageService } from 'primeng/api';
 import { loggerInterceptor } from './core/interceptors/logger/logger.interceptor';
 import { errorInterceptor } from './core/interceptors/error/error.interceptor';
-import { AngularYandexMapsModule, YaConfig } from 'angular8-yandex-maps';
+import { provideYaConfig, YaConfig } from 'angular8-yandex-maps';
 import { providePrimeNG } from 'primeng/config';
 import { ThemeService } from './core/services/theme/theme.service';
 import { NexthomePreset } from './core/theme/nexthome.preset';
 import { getRuntimeConfig } from './core/config/runtime-config';
 
+const runtimeConfig = getRuntimeConfig();
+
 const yandexMapsConfig: YaConfig = {
-  apikey: getRuntimeConfig().yandexMapsApiKey || undefined,
+  apikey: runtimeConfig.yandexMapsApiKey || undefined,
   coordorder: 'latlong',
   lang: 'en_US',
 };
@@ -30,10 +31,10 @@ appConfig = {
         anchorScrolling: 'enabled',
       })
     ),
-    provideClientHydration(),
+    provideClientHydration(withNoIncrementalHydration()),
     provideHttpClient(withInterceptors([loggerInterceptor, errorInterceptor]), withFetch()),
-    provideAnimations(),
     providePrimeNG({
+      license: runtimeConfig.primeUiLicenseKey || undefined,
       theme: {
         preset: NexthomePreset,
         options: {
@@ -43,6 +44,6 @@ appConfig = {
     }),
     provideAppInitializer(() => inject(ThemeService).initialize()),
     MessageService,
-    importProvidersFrom(AngularYandexMapsModule.forRoot(yandexMapsConfig)),
+    provideYaConfig(yandexMapsConfig),
   ],
 };

@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { NgClass, NgForOf, NgIf } from '@angular/common';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { NgClass } from '@angular/common';
 import { SkeletonModule } from 'primeng/skeleton';
 import { IUserRooms } from '@services/interfaces';
 import { AuthService } from '@services/auth';
@@ -12,8 +12,6 @@ import { LucideArrowLeft, LucideMessageCircle, LucideSearch, LucideX } from '@lu
   selector: 'app-chat-user-list',
   standalone: true,
   imports: [
-    NgForOf,
-    NgIf,
     SkeletonModule,
     NgClass,
     FormsModule,
@@ -21,9 +19,10 @@ import { LucideArrowLeft, LucideMessageCircle, LucideSearch, LucideX } from '@lu
     LucideArrowLeft,
     LucideMessageCircle,
     LucideSearch,
-    LucideX,
-  ],
+    LucideX
+],
   templateUrl: './chat-user-list.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './chat-user-list.component.css',
 })
 export class ChatUserListComponent {

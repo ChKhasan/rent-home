@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { NgForOf, NgIf, NgClass } from '@angular/common';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { NgClass } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { SkeletonModule } from 'primeng/skeleton';
 import { environment } from '@environments';
@@ -64,14 +64,13 @@ interface SourceSummaryView {
   selector: 'app-agency-dashboard',
   standalone: true,
   imports: [
-    NgIf,
-    NgForOf,
     NgClass,
     ButtonModule,
     SkeletonModule,
-    RouterLink,
-  ],
+    RouterLink
+],
   templateUrl: './dashboard.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './dashboard.component.css',
 })
 export class AgencyDashboardComponent implements OnInit {

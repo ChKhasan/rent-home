@@ -1,11 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { InvaidTextComponent } from '../../form/invaid-text/invaid-text.component';
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastService } from '@services/toast';
 import { CommentsService } from '@services/comments';
@@ -17,8 +17,9 @@ import { finalize } from 'rxjs';
 @Component({
   selector: 'app-comment-dialog',
   standalone: true,
-  imports: [ButtonModule, DialogModule, InputMaskModule, InputNumberModule, InputTextModule, InvaidTextComponent, NgIf, ReactiveFormsModule, NgClass, TextareaModule],
+  imports: [ButtonModule, DialogModule, InputMaskModule, InputNumberModule, InputTextModule, InvaidTextComponent, ReactiveFormsModule, NgClass, TextareaModule],
   templateUrl: './comment-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './comment-dialog.component.css',
 })
 export class CommentDialogComponent {

@@ -6,28 +6,32 @@
       <p class="description">Xodim qo'shish, parolni yangilash va kabinetga kirish holatini boshqaring.</p>
     </div>
 
-    <div class="hero-actions" *ngIf="canManageStaff">
-      <button
-        pButton
-        type="button"
-        icon="pi pi-refresh"
-        label="Yangilash"
-        class="secondary-action"
-        [loading]="loadingMembers"
-        (click)="fetchMembers()"
-      ></button>
-      <button
-        pButton
-        type="button"
-        icon="pi pi-user-plus"
-        label="Xodim qo'shish"
-        class="primary-action"
-        (click)="openAddModal()"
-      ></button>
-    </div>
+    @if (canManageStaff) {
+      <div class="hero-actions">
+        <button
+          pButton
+          type="button"
+          class="secondary-action"
+          [loading]="loadingMembers"
+          (click)="fetchMembers()"
+        >
+          <i class="pi pi-refresh" aria-hidden="true"></i>
+          <span>Yangilash</span>
+        </button>
+        <button
+          pButton
+          type="button"
+          class="primary-action"
+          (click)="openAddModal()"
+        >
+          <i class="pi pi-user-plus" aria-hidden="true"></i>
+          <span>Xodim qo'shish</span>
+        </button>
+      </div>
+    }
   </header>
 
-  <ng-container *ngIf="loadingMembership">
+  @if (loadingMembership) {
     <section class="panel-card">
       <div class="skeleton-stack">
         <p-skeleton height="34px"></p-skeleton>
@@ -35,9 +39,9 @@
         <p-skeleton height="34px"></p-skeleton>
       </div>
     </section>
-  </ng-container>
+  }
 
-  <ng-container *ngIf="!loadingMembership && !canManageStaff">
+  @if (!loadingMembership && !canManageStaff) {
     <section class="panel-card access-card">
       <span class="access-icon"><i class="pi pi-lock"></i></span>
       <div>
@@ -45,9 +49,9 @@
         <p>Sizda xodimlarni boshqarish huquqi yo'q. Bu bo'lim faqat agentlik egasi uchun ochiq.</p>
       </div>
     </section>
-  </ng-container>
+  }
 
-  <ng-container *ngIf="canManageStaff">
+  @if (canManageStaff) {
     <section class="summary-grid">
       <article class="summary-card">
         <span class="summary-icon green"><i class="pi pi-briefcase"></i></span>
@@ -78,7 +82,6 @@
         </div>
       </article>
     </section>
-
     <section class="panel-card staff-list-panel">
       <div class="section-header">
         <div>
@@ -86,96 +89,114 @@
           <p>{{ activeMembersCount }} aktiv, {{ inactiveMembersCount }} o'chirilgan</p>
         </div>
       </div>
-
-      <div class="table-skeleton" *ngIf="loadingMembers">
-        <p-skeleton height="48px"></p-skeleton>
-        <p-skeleton height="48px"></p-skeleton>
-        <p-skeleton height="48px"></p-skeleton>
-      </div>
-
-      <div class="table-wrap" *ngIf="!loadingMembers && members.length">
-        <table>
-          <thead>
-            <tr>
-              <th>Foydalanuvchi</th>
-              <th>Telefon</th>
-              <th>Rol</th>
-              <th>Holat</th>
-              <th>E'lonlar</th>
-              <th>Amallar</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let member of members; trackBy: trackByMemberId">
-              <td data-label="Foydalanuvchi">
-                <div class="user-cell">
-                  <span class="avatar">{{ getMemberInitial(member) }}</span>
-                  <div>
-                    <strong>{{ getMemberName(member) }}</strong>
-                    <small>ID: {{ member.user?.id || member.id }}</small>
-                  </div>
-                </div>
-              </td>
-              <td class="phone-cell" data-label="Telefon">{{ member.user?.phone_number || '-' }}</td>
-              <td data-label="Rol">
-                <p-tag [value]="getRoleLabel(member.role)" [severity]="getRoleSeverity(member.role)"></p-tag>
-              </td>
-              <td data-label="Holat">
-                <p-tag
-                  [value]="getStatusLabel(member)"
-                  [severity]="member.is_active ? 'success' : 'danger'"
-                ></p-tag>
-              </td>
-              <td data-label="E'lonlar">{{ member.assigned_count || 0 }}</td>
-              <td data-label="Amallar">
-                <div class="row-actions" *ngIf="canManageMember(member)">
-                  <button
-                    pButton
-                    type="button"
-                    icon="pi pi-user-edit"
-                    class="icon-action"
-                    aria-label="Rolni tahrirlash"
-                    pTooltip="Rolni tahrirlash"
-                    tooltipPosition="top"
-                    (click)="openRoleModal(member)"
-                  ></button>
-                  <button
-                    pButton
-                    type="button"
-                    icon="pi pi-key"
-                    class="icon-action"
-                    aria-label="Parolni yangilash"
-                    pTooltip="Parolni yangilash"
-                    tooltipPosition="top"
-                    (click)="openPasswordModal(member)"
-                  ></button>
-                  <button
-                    pButton
-                    type="button"
-                    [icon]="getStatusIcon(member)"
-                    class="icon-action"
-                    [attr.aria-label]="getStatusTooltip(member)"
-                    [ngClass]="{ danger: member.is_active, success: !member.is_active }"
-                    [pTooltip]="getStatusTooltip(member)"
-                    tooltipPosition="top"
-                    (click)="openStatusModal(member)"
-                  ></button>
-                </div>
-                <small *ngIf="isProtectedOwner(member)" class="protected-owner-note">Asosiy egasi</small>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="empty-state" *ngIf="!loadingMembers && !members.length">
-        <span><i class="pi pi-user-plus"></i></span>
-        <h3>Xodimlar hali qo'shilmagan</h3>
-        <p>Yangi xodim qo'shish tugmasi orqali agentlik jamoasini shakllantiring.</p>
-        <button pButton type="button" icon="pi pi-user-plus" label="Xodim qo'shish" (click)="openAddModal()"></button>
-      </div>
+      @if (loadingMembers) {
+        <div class="table-skeleton">
+          <p-skeleton height="48px"></p-skeleton>
+          <p-skeleton height="48px"></p-skeleton>
+          <p-skeleton height="48px"></p-skeleton>
+        </div>
+      }
+      @if (!loadingMembers && members.length) {
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Foydalanuvchi</th>
+                <th>Telefon</th>
+                <th>Rol</th>
+                <th>Holat</th>
+                <th>E'lonlar</th>
+                <th>Amallar</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (member of members; track trackByMemberId($index, member)) {
+                <tr>
+                  <td data-label="Foydalanuvchi">
+                    <div class="user-cell">
+                      <span class="avatar">{{ getMemberInitial(member) }}</span>
+                      <div>
+                        <strong>{{ getMemberName(member) }}</strong>
+                        <small>ID: {{ member.user?.id || member.id }}</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="phone-cell" data-label="Telefon">{{ member.user?.phone_number || '-' }}</td>
+                  <td data-label="Rol">
+                    <p-tag [value]="getRoleLabel(member.role)" [severity]="getRoleSeverity(member.role)"></p-tag>
+                  </td>
+                  <td data-label="Holat">
+                    <p-tag
+                      [value]="getStatusLabel(member)"
+                      [severity]="member.is_active ? 'success' : 'danger'"
+                    ></p-tag>
+                  </td>
+                  <td data-label="E'lonlar">{{ member.assigned_count || 0 }}</td>
+                  <td data-label="Amallar">
+                    @if (canManageMember(member)) {
+                      <div class="row-actions">
+                        <button
+                          pButton
+                          type="button"
+                          iconOnly
+                          class="icon-action"
+                          aria-label="Rolni tahrirlash"
+                          pTooltip="Rolni tahrirlash"
+                          tooltipPosition="top"
+                          (click)="openRoleModal(member)"
+                        >
+                          <i class="pi pi-user-edit" aria-hidden="true"></i>
+                        </button>
+                        <button
+                          pButton
+                          type="button"
+                          iconOnly
+                          class="icon-action"
+                          aria-label="Parolni yangilash"
+                          pTooltip="Parolni yangilash"
+                          tooltipPosition="top"
+                          (click)="openPasswordModal(member)"
+                        >
+                          <i class="pi pi-key" aria-hidden="true"></i>
+                        </button>
+                        <button
+                          pButton
+                          type="button"
+                          iconOnly
+                          class="icon-action"
+                          [attr.aria-label]="getStatusTooltip(member)"
+                          [ngClass]="{ danger: member.is_active, success: !member.is_active }"
+                          [pTooltip]="getStatusTooltip(member)"
+                          tooltipPosition="top"
+                          (click)="openStatusModal(member)"
+                        >
+                          <i [class]="getStatusIcon(member)" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                    }
+                    @if (isProtectedOwner(member)) {
+                      <small class="protected-owner-note">Asosiy egasi</small>
+                    }
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+      @if (!loadingMembers && !members.length) {
+        <div class="empty-state">
+          <span><i class="pi pi-user-plus"></i></span>
+          <h3>Xodimlar hali qo'shilmagan</h3>
+          <p>Yangi xodim qo'shish tugmasi orqali agentlik jamoasini shakllantiring.</p>
+          <button pButton type="button" (click)="openAddModal()">
+            <i class="pi pi-user-plus" aria-hidden="true"></i>
+            <span>Xodim qo'shish</span>
+          </button>
+        </div>
+      }
     </section>
-  </ng-container>
+  }
 
   <p-dialog
     [(visible)]="showAddModal"
@@ -188,21 +209,25 @@
     header="Yangi xodim qo'shish"
     styleClass="staff-dialog"
     (onHide)="closeAddModal()"
-  >
+    >
     <form [formGroup]="addForm" class="dialog-form">
       <div class="form-field">
         <label for="staff-phone">Telefon raqami</label>
-        <p-inputMask
+        <p-inputmask
           inputId="staff-phone"
           formControlName="phone_number"
           mask="+999 99 999 99 99"
           placeholder="+998 90 123 45 67"
           [autoClear]="false"
-        ></p-inputMask>
-        <small class="field-error" *ngIf="addForm.controls.phone_number.touched && addForm.controls.phone_number.invalid">
-          Telefon raqamini to'liq kiriting.
-        </small>
-        <small class="field-error" *ngIf="addServerError" role="alert">{{ addServerError }}</small>
+        ></p-inputmask>
+        @if (addForm.controls.phone_number.touched && addForm.controls.phone_number.invalid) {
+          <small class="field-error">
+            Telefon raqamini to'liq kiriting.
+          </small>
+        }
+        @if (addServerError) {
+          <small class="field-error" role="alert">{{ addServerError }}</small>
+        }
       </div>
 
       <div class="form-field">
@@ -221,16 +246,17 @@
     </form>
 
     <ng-template pTemplate="footer">
-      <button pButton type="button" label="Bekor qilish" class="dialog-secondary" (click)="closeAddModal()"></button>
+      <button pButton type="button" class="dialog-secondary" (click)="closeAddModal()">Bekor qilish</button>
       <button
         pButton
         type="button"
-        label="Qo'shish"
-        icon="pi pi-check"
         class="dialog-primary"
         [loading]="savingMember"
         (click)="addMember()"
-      ></button>
+      >
+        <i class="pi pi-check" aria-hidden="true"></i>
+        <span>Qo'shish</span>
+      </button>
     </ng-template>
   </p-dialog>
 
@@ -245,14 +271,16 @@
     header="Rolni tahrirlash"
     styleClass="staff-dialog"
     (onHide)="closeRoleModal()"
-  >
-    <div class="member-preview" *ngIf="activeMember">
-      <span class="avatar">{{ getMemberInitial(activeMember) }}</span>
-      <div>
-        <strong>{{ getMemberName(activeMember) }}</strong>
-        <small>{{ activeMember.user?.phone_number || '-' }}</small>
+    >
+    @if (activeMember) {
+      <div class="member-preview">
+        <span class="avatar">{{ getMemberInitial(activeMember) }}</span>
+        <div>
+          <strong>{{ getMemberName(activeMember) }}</strong>
+          <small>{{ activeMember.user?.phone_number || '-' }}</small>
+        </div>
       </div>
-    </div>
+    }
 
     <form [formGroup]="roleForm" class="dialog-form">
       <div class="form-field">
@@ -267,21 +295,24 @@
           appendTo="body"
         ></p-select>
         <small>Egasi roli xodimlarni boshqarish huquqini beradi.</small>
-        <small class="field-error" *ngIf="roleServerError" role="alert">{{ roleServerError }}</small>
+        @if (roleServerError) {
+          <small class="field-error" role="alert">{{ roleServerError }}</small>
+        }
       </div>
     </form>
 
     <ng-template pTemplate="footer">
-      <button pButton type="button" label="Bekor qilish" class="dialog-secondary" (click)="closeRoleModal()"></button>
+      <button pButton type="button" class="dialog-secondary" (click)="closeRoleModal()">Bekor qilish</button>
       <button
         pButton
         type="button"
-        label="Saqlash"
-        icon="pi pi-check"
         class="dialog-primary"
         [loading]="savingRole"
         (click)="updateRole()"
-      ></button>
+      >
+        <i class="pi pi-check" aria-hidden="true"></i>
+        <span>Saqlash</span>
+      </button>
     </ng-template>
   </p-dialog>
 
@@ -296,14 +327,16 @@
     header="Parolni yangilash"
     styleClass="staff-dialog"
     (onHide)="closePasswordModal()"
-  >
-    <div class="member-preview" *ngIf="activeMember">
-      <span class="avatar">{{ getMemberInitial(activeMember) }}</span>
-      <div>
-        <strong>{{ getMemberName(activeMember) }}</strong>
-        <small>{{ activeMember.user?.phone_number || '-' }}</small>
+    >
+    @if (activeMember) {
+      <div class="member-preview">
+        <span class="avatar">{{ getMemberInitial(activeMember) }}</span>
+        <div>
+          <strong>{{ getMemberName(activeMember) }}</strong>
+          <small>{{ activeMember.user?.phone_number || '-' }}</small>
+        </div>
       </div>
-    </div>
+    }
 
     <form [formGroup]="passwordForm" class="dialog-form">
       <div class="form-field">
@@ -315,23 +348,26 @@
           [feedback]="false"
           [toggleMask]="true"
         ></p-password>
-        <small class="field-error" *ngIf="passwordForm.controls.password.touched && passwordForm.controls.password.invalid">
-          Parol kamida 6 belgidan iborat bo'lishi kerak.
-        </small>
+        @if (passwordForm.controls.password.touched && passwordForm.controls.password.invalid) {
+          <small class="field-error">
+            Parol kamida 6 belgidan iborat bo'lishi kerak.
+          </small>
+        }
       </div>
     </form>
 
     <ng-template pTemplate="footer">
-      <button pButton type="button" label="Bekor qilish" class="dialog-secondary" (click)="closePasswordModal()"></button>
+      <button pButton type="button" class="dialog-secondary" (click)="closePasswordModal()">Bekor qilish</button>
       <button
         pButton
         type="button"
-        label="Saqlash"
-        icon="pi pi-check"
         class="dialog-primary"
         [loading]="savingPassword"
         (click)="changePassword()"
-      ></button>
+      >
+        <i class="pi pi-check" aria-hidden="true"></i>
+        <span>Saqlash</span>
+      </button>
     </ng-template>
   </p-dialog>
 
@@ -346,34 +382,41 @@
     [header]="getStatusTooltip(activeMember)"
     styleClass="staff-dialog"
     (onHide)="closeStatusModal()"
-  >
-    <div class="confirm-content" *ngIf="activeMember">
-      <span class="confirm-icon" [ngClass]="{ danger: activeMember.is_active, success: !activeMember.is_active }">
-        <i [class]="getStatusIcon(activeMember)"></i>
-      </span>
-      <h3>{{ getMemberName(activeMember) }}</h3>
-      <p>{{ getStatusDialogDescription(activeMember) }}</p>
-      <small *ngIf="activeMember.role === 'OWNER'">Ehtiyot bo'ling: bu foydalanuvchi agentlik egasi rolida.</small>
-      <div *ngIf="activeMember.is_active && (activeMember.assigned_count || 0) > 0" class="dialog-form w-full text-left mt-3">
-        <label for="replacement-member">{{ activeMember.assigned_count }} ta e'lon uchun yangi mas'ul*</label>
-        <p-select inputId="replacement-member" ariaLabel="Yangi mas'ul xodim" class="w-full" styleClass="w-full" [options]="replacementOptions"
-          [(ngModel)]="reassignMemberId" optionLabel="label" optionValue="value" placeholder="Mas'ul xodimni tanlang" />
+    >
+    @if (activeMember) {
+      <div class="confirm-content">
+        <span class="confirm-icon" [ngClass]="{ danger: activeMember.is_active, success: !activeMember.is_active }">
+          <i [class]="getStatusIcon(activeMember)"></i>
+        </span>
+        <h3>{{ getMemberName(activeMember) }}</h3>
+        <p>{{ getStatusDialogDescription(activeMember) }}</p>
+        @if (activeMember.role === 'OWNER') {
+          <small>Ehtiyot bo'ling: bu foydalanuvchi agentlik egasi rolida.</small>
+        }
+        @if (activeMember.is_active && (activeMember.assigned_count || 0) > 0) {
+          <div class="dialog-form w-full text-left mt-3">
+            <label for="replacement-member">{{ activeMember.assigned_count }} ta e'lon uchun yangi mas'ul*</label>
+            <p-select inputId="replacement-member" ariaLabel="Yangi mas'ul xodim" class="w-full" styleClass="w-full" [options]="replacementOptions"
+              [(ngModel)]="reassignMemberId" optionLabel="label" optionValue="value" placeholder="Mas'ul xodimni tanlang" />
+          </div>
+        }
       </div>
-    </div>
+    }
 
     <ng-template pTemplate="footer">
-      <button pButton type="button" label="Bekor qilish" class="dialog-secondary" (click)="closeStatusModal()"></button>
+      <button pButton type="button" class="dialog-secondary" (click)="closeStatusModal()">Bekor qilish</button>
       <button
         pButton
         type="button"
-        [label]="getStatusActionLabel(activeMember)"
-        [icon]="getStatusIcon(activeMember)"
         class="dialog-primary"
-        [ngClass]="{ danger: activeMember?.is_active }"
+        [ngClass]="{ danger: $safeNavigationMigration(activeMember?.is_active) }"
         [loading]="savingStatus"
-        [disabled]="activeMember?.is_active && (activeMember?.assigned_count || 0) > 0 && !reassignMemberId"
+        [disabled]="activeMember?.is_active && (activeMember.assigned_count || 0) > 0 && !reassignMemberId"
         (click)="toggleMember()"
-      ></button>
+      >
+        <i [class]="getStatusIcon(activeMember)" aria-hidden="true"></i>
+        <span>{{ getStatusActionLabel(activeMember) }}</span>
+      </button>
     </ng-template>
   </p-dialog>
 </section>

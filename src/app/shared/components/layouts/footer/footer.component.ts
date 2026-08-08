@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '@services/auth';
 import { AuthPromptService } from '@/core/services/auth-prompt/auth-prompt.service';
@@ -8,6 +8,7 @@ import { AuthPromptService } from '@/core/services/auth-prompt/auth-prompt.servi
   standalone: true,
   imports: [RouterLink],
   templateUrl: './footer.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './footer.component.css',
 })
 export class FooterComponent {

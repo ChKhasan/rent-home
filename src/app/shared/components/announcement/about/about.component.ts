@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { NgForOf, NgIf } from '@angular/common';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+
 import {
   LucideBedDouble,
   LucideBuilding2,
@@ -16,8 +16,6 @@ import {
   selector: 'app-about',
   standalone: true,
   imports: [
-    NgIf,
-    NgForOf,
     LucideBedDouble,
     LucideBuilding2,
     LucideCheck,
@@ -26,9 +24,10 @@ import {
     LucideSnowflake,
     LucideSparkles,
     LucideUsers,
-    LucideWashingMachine,
-  ],
+    LucideWashingMachine
+],
   templateUrl: './about.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './about.component.css',
 })
 export class AboutComponent {

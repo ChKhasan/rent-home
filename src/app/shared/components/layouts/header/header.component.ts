@@ -1,6 +1,6 @@
-import { Component, DestroyRef, ViewChild } from '@angular/core';
+import { Component, DestroyRef, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { NgIf } from '@angular/common';
+
 import { ToastModule } from 'primeng/toast';
 import { RegisterDialogComponent } from '../../modals/register-dialog/register-dialog.component';
 import { AuthDialogComponent } from '../../modals/auth-dialog/auth-dialog.component';
@@ -13,8 +13,9 @@ import { AuthPromptService } from '@/core/services/auth-prompt/auth-prompt.servi
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, NgIf, ToastModule, RegisterDialogComponent, AuthDialogComponent, NumberDialogComponent, SmsDialogComponent],
+  imports: [RouterLink, RouterLinkActive, ToastModule, RegisterDialogComponent, AuthDialogComponent, NumberDialogComponent, SmsDialogComponent],
   templateUrl: './header.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './header.component.css',
 })
 export class HeaderComponent {

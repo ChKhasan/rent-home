@@ -3,30 +3,32 @@
     <fieldset class="quick-search__group quick-search__group--deal">
       <legend>E'lon turi</legend>
       <div class="quick-search__segments">
-        <button
-          *ngFor="let option of dealTypeOptions"
-          type="button"
-          [class.quick-search__segment--active]="filter.deal_type === option.value"
-          [attr.aria-pressed]="filter.deal_type === option.value"
-          (click)="selectDealType(option.value)"
-        >
-          {{ option.label }}
-        </button>
+        @for (option of dealTypeOptions; track option) {
+          <button
+            type="button"
+            [class.quick-search__segment--active]="filter.deal_type === option.value"
+            [attr.aria-pressed]="filter.deal_type === option.value"
+            (click)="selectDealType(option.value)"
+            >
+            {{ option.label }}
+          </button>
+        }
       </div>
     </fieldset>
 
     <fieldset class="quick-search__group quick-search__group--occupancy quick-search__advanced">
       <legend>Ijara turi</legend>
       <div class="quick-search__segments">
-        <button
-          *ngFor="let option of occupancyOptions"
-          type="button"
-          [class.quick-search__segment--active]="filter.partnership === option.value"
-          [attr.aria-pressed]="filter.partnership === option.value"
-          (click)="selectOccupancy(option.value)"
-        >
-          {{ option.label }}
-        </button>
+        @for (option of occupancyOptions; track option) {
+          <button
+            type="button"
+            [class.quick-search__segment--active]="filter.partnership === option.value"
+            [attr.aria-pressed]="filter.partnership === option.value"
+            (click)="selectOccupancy(option.value)"
+            >
+            {{ option.label }}
+          </button>
+        }
       </div>
     </fieldset>
 
@@ -45,7 +47,7 @@
         [showClear]="true"
         [appendTo]="'body'"
         (onChange)="onRegionChange($event.value)"
-      />
+        />
     </div>
 
     <div class="quick-search__group quick-search__group--district quick-search__advanced">
@@ -63,7 +65,7 @@
         filterPlaceholder="Tumanni qidiring"
         [showClear]="true"
         [appendTo]="'body'"
-      />
+        />
     </div>
 
     <label class="quick-search__group quick-search__group--rooms quick-search__advanced">
@@ -76,7 +78,7 @@
         min="1"
         max="20"
         placeholder="1+"
-      />
+        />
     </label>
 
     <label class="quick-search__group quick-search__group--price quick-search__advanced">
@@ -89,7 +91,7 @@
           type="number"
           min="0"
           placeholder="Masalan, 500"
-        />
+          />
         <p-select
           inputId="hero-currency"
           name="hero-currency"
@@ -99,7 +101,7 @@
           optionValue="value"
           ariaLabel="Pul birligi"
           [appendTo]="'body'"
-        />
+          />
       </span>
     </label>
 
@@ -110,7 +112,9 @@
       </button>
       <button type="button" class="quick-search__mobile-filter" (click)="openAdvancedFilters()">
         <svg lucideSlidersHorizontal [size]="20" aria-hidden="true"></svg>
-        <span>Filtrlar<span *ngIf="advancedFilterCount"> ({{ advancedFilterCount }})</span></span>
+        <span>Filtrlar@if (advancedFilterCount) {
+          <span> ({{ advancedFilterCount }})</span>
+        }</span>
       </button>
     </div>
   </div>
@@ -122,15 +126,16 @@
       <fieldset class="quick-search-sheet__section">
         <legend>Ijara turi</legend>
         <div class="quick-search__segments quick-search__segments--sheet">
-          <button
-            *ngFor="let option of occupancyOptions"
-            type="button"
-            [class.quick-search__segment--active]="filter.partnership === option.value"
-            [attr.aria-pressed]="filter.partnership === option.value"
-            (click)="selectOccupancy(option.value)"
-          >
-            {{ option.label }}
-          </button>
+          @for (option of occupancyOptions; track option) {
+            <button
+              type="button"
+              [class.quick-search__segment--active]="filter.partnership === option.value"
+              [attr.aria-pressed]="filter.partnership === option.value"
+              (click)="selectOccupancy(option.value)"
+              >
+              {{ option.label }}
+            </button>
+          }
         </div>
       </fieldset>
 
@@ -148,7 +153,7 @@
           filterPlaceholder="Tumanni qidiring"
           [showClear]="true"
           [appendTo]="'body'"
-        />
+          />
       </div>
 
       <label class="quick-search-sheet__section">
@@ -166,7 +171,7 @@
             type="number"
             min="0"
             placeholder="Masalan, 500"
-          />
+            />
           <p-select
             inputId="mobile-currency"
             [(ngModel)]="filter.currency"
@@ -175,7 +180,7 @@
             optionValue="value"
             ariaLabel="Pul birligi"
             [appendTo]="'body'"
-          />
+            />
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { IcommentList, UserImages } from '@services/interfaces';
 import { CommentsService } from '@services/comments';
@@ -17,6 +17,7 @@ import { RegisterDialogComponent } from '../../modals/register-dialog/register-d
   standalone: true,
   imports: [ButtonModule, NgForOf, FormsModule, NgIf, DatePipe, AuthDialogComponent, RegisterDialogComponent],
   templateUrl: './comment-block.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './comment-block.component.css',
 })
 export class CommentBlockComponent implements OnInit, OnDestroy {

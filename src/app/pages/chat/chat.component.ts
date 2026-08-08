@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, DestroyRef, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { DatePipe, NgClass, NgForOf, NgIf, NgTemplateOutlet } from '@angular/common';
+import { AfterViewInit, Component, DestroyRef, ElementRef, OnInit, QueryList, ViewChild, ViewChildren, ChangeDetectionStrategy } from '@angular/core';
+import { DatePipe, NgClass, NgTemplateOutlet } from '@angular/common';
 import { SkeletonModule } from 'primeng/skeleton';
 import { NavigationExtras, Router, RouterLink } from '@angular/router';
 import { ChatUserListComponent } from '@components/profile/chat-user-list/chat-user-list.component';
@@ -17,8 +17,6 @@ import { LucideArrowLeft, LucideMessageCircle, LucideSendHorizontal } from '@luc
   selector: 'app-chat',
   standalone: true,
   imports: [
-    NgForOf,
-    NgIf,
     RouterLink,
     SkeletonModule,
     ChatUserListComponent,
@@ -28,9 +26,10 @@ import { LucideArrowLeft, LucideMessageCircle, LucideSendHorizontal } from '@luc
     NgTemplateOutlet,
     LucideArrowLeft,
     LucideMessageCircle,
-    LucideSendHorizontal,
-  ],
+    LucideSendHorizontal
+],
   templateUrl: './chat.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './chat.component.css',
 })
 export class ChatComponent implements OnInit, AfterViewInit {

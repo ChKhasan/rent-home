@@ -1,5 +1,5 @@
-import { Component, DestroyRef, OnInit, ViewChild } from '@angular/core';
-import { Location, NgClass, NgForOf, NgIf } from '@angular/common';
+import { Component, DestroyRef, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Location, NgClass } from '@angular/common';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthDialogComponent } from '../../modals/auth-dialog/auth-dialog.component';
 import { AuthService } from '@services/auth';
@@ -12,8 +12,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-bottom-bar',
   standalone: true,
-  imports: [NgForOf, AuthDialogComponent, NgClass, RouterLinkActive, RouterLink, NgIf, RegisterDialogComponent, NumberDialogComponent, SmsDialogComponent],
+  imports: [AuthDialogComponent, NgClass, RouterLinkActive, RouterLink, RegisterDialogComponent, NumberDialogComponent, SmsDialogComponent],
   templateUrl: './bottom-bar.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './bottom-bar.component.css',
 })
 export class BottomBarComponent implements OnInit {

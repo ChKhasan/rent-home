@@ -7,14 +7,16 @@
     padding: 0,
   }" [showHeader]="false">
   <div>
-    <div class="map" *ngIf="visible">
-      <ya-map [center]="mapCenter" (yaclick)="handleMapClick($event)" [zoom]="12">
-        <ya-placemark [geometry]="coords"></ya-placemark>
-      </ya-map>
-    </div>
+    @if (visible) {
+      <div class="map">
+        <ya-map [center]="mapCenter" (yaclick)="handleMapClick($event)" [zoom]="12">
+          <ya-placemark [geometry]="coords"></ya-placemark>
+        </ya-map>
+      </div>
+    }
     <div class="toolbar fixed w-[450px] z-[1000] top-0 right-0 flex flex-col gap-6">
       <p-button class="w-full" styleClass="w-full flex justify-center" severity="danger"
-        (click)="hideDialog()">Close</p-button>
+      (click)="hideDialog()">Close</p-button>
     </div>
   </div>
 </p-dialog>

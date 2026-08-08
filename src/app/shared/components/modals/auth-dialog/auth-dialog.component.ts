@@ -1,10 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputMaskModule } from 'primeng/inputmask';
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ValidationErrorAnimation } from '@animations';
 import { InvaidTextComponent } from '../../form/invaid-text/invaid-text.component';
 import { environment } from '@environments';
 import { Router } from '@angular/router';
@@ -17,9 +16,9 @@ import { AuthService } from '@services/auth';
 @Component({
   selector: 'app-auth-dialog',
   standalone: true,
-  imports: [ButtonModule, DialogModule, InputMaskModule, NgIf, ReactiveFormsModule, NgClass, InvaidTextComponent, PasswordModule],
-  animations: [ValidationErrorAnimation],
+  imports: [ButtonModule, DialogModule, InputMaskModule, ReactiveFormsModule, NgClass, InvaidTextComponent, PasswordModule],
   templateUrl: './auth-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './auth-dialog.component.css',
 })
 export class AuthDialogComponent {

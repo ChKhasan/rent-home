@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
-import { NgIf } from '@angular/common';
+
 import { RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import {
@@ -40,7 +40,6 @@ interface AmenityItem {
   selector: 'app-announcements-card',
   standalone: true,
   imports: [
-    NgIf,
     RouterLink,
     PricePipe,
     PublisherMetaComponent,
@@ -54,8 +53,8 @@ interface AmenityItem {
     LucidePencil,
     LucideRefrigerator,
     LucideSnowflake,
-    LucideWashingMachine,
-  ],
+    LucideWashingMachine
+],
   templateUrl: './announcements-card.component.html',
   styleUrl: './announcements-card.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

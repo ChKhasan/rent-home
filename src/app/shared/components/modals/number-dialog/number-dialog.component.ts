@@ -1,11 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputTextModule } from 'primeng/inputtext';
 import { InvaidTextComponent } from '../../form/invaid-text/invaid-text.component';
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { PasswordModule } from 'primeng/password';
 import { numberControl } from '@/core/common/form-control';
 import { finalize } from 'rxjs';
@@ -21,8 +21,9 @@ interface PhoneVerificationResponse {
 @Component({
   selector: 'app-number-dialog',
   standalone: true,
-  imports: [ButtonModule, DialogModule, FormsModule, InputMaskModule, InputTextModule, InvaidTextComponent, NgIf, PasswordModule, ReactiveFormsModule, NgClass],
+  imports: [ButtonModule, DialogModule, FormsModule, InputMaskModule, InputTextModule, InvaidTextComponent, PasswordModule, ReactiveFormsModule, NgClass],
   templateUrl: './number-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './number-dialog.component.css',
 })
 export class NumberDialogComponent {

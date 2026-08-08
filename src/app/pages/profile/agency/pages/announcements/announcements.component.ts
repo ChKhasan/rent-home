@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { NgIf, NgForOf, NgClass } from '@angular/common';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { NgClass } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { SkeletonModule } from 'primeng/skeleton';
 import { RouterLink } from '@angular/router';
@@ -15,16 +15,15 @@ import { IAgencyMembership, IAnnouncementList, IAnnouncementListItem } from '@se
   selector: 'app-agency-announcements',
   standalone: true,
   imports: [
-    NgIf,
-    NgForOf,
     NgClass,
     ButtonModule,
     SkeletonModule,
     RouterLink,
     MyAnnouncementsCardComponent,
-    PaginationComponent,
-  ],
+    PaginationComponent
+],
   templateUrl: './announcements.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './announcements.component.css',
 })
 export class AgencyAnnouncementsComponent implements OnInit {

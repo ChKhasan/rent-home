@@ -1,15 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QueryService } from '@services/query';
-import { log } from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
-import { NgIf } from '@angular/common';
+
 
 @Component({
   selector: 'app-pagination',
   standalone: true,
-  imports: [PaginatorModule, NgIf],
+  imports: [PaginatorModule],
   templateUrl: './pagination.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './pagination.component.css',
 })
 export class PaginationComponent implements OnInit {

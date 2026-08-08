@@ -1,14 +1,15 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { NgIf, NgOptimizedImage, NgClass } from '@angular/common';
+import { NgOptimizedImage, NgClass } from '@angular/common';
 import { PricePipe } from '@/shared/pipes/price/price.pipe';
 import { PublisherMetaComponent } from '../../announcement/publisher-meta/publisher-meta.component';
 
 @Component({
   selector: 'app-my-announcements-card',
   standalone: true,
-  imports: [RouterLink, PricePipe, NgOptimizedImage, NgIf, NgClass, PublisherMetaComponent],
+  imports: [RouterLink, PricePipe, NgOptimizedImage, NgClass, PublisherMetaComponent],
   templateUrl: './my-announcements-card.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './my-announcements-card.component.css',
 })
 export class MyAnnouncementsCardComponent {

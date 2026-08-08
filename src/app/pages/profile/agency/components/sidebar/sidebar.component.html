@@ -9,14 +9,15 @@
     </a>
   </div>
   <nav aria-label="Agentlik kabineti bo'limlari">
-    <a
-      *ngFor="let link of links"
-      [routerLink]="link.routerLink"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: link.routerLink === '/profile/agency' }"
-      class="sidebar-link"
-    >
-      <span>{{ link.label }}</span>
-    </a>
+    @for (link of links; track link) {
+      <a
+        [routerLink]="link.routerLink"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: link.routerLink === '/profile/agency' }"
+        class="sidebar-link"
+        >
+        <span>{{ link.label }}</span>
+      </a>
+    }
   </nav>
 </aside>

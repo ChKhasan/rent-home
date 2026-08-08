@@ -16,33 +16,44 @@
     <span>{{ announcement?.address || 'Manzil ko‘rsatilmagan' }}</span>
   </p>
 
-  <div class="map" *ngIf="!loading && mapCenter as center">
-    <div class="route-map-status" *ngIf="routeLoadingId" role="status" aria-live="polite">
-      <svg lucideLoaderCircle [size]="17" aria-hidden="true"></svg>
-      <span>Yo‘nalish yuklanmoqda</span>
-    </div>
-    <ya-map [center]="center" [zoom]="zoom" (ready)="onMapReady($event)" (boundschange)="onMapBoundsChange($event)">
-      <ya-placemark [geometry]="center"
-        [properties]="{ hintContent: 'E’lon manzili', balloonContentHeader: 'E’lon manzili', balloonContentBody: announcement?.address || '' }"
+  @if (!loading && mapCenter; as center) {
+    <div class="map">
+      @if (routeLoadingId) {
+        <div class="route-map-status" role="status" aria-live="polite">
+          <svg lucideLoaderCircle [size]="17" aria-hidden="true"></svg>
+          <span>Yo‘nalish yuklanmoqda</span>
+        </div>
+      }
+      <ya-map [center]="center" [zoom]="zoom" (ready)="onMapReady($event)" (boundschange)="onMapBoundsChange($event)">
+        <ya-placemark [geometry]="center"
+          [properties]="{ hintContent: 'E’lon manzili', balloonContentHeader: 'E’lon manzili', balloonContentBody: announcement?.address || '' }"
         [options]="propertyMarkerOptions"></ya-placemark>
-      <ng-container *ngIf="activeRoute as route">
-        <ya-geoobject *ngIf="route.forward.length" [feature]="{ geometry: { type: 'LineString', coordinates: route.forward } }" [options]="route.style.forward"></ya-geoobject>
-        <ya-geoobject *ngIf="route.backward.length" [feature]="{ geometry: { type: 'LineString', coordinates: route.backward } }" [options]="route.style.backward"></ya-geoobject>
-        <ng-container *ngIf="showRouteStops">
-          <ng-container *ngFor="let stop of route.stops; trackBy: trackRouteStop">
-            <ya-placemark *ngIf="!isNearestStop(route, stop)" [geometry]="stop.coordinate"
+        @if (activeRoute; as route) {
+          @if (route.forward.length) {
+            <ya-geoobject [feature]="{ geometry: { type: 'LineString', coordinates: route.forward } }" [options]="route.style.forward"></ya-geoobject>
+          }
+          @if (route.backward.length) {
+            <ya-geoobject [feature]="{ geometry: { type: 'LineString', coordinates: route.backward } }" [options]="route.style.backward"></ya-geoobject>
+          }
+          @if (showRouteStops) {
+            @for (stop of route.stops; track trackRouteStop($index, stop)) {
+              @if (!isNearestStop(route, stop)) {
+                <ya-placemark [geometry]="stop.coordinate"
               [properties]="{
                 hintContent: stop.name,
                 balloonContentHeader: stop.name,
                 balloonContentBody: stopDirectionLabel(stop)
               }"
-              [options]="route.style.stop"></ya-placemark>
-          </ng-container>
-        </ng-container>
-        <ya-geoobject *ngIf="route.walkingPath as walkingPath"
-          [feature]="{ geometry: { type: 'LineString', coordinates: walkingPath } }"
-          [options]="walkingPathOptions"></ya-geoobject>
-        <ya-placemark [geometry]="route.nearestPoint"
+                [options]="route.style.stop"></ya-placemark>
+              }
+            }
+          }
+          @if (route.walkingPath; as walkingPath) {
+            <ya-geoobject
+              [feature]="{ geometry: { type: 'LineString', coordinates: walkingPath } }"
+            [options]="walkingPathOptions"></ya-geoobject>
+          }
+          <ya-placemark [geometry]="route.nearestPoint"
           [properties]="{
             iconCaption: route.transport.name,
             hintContent: route.nearestStop?.name || transportRouteTitle(route.transport),
@@ -50,66 +61,99 @@
             balloonContentBody: routeDistanceText(route)
           }"
           [options]="route.style.marker"></ya-placemark>
-      </ng-container>
-    </ya-map>
-    <div class="map-route-legend" *ngIf="activeRoute as route" aria-label="Yo‘nalish chiziqlari">
-      <span><i class="map-route-legend__line map-route-legend__line--forward"
-        [style.background-color]="route.style.color"></i>Borish</span>
-      <span><i class="map-route-legend__line map-route-legend__line--backward"
-        [style.border-top-color]="route.style.color"></i>Qaytish</span>
-      <span *ngIf="route.stops.length && showRouteStops"><i class="map-route-legend__stop"
-        [style.background-color]="route.style.color"></i>Bekatlar</span>
+        }
+      </ya-map>
+      @if (activeRoute; as route) {
+        <div class="map-route-legend" aria-label="Yo‘nalish chiziqlari">
+          <span><i class="map-route-legend__line map-route-legend__line--forward"
+          [style.background-color]="route.style.color"></i>Borish</span>
+          <span><i class="map-route-legend__line map-route-legend__line--backward"
+          [style.border-top-color]="route.style.color"></i>Qaytish</span>
+          @if (route.stops.length && showRouteStops) {
+            <span><i class="map-route-legend__stop"
+            [style.background-color]="route.style.color"></i>Bekatlar</span>
+          }
+        </div>
+      }
     </div>
-  </div>
+  }
 
-  <div class="location-content" *ngIf="!loading">
-    <div class="transport-list" *ngIf="transportGroups.length > 0">
-      <div class="transport-row" *ngFor="let group of transportGroups">
-        <span class="transport-label">
-          <span class="transport-icon" aria-hidden="true">
-            <svg *ngIf="group.type === 'METRO'" lucideTrainFront [size]="21"></svg>
-            <svg *ngIf="group.type === 'BUS'" lucideBusFront [size]="21"></svg>
-            <svg *ngIf="group.type === 'MARSHUTKA'" lucideCarTaxiFront [size]="21"></svg>
+  @if (!loading) {
+    <div class="location-content">
+      @if (transportGroups.length > 0) {
+        <div class="transport-list">
+          @for (group of transportGroups; track group) {
+            <div class="transport-row">
+              <span class="transport-label">
+                <span class="transport-icon" aria-hidden="true">
+                  @if (group.type === 'METRO') {
+                    <svg lucideTrainFront [size]="21"></svg>
+                  }
+                  @if (group.type === 'BUS') {
+                    <svg lucideBusFront [size]="21"></svg>
+                  }
+                  @if (group.type === 'MARSHUTKA') {
+                    <svg lucideCarTaxiFront [size]="21"></svg>
+                  }
+                </span>
+                {{ group.label }}
+                <span class="transport-count">{{ group.items.length }}</span>
+              </span>
+              <span class="transport-values" [attr.aria-label]="group.label">
+                @for (transport of group.items; track trackTransport($index, transport)) {
+                  @if (isRouteSelectable(transport)) {
+                    <button type="button" class="transport-chip transport-chip--button"
+                      [class.transport-chip--active]="isRouteSelected(transport)" [disabled]="isRouteLoading(transport)"
+                      [attr.aria-pressed]="isRouteSelected(transport)"
+                      [title]="transportRouteTitle(transport) + ' yo‘nalishini xaritada ko‘rsatish'"
+                      (click)="selectTransportRoute(transport)">
+                      {{ transport.name }}
+                      @if (isRouteLoading(transport)) {
+                        <svg class="transport-chip__spinner" lucideLoaderCircle [size]="14" aria-hidden="true"></svg>
+                      }
+                    </button>
+                  } @else {
+                    <span class="transport-chip">{{ transport.name }}</span>
+                  }
+                }
+              </span>
+            </div>
+          }
+        </div>
+      }
+      @if (activeRoute; as route) {
+        <div class="route-summary" aria-live="polite">
+          <span class="route-summary__icon" aria-hidden="true"><svg lucideRoute [size]="20"></svg></span>
+          <span class="route-summary__copy">
+            <strong>{{ transportRouteTitle(route.transport) }}</strong>
+            @if (route.nearestStop; as stop) {
+              <span>Eng yaqin bekat: <b>{{ stop.name }}</b></span>
+            }
+            @if (walkingRouteStatus === 'loading') {
+              <span>
+                Piyoda yo‘li hisoblanmoqda
+                <svg class="route-summary__spinner" lucideLoaderCircle [size]="13" aria-hidden="true"></svg>
+              </span>
+            }
+            @if (walkingRouteStatus === 'ready') {
+              <span>
+                {{ route.nearestStop ? 'Bekatgacha piyoda:' : 'Yo‘nalishgacha piyoda:' }}
+                <b>{{ routeDistance(route) }}</b>
+              </span>
+            }
+            @if (walkingRouteStatus === 'error') {
+              <span>Piyoda yo‘lini hozir hisoblab bo‘lmadi</span>
+            }
           </span>
-          {{ group.label }}
-          <span class="transport-count">{{ group.items.length }}</span>
-        </span>
-        <span class="transport-values" [attr.aria-label]="group.label">
-          <ng-container *ngFor="let transport of group.items; trackBy: trackTransport">
-            <button *ngIf="isRouteSelectable(transport); else staticTransport" type="button" class="transport-chip transport-chip--button"
-              [class.transport-chip--active]="isRouteSelected(transport)" [disabled]="isRouteLoading(transport)"
-              [attr.aria-pressed]="isRouteSelected(transport)"
-              [title]="transportRouteTitle(transport) + ' yo‘nalishini xaritada ko‘rsatish'"
-              (click)="selectTransportRoute(transport)">
-              {{ transport.name }}
-              <svg *ngIf="isRouteLoading(transport)" class="transport-chip__spinner" lucideLoaderCircle [size]="14" aria-hidden="true"></svg>
-            </button>
-            <ng-template #staticTransport><span class="transport-chip">{{ transport.name }}</span></ng-template>
-          </ng-container>
-        </span>
-      </div>
+          <button type="button" class="route-summary__close" title="Yo‘nalishni yopish" aria-label="Yo‘nalishni yopish" (click)="clearSelectedRoute()">
+            <svg lucideX [size]="18" aria-hidden="true"></svg>
+          </button>
+        </div>
+      }
+      @if (routeError) {
+        <p class="route-error" role="alert">{{ routeError }}</p>
+      }
     </div>
-
-    <div class="route-summary" *ngIf="activeRoute as route" aria-live="polite">
-      <span class="route-summary__icon" aria-hidden="true"><svg lucideRoute [size]="20"></svg></span>
-      <span class="route-summary__copy">
-        <strong>{{ transportRouteTitle(route.transport) }}</strong>
-        <span *ngIf="route.nearestStop as stop">Eng yaqin bekat: <b>{{ stop.name }}</b></span>
-        <span *ngIf="walkingRouteStatus === 'loading'">
-          Piyoda yo‘li hisoblanmoqda
-          <svg class="route-summary__spinner" lucideLoaderCircle [size]="13" aria-hidden="true"></svg>
-        </span>
-        <span *ngIf="walkingRouteStatus === 'ready'">
-          {{ route.nearestStop ? 'Bekatgacha piyoda:' : 'Yo‘nalishgacha piyoda:' }}
-          <b>{{ routeDistance(route) }}</b>
-        </span>
-        <span *ngIf="walkingRouteStatus === 'error'">Piyoda yo‘lini hozir hisoblab bo‘lmadi</span>
-      </span>
-      <button type="button" class="route-summary__close" title="Yo‘nalishni yopish" aria-label="Yo‘nalishni yopish" (click)="clearSelectedRoute()">
-        <svg lucideX [size]="18" aria-hidden="true"></svg>
-      </button>
-    </div>
-    <p class="route-error" *ngIf="routeError" role="alert">{{ routeError }}</p>
-  </div>
+  }
 </section>
 <app-auth-dialog></app-auth-dialog>

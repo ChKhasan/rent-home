@@ -2,49 +2,59 @@
   <span class="publisher-card__eyebrow">E'lon beruvchi</span>
   <div class="publisher-card__identity">
     <div class="publisher-card__avatar" [class.publisher-card__avatar--agency]="announcement?.publisher_type === 'AGENCY_AGENT'">
-      <ng-container *ngIf="avatar; else defaultImage">
+      @if (avatar) {
         <img [src]="avatar" [alt]="displayName" />
-      </ng-container>
-      <ng-template #defaultImage>
+      } @else {
         <img src="../../../../../assets/images/avatar.png" alt="" />
-      </ng-template>
+      }
     </div>
     <div class="publisher-card__meta">
       <h2 id="publisher-card-title" class="sr-only">{{ displayName }}</h2>
       <app-publisher-meta [announcement]="announcement" [compact]="false" [showDate]="false" [showCommission]="false"></app-publisher-meta>
-      <p *ngIf="announcement?.publisher_type === 'AGENCY_AGENT' && announcement?.publisher?.responsible_person?.name">
-        {{ announcement.publisher.responsible_person.name }}, agentlik vakili
-      </p>
-      <p *ngIf="announcement?.publisher_type === 'OWNER'" class="publisher-card__trust">
-        <svg lucideBadgeCheck [size]="15" aria-hidden="true"></svg>
-        Telefon tasdiqlangan
-      </p>
+      @if (announcement?.publisher_type === 'AGENCY_AGENT' && announcement?.publisher?.responsible_person?.name) {
+        <p>
+          {{ announcement.publisher.responsible_person.name }}, agentlik vakili
+        </p>
+      }
+      @if (announcement?.publisher_type === 'OWNER') {
+        <p class="publisher-card__trust">
+          <svg lucideBadgeCheck [size]="15" aria-hidden="true"></svg>
+          Telefon tasdiqlangan
+        </p>
+      }
     </div>
   </div>
 
-  <div *ngIf="publicProfileRoute || announcement?.publisher?.other_listing_count" class="publisher-card__links">
-    <a *ngIf="publicProfileRoute" [routerLink]="publicProfileRoute">
-      Profilni ko'rish
-      <svg lucideExternalLink [size]="16" aria-hidden="true"></svg>
-    </a>
-    <a *ngIf="announcement?.publisher?.other_listing_count" routerLink="/announcements"
-      [queryParams]="{ publisher_type: announcement.publisher_type }">
-      {{ announcement.publisher.other_listing_count }} ta boshqa e'lon
-    </a>
-  </div>
+  @if (publicProfileRoute || announcement?.publisher?.other_listing_count) {
+    <div class="publisher-card__links">
+      @if (publicProfileRoute) {
+        <a [routerLink]="publicProfileRoute">
+          Profilni ko'rish
+          <svg lucideExternalLink [size]="16" aria-hidden="true"></svg>
+        </a>
+      }
+      @if (announcement?.publisher?.other_listing_count) {
+        <a routerLink="/announcements"
+          [queryParams]="{ publisher_type: announcement.publisher_type }">
+          {{ announcement.publisher.other_listing_count }} ta boshqa e'lon
+        </a>
+      }
+    </div>
+  }
 
   <div class="contact-actions" [class.contact-actions--mobile-hidden]="hideMobileActions">
-    <button *ngIf="!showNumber; else revealedPhone" type="button" class="contact-action contact-action--primary"
-      [disabled]="!contactPhone" (click)="showNumber = true">
-      <svg lucidePhone [size]="19" aria-hidden="true"></svg>
-      {{ contactPhone ? "Raqamni ko'rsatish" : 'Telefon mavjud emas' }}
-    </button>
-    <ng-template #revealedPhone>
+    @if (!showNumber) {
+      <button type="button" class="contact-action contact-action--primary"
+        [disabled]="!contactPhone" (click)="showNumber = true">
+        <svg lucidePhone [size]="19" aria-hidden="true"></svg>
+        {{ contactPhone ? "Raqamni ko'rsatish" : 'Telefon mavjud emas' }}
+      </button>
+    } @else {
       <a class="contact-action contact-action--primary" [href]="contactPhone ? 'tel:' + contactPhone : null">
         <svg lucidePhone [size]="19" aria-hidden="true"></svg>
         {{ contactPhone }}
       </a>
-    </ng-template>
+    }
     <button type="button" class="contact-action" [disabled]="!contactUserId || authService.user?.id === contactUserId" (click)="toChat()">
       <svg lucideMessageCircle [size]="19" aria-hidden="true"></svg>
       Chatda yozish

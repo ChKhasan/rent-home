@@ -1,16 +1,17 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { TagModule } from 'primeng/tag';
 import { IAnnouncementInfo } from '@services/interfaces';
 import { PriceBlockComponent } from '../price-block/price-block.component';
 import { GalleriaModule } from 'primeng/galleria';
 import { PublisherMetaComponent } from '../publisher-meta/publisher-meta.component';
-import { NgIf } from '@angular/common';
+
 
 @Component({
   selector: 'app-anouncement-map-card',
   standalone: true,
-  imports: [TagModule, PriceBlockComponent, GalleriaModule, PublisherMetaComponent, NgIf],
+  imports: [TagModule, PriceBlockComponent, GalleriaModule, PublisherMetaComponent],
   templateUrl: './anouncement-map-card.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './anouncement-map-card.component.css',
 })
 export class AnouncementMapCardComponent implements OnInit {

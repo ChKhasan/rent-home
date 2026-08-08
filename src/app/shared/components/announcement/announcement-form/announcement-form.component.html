@@ -17,211 +17,289 @@
         <div>
           <p class="text-xs text-muted">Kim nomidan</p>
           <strong>{{ publisherContextLabel }}</strong>
-          <p *ngIf="publisherType === 'AGENCY_AGENT' && selectedAgency" class="text-xs text-muted mt-1">
-            {{ selectedAgency.role === 'OWNER' ? 'Agentlik egasi' : selectedAgency.role === 'MANAGER' ? 'Menejer' : 'Makler' }}
-          </p>
+          @if (publisherType === 'AGENCY_AGENT' && selectedAgency) {
+            <p class="text-xs text-muted mt-1">
+              {{ selectedAgency.role === 'OWNER' ? 'Agentlik egasi' : selectedAgency.role === 'MANAGER' ? 'Menejer' : 'Makler' }}
+            </p>
+          }
         </div>
-        <button *ngIf="canChangePublisher && !isEdit && currentStep !== 1" type="button" class="text-action" (click)="goToStep(1)">
-          O'zgartirish
-        </button>
+        @if (canChangePublisher && !isEdit && currentStep !== 1) {
+          <button type="button" class="text-action" (click)="goToStep(1)">
+            O'zgartirish
+          </button>
+        }
       </div>
     </header>
 
-    <div *ngIf="isEdit" class="status-row">
-      <span>{{ status ? "E'lon faol" : "E'lon faol emas" }}</span>
-      <p-toggleswitch inputId="announcement-status" ariaLabel="E'lon faolligi"
-        (onChange)="statusChange($event)" [(ngModel)]="status" />
-    </div>
+    @if (isEdit) {
+      <div class="status-row">
+        <span>{{ status ? "E'lon faol" : "E'lon faol emas" }}</span>
+        <p-toggleswitch inputId="announcement-status" ariaLabel="E'lon faolligi"
+          (onChange)="statusChange($event)" [(ngModel)]="status" />
+      </div>
+    }
 
     <div class="wizard-layout" [formGroup]="ruleForm">
       <nav class="step-rail" aria-label="E'lon bosqichlari">
-        <button *ngFor="let step of steps; let index = index" type="button" (click)="goToStep(index + 1)"
-          [class.step-rail__item--active]="currentStep === index + 1"
-          [class.step-rail__item--done]="currentStep > index + 1"
-          [disabled]="index + 1 > currentStep" class="step-rail__item">
-          <span>{{ index + 1 }}</span>{{ step }}
-        </button>
+        @for (step of steps; track step; let index = $index) {
+          <button type="button" (click)="goToStep(index + 1)"
+            [class.step-rail__item--active]="currentStep === index + 1"
+            [class.step-rail__item--done]="currentStep > index + 1"
+            [disabled]="index + 1 > currentStep" class="step-rail__item">
+            <span>{{ index + 1 }}</span>{{ step }}
+          </button>
+        }
       </nav>
 
       <main class="wizard-content">
-        <section *ngIf="currentStep === 1" class="step-content">
-          <div *ngIf="!isEdit" class="form-section">
-            <h2>Kim nomidan joylaysiz?</h2>
-            <div class="publisher-options" [attr.aria-busy]="capabilitiesLoading">
-              <button type="button" class="publisher-option" [class.publisher-option--active]="publisherType === 'OWNER'"
-                (click)="selectPublisher('OWNER')">
-                <span class="radio-dot"></span>
-                <span><strong>Uy egasi sifatida</strong><small>O'zingizga tegishli mulkni joylayapsiz.</small></span>
-              </button>
-              <button type="button" class="publisher-option" [class.publisher-option--active]="publisherType === 'INDEPENDENT_AGENT'"
-                [disabled]="!capabilities?.can_publish_as_independent_agent" (click)="selectPublisher('INDEPENDENT_AGENT')">
-                <span class="radio-dot"></span>
-                <span><strong>Mustaqil makler sifatida</strong><small>{{ capabilities?.independent_agent_block_reason || 'Agentliksiz, makler sifatida ishlaysiz.' }}</small></span>
-              </button>
-              <button type="button" class="publisher-option" [class.publisher-option--active]="publisherType === 'AGENCY_AGENT'"
-                [disabled]="!capabilities?.agencies?.length" (click)="selectPublisher('AGENCY_AGENT')">
-                <span class="radio-dot"></span>
-                <span><strong>Agentlik nomidan</strong><small>E'lon tanlangan agentlik profilida ko'rinadi.</small></span>
-              </button>
-            </div>
-            <div *ngIf="publisherType === 'AGENCY_AGENT' && capabilities?.agencies?.length" class="field">
-              <label for="agency">Agentlik</label>
-              <p-select inputId="agency" ariaLabel="Agentlik" class="w-full" styleClass="w-full" [options]="capabilities?.agencies || []"
-                formControlName="agency" optionLabel="name" optionValue="id" (onChange)="selectAgency($event.value)" />
-            </div>
-            <div *ngIf="publisherType === 'AGENCY_AGENT' && selectedAgency" class="field">
-              <label for="responsible-member">Mas'ul makler*</label>
-              <p-select inputId="responsible-member" ariaLabel="Mas'ul makler" class="w-full" styleClass="w-full"
-                [options]="agencyMembers" formControlName="responsible_member_id" optionLabel="label" optionValue="id"
-                [loading]="agencyMembersLoading" [readonly]="selectedAgency.role === 'BROKER'"
-                placeholder="Mas'ul xodimni tanlang">
-                <ng-template #item let-member>
-                  <div class="member-option"><strong>{{ member.label }}</strong><small>{{ member.roleLabel }} · {{ member.assigned_count || 0 }} ta e'lon</small></div>
-                </ng-template>
-              </p-select>
-              <p *ngIf="ruleForm.controls.responsible_member_id.touched && !ruleForm.controls.responsible_member_id.value" class="field-error">Mas'ul maklerni tanlang.</p>
-            </div>
-          </div>
-
-          <div *ngIf="publisherType !== 'OWNER'" class="form-section">
-            <h2>Makler komissiyasi</h2>
-            <div class="commission-control">
-              <button *ngFor="let option of commissionOptions" type="button"
-                [class.commission-control__option--active]="ruleForm.controls.commission_type.value === option.value"
-                class="commission-control__option" (click)="selectCommission(option.value)">{{ option.label }}</button>
-            </div>
-            <p *ngIf="ruleForm.controls.commission_type.touched && !ruleForm.controls.commission_type.value" class="field-error">Komissiya turini tanlang.</p>
-            <div *ngIf="ruleForm.controls.commission_type.value === 'PERCENTAGE'" class="field">
-              <label for="commission-percentage">Foiz</label>
-              <p-inputNumber inputId="commission-percentage" class="w-full" formControlName="commission_value" suffix=" %" [min]="0" [max]="100" />
-              <p *ngIf="ruleForm.controls.commission_value.touched && !isCommissionValid" class="field-error">Foiz 0 dan katta va 100 dan oshmasligi kerak.</p>
-            </div>
-            <div *ngIf="ruleForm.controls.commission_type.value === 'FIXED'" class="grid grid-cols-[1fr_140px] md:grid-cols-1 gap-3">
-              <div class="field">
-                <label for="commission-fixed">Summa</label>
-                <p-inputNumber inputId="commission-fixed" class="w-full" formControlName="commission_value" [min]="0" />
+        @if (currentStep === 1) {
+          <section class="step-content">
+            @if (!isEdit) {
+              <div class="form-section">
+                <h2>Kim nomidan joylaysiz?</h2>
+                <div class="publisher-options" [attr.aria-busy]="capabilitiesLoading">
+                  <button type="button" class="publisher-option" [class.publisher-option--active]="publisherType === 'OWNER'"
+                    (click)="selectPublisher('OWNER')">
+                    <span class="radio-dot"></span>
+                    <span><strong>Uy egasi sifatida</strong><small>O'zingizga tegishli mulkni joylayapsiz.</small></span>
+                  </button>
+                  <button type="button" class="publisher-option" [class.publisher-option--active]="publisherType === 'INDEPENDENT_AGENT'"
+                    [disabled]="!capabilities?.can_publish_as_independent_agent" (click)="selectPublisher('INDEPENDENT_AGENT')">
+                    <span class="radio-dot"></span>
+                    <span><strong>Mustaqil makler sifatida</strong><small>{{ capabilities?.independent_agent_block_reason || 'Agentliksiz, makler sifatida ishlaysiz.' }}</small></span>
+                  </button>
+                  <button type="button" class="publisher-option" [class.publisher-option--active]="publisherType === 'AGENCY_AGENT'"
+                    [disabled]="!capabilities?.agencies?.length" (click)="selectPublisher('AGENCY_AGENT')">
+                    <span class="radio-dot"></span>
+                    <span><strong>Agentlik nomidan</strong><small>E'lon tanlangan agentlik profilida ko'rinadi.</small></span>
+                  </button>
+                </div>
+                @if (publisherType === 'AGENCY_AGENT' && capabilities?.agencies?.length) {
+                  <div class="field">
+                    <label for="agency">Agentlik</label>
+                    <p-select inputId="agency" ariaLabel="Agentlik" class="w-full" styleClass="w-full" [options]="capabilities.agencies"
+                      formControlName="agency" optionLabel="name" optionValue="id" (onChange)="selectAgency($event.value)" />
+                  </div>
+                }
+                @if (publisherType === 'AGENCY_AGENT' && selectedAgency) {
+                  <div class="field">
+                    <label for="responsible-member">Mas'ul makler*</label>
+                    <p-select inputId="responsible-member" ariaLabel="Mas'ul makler" class="w-full" styleClass="w-full"
+                      [options]="agencyMembers" formControlName="responsible_member_id" optionLabel="label" optionValue="id"
+                      [loading]="agencyMembersLoading" [readonly]="selectedAgency.role === 'BROKER'"
+                      placeholder="Mas'ul xodimni tanlang">
+                      <ng-template #item let-member>
+                        <div class="member-option"><strong>{{ member.label }}</strong><small>{{ member.roleLabel }} · {{ member.assigned_count || 0 }} ta e'lon</small></div>
+                      </ng-template>
+                    </p-select>
+                    @if (ruleForm.controls.responsible_member_id.touched && !ruleForm.controls.responsible_member_id.value) {
+                      <p class="field-error">Mas'ul maklerni tanlang.</p>
+                    }
+                  </div>
+                }
+              </div>
+            }
+            @if (publisherType !== 'OWNER') {
+              <div class="form-section">
+                <h2>Makler komissiyasi</h2>
+                <div class="commission-control">
+                  @for (option of commissionOptions; track option) {
+                    <button type="button"
+                      [class.commission-control__option--active]="ruleForm.controls.commission_type.value === option.value"
+                    class="commission-control__option" (click)="selectCommission(option.value)">{{ option.label }}</button>
+                  }
+                </div>
+                @if (ruleForm.controls.commission_type.touched && !ruleForm.controls.commission_type.value) {
+                  <p class="field-error">Komissiya turini tanlang.</p>
+                }
+                @if (ruleForm.controls.commission_type.value === 'PERCENTAGE') {
+                  <div class="field">
+                    <label for="commission-percentage">Foiz</label>
+                    <p-inputnumber inputId="commission-percentage" class="w-full" formControlName="commission_value" suffix=" %" [min]="0" [max]="100" />
+                    @if (ruleForm.controls.commission_value.touched && !isCommissionValid) {
+                      <p class="field-error">Foiz 0 dan katta va 100 dan oshmasligi kerak.</p>
+                    }
+                  </div>
+                }
+                @if (ruleForm.controls.commission_type.value === 'FIXED') {
+                  <div class="grid grid-cols-[1fr_140px] md:grid-cols-1 gap-3">
+                    <div class="field">
+                      <label for="commission-fixed">Summa</label>
+                      <p-inputnumber inputId="commission-fixed" class="w-full" formControlName="commission_value" [min]="0" />
+                    </div>
+                    <div class="field">
+                      <label for="commission-currency">Valyuta</label>
+                      <p-select inputId="commission-currency" ariaLabel="Komissiya valyutasi" class="w-full" styleClass="w-full" [options]="currenyTypes"
+                        formControlName="commission_currency" optionLabel="label" optionValue="value" />
+                    </div>
+                    @if (ruleForm.controls.commission_value.touched && !isCommissionValid) {
+                      <p class="field-error">Summani 0 dan katta kiriting va valyutani tanlang.</p>
+                    }
+                  </div>
+                }
+              </div>
+            }
+            <div class="form-section form-grid">
+              <div class="field form-span-2">
+                <label for="title">E'lon nomi*</label>
+                <input pInputText id="title" formControlName="title" />
+                @if (ruleForm.controls.title.touched && ruleForm.controls.title.invalid) {
+                  <app-invaid-text text="E'lon nomini to'g'ri kiriting."></app-invaid-text>
+                }
               </div>
               <div class="field">
-                <label for="commission-currency">Valyuta</label>
-                <p-select inputId="commission-currency" ariaLabel="Komissiya valyutasi" class="w-full" styleClass="w-full" [options]="currenyTypes"
-                  formControlName="commission_currency" optionLabel="label" optionValue="value" />
+                <label>Kelishuv turi*</label>
+                <div class="deal-type-control">
+                  @for (option of dealTypeOptions; track option) {
+                    <button type="button" class="deal-type-option"
+                    [class.deal-type-option--active]="selectedDealType === option.value" (click)="onDealTypeChange(option.value)">{{ option.label }}</button>
+                  }
+                </div>
               </div>
-              <p *ngIf="ruleForm.controls.commission_value.touched && !isCommissionValid" class="field-error">Summani 0 dan katta kiriting va valyutani tanlang.</p>
+              <div class="field">
+                <label for="lessee-types">Ijarachi turi*</label>
+                <p-multiselect inputId="lessee-types" class="w-full" styleClass="w-full" [options]="genders"
+                  formControlName="lessee_types" optionLabel="name" optionValue="id" placeholder="Tanlang" />
+                @if (ruleForm.controls.lessee_types.touched && ruleForm.controls.lessee_types.invalid) {
+                  <app-invaid-text text="Kamida bitta ijarachi turini tanlang."></app-invaid-text>
+                }
+              </div>
+              <label class="toggle-row form-span-2">
+                <span><strong>Sheriklik</strong><small>Birga yashash uchun sherik qidiriladi</small></span>
+                <p-toggleswitch formControlName="partnership" />
+              </label>
+              @if (ruleForm.controls.partnership.value) {
+                <div class="field">
+                  <label for="people-count">Kerakli odamlar soni</label>
+                  <p-inputnumber inputId="people-count" class="w-full" formControlName="need_people_count" [min]="1" />
+                </div>
+              }
             </div>
-          </div>
+          </section>
+        }
 
-          <div class="form-section form-grid">
+        @if (currentStep === 2) {
+          <section class="step-content form-section form-grid">
+            <div class="field">
+              <label for="region">Viloyat*</label>
+              <p-select inputId="region" ariaLabel="Viloyat" class="w-full" styleClass="w-full" [options]="dictionaryService.regions"
+                formControlName="region" optionLabel="name" optionValue="id" (onChange)="onRegionChange($event.value)" />
+              @if (ruleForm.controls.region.touched && ruleForm.controls.region.invalid) {
+                <p class="field-error">Viloyatni tanlang.</p>
+              }
+            </div>
+            <div class="field">
+              <label for="district">Tuman*</label>
+              <p-select inputId="district" ariaLabel="Tuman" class="w-full" styleClass="w-full" [options]="dictionaryService.districts"
+                formControlName="district" optionLabel="name" optionValue="id" [disabled]="!ruleForm.controls.region.value" />
+              @if (ruleForm.controls.district.touched && ruleForm.controls.district.invalid) {
+                <p class="field-error">Tumanni tanlang.</p>
+              }
+            </div>
             <div class="field form-span-2">
-              <label for="title">E'lon nomi*</label>
-              <input pInputText id="title" formControlName="title" />
-              <app-invaid-text *ngIf="ruleForm.controls.title.touched && ruleForm.controls.title.invalid" text="E'lon nomini to'g'ri kiriting."></app-invaid-text>
+              <label for="address">Manzil*</label>
+              <input pInputText id="address" formControlName="address" />
+              @if (ruleForm.controls.address.touched && ruleForm.controls.address.invalid) {
+                <app-invaid-text text="Manzilni to'g'ri kiriting."></app-invaid-text>
+              }
             </div>
-            <div class="field">
-              <label>Kelishuv turi*</label>
-              <div class="deal-type-control">
-                <button *ngFor="let option of dealTypeOptions" type="button" class="deal-type-option"
-                  [class.deal-type-option--active]="selectedDealType === option.value" (click)="onDealTypeChange(option.value)">{{ option.label }}</button>
-              </div>
-            </div>
-            <div class="field">
-              <label for="lessee-types">Ijarachi turi*</label>
-              <p-multiSelect inputId="lessee-types" class="w-full" styleClass="w-full" [options]="genders"
-                formControlName="lessee_types" optionLabel="name" optionValue="id" placeholder="Tanlang" />
-              <app-invaid-text *ngIf="ruleForm.controls.lessee_types.touched && ruleForm.controls.lessee_types.invalid" text="Kamida bitta ijarachi turini tanlang."></app-invaid-text>
-            </div>
-            <label class="toggle-row form-span-2">
-              <span><strong>Sheriklik</strong><small>Birga yashash uchun sherik qidiriladi</small></span>
-              <p-toggleswitch formControlName="partnership" />
-            </label>
-            <div *ngIf="ruleForm.controls.partnership.value" class="field">
-              <label for="people-count">Kerakli odamlar soni</label>
-              <p-inputNumber inputId="people-count" class="w-full" formControlName="need_people_count" [min]="1" />
-            </div>
-          </div>
-        </section>
-
-        <section *ngIf="currentStep === 2" class="step-content form-section form-grid">
-          <div class="field">
-            <label for="region">Viloyat*</label>
-            <p-select inputId="region" ariaLabel="Viloyat" class="w-full" styleClass="w-full" [options]="dictionaryService.regions"
-              formControlName="region" optionLabel="name" optionValue="id" (onChange)="onRegionChange($event.value)" />
-            <p *ngIf="ruleForm.controls.region.touched && ruleForm.controls.region.invalid" class="field-error">Viloyatni tanlang.</p>
-          </div>
-          <div class="field">
-            <label for="district">Tuman*</label>
-            <p-select inputId="district" ariaLabel="Tuman" class="w-full" styleClass="w-full" [options]="dictionaryService.districts"
-              formControlName="district" optionLabel="name" optionValue="id" [disabled]="!ruleForm.controls.region.value" />
-            <p *ngIf="ruleForm.controls.district.touched && ruleForm.controls.district.invalid" class="field-error">Tumanni tanlang.</p>
-          </div>
-          <div class="field form-span-2">
-            <label for="address">Manzil*</label>
-            <input pInputText id="address" formControlName="address" />
-            <app-invaid-text *ngIf="ruleForm.controls.address.touched && ruleForm.controls.address.invalid" text="Manzilni to'g'ri kiriting."></app-invaid-text>
-          </div>
-          <div class="location-state form-span-2" [class.location-state--selected]="hasSelectedLocation">
-            <i class="pi pi-map-marker" aria-hidden="true"></i>
-            <div><strong>{{ hasSelectedLocation ? 'Joylashuv tanlangan' : 'Joylashuv tanlanmagan' }}</strong><small *ngIf="hasSelectedLocation">{{ ruleForm.controls.address.value }}</small></div>
+            <div class="location-state form-span-2" [class.location-state--selected]="hasSelectedLocation">
+              <i class="pi pi-map-marker" aria-hidden="true"></i>
+              <div><strong>{{ hasSelectedLocation ? 'Joylashuv tanlangan' : 'Joylashuv tanlanmagan' }}</strong>@if (hasSelectedLocation) {
+              <small>{{ ruleForm.controls.address.value }}</small>
+            }</div>
             <button id="location-picker" type="button" class="outline-action" (click)="openMapDialog()">{{ hasSelectedLocation ? "Xaritada o'zgartirish" : 'Xaritadan joy tanlash' }}</button>
           </div>
-          <p *ngIf="ruleForm.controls.location_x.touched && !hasSelectedLocation" class="field-error form-span-2">Xaritadan joylashuvni tanlang.</p>
-          <div class="field"><label for="room-count">Xonalar soni*</label><p-inputNumber inputId="room-count" class="w-full" formControlName="room_count" [min]="1" /><p *ngIf="ruleForm.controls.room_count.touched && ruleForm.controls.room_count.invalid" class="field-error">Xonalar sonini kamida 1 qilib kiriting.</p></div>
-          <div class="field"><label for="area">Maydoni (m²)*</label><p-inputNumber inputId="area" class="w-full" formControlName="area" [min]="1" /><p *ngIf="ruleForm.controls.area.touched && ruleForm.controls.area.invalid" class="field-error">Maydonni kamida 1 m² qilib kiriting.</p></div>
-          <div class="field"><label for="floor">Qavat</label><p-inputNumber inputId="floor" class="w-full" formControlName="floor" [min]="0" /></div>
-          <div class="field"><label for="status">Ta'mir holati</label><p-inputNumber inputId="status" class="w-full" formControlName="appartment_status" [min]="0" /></div>
-          <div class="field form-span-2"><label for="description">Tavsif*</label><textarea pTextarea id="description" rows="5" formControlName="description"></textarea><p *ngIf="ruleForm.controls.description.touched && ruleForm.controls.description.invalid" class="field-error">Tavsif kamida 10 ta belgidan iborat bo‘lsin.</p></div>
-        </section>
+          @if (ruleForm.controls.location_x.touched && !hasSelectedLocation) {
+            <p class="field-error form-span-2">Xaritadan joylashuvni tanlang.</p>
+          }
+          <div class="field"><label for="room-count">Xonalar soni*</label><p-inputnumber inputId="room-count" class="w-full" formControlName="room_count" [min]="1" />@if (ruleForm.controls.room_count.touched && ruleForm.controls.room_count.invalid) {
+          <p class="field-error">Xonalar sonini kamida 1 qilib kiriting.</p>
+        }</div>
+        <div class="field"><label for="area">Maydoni (m²)*</label><p-inputnumber inputId="area" class="w-full" formControlName="area" [min]="1" />@if (ruleForm.controls.area.touched && ruleForm.controls.area.invalid) {
+        <p class="field-error">Maydonni kamida 1 m² qilib kiriting.</p>
+      }</div>
+      <div class="field"><label for="floor">Qavat</label><p-inputnumber inputId="floor" class="w-full" formControlName="floor" [min]="0" /></div>
+      <div class="field"><label for="status">Ta'mir holati</label><p-inputnumber inputId="status" class="w-full" formControlName="appartment_status" [min]="0" /></div>
+      <div class="field form-span-2"><label for="description">Tavsif*</label><textarea pTextarea id="description" rows="5" formControlName="description"></textarea>@if (ruleForm.controls.description.touched && ruleForm.controls.description.invalid) {
+      <p class="field-error">Tavsif kamida 10 ta belgidan iborat bo‘lsin.</p>
+    }</div>
+  </section>
+}
 
-        <section *ngIf="currentStep === 3" class="step-content">
-          <div class="form-section">
-            <h2>Suratlar</h2>
-            <p-fileUpload [disabled]="!status" styleClass="file-upload" mode="basic" name="image" [url]="imageUploadUrl"
-              (onUpload)="onUpload($event)" [auto]="true" accept="image/*" [maxFileSize]="1000000" [headers]="headers" chooseLabel="Surat yuklash" />
-            <div class="image-grid mt-4">
-              <div *ngFor="let image of uploadedFiles" class="uploaded-image">
-                <img [src]="image.image" alt="E'lon surati" />
-                <button type="button" (click)="removeImage(image.id)" aria-label="Suratni o'chirish"><i class="pi pi-trash"></i></button>
-              </div>
-            </div>
-            <p *ngIf="imageValidationAttempted && uploadedFiles.length === 0" class="field-error mt-2">Kamida bitta surat yuklang.</p>
+@if (currentStep === 3) {
+  <section class="step-content">
+    <div class="form-section">
+      <h2>Suratlar</h2>
+      <p-fileupload [disabled]="!status" styleClass="file-upload" mode="basic" name="image" [url]="imageUploadUrl"
+        (onUpload)="onUpload($event)" [auto]="true" accept="image/*" [maxFileSize]="1000000" [headers]="headers" chooseLabel="Surat yuklash" />
+      <div class="image-grid mt-4">
+        @for (image of uploadedFiles; track image) {
+          <div class="uploaded-image">
+            <img [src]="image.image" alt="E'lon surati" />
+            <button type="button" (click)="removeImage(image.id)" aria-label="Suratni o'chirish"><i class="pi pi-trash"></i></button>
           </div>
-          <div class="form-section form-grid">
-            <h2 class="form-span-2">Qulayliklar va narx</h2>
-            <label class="toggle-row"><span>Konditsioner</span><p-toggleswitch formControlName="conditioner" /></label>
-            <label class="toggle-row"><span>Muzlatgich</span><p-toggleswitch formControlName="fridge" /></label>
-            <label class="toggle-row"><span>Kir yuvish mashinasi</span><p-toggleswitch formControlName="washing_machine" /></label>
-            <div class="field"><label for="currency">Valyuta</label><p-select inputId="currency" ariaLabel="Valyuta" class="w-full" styleClass="w-full" [options]="currenyTypes" formControlName="currency" optionLabel="label" optionValue="value" /></div>
-            <div class="field"><label for="total-price">Umumiy narx*</label><p-inputNumber inputId="total-price" class="w-full" formControlName="total_price" [min]="1" /><p *ngIf="ruleForm.controls.total_price.touched && ruleForm.controls.total_price.invalid" class="field-error">Narxni kamida 1 qilib kiriting.</p></div>
-            <div *ngIf="ruleForm.controls.partnership.value" class="field"><label for="one-price">Bir kishi uchun</label><p-inputNumber inputId="one-price" class="w-full" formControlName="price_for_one" [min]="1" /></div>
-          </div>
-        </section>
-
-        <section *ngIf="currentStep === 4" class="step-content">
-          <div class="review-preview">
-            <img *ngIf="uploadedFiles[0]?.image" [src]="uploadedFiles[0].image" alt="E'lon muqovasi" />
-            <div>
-              <p class="text-sm text-muted">Public ko'rinishi</p>
-              <h2>{{ ruleForm.controls.title.value }}</h2>
-              <strong>{{ ruleForm.controls.total_price.value | number }} {{ ruleForm.controls.currency.value }}</strong>
-              <p>{{ ruleForm.controls.address.value }}</p>
-            </div>
-          </div>
-          <div class="review-list">
-            <div><span>E'lon beruvchi</span><strong>{{ publisherContextLabel }}</strong><button type="button" (click)="goToStep(1)">Tahrirlash</button></div>
-            <div *ngIf="publisherType === 'AGENCY_AGENT'"><span>Mas'ul makler</span><strong>{{ selectedResponsibleMember?.label || "Tanlanmagan" }}</strong><button type="button" (click)="goToStep(1)">Tahrirlash</button></div>
-            <div *ngIf="publisherType !== 'OWNER'"><span>Komissiya</span><strong>{{ ruleForm.controls.commission_type.value === 'NONE' ? 'Komissiyasiz' : ruleForm.controls.commission_value.value + (ruleForm.controls.commission_type.value === 'PERCENTAGE' ? '%' : ' ' + ruleForm.controls.commission_currency.value) }}</strong><button type="button" (click)="goToStep(1)">Tahrirlash</button></div>
-            <div><span>Manzil va uy</span><strong>{{ ruleForm.controls.address.value }}</strong><button type="button" (click)="goToStep(2)">Tahrirlash</button></div>
-            <div><span>Suratlar va narx</span><strong>{{ uploadedFiles.length }} ta surat</strong><button type="button" (click)="goToStep(3)">Tahrirlash</button></div>
-          </div>
-          <p class="moderation-notice">E'lon yuborilgach moderator tekshiruvidan o'tadi. Tasdiqlangandan keyin ommaga ko'rinadi.</p>
-        </section>
-
-        <footer class="wizard-footer">
-          <button type="button" class="secondary-action" (click)="currentStep === 1 ? goBack() : previousStep()">{{ currentStep === 1 ? 'Bekor qilish' : 'Oldingi' }}</button>
-          <p-button *ngIf="currentStep < 4" (click)="nextStep()" styleClass="primary-action">Davom etish</p-button>
-          <p-button *ngIf="currentStep === 4 && status" [loading]="_formControl.loading" (click)="onSubmit()" styleClass="primary-action">Moderatsiyaga yuborish</p-button>
-        </footer>
-      </main>
+        }
+      </div>
+      @if (imageValidationAttempted && uploadedFiles.length === 0) {
+        <p class="field-error mt-2">Kamida bitta surat yuklang.</p>
+      }
     </div>
+    <div class="form-section form-grid">
+      <h2 class="form-span-2">Qulayliklar va narx</h2>
+      <label class="toggle-row"><span>Konditsioner</span><p-toggleswitch formControlName="conditioner" /></label>
+      <label class="toggle-row"><span>Muzlatgich</span><p-toggleswitch formControlName="fridge" /></label>
+      <label class="toggle-row"><span>Kir yuvish mashinasi</span><p-toggleswitch formControlName="washing_machine" /></label>
+      <div class="field"><label for="currency">Valyuta</label><p-select inputId="currency" ariaLabel="Valyuta" class="w-full" styleClass="w-full" [options]="currenyTypes" formControlName="currency" optionLabel="label" optionValue="value" /></div>
+      <div class="field"><label for="total-price">Umumiy narx*</label><p-inputnumber inputId="total-price" class="w-full" formControlName="total_price" [min]="1" />@if (ruleForm.controls.total_price.touched && ruleForm.controls.total_price.invalid) {
+      <p class="field-error">Narxni kamida 1 qilib kiriting.</p>
+    }</div>
+    @if (ruleForm.controls.partnership.value) {
+      <div class="field"><label for="one-price">Bir kishi uchun</label><p-inputnumber inputId="one-price" class="w-full" formControlName="price_for_one" [min]="1" /></div>
+    }
   </div>
-  <app-map-dialog [formHandle]="formHandle"></app-map-dialog>
+</section>
+}
+
+@if (currentStep === 4) {
+  <section class="step-content">
+    <div class="review-preview">
+      @if (uploadedFiles[0]?.image) {
+        <img [src]="uploadedFiles[0].image" alt="E'lon muqovasi" />
+      }
+      <div>
+        <p class="text-sm text-muted">Public ko'rinishi</p>
+        <h2>{{ ruleForm.controls.title.value }}</h2>
+        <strong>{{ ruleForm.controls.total_price.value | number }} {{ ruleForm.controls.currency.value }}</strong>
+        <p>{{ ruleForm.controls.address.value }}</p>
+      </div>
+    </div>
+    <div class="review-list">
+      <div><span>E'lon beruvchi</span><strong>{{ publisherContextLabel }}</strong><button type="button" (click)="goToStep(1)">Tahrirlash</button></div>
+      @if (publisherType === 'AGENCY_AGENT') {
+        <div><span>Mas'ul makler</span><strong>{{ selectedResponsibleMember?.label || "Tanlanmagan" }}</strong><button type="button" (click)="goToStep(1)">Tahrirlash</button></div>
+      }
+      @if (publisherType !== 'OWNER') {
+        <div><span>Komissiya</span><strong>{{ ruleForm.controls.commission_type.value === 'NONE' ? 'Komissiyasiz' : ruleForm.controls.commission_value.value + (ruleForm.controls.commission_type.value === 'PERCENTAGE' ? '%' : ' ' + ruleForm.controls.commission_currency.value) }}</strong><button type="button" (click)="goToStep(1)">Tahrirlash</button></div>
+      }
+      <div><span>Manzil va uy</span><strong>{{ ruleForm.controls.address.value }}</strong><button type="button" (click)="goToStep(2)">Tahrirlash</button></div>
+      <div><span>Suratlar va narx</span><strong>{{ uploadedFiles.length }} ta surat</strong><button type="button" (click)="goToStep(3)">Tahrirlash</button></div>
+    </div>
+    <p class="moderation-notice">E'lon yuborilgach moderator tekshiruvidan o'tadi. Tasdiqlangandan keyin ommaga ko'rinadi.</p>
+  </section>
+}
+
+<footer class="wizard-footer">
+  <button type="button" class="secondary-action" (click)="currentStep === 1 ? goBack() : previousStep()">{{ currentStep === 1 ? 'Bekor qilish' : 'Oldingi' }}</button>
+  @if (currentStep < 4) {
+    <p-button (click)="nextStep()" styleClass="primary-action">Davom etish</p-button>
+  }
+  @if (currentStep === 4 && status) {
+    <p-button [loading]="_formControl.loading" (click)="onSubmit()" styleClass="primary-action">Moderatsiyaga yuborish</p-button>
+  }
+</footer>
+</main>
+</div>
+</div>
+<app-map-dialog [formHandle]="formHandle"></app-map-dialog>
 </div>

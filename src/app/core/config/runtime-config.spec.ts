@@ -14,7 +14,10 @@ describe('getRuntimeConfig', () => {
   });
 
   it('returns the injected browser config', () => {
-    const config: NexthomeRuntimeConfig = { yandexMapsApiKey: 'test-key' };
+    const config: NexthomeRuntimeConfig = {
+      primeUiLicenseKey: 'test-primeui-license',
+      yandexMapsApiKey: 'test-key',
+    };
     window.__NEXTHOME_RUNTIME_CONFIG__ = config;
 
     expect(getRuntimeConfig()).toBe(config);

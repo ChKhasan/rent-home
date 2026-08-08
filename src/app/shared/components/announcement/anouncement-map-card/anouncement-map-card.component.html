@@ -1,9 +1,11 @@
 <div class="rounded-[12px] md:h-full w-full flex flex-col gap-[24px] bg-white px-[30px] py-[30px] md:border-none md:px-4 md:py-4 border-[1px] border-[color:var(--input-stroke)] border-solid">
   <div class="flex justify-between">
     <h1 class="font-600 text-[24px]">{{ announcement.title }}</h1>
-    <button *ngIf="close" (click)="closeBottomSheet()" class="p-2 bg-[transparent]">
-      <i class="pi pi-times" style="font-size: 1.2rem"></i>
-    </button>
+    @if (close) {
+      <button (click)="closeBottomSheet()" class="p-2 bg-[transparent]">
+        <i class="pi pi-times" style="font-size: 1.2rem"></i>
+      </button>
+    }
   </div>
   <p-galleria [value]="announcement.images" [numVisible]="5" [circular]="true" [showItemNavigators]="true" [showThumbnails]="false" [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '640px', height: '250px' }">
     <ng-template pTemplate="item" let-item>

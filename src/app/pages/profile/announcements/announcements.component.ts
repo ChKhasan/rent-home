@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { NgForOf, NgIf } from '@angular/common';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
+
 import { SkeletonModule } from 'primeng/skeleton';
 import { PaginationComponent } from '@components/pagination/pagination.component';
 import { finalize } from 'rxjs';
@@ -13,8 +13,9 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-announcements',
   standalone: true,
-  imports: [NgForOf, SkeletonModule, NgIf, PaginationComponent, AnnouncementsCardComponent, RouterLink],
+  imports: [SkeletonModule, PaginationComponent, AnnouncementsCardComponent, RouterLink],
   templateUrl: './announcements.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './announcements.component.css',
 })
 export class AnnouncementsComponent implements OnInit {

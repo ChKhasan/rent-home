@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { AnnouncementFormComponent } from '@components/announcement/announcement-form/announcement-form.component';
 
 @Component({
@@ -6,6 +6,7 @@ import { AnnouncementFormComponent } from '@components/announcement/announcement
   standalone: true,
   imports: [AnnouncementFormComponent],
   templateUrl: './create.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './create.component.css',
 })
 export class CreateComponent {}

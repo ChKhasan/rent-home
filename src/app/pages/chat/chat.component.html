@@ -16,132 +16,167 @@
       <main class="chat-thread" [attr.aria-label]="isRoom?.user?.name ? isRoom.user.name + ' bilan suhbat' : 'Xabarlar'">
         <div class="message-block">
           <div class="thread-layout" [class.has-room]="isRoom?.user && !invalidRoom">
-            <header *ngIf="isRoom?.user && !invalidRoom" class="thread-header">
-              <button type="button" (click)="toBack()" class="chat-back" aria-label="Suhbatlar ro'yxatiga qaytish">
-                <svg lucideArrowLeft [size]="21" aria-hidden="true"></svg>
-              </button>
-
-              <div class="chat-avatar">
-                <div class="chat-avatar__image">
-                  <img *ngIf="isRoom.user?.images?.length; else fallbackAvatar"
-                    [src]="isRoom.user.images[0].image" [alt]="isRoom.user.name || 'Foydalanuvchi'" />
-                  <ng-template #fallbackAvatar>
-                    <img src="./assets/images/avatar.png" alt="" aria-hidden="true" />
-                  </ng-template>
+            @if (isRoom?.user && !invalidRoom) {
+              <header class="thread-header">
+                <button type="button" (click)="toBack()" class="chat-back" aria-label="Suhbatlar ro'yxatiga qaytish">
+                  <svg lucideArrowLeft [size]="21" aria-hidden="true"></svg>
+                </button>
+                <div class="chat-avatar">
+                  <div class="chat-avatar__image">
+                    @if (isRoom.user?.images?.length) {
+                      <img
+                        [src]="isRoom.user.images[0].image" [alt]="isRoom.user.name || 'Foydalanuvchi'" />
+                    } @else {
+                      <img src="./assets/images/avatar.png" alt="" aria-hidden="true" />
+                    }
+                  </div>
+                  <span class="status-circle" [ngClass]="isRoom.user?.is_online ? 'online' : 'offline'" aria-hidden="true"></span>
                 </div>
-                <span class="status-circle" [ngClass]="isRoom.user?.is_online ? 'online' : 'offline'" aria-hidden="true"></span>
+                <div class="thread-person">
+                  <h1>{{ isRoom.user?.name || 'Noma’lum foydalanuvchi' }}</h1>
+                  <p class="chat-presence">
+                    @if (remoteTyping) {
+                      yozmoqda...
+                    } @else {
+                      @if (isRoom.user?.is_online) {
+                        Onlayn
+                      } @else {
+                        {{ isRoom.user?.last_online ? ('Oxirgi faollik: ' + (isRoom.user.last_online | date: 'dd.MM, HH:mm')) : 'Oflayn' }}
+                      }
+                    }
+                  </p>
+                </div>
+                @if (isRoom.user?.phone_number) {
+                  <a class="chat-contact-phone"
+                    [href]="'tel:' + isRoom.user.phone_number" aria-label="Telefon qilish">
+                    {{ isRoom.user.phone_number }}
+                  </a>
+                }
+              </header>
+            }
+
+            @if (showDate) {
+              <div class="floating-date" aria-live="polite">
+                <span class="date-chip">{{ scrollingCurrentDate | date: topDateFormat }}</span>
               </div>
+            }
 
-              <div class="thread-person">
-                <h1>{{ isRoom.user?.name || 'Noma’lum foydalanuvchi' }}</h1>
-                <p class="chat-presence">
-                  <ng-container *ngIf="remoteTyping; else presenceState">yozmoqda...</ng-container>
-                  <ng-template #presenceState>
-                    <ng-container *ngIf="isRoom.user?.is_online; else lastOnline">Onlayn</ng-container>
-                    <ng-template #lastOnline>
-                      {{ isRoom.user?.last_online ? ('Oxirgi faollik: ' + (isRoom.user.last_online | date: 'dd.MM, HH:mm')) : 'Oflayn' }}
-                    </ng-template>
-                  </ng-template>
-                </p>
+            @if (loadingMessages) {
+              <div class="board board--loading" aria-label="Xabarlar yuklanmoqda">
+                @for (item of skeletonList; track item) {
+                  <div class="message-skeleton"
+                    [ngClass]="item % 2 === 0 ? 'message-skeleton--left' : 'message-skeleton--right'">
+                    <p-skeleton styleClass="ng_skeleton"></p-skeleton>
+                  </div>
+                }
               </div>
-
-              <a *ngIf="isRoom.user?.phone_number" class="chat-contact-phone"
-                [href]="'tel:' + isRoom.user.phone_number" aria-label="Telefon qilish">
-                {{ isRoom.user.phone_number }}
-              </a>
-            </header>
-
-            <div class="floating-date" *ngIf="showDate" aria-live="polite">
-              <span class="date-chip">{{ scrollingCurrentDate | date: topDateFormat }}</span>
-            </div>
-
-            <div class="board board--loading" *ngIf="loadingMessages; else messagesList" aria-label="Xabarlar yuklanmoqda">
-              <div *ngFor="let item of skeletonList" class="message-skeleton"
-                [ngClass]="item % 2 === 0 ? 'message-skeleton--left' : 'message-skeleton--right'">
-                <p-skeleton styleClass="ng_skeleton"></p-skeleton>
-              </div>
-            </div>
-
-            <ng-template #messagesList>
+            } @else {
               <div #scrollableDiv #parentDiv class="board" tabindex="0" role="log" aria-live="polite"
                 aria-relevant="additions text" aria-label="Xabarlar tarixi" (scroll)="onParentDivScrolled()">
-                <div *ngIf="pendingMessages.length" class="pending-list" aria-live="polite">
-                  <div *ngFor="let pending of pendingMessages" class="message-row"
-                    [class.message-row--mine]="pending.sender === authService.user.id">
-                    <div class="comment-card">
-                      <div class="message-bubble" [class.my-message]="pending.sender === authService.user.id"
-                        [class.message]="pending.sender !== authService.user.id">
-                        <p>{{ pending.message }}</p>
-                        <span *ngIf="pending.pending" class="pending-status">Yuborilmoqda...</span>
-                        <div *ngIf="pending.error" class="pending-error" role="alert">
-                          <span>{{ pending.error }}</span>
-                          <button type="button" (click)="retryPending(pending)">Qayta yuborish</button>
+                @if (pendingMessages.length) {
+                  <div class="pending-list" aria-live="polite">
+                    @for (pending of pendingMessages; track pending) {
+                      <div class="message-row"
+                        [class.message-row--mine]="pending.sender === authService.user.id">
+                        <div class="comment-card">
+                          <div class="message-bubble" [class.my-message]="pending.sender === authService.user.id"
+                            [class.message]="pending.sender !== authService.user.id">
+                            <p>{{ pending.message }}</p>
+                            @if (pending.pending) {
+                              <span class="pending-status">Yuborilmoqda...</span>
+                            }
+                            @if (pending.error) {
+                              <div class="pending-error" role="alert">
+                                <span>{{ pending.error }}</span>
+                                <button type="button" (click)="retryPending(pending)">Qayta yuborish</button>
+                              </div>
+                            }
+                          </div>
+                        </div>
+                      </div>
+                    }
+                  </div>
+                }
+                @for (chatMessage of messages; track chatMessage; let i = $index) {
+                  <div class="message-group">
+                    @if (compareDate($safeNavigationMigration(messages[i]?.created_at), $safeNavigationMigration(messages[i + 1]?.created_at))) {
+                      <div class="day-separator">
+                        <span class="date-chip">{{ chatMessage.created_at | date: topDateFormat }}</span>
+                      </div>
+                    }
+                    @if (chatMessage.is_first) {
+                      <div class="unread"><span>O'qilmagan xabarlar</span></div>
+                    }
+                    <div [attr.data-info]="chatMessage.created_at" [attr.id]="'child_' + chatMessage.id" #childRef
+                      class="message-row message-item"
+                      [class.message-row--mine]="chatMessage.sender === authService.user.id">
+                      <div class="comment-card">
+                        <div class="message-bubble" [class.my-message]="chatMessage.sender === authService.user.id"
+                          [class.message]="chatMessage.sender !== authService.user.id">
+                          <p>{{ chatMessage.message }}</p>
+                          <time class="message-time" [attr.datetime]="chatMessage.created_at">
+                            {{ chatMessage.created_at | date: 'HH:mm' }}
+                            @if (chatMessage.sender === authService.user.id) {
+                              <span class="read-state"
+                                [attr.aria-label]="chatMessage.is_read ? 'O‘qilgan' : 'Yuborilgan'">
+                                @if (chatMessage.is_read) {
+                                  <ng-container *ngTemplateOutlet="readIcon"></ng-container>
+                                } @else {
+                                  <svg class="read-state-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M20 7L10 17l-5-5" />
+                                  </svg>
+                                }
+                              </span>
+                            }
+                          </time>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-
-                <div *ngFor="let chatMessage of messages; let i = index" class="message-group">
-                  <div class="day-separator" *ngIf="compareDate(messages[i]?.created_at, messages[i + 1]?.created_at)">
-                    <span class="date-chip">{{ chatMessage.created_at | date: topDateFormat }}</span>
+                }
+                @if (invalidRoom) {
+                  <div class="chat-empty chat-error-state" role="alert">
+                    <div class="chat-empty__icon"><svg lucideMessageCircle [size]="30" aria-hidden="true"></svg></div>
+                    <h2>Suhbat ochilmadi</h2>
+                    <p>Bu suhbat mavjud emas yoki uni ko'rish huquqingiz yo'q.</p>
+                    @if (userRooms.length) {
+                      <button type="button" class="chat-empty__button" (click)="toggleUsersList(true)">
+                        Suhbatlar ro'yxati
+                      </button>
+                    }
                   </div>
-
-                  <div class="unread" *ngIf="chatMessage.is_first"><span>O'qilmagan xabarlar</span></div>
-
-                  <div [attr.data-info]="chatMessage.created_at" [attr.id]="'child_' + chatMessage.id" #childRef
-                    class="message-row message-item"
-                    [class.message-row--mine]="chatMessage.sender === authService.user.id">
-                    <div class="comment-card">
-                      <div class="message-bubble" [class.my-message]="chatMessage.sender === authService.user.id"
-                        [class.message]="chatMessage.sender !== authService.user.id">
-                        <p>{{ chatMessage.message }}</p>
-                        <time class="message-time" [attr.datetime]="chatMessage.created_at">
-                          {{ chatMessage.created_at | date: 'HH:mm' }}
-                          <span *ngIf="chatMessage.sender === authService.user.id" class="read-state"
-                            [attr.aria-label]="chatMessage.is_read ? 'O‘qilgan' : 'Yuborilgan'">
-                            <ng-container *ngIf="chatMessage.is_read; else unreadIcon">
-                              <ng-container *ngTemplateOutlet="readIcon"></ng-container>
-                            </ng-container>
-                          </span>
-                        </time>
+                }
+                @if (!invalidRoom && !loadingMessages && !messages.length && !pendingMessages.length) {
+                  <div class="chat-empty">
+                    <div class="chat-empty__icon"><svg lucideMessageCircle [size]="30" aria-hidden="true"></svg></div>
+                    <h2>{{ isRoom?.user ? 'Hali xabar yo‘q' : 'Suhbatni tanlang' }}</h2>
+                    <p>{{ isRoom?.user ? 'Birinchi xabarni yozib, suhbatni boshlang.' : 'Yozishmalarni ko‘rish uchun chap tomondan suhbatni tanlang.' }}</p>
+                    @if (!userRooms.length && emptyQuery) {
+                      <div class="chat-empty__actions">
+                        <a routerLink="/announcements" class="chat-empty__button chat-empty__button--primary">E'lonlarni ko'rish</a>
+                        <a routerLink="/profile" class="chat-empty__button">Kabinetga qaytish</a>
                       </div>
-                    </div>
+                    }
                   </div>
-                </div>
-
-                <div class="chat-empty chat-error-state" *ngIf="invalidRoom" role="alert">
-                  <div class="chat-empty__icon"><svg lucideMessageCircle [size]="30" aria-hidden="true"></svg></div>
-                  <h2>Suhbat ochilmadi</h2>
-                  <p>Bu suhbat mavjud emas yoki uni ko'rish huquqingiz yo'q.</p>
-                  <button type="button" class="chat-empty__button" (click)="toggleUsersList(true)" *ngIf="userRooms.length">
-                    Suhbatlar ro'yxati
-                  </button>
-                </div>
-
-                <div class="chat-empty" *ngIf="!invalidRoom && !loadingMessages && !messages.length && !pendingMessages.length">
-                  <div class="chat-empty__icon"><svg lucideMessageCircle [size]="30" aria-hidden="true"></svg></div>
-                  <h2>{{ isRoom?.user ? 'Hali xabar yo‘q' : 'Suhbatni tanlang' }}</h2>
-                  <p>{{ isRoom?.user ? 'Birinchi xabarni yozib, suhbatni boshlang.' : 'Yozishmalarni ko‘rish uchun chap tomondan suhbatni tanlang.' }}</p>
-                  <div class="chat-empty__actions" *ngIf="!userRooms.length && emptyQuery">
-                    <a routerLink="/announcements" class="chat-empty__button chat-empty__button--primary">E'lonlarni ko'rish</a>
-                    <a routerLink="/profile" class="chat-empty__button">Kabinetga qaytish</a>
-                  </div>
-                </div>
+                }
               </div>
-            </ng-template>
+            }
 
-            <form *ngIf="isRoom?.user && !invalidRoom" class="input-send" (ngSubmit)="sendMessage()">
-              <div class="composer-field">
-                <textarea name="message" rows="1" maxlength="2000" [(ngModel)]="message"
-                  (ngModelChange)="onMessageInput($event)" (keydown)="onComposerKeydown($event)"
+
+            @if (isRoom?.user && !invalidRoom) {
+              <form class="input-send" (ngSubmit)="sendMessage()">
+                <div class="composer-field">
+                  <textarea name="message" rows="1" maxlength="2000" [(ngModel)]="message"
+                    (ngModelChange)="onMessageInput($event)" (keydown)="onComposerKeydown($event)"
                   placeholder="Xabaringizni yozing" aria-label="Xabar matni"></textarea>
-              </div>
-              <button type="submit" class="send-button" [disabled]="!canSend" aria-label="Xabar yuborish">
-                <span class="send-button__label">Yuborish</span>
-                <svg lucideSendHorizontal [size]="20" aria-hidden="true"></svg>
-              </button>
-            </form>
+                </div>
+                <button type="submit" class="send-button" [disabled]="!canSend" aria-label="Xabar yuborish">
+                  <span class="send-button__label">Yuborish</span>
+                  <svg lucideSendHorizontal [size]="20" aria-hidden="true"></svg>
+                </button>
+              </form>
+            }
           </div>
         </div>
       </main>
@@ -158,9 +193,3 @@
   </svg>
 </ng-template>
 
-<ng-template #unreadIcon>
-  <svg class="read-state-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
-    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-      d="M20 7L10 17l-5-5" />
-  </svg>
-</ng-template>

@@ -1,7 +1,11 @@
 <div class="app-shell" [class.app-shell--chat]="isChatRoute">
-  <app-header *ngIf="!isChatRoute"></app-header>
+  @if (!isChatRoute) {
+    <app-header></app-header>
+  }
   <main class="app-shell__content">
     <router-outlet></router-outlet>
   </main>
-  <app-footer *ngIf="!isChatRoute"></app-footer>
+  @if (!isChatRoute) {
+    <app-footer></app-footer>
+  }
 </div>

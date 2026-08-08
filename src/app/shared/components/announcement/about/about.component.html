@@ -5,70 +5,92 @@
   </header>
 
   <dl class="property-facts">
-    <div *ngIf="announcement?.room_count" class="property-fact">
-      <span class="property-fact__icon" aria-hidden="true"><svg lucideBedDouble [size]="22"></svg></span>
-      <dt>Xonalar</dt>
-      <dd>{{ announcement.room_count }} xona</dd>
-    </div>
-    <div *ngIf="announcement?.area" class="property-fact">
-      <span class="property-fact__icon" aria-hidden="true"><svg lucideMaximize2 [size]="22"></svg></span>
-      <dt>Maydon</dt>
-      <dd>{{ announcement.area }} m²</dd>
-    </div>
-    <div *ngIf="announcement?.floor" class="property-fact">
-      <span class="property-fact__icon" aria-hidden="true"><svg lucideBuilding2 [size]="22"></svg></span>
-      <dt>Qavat</dt>
-      <dd>{{ announcement.floor }}-qavat</dd>
-    </div>
-    <div *ngIf="announcement?.appartment_status" class="property-fact">
-      <span class="property-fact__icon" aria-hidden="true"><svg lucideSparkles [size]="22"></svg></span>
-      <dt>Ta'mir holati</dt>
-      <dd>{{ announcement.appartment_status }} / 10</dd>
-    </div>
+    @if (announcement?.room_count) {
+      <div class="property-fact">
+        <span class="property-fact__icon" aria-hidden="true"><svg lucideBedDouble [size]="22"></svg></span>
+        <dt>Xonalar</dt>
+        <dd>{{ announcement.room_count }} xona</dd>
+      </div>
+    }
+    @if (announcement?.area) {
+      <div class="property-fact">
+        <span class="property-fact__icon" aria-hidden="true"><svg lucideMaximize2 [size]="22"></svg></span>
+        <dt>Maydon</dt>
+        <dd>{{ announcement.area }} m²</dd>
+      </div>
+    }
+    @if (announcement?.floor) {
+      <div class="property-fact">
+        <span class="property-fact__icon" aria-hidden="true"><svg lucideBuilding2 [size]="22"></svg></span>
+        <dt>Qavat</dt>
+        <dd>{{ announcement.floor }}-qavat</dd>
+      </div>
+    }
+    @if (announcement?.appartment_status) {
+      <div class="property-fact">
+        <span class="property-fact__icon" aria-hidden="true"><svg lucideSparkles [size]="22"></svg></span>
+        <dt>Ta'mir holati</dt>
+        <dd>{{ announcement.appartment_status }} / 10</dd>
+      </div>
+    }
   </dl>
 
   <div class="property-sections">
-    <section *ngIf="hasTenantConditions" class="property-detail-row">
-      <div class="property-detail-row__heading">
-        <span class="property-detail-row__icon" aria-hidden="true">
-          <svg lucideUsers [size]="20"></svg>
-        </span>
-        <h3>Kimlar uchun</h3>
-      </div>
-      <ul class="property-values" aria-label="Mos ijarachilar">
-        <li *ngFor="let item of announcement.lessee_types" class="property-value">
-          <svg lucideCheck [size]="17" aria-hidden="true"></svg>
-          <span>{{ item.name }}</span>
-        </li>
-        <li *ngIf="announcement?.need_people_count" class="property-value">
-          <svg lucideCheck [size]="17" aria-hidden="true"></svg>
-          <span>{{ announcement.need_people_count }} kishilik</span>
-        </li>
-      </ul>
-    </section>
+    @if (hasTenantConditions) {
+      <section class="property-detail-row">
+        <div class="property-detail-row__heading">
+          <span class="property-detail-row__icon" aria-hidden="true">
+            <svg lucideUsers [size]="20"></svg>
+          </span>
+          <h3>Kimlar uchun</h3>
+        </div>
+        <ul class="property-values" aria-label="Mos ijarachilar">
+          @for (item of announcement.lessee_types; track item) {
+            <li class="property-value">
+              <svg lucideCheck [size]="17" aria-hidden="true"></svg>
+              <span>{{ item.name }}</span>
+            </li>
+          }
+          @if (announcement?.need_people_count) {
+            <li class="property-value">
+              <svg lucideCheck [size]="17" aria-hidden="true"></svg>
+              <span>{{ announcement.need_people_count }} kishilik</span>
+            </li>
+          }
+        </ul>
+      </section>
+    }
 
-    <section *ngIf="hasAmenities" class="property-detail-row">
-      <div class="property-detail-row__heading">
-        <span class="property-detail-row__icon" aria-hidden="true">
-          <svg lucideSparkles [size]="20"></svg>
-        </span>
-        <h3>Qulayliklar</h3>
-      </div>
-      <ul class="property-values" aria-label="Uy qulayliklari">
-        <li *ngIf="announcement?.conditioner" class="property-value">
-          <svg lucideSnowflake [size]="18" aria-hidden="true"></svg>
-          <span>Konditsioner</span>
-        </li>
-        <li *ngIf="announcement?.fridge" class="property-value">
-          <svg lucideRefrigerator [size]="18" aria-hidden="true"></svg>
-          <span>Muzlatgich</span>
-        </li>
-        <li *ngIf="announcement?.washing_machine" class="property-value">
-          <svg lucideWashingMachine [size]="18" aria-hidden="true"></svg>
-          <span>Kir yuvish mashinasi</span>
-        </li>
-      </ul>
-    </section>
+    @if (hasAmenities) {
+      <section class="property-detail-row">
+        <div class="property-detail-row__heading">
+          <span class="property-detail-row__icon" aria-hidden="true">
+            <svg lucideSparkles [size]="20"></svg>
+          </span>
+          <h3>Qulayliklar</h3>
+        </div>
+        <ul class="property-values" aria-label="Uy qulayliklari">
+          @if (announcement?.conditioner) {
+            <li class="property-value">
+              <svg lucideSnowflake [size]="18" aria-hidden="true"></svg>
+              <span>Konditsioner</span>
+            </li>
+          }
+          @if (announcement?.fridge) {
+            <li class="property-value">
+              <svg lucideRefrigerator [size]="18" aria-hidden="true"></svg>
+              <span>Muzlatgich</span>
+            </li>
+          }
+          @if (announcement?.washing_machine) {
+            <li class="property-value">
+              <svg lucideWashingMachine [size]="18" aria-hidden="true"></svg>
+              <span>Kir yuvish mashinasi</span>
+            </li>
+          }
+        </ul>
+      </section>
+    }
 
     <section class="property-description">
       <h3>Tavsif</h3>

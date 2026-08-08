@@ -1,7 +1,11 @@
-<div class="profile-tab" *ngIf="linksReady">
-  <div class="tab">
-    <button *ngFor="let link of linkOptions" [routerLink]="link.to" [routerLinkActiveOptions]="{ exact: link.to === '/profile' }" routerLinkActive="active">
-      {{ link.title }}
-    </button>
+@if (linksReady) {
+  <div class="profile-tab">
+    <div class="tab">
+      @for (link of linkOptions; track link) {
+        <button [routerLink]="link.to" [routerLinkActiveOptions]="{ exact: link.to === '/profile' }" routerLinkActive="active">
+          {{ link.title }}
+        </button>
+      }
+    </div>
   </div>
-</div>
+}

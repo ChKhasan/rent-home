@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NgClass, NgForOf, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
@@ -37,8 +37,6 @@ interface AgencyMember {
   imports: [
     ReactiveFormsModule,
     FormsModule,
-    NgIf,
-    NgForOf,
     NgClass,
     InputTextModule,
     ButtonModule,
@@ -48,9 +46,10 @@ interface AgencyMember {
     InputMaskModule,
     PasswordModule,
     SkeletonModule,
-    TooltipModule,
-  ],
+    TooltipModule
+],
   templateUrl: './staff.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './staff.component.css',
 })
 export class AgencyStaffComponent implements OnInit {

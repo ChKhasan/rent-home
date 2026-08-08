@@ -5,6 +5,11 @@
   background: var(--bg-canvas);
 }
 
+.applications__inner {
+  width: min(calc(100% - 32px), 1280px);
+  margin-inline: auto;
+}
+
 .list-header {
   min-width: 0;
   display: flex;
@@ -73,6 +78,10 @@
   min-width: 0;
 }
 
+.results-panel {
+  min-width: 0;
+}
+
 .results-grid {
   min-width: 0;
   display: grid;
@@ -121,6 +130,10 @@
 @media (max-width: 768px) {
   .applications {
     padding-block: 18px 24px;
+  }
+
+  .applications__inner {
+    width: min(calc(100% - 24px), 1280px);
   }
 
   .list-header {

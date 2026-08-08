@@ -1,4 +1,4 @@
-import { NgIf, NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
+
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { LucideBadgeCheck, LucideBuilding2, LucideHouse, LucideUserRound } from '@lucide/angular';
 import { IPublisherAnnouncementFields, VerificationStatus } from '@/core/interfaces/common.interface';
@@ -7,15 +7,11 @@ import { IPublisherAnnouncementFields, VerificationStatus } from '@/core/interfa
   selector: 'app-publisher-meta',
   standalone: true,
   imports: [
-    NgIf,
-    NgSwitch,
-    NgSwitchCase,
-    NgSwitchDefault,
     LucideBadgeCheck,
     LucideBuilding2,
     LucideHouse,
-    LucideUserRound,
-  ],
+    LucideUserRound
+],
   templateUrl: './publisher-meta.component.html',
   styleUrl: './publisher-meta.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,13 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { PaginatorModule } from 'primeng/paginator';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ValidationErrorAnimation } from '@animations';
 import { InvaidTextComponent } from '../../form/invaid-text/invaid-text.component';
 import { PasswordModule } from 'primeng/password';
 import { finalize } from 'rxjs';
@@ -17,9 +16,9 @@ import { RequestService } from '@services/request';
 @Component({
   selector: 'app-register-dialog',
   standalone: true,
-  imports: [ButtonModule, DialogModule, InputMaskModule, InputNumberModule, InputTextModule, NgIf, PaginatorModule, ReactiveFormsModule, NgClass, InvaidTextComponent, PasswordModule],
-  animations: [ValidationErrorAnimation],
+  imports: [ButtonModule, DialogModule, InputMaskModule, InputNumberModule, InputTextModule, PaginatorModule, ReactiveFormsModule, NgClass, InvaidTextComponent, PasswordModule],
   templateUrl: './register-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './register-dialog.component.css',
 })
 export class RegisterDialogComponent {

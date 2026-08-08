@@ -1,6 +1,6 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgForOf, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
@@ -46,8 +46,9 @@ type ContentReportCategory = 'fraud' | 'inappropriate' | 'spam' | 'harassment' |
 @Component({
   selector: 'app-view-page',
   standalone: true,
-  imports: [NgIf, NgForOf, NgTemplateOutlet, FormsModule, RouterLink, ButtonModule, DialogModule, TextareaModule, PriceBlockComponent, SkeletonModule, PropertyGalleryComponent, AboutComponent, UserCardComponent, ListingRailComponent, AnnouncementsCardComponent, PricePipe, LucideArrowLeft, LucideBadgeCheck, LucideFlag, LucideHeart, LucideLoaderCircle, LucideMapPin, LucideMessageCircle, LucidePhone, LucideShare2],
+  imports: [NgTemplateOutlet, FormsModule, RouterLink, ButtonModule, DialogModule, TextareaModule, PriceBlockComponent, SkeletonModule, PropertyGalleryComponent, AboutComponent, UserCardComponent, ListingRailComponent, AnnouncementsCardComponent, PricePipe, LucideArrowLeft, LucideBadgeCheck, LucideFlag, LucideHeart, LucideLoaderCircle, LucideMapPin, LucideMessageCircle, LucidePhone, LucideShare2],
   templateUrl: './view-page.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './view-page.component.css',
 })
 export class ViewPageComponent implements OnInit, OnDestroy {

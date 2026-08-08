@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, OnInit, QueryList, ViewChildren, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, OnInit, QueryList, ViewChildren, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { NgClass, NgForOf, NgIf } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { FilterComponent } from '@components/announcement/filter/filter.component';
-import { AngularYandexMapsModule } from 'angular8-yandex-maps';
+import { YaClustererComponent, YaGeoObjectDirective, YaMapComponent, YaPlacemarkDirective } from 'angular8-yandex-maps';
 import { QueryService } from '@services/query';
 import { finalize, Subscription } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
@@ -30,8 +30,9 @@ type TransportToggleKey = 'showBus' | 'showSubway' | 'showMiniBus';
 @Component({
   selector: 'app-map',
   standalone: true,
-  imports: [NgClass, MultiSelectModule, RouterLink, DialogModule, FormsModule, SelectButtonModule, AngularYandexMapsModule, NgIf, NgForOf, ButtonModule, StyleClassModule, BadgeModule, AnnouncementsCardComponent, DealTypeSwitcherComponent, LucideBusFront, LucideCarTaxiFront, LucideChevronsLeft, LucideTrainFront],
+  imports: [NgClass, MultiSelectModule, RouterLink, DialogModule, FormsModule, SelectButtonModule, YaMapComponent, YaClustererComponent, YaPlacemarkDirective, YaGeoObjectDirective, NgIf, NgForOf, ButtonModule, StyleClassModule, BadgeModule, AnnouncementsCardComponent, DealTypeSwitcherComponent, LucideBusFront, LucideCarTaxiFront, LucideChevronsLeft, LucideTrainFront],
   templateUrl: './map.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './map.component.css',
 })
 export class MapComponent implements OnInit, AfterViewInit, OnDestroy {

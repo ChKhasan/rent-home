@@ -1,6 +1,6 @@
 # IjaraAngular
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.0.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) and is currently maintained on Angular 22.
 
 ## Development server
 
@@ -19,16 +19,17 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 The SSR server reads the following environment variables at startup:
 
 - `NEXTHOME_YANDEX_MAPS_API_KEY`: domain-restricted Yandex Maps JavaScript API key.
+- `NEXTHOME_PRIMEUI_LICENSE_KEY`: PrimeUI/PrimeNG license key for PrimeNG 22 runtime validation.
 - `NG_ALLOWED_HOSTS`: comma-separated Angular SSR host allowlist when the built-in defaults are not enough.
 - `PORT`: SSR server port, defaults to `4000`.
 
-The server exposes the map key through the non-cacheable `/assets/runtime-config.js` endpoint. Static
-deployments must replace `browser/assets/runtime-config.js` during deployment without committing the
-real key to the repository.
+The server exposes runtime-only browser keys through the non-cacheable `/assets/runtime-config.js`
+endpoint. Static deployments must replace `browser/assets/runtime-config.js` during deployment without
+committing real keys to the repository.
 
 ## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Run `ng test` to execute the unit tests via Vitest.
 
 ## Running end-to-end tests
 

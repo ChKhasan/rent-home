@@ -1,12 +1,12 @@
-import { Component, Input, NgZone, OnDestroy, ViewChild } from '@angular/core';
+import { Component, Input, NgZone, OnDestroy, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { IAnnouncementInfo, Transport } from '@services/interfaces';
-import { NgForOf, NgIf } from '@angular/common';
+
 import { SkeletonModule } from 'primeng/skeleton';
 import { Router, RouterLink } from '@angular/router';
 import { AuthDialogComponent } from '../../modals/auth-dialog/auth-dialog.component';
 import { AuthService } from '@services/auth';
-import { AngularYandexMapsModule } from 'angular8-yandex-maps';
+import { YaGeoObjectDirective, YaMapComponent, YaPlacemarkDirective } from 'angular8-yandex-maps';
 import { ChatUrlService } from '@/core/services/chatUrl/chatUrl.service';
 import { LucideArrowUpRight, LucideBusFront, LucideCarTaxiFront, LucideLoaderCircle, LucideMap, LucideMapPin, LucideRoute, LucideTrainFront, LucideX } from '@lucide/angular';
 import { RequestService } from '@services/request';
@@ -132,10 +132,10 @@ function createStopMarkerOptions(type: TransportType, color: string): Record<str
   standalone: true,
   imports: [
     ButtonModule,
-    AngularYandexMapsModule,
+    YaMapComponent,
+    YaPlacemarkDirective,
+    YaGeoObjectDirective,
     RouterLink,
-    NgIf,
-    NgForOf,
     SkeletonModule,
     AuthDialogComponent,
     LucideArrowUpRight,
@@ -146,9 +146,10 @@ function createStopMarkerOptions(type: TransportType, color: string): Record<str
     LucideRoute,
     LucideTrainFront,
     LucideLoaderCircle,
-    LucideX,
-  ],
+    LucideX
+],
   templateUrl: './price-block.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './price-block.component.css',
 })
 export class PriceBlockComponent implements OnDestroy {

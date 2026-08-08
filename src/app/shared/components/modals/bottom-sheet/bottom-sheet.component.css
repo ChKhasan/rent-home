@@ -7,6 +7,7 @@
   border: 0;
   background: var(--overlay);
   backdrop-filter: blur(4px);
+  animation: bottom-sheet-backdrop-in 160ms ease-out;
 }
 
 .bottom-sheet {
@@ -25,6 +26,7 @@
   color: var(--text-primary);
   background: var(--bg-elevated);
   touch-action: pan-y;
+  animation: bottom-sheet-in 220ms ease-out;
 }
 
 .bottom-sheet__header {
@@ -66,4 +68,24 @@
   min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
+}
+
+@keyframes bottom-sheet-in {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes bottom-sheet-backdrop-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }

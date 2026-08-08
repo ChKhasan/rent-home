@@ -1,5 +1,5 @@
-import { Component, Input, ViewChild } from '@angular/core';
-import { NgIf } from '@angular/common';
+import { Component, Input, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+
 import { AuthDialogComponent } from '../../modals/auth-dialog/auth-dialog.component';
 import { AuthService } from '@/core/services/auth/auth.service';
 import { Router, RouterLink } from '@angular/router';
@@ -9,8 +9,9 @@ import { LucideBadgeCheck, LucideExternalLink, LucideMessageCircle, LucidePhone 
 @Component({
   selector: 'app-user-card',
   standalone: true,
-  imports: [NgIf, AuthDialogComponent, PublisherMetaComponent, RouterLink, LucideBadgeCheck, LucideExternalLink, LucideMessageCircle, LucidePhone],
+  imports: [AuthDialogComponent, PublisherMetaComponent, RouterLink, LucideBadgeCheck, LucideExternalLink, LucideMessageCircle, LucidePhone],
   templateUrl: './user-card.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './user-card.component.css',
 })
 export class UserCardComponent {

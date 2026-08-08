@@ -1,14 +1,15 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
-import { AngularYandexMapsModule } from 'angular8-yandex-maps';
-import { NgIf } from '@angular/common';
+import { YaMapComponent, YaPlacemarkDirective } from 'angular8-yandex-maps';
+
 import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-map-dialog',
   standalone: true,
-  imports: [DialogModule, AngularYandexMapsModule, NgIf, ButtonModule],
+  imports: [DialogModule, YaMapComponent, YaPlacemarkDirective, ButtonModule],
   templateUrl: './map-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './map-dialog.component.css',
 })
 export class MapDialogComponent {

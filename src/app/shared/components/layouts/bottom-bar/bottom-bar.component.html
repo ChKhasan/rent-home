@@ -1,23 +1,28 @@
 <div class="fixed bottom-0 w-full hidden md:block z-50">
   <div class="bottom-bar w-full px-6 pb-[10px] pt-[14px]">
-    <a *ngIf="isPath.includes('/profile/announcements') && !isPath.includes('/profile/announcements/')" class="bottom-bar__cta" [routerLink]="'/profile/create'">E'lon qo'shish</a>
+    @if (isPath.includes('/profile/announcements') && !isPath.includes('/profile/announcements/')) {
+      <a class="bottom-bar__cta" [routerLink]="'/profile/create'">E'lon qo'shish</a>
+    }
     <ul class="flex justify-between">
-      <li *ngFor="let menuItem of menuList">
-        <button *ngIf="menuItem.isPath === '/profile'; else list" (click)="menuItem.action()" [ngClass]="{ active: isPath.includes('profile') }" class="flex flex-col gap-[6px] font-400 text-[12px] text-[--gray-6] bg-[transparent] items-center">
-          <span class="nav-icon w-10 h-[26px] flex justify-center items-center rounded-[4px]">
-            <i [class]="menuItem.iconClass"></i>
-          </span>
-          {{ menuItem.title }}
-        </button>
-        <ng-template #list>
-          <button [routerLink]="menuItem.isPath" [routerLinkActiveOptions]="{ exact: menuItem.isPath === '/' }" routerLinkActive="active" class="flex flex-col gap-[6px] font-400 text-[12px] text-[--gray-6] bg-[transparent] items-center">
-            <span class="nav-icon w-10 h-[26px] flex justify-center items-center rounded-[4px]">
-              <i [class]="menuItem.iconClass"></i>
-            </span>
-            {{ menuItem.title }}
-          </button>
-        </ng-template>
-      </li>
+      @for (menuItem of menuList; track menuItem) {
+        <li>
+          @if (menuItem.isPath === '/profile') {
+            <button (click)="menuItem.action()" [ngClass]="{ active: isPath.includes('profile') }" class="flex flex-col gap-[6px] font-400 text-[12px] text-[--gray-6] bg-[transparent] items-center">
+              <span class="nav-icon w-10 h-[26px] flex justify-center items-center rounded-[4px]">
+                <i [class]="menuItem.iconClass"></i>
+              </span>
+              {{ menuItem.title }}
+            </button>
+          } @else {
+            <button [routerLink]="menuItem.isPath" [routerLinkActiveOptions]="{ exact: menuItem.isPath === '/' }" routerLinkActive="active" class="flex flex-col gap-[6px] font-400 text-[12px] text-[--gray-6] bg-[transparent] items-center">
+              <span class="nav-icon w-10 h-[26px] flex justify-center items-center rounded-[4px]">
+                <i [class]="menuItem.iconClass"></i>
+              </span>
+              {{ menuItem.title }}
+            </button>
+          }
+        </li>
+      }
     </ul>
   </div>
 </div>

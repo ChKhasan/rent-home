@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, OnDestroy } from '@angular/core';
-import { NgForOf, NgIf } from '@angular/common';
+
 import { RouterLink } from '@angular/router';
 import { finalize, Subscription } from 'rxjs';
 import { BannerComponent } from '@components/home/banner/banner.component';
@@ -17,13 +17,11 @@ import { IAnnouncementListItem } from '@services/interfaces';
   selector: 'app-home',
   standalone: true,
   imports: [
-    NgIf,
-    NgForOf,
     RouterLink,
     BannerComponent,
     ListingRailComponent,
-    ListingCardSkeletonComponent,
-  ],
+    ListingCardSkeletonComponent
+],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

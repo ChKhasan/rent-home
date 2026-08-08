@@ -1,58 +1,86 @@
 <main class="publisher-page py-10 md:py-4">
   <div class="max-w-[1180px] mx-auto px-4">
-    <ng-container *ngIf="!loading && entity; else loadingState">
+    @if (!loading && entity) {
       <header class="identity-header">
         <div class="identity-avatar">
-          <img *ngIf="avatar; else fallbackAvatar" [src]="avatar" [alt]="title" />
-          <ng-template #fallbackAvatar><i class="pi" [class.pi-building]="kind === 'agency'" [class.pi-user]="kind === 'broker'"></i></ng-template>
+          @if (avatar) {
+            <img [src]="avatar" [alt]="title" />
+          } @else {
+            <i class="pi" [class.pi-building]="kind === 'agency'" [class.pi-user]="kind === 'broker'"></i>
+          }
         </div>
         <div class="identity-copy">
           <p>{{ subtitle }}</p>
           <h1>{{ title }}</h1>
-          <span *ngIf="verificationStatus === 'VERIFIED'" class="verified"><i class="pi pi-check-circle"></i> Tekshirilgan</span>
-          <span *ngIf="verificationStatus && verificationStatus !== 'VERIFIED'" class="verification-neutral">{{ verificationLabel }}</span>
+          @if (verificationStatus === 'VERIFIED') {
+            <span class="verified"><i class="pi pi-check-circle"></i> Tekshirilgan</span>
+          }
+          @if (verificationStatus && verificationStatus !== 'VERIFIED') {
+            <span class="verification-neutral">{{ verificationLabel }}</span>
+          }
         </div>
         <div class="identity-actions">
-          <a *ngIf="phone" [href]="'tel:' + phone" class="primary-contact"><i class="pi pi-phone"></i> Qo'ng'iroq</a>
+          @if (phone) {
+            <a [href]="'tel:' + phone" class="primary-contact"><i class="pi pi-phone"></i> Qo'ng'iroq</a>
+          }
           <button type="button" class="report-action" (click)="openReport()"><i class="pi pi-flag"></i> Shikoyat</button>
         </div>
       </header>
-
-      <section class="publisher-info" *ngIf="entity.bio || entity.languages?.length || entity.service_regions?.length || entity.address || phone">
-        <div *ngIf="entity.bio"><span>O'zi haqida</span><p>{{ entity.bio }}</p></div>
-        <div *ngIf="entity.service_regions?.length"><span>Xizmat hududlari</span><p>{{ serviceRegionsLabel }}</p></div>
-        <div *ngIf="entity.languages?.length"><span>Tillar</span><p>{{ entity.languages.join(', ') }}</p></div>
-        <div *ngIf="entity.address"><span>Manzil</span><p>{{ entity.address }}</p></div>
-        <div *ngIf="phone"><span>Telefon</span><p>{{ phone }}</p></div>
-      </section>
-
+      @if (entity.bio || entity.languages?.length || entity.service_regions?.length || entity.address || phone) {
+        <section class="publisher-info">
+          @if (entity.bio) {
+            <div><span>O'zi haqida</span><p>{{ entity.bio }}</p></div>
+          }
+          @if (entity.service_regions?.length) {
+            <div><span>Xizmat hududlari</span><p>{{ serviceRegionsLabel }}</p></div>
+          }
+          @if (entity.languages?.length) {
+            <div><span>Tillar</span><p>{{ entity.languages.join(', ') }}</p></div>
+          }
+          @if (entity.address) {
+            <div><span>Manzil</span><p>{{ entity.address }}</p></div>
+          }
+          @if (phone) {
+            <div><span>Telefon</span><p>{{ phone }}</p></div>
+          }
+        </section>
+      }
       <section class="listings-section">
         <div class="section-heading">
           <h2>Faol e'lonlar</h2>
           <span>{{ data.active_listing_count || 0 }} ta</span>
         </div>
-        <div *ngIf="data.listings?.length; else noListings" class="listing-grid">
-          <app-announcements-card *ngFor="let announcement of data.listings" [announcement]="announcement"></app-announcements-card>
-        </div>
-        <ng-template #noListings><p class="empty-copy">Hozircha faol e'lon yo'q.</p></ng-template>
+        @if (data.listings?.length) {
+          <div class="listing-grid">
+            @for (announcement of data.listings; track announcement) {
+              <app-announcements-card [announcement]="announcement"></app-announcements-card>
+            }
+          </div>
+        } @else {
+          <p class="empty-copy">Hozircha faol e'lon yo'q.</p>
+        }
       </section>
-    </ng-container>
-
-    <ng-template #loadingState>
+    } @else {
       <p-skeleton height="152px" borderRadius="8px"></p-skeleton>
-      <div class="grid grid-cols-3 md:grid-cols-1 gap-4 mt-6"><p-skeleton *ngFor="let item of [1,2,3]" height="380px" borderRadius="8px"></p-skeleton></div>
-    </ng-template>
+      <div class="grid grid-cols-3 md:grid-cols-1 gap-4 mt-6">@for (item of [1,2,3]; track item) {
+        <p-skeleton height="380px" borderRadius="8px"></p-skeleton>
+      }</div>
+    }
+
   </div>
 </main>
 
 <p-dialog [(visible)]="reportDialog" [modal]="true" [draggable]="false" [style]="{ width: 'min(480px, calc(100vw - 32px))' }" header="Shikoyat" closeAriaLabel="Shikoyat oynasini yopish">
-  <div *ngIf="!reportSuccess; else reportDone" class="report-form">
-    <p>Makler sifatida yashirilgan yoki publisher ma'lumoti noto'g'ri bo'lsa, tafsilotni yozing.</p>
-    <textarea pTextarea [(ngModel)]="reportDetails" rows="5" placeholder="Muammoni kamida 10 ta belgi bilan yozing"></textarea>
-    <small *ngIf="reportDetails.length > 0 && reportDetails.trim().length < 10">Kamida 10 ta belgi kiriting.</small>
-    <p-button [loading]="reporting" [disabled]="reportDetails.trim().length < 10" (click)="submitReport()" styleClass="report-submit">Yuborish</p-button>
-  </div>
-  <ng-template #reportDone>
+  @if (!reportSuccess) {
+    <div class="report-form">
+      <p>Makler sifatida yashirilgan yoki publisher ma'lumoti noto'g'ri bo'lsa, tafsilotni yozing.</p>
+      <textarea pTextarea [(ngModel)]="reportDetails" rows="5" placeholder="Muammoni kamida 10 ta belgi bilan yozing"></textarea>
+      @if (reportDetails.length > 0 && reportDetails.trim().length < 10) {
+        <small>Kamida 10 ta belgi kiriting.</small>
+      }
+      <p-button [loading]="reporting" [disabled]="reportDetails.trim().length < 10" (click)="submitReport()" styleClass="report-submit">Yuborish</p-button>
+    </div>
+  } @else {
     <div class="report-success"><i class="pi pi-check-circle"></i><strong>Shikoyat yuborildi</strong><p>Moderatorlar ma'lumotni tekshiradi.</p><button type="button" (click)="reportDialog = false">Yopish</button></div>
-  </ng-template>
+  }
 </p-dialog>

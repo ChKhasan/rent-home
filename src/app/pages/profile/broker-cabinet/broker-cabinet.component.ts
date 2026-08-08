@@ -1,5 +1,5 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { NgIf } from '@angular/common';
+import { Component, HostListener, OnInit, ChangeDetectionStrategy } from '@angular/core';
+
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
@@ -17,8 +17,9 @@ import { VerificationStatus } from '@/core/interfaces/common.interface';
 @Component({
   selector: 'app-broker-cabinet',
   standalone: true,
-  imports: [NgIf, ReactiveFormsModule, RouterLink, ButtonModule, InputTextModule, TextareaModule, ToggleSwitchModule, MultiSelectModule],
+  imports: [ReactiveFormsModule, RouterLink, ButtonModule, InputTextModule, TextareaModule, ToggleSwitchModule, MultiSelectModule],
   templateUrl: './broker-cabinet.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './broker-cabinet.component.css',
 })
 export class BrokerCabinetComponent implements OnInit {

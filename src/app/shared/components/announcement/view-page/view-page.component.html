@@ -1,201 +1,238 @@
-<article class="listing-detail" [class.listing-detail--profile]="profile">
-  <div class="detail-container">
-    <ng-container *ngIf="!loading; else detailLoadingState">
-      <ng-container *ngIf="!detailError; else detailErrorState">
-        <nav *ngIf="profile" class="profile-context" aria-label="E'lon boshqaruvi">
-          <a routerLink="/profile/announcements" class="profile-context__back">
-            <svg lucideArrowLeft [size]="19" aria-hidden="true"></svg>
-            E'lonlarim
-          </a>
-          <span class="profile-context__status" [attr.data-status]="announcement.moderation_status">
-            {{ moderationLabel }}
-          </span>
-          <a [routerLink]="['/profile/announcements', announcement.id]" class="profile-context__edit">
-            <i class="pi pi-pencil" aria-hidden="true"></i>
-            Tahrirlash
-          </a>
-        </nav>
-
-        <div class="detail-toolbar">
-          <button type="button" class="detail-toolbar__back" (click)="goBack()">
+<article class="vd" [class.vd--profile]="profile">
+  <div class="vc">
+    @if (!loading) {
+      @if (!detailError) {
+        @if (profile) {
+          <nav class="pc" aria-label="E'lon boshqaruvi">
+            <a routerLink="/profile/announcements" class="pcb">
+              <svg lucideArrowLeft [size]="19" aria-hidden="true"></svg>
+              E'lonlarim
+            </a>
+            <span class="pcs" [attr.data-status]="announcement.moderation_status">
+              {{ moderationLabel }}
+            </span>
+            <a [routerLink]="['/profile/announcements', announcement.id]" class="pce">
+              <i class="pi pi-pencil" aria-hidden="true"></i>
+              Tahrirlash
+            </a>
+          </nav>
+        }
+        <div class="tb">
+          <button type="button" class="tbb" (click)="goBack()">
             <svg lucideArrowLeft [size]="20" aria-hidden="true"></svg>
             <span>Orqaga</span>
           </button>
-          <span class="detail-toolbar__id">E'lon #{{ announcement.id }}</span>
-          <div *ngIf="!profile" class="detail-toolbar__actions">
-            <button *ngIf="!isOwnListing" type="button" class="detail-action" [class.detail-action--active]="isLiked"
-              [disabled]="favoriteLoading" [attr.aria-pressed]="isLiked"
-              [attr.aria-label]="isLiked ? 'Saqlanganlardan olib tashlash' : 'E\'lonni saqlash'" (click)="toggleFavorite()">
-              <svg *ngIf="!favoriteLoading" lucideHeart [size]="19" [attr.fill]="isLiked ? 'currentColor' : 'none'" aria-hidden="true"></svg>
-              <svg *ngIf="favoriteLoading" class="detail-action__spinner" lucideLoaderCircle [size]="19" aria-hidden="true"></svg>
-              <span>{{ isLiked ? 'Saqlandi' : 'Saqlash' }}</span>
-            </button>
-            <button type="button" class="detail-action" aria-label="E'lonni ulashish" (click)="shareListing()">
-              <svg lucideShare2 [size]="19" aria-hidden="true"></svg>
-              <span>Ulashish</span>
-            </button>
-            <button *ngIf="!isOwnListing" type="button" class="detail-action detail-action--report"
-              aria-label="E'lon haqida shikoyat" (click)="openReport()">
-              <svg lucideFlag [size]="19" aria-hidden="true"></svg>
-              <span>Shikoyat</span>
-            </button>
-          </div>
+          <span class="tbi">E'lon #{{ announcement.id }}</span>
+          @if (!profile) {
+            <div class="tba">
+              @if (!isOwnListing) {
+                <button type="button" class="da" [class.daa]="isLiked"
+                  [disabled]="favoriteLoading" [attr.aria-pressed]="isLiked"
+                  [attr.aria-label]="isLiked ? 'Saqlanganlardan olib tashlash' : 'E\'lonni saqlash'" (click)="toggleFavorite()">
+                  @if (!favoriteLoading) {
+                    <svg lucideHeart [size]="19" [attr.fill]="isLiked ? 'currentColor' : 'none'" aria-hidden="true"></svg>
+                  }
+                  @if (favoriteLoading) {
+                    <svg class="das" lucideLoaderCircle [size]="19" aria-hidden="true"></svg>
+                  }
+                  <span>{{ isLiked ? 'Saqlandi' : 'Saqlash' }}</span>
+                </button>
+              }
+              <button type="button" class="da" aria-label="E'lonni ulashish" (click)="shareListing()">
+                <svg lucideShare2 [size]="19" aria-hidden="true"></svg>
+                <span>Ulashish</span>
+              </button>
+              @if (!isOwnListing) {
+                <button type="button" class="da dar"
+                  aria-label="E'lon haqida shikoyat" (click)="openReport()">
+                  <svg lucideFlag [size]="19" aria-hidden="true"></svg>
+                  <span>Shikoyat</span>
+                </button>
+              }
+            </div>
+          }
         </div>
-
         <ng-template #priceSummary>
-          <div class="price-summary__topline">
+          <div class="pst">
             <span>{{ dealTypeLabel }}</span>
-            <span *ngIf="announcement.moderation_status === 'approved'" class="price-summary__verified">
-              <svg lucideBadgeCheck [size]="16" aria-hidden="true"></svg>
-              Tasdiqlangan
-            </span>
+            @if (announcement.moderation_status === 'approved') {
+              <span class="psv">
+                <svg lucideBadgeCheck [size]="16" aria-hidden="true"></svg>
+                Tasdiqlangan
+              </span>
+            }
           </div>
-          <div class="price-summary__value">
+          <div class="psval">
             <strong>{{ displayPrice | price }} {{ announcement.currency }}</strong>
             <span>{{ priceContextLabel }}</span>
           </div>
-          <p *ngIf="totalPriceSupportingLabel" class="price-summary__supporting">{{ totalPriceSupportingLabel }}</p>
-          <div *ngIf="announcement.commission?.label" class="price-summary__commission">
-            <span>Komissiya</span>
-            <strong>{{ commissionValueLabel }}</strong>
-          </div>
+          @if (totalPriceSupportingLabel) {
+            <p class="pss">{{ totalPriceSupportingLabel }}</p>
+          }
+          @if (announcement.commission?.label) {
+            <div class="psc">
+              <span>Komissiya</span>
+              <strong>{{ commissionValueLabel }}</strong>
+            </div>
+          }
         </ng-template>
-
-        <div class="detail-layout">
-          <main class="detail-main">
-            <header class="listing-header">
-              <div class="listing-header__badges">
-                <span class="listing-header__deal">{{ dealTypeLabel }}</span>
-                <span *ngIf="listingDateLabel">Joylandi: {{ listingDateLabel }}</span>
+        <div class="dl">
+          <main class="dm">
+            <header class="lh">
+              <div class="lhb">
+                <span class="lhd">{{ dealTypeLabel }}</span>
+                @if (listingDateLabel) {
+                  <span>Joylandi: {{ listingDateLabel }}</span>
+                }
               </div>
               <h1>{{ announcement.title }}</h1>
-              <a routerLink="/map" [queryParams]="{ announcement: announcement.id }" class="listing-header__address">
+              <a routerLink="/map" [queryParams]="{ announcement: announcement.id }" class="lha">
                 <svg lucideMapPin [size]="19" aria-hidden="true"></svg>
                 <span>{{ announcement.address || 'Manzil ko‘rsatilmagan' }}</span>
               </a>
-              <section class="price-summary price-summary--mobile" aria-label="E'lon narxi">
+              <section class="ps psm" aria-label="E'lon narxi">
                 <ng-container *ngTemplateOutlet="priceSummary"></ng-container>
               </section>
             </header>
-
-            <div class="detail-media">
+            <div class="media">
               <app-property-gallery [images]="images" [title]="announcement.title"></app-property-gallery>
             </div>
-
-            <div *ngIf="profile && announcement.moderation_status" class="moderation-context"
-              [attr.data-status]="announcement.moderation_status">
-              <strong>{{ moderationLabel }}</strong>
-              <p *ngIf="announcement.moderation_status === 'pending'">E'lon moderator tekshiruvidan o'tgach ommaga ko'rinadi.</p>
-              <p *ngIf="announcement.moderation_status === 'rejected'">{{ announcement.moderation_comment || 'Sabab ko‘rsatilmagan' }}</p>
-            </div>
-
+            @if (profile && announcement.moderation_status) {
+              <div class="mc"
+                [attr.data-status]="announcement.moderation_status">
+                <strong>{{ moderationLabel }}</strong>
+                @if (announcement.moderation_status === 'pending') {
+                  <p>E'lon moderator tekshiruvidan o'tgach ommaga ko'rinadi.</p>
+                }
+                @if (announcement.moderation_status === 'rejected') {
+                  <p>{{ announcement.moderation_comment || 'Sabab ko‘rsatilmagan' }}</p>
+                }
+              </div>
+            }
             <app-about [announcement]="announcement"></app-about>
             <app-price-block [loading]="loading" [announcement]="announcement"></app-price-block>
           </main>
-
-          <aside class="detail-sidebar" aria-label="Narx va e'lon beruvchi">
-            <div class="detail-sidebar__sticky">
-              <section class="price-summary price-summary--desktop" aria-label="E'lon narxi">
+          <aside class="ds" aria-label="Narx va e'lon beruvchi">
+            <div class="dss">
+              <section class="ps psd" aria-label="E'lon narxi">
                 <ng-container *ngTemplateOutlet="priceSummary"></ng-container>
               </section>
               <app-user-card [announcement]="announcement" [hideMobileActions]="!profile"></app-user-card>
             </div>
           </aside>
         </div>
-      </ng-container>
-    </ng-container>
-
-    <section *ngIf="!profile && !loading && !detailError"
-      class="recommendations" aria-labelledby="recommendations-title">
-      <header class="recommendations__header">
-        <div>
-          <span>Yana variantlar</span>
-          <h2 id="recommendations-title">O'xshash e'lonlar</h2>
+      } @else {
+        <section class="err" role="alert">
+          <strong>E'lonni yuklab bo'lmadi</strong>
+          <p>Internet aloqasini tekshirib, qayta urinib ko'ring.</p>
+          <button type="button" (click)="retryDetails()">Qayta urinish</button>
+        </section>
+      }
+    } @else {
+      <div class="load" aria-label="E'lon yuklanmoqda">
+        <div class="loadm">
+          <p-skeleton width="42%" height="24px" borderRadius="6px"></p-skeleton>
+          <p-skeleton width="76%" height="42px" borderRadius="6px"></p-skeleton>
+          <p-skeleton width="100%" height="520px" borderRadius="8px"></p-skeleton>
         </div>
-        <a routerLink="/announcements">Barchasini ko'rish</a>
-      </header>
-
-      <div *ngIf="recommendationsLoading" class="recommendations__loading" aria-label="O'xshash e'lonlar yuklanmoqda">
-        <p-skeleton height="360px" borderRadius="8px"></p-skeleton>
-        <p-skeleton height="360px" borderRadius="8px"></p-skeleton>
-        <p-skeleton height="360px" borderRadius="8px"></p-skeleton>
+        <p-skeleton width="100%" height="360px" borderRadius="8px"></p-skeleton>
       </div>
-      <ng-container *ngIf="!recommendationsLoading && !recommendationsError">
-        <app-listing-rail *ngIf="rec_announcements.length > 3"
-          [announcements]="rec_announcements" [viewAllLink]="null"></app-listing-rail>
-        <div *ngIf="rec_announcements.length && rec_announcements.length <= 3" class="recommendations__grid">
-          <app-announcements-card *ngFor="let item of rec_announcements" [announcement]="item"></app-announcements-card>
-        </div>
-        <div *ngIf="!rec_announcements.length" class="moderation-context">
-          <strong>Hozircha o'xshash e'lonlar topilmadi</strong>
-          <p>Boshqa mavjud variantlarni e'lonlar sahifasidan ko'rishingiz mumkin.</p>
-        </div>
-      </ng-container>
-      <div *ngIf="!recommendationsLoading && recommendationsError" class="moderation-context"
-        data-status="rejected" role="alert">
-        <strong>O'xshash e'lonlarni yuklab bo'lmadi</strong>
-        <p>So'rovni qayta yuborish uchun tugmani bosing.</p>
-        <button type="button" class="profile-context__edit" (click)="retryRecommendations()">Qayta urinish</button>
-      </div>
-    </section>
+    }
+
+    @if (!profile && !loading && !detailError) {
+      <section
+        class="rec" aria-labelledby="rec-title">
+        <header class="rech">
+          <div>
+            <span>Yana variantlar</span>
+            <h2 id="rec-title">O'xshash e'lonlar</h2>
+          </div>
+          <a routerLink="/announcements">Barchasini ko'rish</a>
+        </header>
+        @if (recommendationsLoading) {
+          <div class="recl" aria-label="O'xshash e'lonlar yuklanmoqda">
+            <p-skeleton height="360px" borderRadius="8px"></p-skeleton>
+            <p-skeleton height="360px" borderRadius="8px"></p-skeleton>
+            <p-skeleton height="360px" borderRadius="8px"></p-skeleton>
+          </div>
+        }
+        @if (!recommendationsLoading && !recommendationsError) {
+          @if (rec_announcements.length > 3) {
+            <app-listing-rail
+            [announcements]="rec_announcements" [viewAllLink]="null"></app-listing-rail>
+          }
+          @if (rec_announcements.length && rec_announcements.length <= 3) {
+            <div class="recg">
+              @for (item of rec_announcements; track item) {
+                <app-announcements-card [announcement]="item"></app-announcements-card>
+              }
+            </div>
+          }
+          @if (!rec_announcements.length) {
+            <div class="mc">
+              <strong>Hozircha o'xshash e'lonlar topilmadi</strong>
+              <p>Boshqa mavjud variantlarni e'lonlar sahifasidan ko'rishingiz mumkin.</p>
+            </div>
+          }
+        }
+        @if (!recommendationsLoading && recommendationsError) {
+          <div class="mc"
+            data-status="rejected" role="alert">
+            <strong>O'xshash e'lonlarni yuklab bo'lmadi</strong>
+            <p>So'rovni qayta yuborish uchun tugmani bosing.</p>
+            <button type="button" class="pce" (click)="retryRecommendations()">Qayta urinish</button>
+          </div>
+        }
+      </section>
+    }
   </div>
 </article>
 
-<ng-template #detailLoadingState>
-  <div class="detail-loading" aria-label="E'lon yuklanmoqda">
-    <div class="detail-loading__main">
-      <p-skeleton width="42%" height="24px" borderRadius="6px"></p-skeleton>
-      <p-skeleton width="76%" height="42px" borderRadius="6px"></p-skeleton>
-      <p-skeleton width="100%" height="520px" borderRadius="8px"></p-skeleton>
+
+
+@if (!profile && !loading && !detailError) {
+  <aside class="cta" aria-label="E'lon bilan bog'lanish">
+    <div class="ctap">
+      <strong>{{ displayPrice | price }} {{ announcement.currency }}</strong>
+      <span>{{ priceContextLabel }}</span>
     </div>
-    <p-skeleton width="100%" height="360px" borderRadius="8px"></p-skeleton>
-  </div>
-</ng-template>
-
-<ng-template #detailErrorState>
-  <section class="detail-error" role="alert">
-    <strong>E'lonni yuklab bo'lmadi</strong>
-    <p>Internet aloqasini tekshirib, qayta urinib ko'ring.</p>
-    <button type="button" (click)="retryDetails()">Qayta urinish</button>
-  </section>
-</ng-template>
-
-<aside *ngIf="!profile && !loading && !detailError" class="mobile-detail-cta" aria-label="E'lon bilan bog'lanish">
-  <div class="mobile-detail-cta__price">
-    <strong>{{ displayPrice | price }} {{ announcement.currency }}</strong>
-    <span>{{ priceContextLabel }}</span>
-  </div>
-  <a class="mobile-detail-cta__button mobile-detail-cta__button--primary"
-    [href]="contactPhone ? 'tel:' + contactPhone : null" [attr.aria-disabled]="!contactPhone">
-    <svg lucidePhone [size]="18" aria-hidden="true"></svg>
-    <span>Qo'ng'iroq</span>
-  </a>
-  <button type="button" class="mobile-detail-cta__button" [disabled]="!contactUserId || isOwnListing" (click)="toChat()">
-    <svg lucideMessageCircle [size]="18" aria-hidden="true"></svg>
-    <span>Chat</span>
-  </button>
-</aside>
+    <a class="ctab ctapri"
+      [href]="contactPhone ? 'tel:' + contactPhone : null" [attr.aria-disabled]="!contactPhone">
+      <svg lucidePhone [size]="18" aria-hidden="true"></svg>
+      <span>Qo'ng'iroq</span>
+    </a>
+    <button type="button" class="ctab" [disabled]="!contactUserId || isOwnListing" (click)="toChat()">
+      <svg lucideMessageCircle [size]="18" aria-hidden="true"></svg>
+      <span>Chat</span>
+    </button>
+  </aside>
+}
 
 <p-dialog [(visible)]="reportDialog" [modal]="true" [draggable]="false"
   [style]="{ width: 'min(480px, calc(100vw - 32px))' }" header="Shikoyat" closeAriaLabel="Shikoyat oynasini yopish">
-  <div *ngIf="!reportSuccess; else reportDone" class="report-form">
-    <p>E'londa qanday muammo borligini tanlang va moderator uchun tafsilot yozing.</p>
-    <label for="announcement-report-category">Sabab</label>
-    <select id="announcement-report-category" [(ngModel)]="reportCategory">
-      <option *ngFor="let category of reportCategories" [value]="category.value">{{ category.label }}</option>
-    </select>
-    <label for="announcement-report-details">Tafsilotlar</label>
-    <textarea id="announcement-report-details" pTextarea [(ngModel)]="reportDetails" rows="5" maxlength="2000" placeholder="Muammoni kamida 10 ta belgi bilan yozing"></textarea>
-    <small *ngIf="reportDetails.length > 0 && reportDetails.trim().length < 10">Kamida 10 ta belgi kiriting.</small>
-    <small class="report-counter">{{ reportDetails.length }} / 2000</small>
-    <p-button [loading]="reporting" [disabled]="reportDetails.trim().length < 10" (click)="submitReport()" styleClass="report-submit">Yuborish</p-button>
-  </div>
-  <ng-template #reportDone>
-    <div class="report-success">
+  @if (!reportSuccess) {
+    <div class="rf">
+      <p>E'londa qanday muammo borligini tanlang va moderator uchun tafsilot yozing.</p>
+      <label for="announcement-report-category">Sabab</label>
+      <select id="announcement-report-category" [(ngModel)]="reportCategory">
+        @for (category of reportCategories; track category) {
+          <option [value]="category.value">{{ category.label }}</option>
+        }
+      </select>
+      <label for="announcement-report-details">Tafsilotlar</label>
+      <textarea id="announcement-report-details" pTextarea [(ngModel)]="reportDetails" rows="5" maxlength="2000" placeholder="Muammoni kamida 10 ta belgi bilan yozing"></textarea>
+      @if (reportDetails.length > 0 && reportDetails.trim().length < 10) {
+        <small>Kamida 10 ta belgi kiriting.</small>
+      }
+      <small class="rc">{{ reportDetails.length }} / 2000</small>
+      <p-button [loading]="reporting" [disabled]="reportDetails.trim().length < 10" (click)="submitReport()" styleClass="rs">Yuborish</p-button>
+    </div>
+  } @else {
+    <div class="rok">
       <i class="pi pi-check-circle" aria-hidden="true"></i>
       <strong>Shikoyat yuborildi</strong>
       <p>Moderatorlar e'lon ma'lumotini tekshiradi.</p>
       <button type="button" (click)="reportDialog = false">Yopish</button>
     </div>
-  </ng-template>
+  }
 </p-dialog>

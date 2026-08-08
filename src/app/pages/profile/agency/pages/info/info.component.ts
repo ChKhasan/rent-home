@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NgIf } from '@angular/common';
+
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { SkeletonModule } from 'primeng/skeleton';
@@ -12,8 +12,9 @@ import { IAgencyMembership } from '@services/interfaces';
 @Component({
   selector: 'app-agency-info',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf, InputTextModule, ButtonModule, SkeletonModule],
+  imports: [ReactiveFormsModule, InputTextModule, ButtonModule, SkeletonModule],
   templateUrl: './info.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './info.component.css',
 })
 export class AgencyInfoComponent implements OnInit {

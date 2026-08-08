@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
-import { NgFor, NgIf } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SelectModule } from 'primeng/select';
@@ -28,13 +28,11 @@ interface QuickSearchFilter {
   styleUrl: './banner-filter.component.css',
   imports: [
     FormsModule,
-    NgFor,
-    NgIf,
     SelectModule,
     BottomSheetComponent,
     LucideSearch,
-    LucideSlidersHorizontal,
-  ],
+    LucideSlidersHorizontal
+],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BannerFilterComponent implements OnInit {

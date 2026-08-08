@@ -1,6 +1,6 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
-import { Location, NgIf } from '@angular/common';
+import { Location } from '@angular/common';
 import { HeaderComponent } from './shared/components/layouts/header/header.component';
 import { FooterComponent } from './shared/components/layouts/footer/footer.component';
 import { LikesService } from './core/services/likes/likes.service';
@@ -18,8 +18,9 @@ import { Subject, takeUntil } from 'rxjs';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, AvatarModule, NgIf, SharedModule, ToastModule],
+  imports: [RouterOutlet, AvatarModule, SharedModule, ToastModule],
   templateUrl: './app.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit, OnDestroy {
