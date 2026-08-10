@@ -32,18 +32,49 @@
         <ya-map [center]="mapCenter" [zoom]="zoom" [state]="mapState"
           style="width: 100%; height: 400px; max-height: 400px"
           class="md:w-[481px]" (yaclick)="handleDestinationMapClick($event)"
+          (ready)="handleMapReady($event)"
           (boundschange)="handleMapBoundsChange($event)">
           <ya-clusterer [options]="{
                 minClusterSize: 2,
               
                 hasBalloon: false,
               }" (click)="handleClusterClick($event)">
-            <ya-placemark *ngFor="let announcement of announcements" [geometry]="announcement.geometry"
-              (yaclick)="handleAnnounce(announcement?.id)" [options]="{
-                  preset: 'islands#blueHomeIcon',
-                  iconColor: '#00a000',
-                }"></ya-placemark>
+            <ng-container *ngFor="let announcement of announcements">
+              <ya-placemark *ngIf="isAnnouncementMarkerVisible(announcement)" [geometry]="announcement.geometry"
+                (yaclick)="handleAnnounce(announcement?.id)" [options]="{
+                    preset: 'islands#blueHomeIcon',
+                    iconColor: '#00a000',
+                  }"></ya-placemark>
+            </ng-container>
           </ya-clusterer>
+          <ya-geoobject *ngIf="commuteDestination as destination" [feature]="{
+              geometry: {
+                type: 'Circle',
+                coordinates: destination.coordinates,
+                radius: commuteRadiusMeters
+              },
+              properties: { hintContent: 'Muhim manzil atrofida 200 m' }
+            }" [options]="{
+              fillColor: '#dc26261a',
+              strokeColor: '#dc2626',
+              strokeWidth: 2,
+              interactivityModel: 'default#silent',
+              zIndex: 40
+            }"></ya-geoobject>
+          <ya-geoobject *ngIf="showInfo && currentAnnouce?.geometry" [feature]="{
+              geometry: {
+                type: 'Circle',
+                coordinates: currentAnnouce.geometry,
+                radius: homeRadiusMeters
+              },
+              properties: { hintContent: 'Tanlangan uy atrofida 500 m' }
+            }" [options]="{
+              fillColor: '#15803d14',
+              strokeColor: '#15803d',
+              strokeWidth: 2,
+              interactivityModel: 'default#silent',
+              zIndex: 35
+            }"></ya-geoobject>
           <ya-geoobject *ngFor="let route of selectRoutes; let index = index"
             [feature]="{
               geometry: { type: 'LineString', coordinates: route.x },
@@ -102,6 +133,16 @@
               iconColor: '#dc2626',
               zIndex: 2000
             }"></ya-placemark>
+          <ya-placemark *ngIf="showInfo && currentAnnouce?.geometry" [geometry]="currentAnnouce.geometry"
+            [properties]="{
+              hintContent: 'Tanlangan uy',
+              balloonContentHeader: currentAnnouce.title,
+              balloonContentBody: currentAnnouce.address
+            }" [options]="{
+              preset: 'islands#greenHomeCircleIcon',
+              iconColor: '#15803d',
+              zIndex: 2100
+            }"></ya-placemark>
         </ya-map>
       </div>
       <aside class="transport-panel border border-solid" [class.has-commute-result]="commuteDestination">
@@ -140,7 +181,8 @@
 
           <div *ngIf="commuteDestination" class="commute-search__result" aria-live="polite">
             <div class="commute-search__result-heading">
-              <p>{{ commuteRoutes.length }} ta yo‘nalish, {{ announcementCount }} ta uy</p>
+              <p *ngIf="!homeConnectionActive">{{ commuteRoutes.length }} ta yo‘nalish, {{ announcementCount }} ta uy</p>
+              <p *ngIf="homeConnectionActive">{{ commuteRoutes.length }} ta ikki nuqtaga mos yo‘nalish</p>
               <button type="button" (click)="clearCommuteSearch()" aria-label="Muhim manzil filtrini tozalash"
                 title="Tozalash">
                 <svg lucideX [size]="17" aria-hidden="true"></svg>
@@ -153,8 +195,12 @@
                   {{ route.type === 'METRO' ? 'Metro' : route.type === 'MARSHUTKA' ? 'Marshrutka' : 'Avtobus' }}
                   {{ route.name }}
                 </span>
+                <span *ngIf="route.homeDistanceMeters !== null && route.homeDistanceMeters !== undefined"
+                  class="commute-search__route-distance">
+                  Uy {{ route.homeDistanceMeters }} m
+                </span>
                 <span *ngIf="route.distanceMeters !== null" class="commute-search__route-distance">
-                  {{ route.distanceMeters }} m
+                  Manzil {{ route.distanceMeters }} m
                 </span>
               </li>
             </ul>
@@ -357,13 +403,42 @@
       </div>
     </div>
   </p-dialog>
-  <p-dialog [draggable]="true" position="topleft" [showHeader]="false" [(visible)]="showInfo"
-    [style]="{ width: '25rem' }" ariaLabelledBy="map-announcement-title">
-    <span id="map-announcement-title" class="sr-only">Tanlangan e'lon</span>
-    <button type="button" aria-label="E'lon ma'lumotini yopish" (click)="showInfo = false"
-      class="w-10 h-10 bg-[var(--gray-1)] absolute right-[-39px] top-8 rounded-r-[8px] border-[1px] border-l-[0] border-[color:var(--input-stroke)] border-solid flex items-center justify-center">
-      <svg class="map-toolbar-icon inline-block" lucideChevronsLeft [size]="20" aria-hidden="true"></svg>
-    </button>
+  <p-dialog position="left" [draggable]="false" [resizable]="false" [modal]="false" [showHeader]="false"
+    [(visible)]="showInfo" [style]="{ width: '360px' }"
+    [breakpoints]="{ '768px': 'calc(100vw - 24px)' }" styleClass="map-announcement-dialog"
+    maskStyleClass="map-announcement-mask"
+    ariaLabelledBy="map-announcement-title" (onHide)="handleAnnouncementDialogHide()">
+    <section class="home-connection-summary">
+      <div class="home-connection-summary__heading">
+        <div>
+          <h2 id="map-announcement-title">Tanlangan uy</h2>
+          <p *ngIf="commuteDestination">Uy {{ homeRadiusMeters }} m · manzil {{ commuteRadiusMeters }} m</p>
+          <p *ngIf="!commuteDestination">E’lon ma’lumotlari</p>
+        </div>
+        <button type="button" aria-label="E'lon ma'lumotini yopish" title="Yopish"
+          (click)="closeAnnouncementInfo()">
+          <svg lucideX [size]="18" aria-hidden="true"></svg>
+        </button>
+      </div>
+
+      <div *ngIf="commuteDestination" class="home-connection-summary__content" aria-live="polite">
+        <p *ngIf="homeConnectionLoading" class="home-connection-summary__status">
+          <span class="route-spinner" aria-hidden="true"></span>
+          Mos transportlar tekshirilmoqda
+        </p>
+        <p *ngIf="!homeConnectionLoading && homeConnectionError" class="home-connection-summary__error">
+          {{ homeConnectionError }}
+        </p>
+        <ul *ngIf="!homeConnectionLoading && commuteRoutes.length" class="home-connection-summary__routes"
+          aria-label="Uy va muhim manzilga mos transportlar">
+          <li *ngFor="let route of commuteRoutes">
+            <span class="home-connection-summary__line" [style.backgroundColor]="route.color" aria-hidden="true"></span>
+            <strong>{{ route.type === 'METRO' ? 'Metro' : route.type === 'MARSHUTKA' ? 'Marshrutka' : 'Avtobus' }} {{ route.name }}</strong>
+            <span>Uy {{ route.homeDistanceMeters }} m · Manzil {{ route.distanceMeters }} m</span>
+          </li>
+        </ul>
+      </div>
+    </section>
     <app-announcements-card *ngIf="showInfo" [more]="true" [close]="closeAnnouncementInfo"
       [announcement]="currentAnnouce"></app-announcements-card>
   </p-dialog>

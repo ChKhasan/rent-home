@@ -265,9 +265,6 @@ ul button {
   box-shadow: none !important;
 }
 
-.map-toolbar-icon {
-  color: var(--action-primary);
-}
 @media (max-width: 768px) {
   .map-page {
     width: 100%;
