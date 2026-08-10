@@ -25,6 +25,10 @@
 
     <div class="map-workspace map-grid">
       <div class="map relative border border-solid" [class.map--selecting-destination]="selectingDestination">
+        <div class="map-selection-prompt" *ngIf="selectingDestination" role="status" aria-live="polite">
+          <svg lucideCrosshair [size]="18" aria-hidden="true"></svg>
+          <span>Nuqta tanlash faol</span>
+        </div>
         <div class="map-route-status" *ngIf="transportLoading" role="status" aria-live="polite">
           <span class="route-spinner" aria-hidden="true"></span>
           <span>Yo'nalish chizilmoqda</span>
@@ -145,48 +149,122 @@
             }"></ya-placemark>
         </ya-map>
       </div>
-      <aside class="transport-panel border border-solid" [class.has-commute-result]="commuteDestination">
+      <aside class="transport-panel border border-solid"
+        [class.has-commute-result]="displayedCommuteDestination"
+        [class.is-choosing-destination]="destinationChoiceActive">
         <section class="commute-search" aria-labelledby="commute-search-title">
           <div class="commute-search__heading">
             <div>
-              <h2 id="commute-search-title">Muhim manzil</h2>
-              <p>Ishxona yoki universitet</p>
+              <h2 id="commute-search-title">Qayerga qatnaysiz?</h2>
+              <p>Ishxona, universitet yoki muhim joy</p>
             </div>
-            <span class="commute-search__radius">{{ commuteRadiusMeters }} m</span>
+            <span class="commute-search__radius" title="Transport yo‘nalishlari uchun masofa">
+              {{ commuteRadiusMeters }} m
+            </span>
           </div>
 
-          <form class="commute-search__form" (ngSubmit)="searchCommuteDestination()">
+          <div class="commute-search__modes" role="group" aria-label="Muhim manzilni tanlash usuli">
+            <button type="button" [class.active]="destinationMode === 'search'"
+              [attr.aria-pressed]="destinationMode === 'search'" [disabled]="commuteLoading"
+              (click)="setDestinationMode('search')">
+              <svg lucideSearch [size]="16" aria-hidden="true"></svg>
+              <span>Nom bilan</span>
+            </button>
+            <button type="button" [class.active]="destinationMode === 'map'"
+              [attr.aria-pressed]="destinationMode === 'map'" [disabled]="commuteLoading"
+              (click)="setDestinationMode('map')">
+              <svg lucideCrosshair [size]="16" aria-hidden="true"></svg>
+              <span>Xaritadan</span>
+            </button>
+          </div>
+
+          <form *ngIf="destinationMode === 'search'" class="commute-search__form"
+            (ngSubmit)="searchCommuteDestination()">
             <label class="sr-only" for="commute-destination">Manzil yoki joy nomi</label>
-            <div class="commute-search__input-wrap">
+            <div class="commute-search__input-wrap" [class.has-value]="destinationQuery.length">
               <svg lucideMapPin [size]="17" aria-hidden="true"></svg>
               <input id="commute-destination" name="commuteDestination" type="search"
-                [(ngModel)]="destinationQuery" [disabled]="commuteLoading"
-                placeholder="Masalan, TATU yoki Minor" autocomplete="off" />
+                [(ngModel)]="destinationQuery" (ngModelChange)="handleDestinationQueryChange()"
+                [disabled]="commuteLoading" placeholder="Masalan, TATU yoki Minor" autocomplete="off"
+                role="combobox" aria-autocomplete="list" aria-controls="commute-destination-options"
+                [attr.aria-expanded]="destinationSuggestions.length > 0" />
+              <button *ngIf="destinationQuery && !commuteLoading" type="button" class="commute-search__query-clear"
+                aria-label="Kiritilgan manzilni tozalash" title="Tozalash" (click)="clearDestinationQuery()">
+                <svg lucideX [size]="15" aria-hidden="true"></svg>
+              </button>
               <button type="submit" class="commute-search__submit" [disabled]="commuteLoading"
-                aria-label="Manzil bo‘yicha uy qidirish" title="Qidirish">
-                <span *ngIf="commuteLoading" class="route-spinner" aria-hidden="true"></span>
-                <svg *ngIf="!commuteLoading" lucideSearch [size]="18" aria-hidden="true"></svg>
+                aria-label="Manzilni qidirish" title="Qidirish">
+                <span *ngIf="commuteLoading && !pendingDestination" class="route-spinner" aria-hidden="true"></span>
+                <svg *ngIf="!commuteLoading || pendingDestination" lucideSearch [size]="18" aria-hidden="true"></svg>
               </button>
             </div>
-            <button type="button" class="commute-search__map-select" [class.active]="selectingDestination"
-              [disabled]="commuteLoading" (click)="toggleDestinationSelection()">
-              <svg lucideCrosshair [size]="16" aria-hidden="true"></svg>
-              <span>{{ selectingDestination ? 'Nuqta tanlanmoqda' : 'Xaritadan tanlash' }}</span>
-            </button>
-            <a class="commute-search__attribution" href="https://www.openstreetmap.org/copyright" target="_blank"
-              rel="noopener noreferrer">© OpenStreetMap contributors</a>
           </form>
 
-          <p *ngIf="commuteError" class="commute-search__error" role="alert">{{ commuteError }}</p>
+          <div *ngIf="destinationMode === 'map'" class="commute-search__map-mode" aria-live="polite">
+            <span class="commute-search__map-mode-icon" aria-hidden="true">
+              <svg lucideCrosshair [size]="18"></svg>
+            </span>
+            <div>
+              <strong>Xaritadan tanlash faol</strong>
+            </div>
+          </div>
 
-          <div *ngIf="commuteDestination" class="commute-search__result" aria-live="polite">
-            <div class="commute-search__result-heading">
-              <p *ngIf="!homeConnectionActive">{{ commuteRoutes.length }} ta yo‘nalish, {{ announcementCount }} ta uy</p>
-              <p *ngIf="homeConnectionActive">{{ commuteRoutes.length }} ta ikki nuqtaga mos yo‘nalish</p>
-              <button type="button" (click)="clearCommuteSearch()" aria-label="Muhim manzil filtrini tozalash"
-                title="Tozalash">
-                <svg lucideX [size]="17" aria-hidden="true"></svg>
+          <div *ngIf="destinationMode === 'search'" class="commute-search__provider">
+            <span>Manzil qidiruvi</span>
+            <a href="https://www.openstreetmap.org/copyright" target="_blank"
+              rel="noopener noreferrer">OpenStreetMap</a>
+          </div>
+
+          <ul *ngIf="destinationSuggestions.length" id="commute-destination-options"
+            class="commute-search__suggestions" role="listbox" aria-label="Topilgan manzillar">
+            <li *ngFor="let destination of destinationSuggestions" role="option">
+              <button type="button" [title]="destination.label" (click)="selectCommuteDestination(destination)">
+                <span class="commute-search__suggestion-icon" aria-hidden="true">
+                  <svg lucideMapPin [size]="16"></svg>
+                </span>
+                <span class="commute-search__suggestion-copy">
+                  <strong>{{ destinationPrimaryLabel(destination.label) }}</strong>
+                  <span *ngIf="destinationSecondaryLabel(destination.label)">
+                    {{ destinationSecondaryLabel(destination.label) }}
+                  </span>
+                </span>
               </button>
+            </li>
+          </ul>
+
+          <p *ngIf="commuteError" class="commute-search__error" role="alert">
+            {{ commuteError }}
+          </p>
+
+          <div *ngIf="displayedCommuteDestination as destination" class="commute-search__selected"
+            [class.is-pending]="pendingDestination" aria-live="polite">
+            <span class="commute-search__selected-icon" aria-hidden="true">
+              <span *ngIf="pendingDestination" class="route-spinner"></span>
+              <svg *ngIf="!pendingDestination" lucideMapPin [size]="17"></svg>
+            </span>
+            <div class="commute-search__selected-copy" [title]="destination.label">
+              <span>{{ pendingDestination ? 'Transportlar aniqlanmoqda' : 'Tanlangan manzil' }}</span>
+              <strong>{{ destinationPrimaryLabel(destination.label) }}</strong>
+              <small *ngIf="destinationSecondaryLabel(destination.label)">
+                {{ destinationSecondaryLabel(destination.label) }}
+              </small>
+            </div>
+            <button type="button" (click)="clearCommuteSearch()" [disabled]="commuteLoading"
+              aria-label="Muhim manzil filtrini tozalash" title="Manzilni olib tashlash">
+              <svg lucideX [size]="17" aria-hidden="true"></svg>
+            </button>
+          </div>
+
+          <div *ngIf="commuteDestination && !pendingDestination" class="commute-search__result" aria-live="polite">
+            <div class="commute-search__result-heading">
+              <p *ngIf="!homeConnectionActive">
+                <strong>{{ commuteRoutes.length }}</strong> yo‘nalish
+                <span aria-hidden="true"></span>
+                <strong>{{ announcementCount }}</strong> uy
+              </p>
+              <p *ngIf="homeConnectionActive">
+                <strong>{{ commuteRoutes.length }}</strong> ta ikki nuqtaga mos yo‘nalish
+              </p>
             </div>
             <ul class="commute-search__routes" aria-label="Xaritadagi transport yo‘nalishlari">
               <li *ngFor="let route of commuteRoutes">

@@ -27,20 +27,32 @@ export interface NearbyRoutesResponse {
   route_distances?: NearbyRouteDistance[];
 }
 
+export function extractCommuteDestinations(
+  result: GeocodeSearchResponse,
+  fallbackLabel: string,
+): CommuteDestination[] {
+  const places = Array.isArray(result?.results) ? result.results : [];
+  const seenCoordinates = new Set<string>();
+
+  return places.reduce<CommuteDestination[]>((destinations, place) => {
+    const latitude = Number(place?.latitude);
+    const longitude = Number(place?.longitude);
+    if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return destinations;
+
+    const coordinateKey = `${latitude}:${longitude}`;
+    if (seenCoordinates.has(coordinateKey)) return destinations;
+    seenCoordinates.add(coordinateKey);
+
+    const label = typeof place?.label === 'string' && place.label.trim()
+      ? place.label.trim()
+      : fallbackLabel;
+    destinations.push({ label, coordinates: [latitude, longitude] });
+    return destinations;
+  }, []);
+}
+
 export function extractCommuteDestination(result: GeocodeSearchResponse, fallbackLabel: string): CommuteDestination | null {
-  const place = Array.isArray(result?.results) ? result.results[0] : null;
-  const latitude = Number(place?.latitude);
-  const longitude = Number(place?.longitude);
-  if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return null;
-
-  const label = typeof place?.label === 'string' && place.label.trim()
-    ? place.label.trim()
-    : fallbackLabel;
-
-  return {
-    label,
-    coordinates: [latitude, longitude],
-  };
+  return extractCommuteDestinations(result, fallbackLabel)[0] ?? null;
 }
 
 export function normalizeNearbyRouteIds(response: NearbyRoutesResponse | null | undefined): string[] {

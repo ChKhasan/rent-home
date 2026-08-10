@@ -42,8 +42,15 @@
   padding: 14px;
   border-color: var(--border-default) !important;
   border-radius: 8px;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   background: var(--bg-surface);
+  scrollbar-gutter: stable;
+}
+
+.transport-panel.is-choosing-destination > .transport-tabs,
+.transport-panel.is-choosing-destination > div {
+  display: none;
 }
 
 :host ::ng-deep ya-map {
@@ -354,6 +361,19 @@ ul button {
     max-height: 320px;
   }
 
+  .transport-panel.has-commute-result .commute-search {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+  .transport-panel.has-commute-result .commute-search__modes,
+  .transport-panel.has-commute-result .commute-search__form,
+  .transport-panel.has-commute-result .commute-search__map-mode,
+  .transport-panel.has-commute-result .commute-search__provider {
+    display: none;
+  }
+
   .open-transport-btn {
     position: relative;
     padding: 0 0 5px 0;
@@ -384,6 +404,7 @@ ul button {
     border: 0;
     border-radius: 0;
   }
+
 }
 .map-route-status {
   position: absolute;
@@ -405,6 +426,40 @@ ul button {
   pointer-events: none;
   transform: translateX(-50%);
   backdrop-filter: blur(12px);
+}
+
+.map-selection-prompt {
+  position: absolute;
+  z-index: 1000;
+  top: 20px;
+  left: 50%;
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  border: 1px solid color-mix(in srgb, var(--action-primary) 36%, var(--border-default));
+  border-radius: 7px;
+  color: var(--text-primary);
+  background: var(--map-panel-bg);
+  box-shadow: var(--shadow-sm);
+  font-size: 12px;
+  font-weight: 650;
+  white-space: nowrap;
+  pointer-events: none;
+  transform: translateX(-50%);
+  backdrop-filter: blur(12px);
+}
+
+.map-selection-prompt svg {
+  color: var(--action-primary);
+}
+
+@media (max-width: 768px) {
+  .map-selection-prompt {
+    top: auto;
+    bottom: 20px;
+  }
 }
 
 .route-spinner {

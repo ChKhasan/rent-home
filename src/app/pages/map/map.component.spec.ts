@@ -57,7 +57,7 @@ describe('MapComponent', () => {
     expect(component.selectingDestination).toBeFalse();
   });
 
-  it('uses the backend geocoder for a named destination', () => {
+  it('lets the user choose a backend geocoder result before loading routes', () => {
     const requestService = (component as any).requestService;
     const queryService = (component as any).queryService;
     spyOn(requestService, 'getData').and.returnValue(of({
@@ -74,6 +74,14 @@ describe('MapComponent', () => {
     component.searchCommuteDestination();
 
     expect(requestService.getData).toHaveBeenCalledWith('/api/geocode/', { q: 'TATU' });
+    expect(component.destinationSuggestions).toEqual([{
+      label: 'TATU, Toshkent',
+      coordinates: [41.3426203, 69.2860672],
+    }]);
+    expect(requestService.requestData).not.toHaveBeenCalled();
+
+    component.selectCommuteDestination(component.destinationSuggestions[0]);
+
     expect(requestService.requestData).toHaveBeenCalledWith('/api/buses/', 'POST', {
       city: 'tashkent',
       location: { type: 'Point', coordinates: [69.2860672, 41.3426203] },
@@ -83,6 +91,7 @@ describe('MapComponent', () => {
       label: 'TATU, Toshkent',
       coordinates: [41.3426203, 69.2860672],
     });
+    expect(component.destinationSuggestions).toEqual([]);
   });
 
   it('applies nearby routes to the announcement filter', fakeAsync(() => {

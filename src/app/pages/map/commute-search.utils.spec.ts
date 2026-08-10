@@ -1,5 +1,6 @@
 import {
   extractCommuteDestination,
+  extractCommuteDestinations,
   normalizeNearbyRouteIds,
 } from './commute-search.utils';
 
@@ -25,6 +26,22 @@ describe('commute search utilities', () => {
     };
 
     expect(extractCommuteDestination(result, 'Noma’lum joy')).toBeNull();
+  });
+
+  it('returns every valid unique geocode option for an explicit user choice', () => {
+    const result = {
+      results: [
+        { label: 'TATU, Amir Temur', latitude: 41.34, longitude: 69.28 },
+        { label: 'TATU, Yunusobod', latitude: 41.37, longitude: 69.29 },
+        { label: 'Takroriy natija', latitude: 41.34, longitude: 69.28 },
+        { label: 'Noto‘g‘ri natija', latitude: Number.NaN, longitude: 69.2 },
+      ],
+    };
+
+    expect(extractCommuteDestinations(result, 'TATU')).toEqual([
+      { label: 'TATU, Amir Temur', coordinates: [41.34, 69.28] },
+      { label: 'TATU, Yunusobod', coordinates: [41.37, 69.29] },
+    ]);
   });
 
   it('normalizes and deduplicates nearby route ids', () => {

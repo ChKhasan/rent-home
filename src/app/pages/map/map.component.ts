@@ -26,7 +26,7 @@ import { LucideBusFront, LucideCarTaxiFront, LucideCrosshair, LucideMapPin, Luci
 import { resolveAnnouncementCoordinates } from '@/core/geo';
 import {
   CommuteDestination,
-  extractCommuteDestination,
+  extractCommuteDestinations,
   GeocodeSearchResponse,
   MapCoordinate,
   NearbyRoutesResponse,
@@ -98,7 +98,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   public zoom: any = 10;
   public currentDealType: DealType = DEFAULT_DEAL_TYPE;
   public destinationQuery = '';
+  public destinationMode: 'search' | 'map' = 'search';
+  public destinationSuggestions: CommuteDestination[] = [];
   public commuteDestination: CommuteDestination | null = null;
+  public pendingDestination: CommuteDestination | null = null;
   public commuteRoutes: CommuteRoute[] = [];
   public commuteLoading = false;
   public commuteError = '';
@@ -128,6 +131,16 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   get homeConnectionActive(): boolean {
     return this.routeDisplayOverride !== null && Boolean(this.commuteDestination);
+  }
+
+  get displayedCommuteDestination(): CommuteDestination | null {
+    return this.pendingDestination ?? this.commuteDestination;
+  }
+
+  get destinationChoiceActive(): boolean {
+    return this.selectingDestination
+      || this.destinationSuggestions.length > 0
+      || (this.commuteLoading && !this.pendingDestination);
   }
 
   isTransportLoading(transport: any): boolean {
@@ -176,6 +189,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.commuteLoading = true;
     this.commuteError = '';
+    this.destinationSuggestions = [];
+    this.pendingDestination = null;
+    this.destinationMode = 'search';
     this.selectingDestination = false;
     this.geocodeSubscription?.unsubscribe();
     this.geocodeSubscription = this.requestService.getData<GeocodeSearchResponse>(
@@ -183,14 +199,13 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       { q: query },
     ).subscribe({
       next: (result) => {
-        const destination = extractCommuteDestination(result, query);
-        if (!destination) {
-          this.commuteLoading = false;
+        this.commuteLoading = false;
+        const destinations = extractCommuteDestinations(result, query);
+        if (destinations.length === 0) {
           this.commuteError = 'Bu manzil topilmadi. Aniqroq nom yoki manzil kiriting.';
           return;
         }
-        this.destinationQuery = destination.label;
-        this.loadCommuteRoutes(destination);
+        this.destinationSuggestions = destinations;
       },
       error: (error) => {
         this.commuteLoading = false;
@@ -206,7 +221,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.nearbyRoutesSubscription?.unsubscribe();
     this.homeRoutesSubscription?.unsubscribe();
     this.destinationQuery = '';
+    this.destinationMode = 'search';
+    this.destinationSuggestions = [];
     this.commuteDestination = null;
+    this.pendingDestination = null;
     this.commuteRoutes = [];
     this.destinationRoutes = [];
     this.commuteError = '';
@@ -220,9 +238,48 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   toggleDestinationSelection(): void {
+    this.setDestinationMode(this.selectingDestination ? 'search' : 'map');
+  }
+
+  setDestinationMode(mode: 'search' | 'map'): void {
     if (this.commuteLoading) return;
-    this.selectingDestination = !this.selectingDestination;
+    this.destinationMode = mode;
+    this.selectingDestination = mode === 'map';
+    this.destinationSuggestions = [];
     this.commuteError = '';
+  }
+
+  handleDestinationQueryChange(): void {
+    this.destinationSuggestions = [];
+    this.commuteError = '';
+  }
+
+  clearDestinationQuery(): void {
+    if (this.commuteLoading) return;
+    this.destinationQuery = '';
+    this.destinationSuggestions = [];
+    this.commuteError = '';
+  }
+
+  selectCommuteDestination(destination: CommuteDestination): void {
+    if (this.commuteLoading) return;
+    this.geocodeSubscription?.unsubscribe();
+    this.destinationQuery = '';
+    this.destinationSuggestions = [];
+    this.destinationMode = 'search';
+    this.selectingDestination = false;
+    this.commuteError = '';
+    this.pendingDestination = destination;
+    this.commuteLoading = true;
+    this.loadCommuteRoutes(destination);
+  }
+
+  destinationPrimaryLabel(label: string): string {
+    return label.split(',')[0]?.trim() || label;
+  }
+
+  destinationSecondaryLabel(label: string): string {
+    return label.split(',').slice(1).join(',').trim();
   }
 
   handleDestinationMapClick(event: any): void {
@@ -236,10 +293,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       label: 'Xaritada tanlangan nuqta',
       coordinates: [latitude, longitude],
     };
-    this.destinationQuery = destination.label;
-    this.selectingDestination = false;
-    this.commuteLoading = true;
-    this.loadCommuteRoutes(destination);
+    this.selectCommuteDestination(destination);
   }
 
   handleMapBoundsChange(event: { target?: any; event?: any }): void {
@@ -766,6 +820,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     ).subscribe({
       next: (response) => this.applyCommuteRoutes(destination, response),
       error: () => {
+        this.pendingDestination = null;
         this.commuteError = 'Yaqin transport yo‘nalishlarini topib bo‘lmadi.';
       },
     });
@@ -776,6 +831,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.resetHomeConnectionState();
     this.showInfo = false;
     this.commuteError = '';
+    this.pendingDestination = null;
     this.commuteDestination = destination;
     this.mapCenter = [...destination.coordinates];
     this.zoom = 14;
