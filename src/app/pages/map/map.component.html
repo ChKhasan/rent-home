@@ -24,13 +24,15 @@
 
 
     <div class="map-workspace map-grid">
-      <div class="map relative border border-solid">
+      <div class="map relative border border-solid" [class.map--selecting-destination]="selectingDestination">
         <div class="map-route-status" *ngIf="transportLoading" role="status" aria-live="polite">
           <span class="route-spinner" aria-hidden="true"></span>
           <span>Yo'nalish chizilmoqda</span>
         </div>
-        <ya-map [center]="mapCenter" [zoom]="zoom" style="width: 100%; height: 400px; max-height: 400px"
-          class="md:w-[481px]">
+        <ya-map [center]="mapCenter" [zoom]="zoom" [state]="mapState"
+          style="width: 100%; height: 400px; max-height: 400px"
+          class="md:w-[481px]" (yaclick)="handleDestinationMapClick($event)"
+          (boundschange)="handleMapBoundsChange($event)">
           <ya-clusterer [options]="{
                 minClusterSize: 2,
               
@@ -43,20 +45,122 @@
                 }"></ya-placemark>
           </ya-clusterer>
           <ya-geoobject *ngFor="let route of selectRoutes; let index = index"
-            [feature]="{ geometry: { type: 'LineString', coordinates: route.x } }" [options]="{
-                strokeColor: route.color,
-                strokeWidth: 5,
+            [feature]="{
+              geometry: { type: 'LineString', coordinates: route.x },
+              properties: {
+                hintContent: route.title,
+                balloonContentHeader: route.title,
+                balloonContentBody: route.description
+              }
+            }" (yaclick)="showMapRoute(route.ri, $event)" (balloonclose)="deactivateMapRoute(route.ri)"
+            (yamouseenter)="showMapRouteHint(route.ri, $event)" (yamouseleave)="hideMapRouteHint(route.ri, $event)"
+            [options]="{
+                strokeColor: ['#000000', route.color],
+                strokeWidth: [routeHitStrokeWidth(), routeStrokeWidth(route.ri)],
+                strokeOpacity: [0.001, routeStrokeOpacity(route.ri)],
                 draggable: false,
+                cursor: 'pointer',
+                hasBalloon: true,
+                hasHint: true,
+                openBalloonOnClick: false,
+                openHintOnHover: false,
+                zIndex: routeZIndex(route.ri),
+                zIndexActive: 1100,
+                zIndexHover: 1050
               }"></ya-geoobject>
           <ya-geoobject *ngFor="let route of selectRoutes; let index = index"
-            [feature]="{ geometry: { type: 'LineString', coordinates: route.y } }" [options]="{
-                strokeColor: route.color,
-                strokeWidth: 5,
+            [feature]="{
+              geometry: { type: 'LineString', coordinates: route.y },
+              properties: {
+                hintContent: route.title,
+                balloonContentHeader: route.title,
+                balloonContentBody: route.description
+              }
+            }" (yaclick)="showMapRoute(route.ri, $event)" (balloonclose)="deactivateMapRoute(route.ri)"
+            (yamouseenter)="showMapRouteHint(route.ri, $event)" (yamouseleave)="hideMapRouteHint(route.ri, $event)"
+            [options]="{
+                strokeColor: ['#000000', route.color],
+                strokeWidth: [routeHitStrokeWidth(), routeStrokeWidth(route.ri)],
+                strokeOpacity: [0.001, routeStrokeOpacity(route.ri)],
                 draggable: false,
+                cursor: 'pointer',
+                hasBalloon: true,
+                hasHint: true,
+                openBalloonOnClick: false,
+                openHintOnHover: false,
+                zIndex: routeZIndex(route.ri),
+                zIndexActive: 1100,
+                zIndexHover: 1050
               }"></ya-geoobject>
+          <ya-placemark *ngIf="commuteDestination as destination" [geometry]="destination.coordinates"
+            [properties]="{
+              hintContent: destination.label,
+              balloonContentHeader: 'Muhim manzil',
+              balloonContentBody: destination.label
+            }" [options]="{
+              preset: 'islands#redCircleDotIcon',
+              iconColor: '#dc2626',
+              zIndex: 2000
+            }"></ya-placemark>
         </ya-map>
       </div>
-      <aside class="transport-panel border border-solid">
+      <aside class="transport-panel border border-solid" [class.has-commute-result]="commuteDestination">
+        <section class="commute-search" aria-labelledby="commute-search-title">
+          <div class="commute-search__heading">
+            <div>
+              <h2 id="commute-search-title">Muhim manzil</h2>
+              <p>Ishxona yoki universitet</p>
+            </div>
+            <span class="commute-search__radius">{{ commuteRadiusMeters }} m</span>
+          </div>
+
+          <form class="commute-search__form" (ngSubmit)="searchCommuteDestination()">
+            <label class="sr-only" for="commute-destination">Manzil yoki joy nomi</label>
+            <div class="commute-search__input-wrap">
+              <svg lucideMapPin [size]="17" aria-hidden="true"></svg>
+              <input id="commute-destination" name="commuteDestination" type="search"
+                [(ngModel)]="destinationQuery" [disabled]="commuteLoading"
+                placeholder="Masalan, TATU yoki Minor" autocomplete="off" />
+              <button type="submit" class="commute-search__submit" [disabled]="commuteLoading"
+                aria-label="Manzil bo‘yicha uy qidirish" title="Qidirish">
+                <span *ngIf="commuteLoading" class="route-spinner" aria-hidden="true"></span>
+                <svg *ngIf="!commuteLoading" lucideSearch [size]="18" aria-hidden="true"></svg>
+              </button>
+            </div>
+            <button type="button" class="commute-search__map-select" [class.active]="selectingDestination"
+              [disabled]="commuteLoading" (click)="toggleDestinationSelection()">
+              <svg lucideCrosshair [size]="16" aria-hidden="true"></svg>
+              <span>{{ selectingDestination ? 'Nuqta tanlanmoqda' : 'Xaritadan tanlash' }}</span>
+            </button>
+            <a class="commute-search__attribution" href="https://www.openstreetmap.org/copyright" target="_blank"
+              rel="noopener noreferrer">© OpenStreetMap contributors</a>
+          </form>
+
+          <p *ngIf="commuteError" class="commute-search__error" role="alert">{{ commuteError }}</p>
+
+          <div *ngIf="commuteDestination" class="commute-search__result" aria-live="polite">
+            <div class="commute-search__result-heading">
+              <p>{{ commuteRoutes.length }} ta yo‘nalish, {{ announcementCount }} ta uy</p>
+              <button type="button" (click)="clearCommuteSearch()" aria-label="Muhim manzil filtrini tozalash"
+                title="Tozalash">
+                <svg lucideX [size]="17" aria-hidden="true"></svg>
+              </button>
+            </div>
+            <ul class="commute-search__routes" aria-label="Xaritadagi transport yo‘nalishlari">
+              <li *ngFor="let route of commuteRoutes">
+                <span class="commute-search__route-line" [style.backgroundColor]="route.color" aria-hidden="true"></span>
+                <span class="commute-search__route-name">
+                  {{ route.type === 'METRO' ? 'Metro' : route.type === 'MARSHUTKA' ? 'Marshrutka' : 'Avtobus' }}
+                  {{ route.name }}
+                </span>
+                <span *ngIf="route.distanceMeters !== null" class="commute-search__route-distance">
+                  {{ route.distanceMeters }} m
+                </span>
+              </li>
+            </ul>
+          </div>
+        </section>
+
         <div class="transport-tabs md:hidden">
           <span id="map-transport-tabs-label" class="sr-only">Transport turini tanlang</span>
           <p-selectButton [options]="stateOptions" [(ngModel)]="tab" optionLabel="label" optionValue="value"

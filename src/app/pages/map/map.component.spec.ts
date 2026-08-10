@@ -1,5 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { of } from 'rxjs';
 
+import { TOP_COLORS } from '@/core/constants/map';
 import { MapComponent } from './map.component';
 
 describe('MapComponent', () => {
@@ -33,5 +35,170 @@ describe('MapComponent', () => {
 
     expect(component.isTransportSelected({ ri: 5 })).toBeTrue();
     expect(component.isTransportSelected({ ri: 6 })).toBeFalse();
+  });
+
+  it('uses a selected map point to request nearby routes', () => {
+    const requestService = (component as any).requestService;
+    const queryService = (component as any).queryService;
+    spyOn(requestService, 'requestData').and.returnValue(of({ routes: [] }));
+    spyOn(queryService, 'updateCustomQuery').and.returnValue(Promise.resolve(true));
+    component.selectingDestination = true;
+
+    component.handleDestinationMapClick({
+      event: { get: () => [41.3412, 69.2867] },
+    });
+
+    expect(requestService.requestData).toHaveBeenCalledWith('/api/buses/', 'POST', {
+      city: 'tashkent',
+      location: { type: 'Point', coordinates: [69.2867, 41.3412] },
+      nearby: 200,
+    });
+    expect(component.commuteDestination?.coordinates).toEqual([41.3412, 69.2867]);
+    expect(component.selectingDestination).toBeFalse();
+  });
+
+  it('uses the backend geocoder for a named destination', () => {
+    const requestService = (component as any).requestService;
+    const queryService = (component as any).queryService;
+    spyOn(requestService, 'getData').and.returnValue(of({
+      results: [{
+        label: 'TATU, Toshkent',
+        latitude: 41.3426203,
+        longitude: 69.2860672,
+      }],
+    }));
+    spyOn(requestService, 'requestData').and.returnValue(of({ routes: [] }));
+    spyOn(queryService, 'updateCustomQuery').and.returnValue(Promise.resolve(true));
+    component.destinationQuery = 'TATU';
+
+    component.searchCommuteDestination();
+
+    expect(requestService.getData).toHaveBeenCalledWith('/api/geocode/', { q: 'TATU' });
+    expect(requestService.requestData).toHaveBeenCalledWith('/api/buses/', 'POST', {
+      city: 'tashkent',
+      location: { type: 'Point', coordinates: [69.2860672, 41.3426203] },
+      nearby: 200,
+    });
+    expect(component.commuteDestination).toEqual({
+      label: 'TATU, Toshkent',
+      coordinates: [41.3426203, 69.2860672],
+    });
+  });
+
+  it('applies nearby routes to the announcement filter', fakeAsync(() => {
+    const queryService = (component as any).queryService;
+    spyOn(queryService, 'updateCustomQuery').and.returnValue(Promise.resolve(true));
+    spyOn(component, 'handleBusRoute');
+    component.transports = [{ ri: '101', name: '67', type: 'BUS' }];
+
+    (component as any).applyCommuteRoutes(
+      { label: 'TATU', coordinates: [41.3412, 69.2867] },
+      { routes: [101], route_distances: [{ ri: 101, distance_m: 84.4 }] },
+    );
+    tick();
+
+    expect(component.routeTransports).toEqual(['101']);
+    expect(component.commuteRoutes).toEqual([{
+      ri: '101',
+      name: '67',
+      type: 'BUS',
+      color: TOP_COLORS[0],
+      distanceMeters: 84,
+    }]);
+    expect(component.transports[0].color).toBe(TOP_COLORS[0]);
+    expect(queryService.updateCustomQuery).toHaveBeenCalledWith(
+      { transports: ['101'] },
+      component.__GET_ANNOUNCEMENTS,
+    );
+    expect(component.handleBusRoute).toHaveBeenCalledWith('101');
+  }));
+
+  it('adds transport details to a drawn route balloon', () => {
+    const requestService = (component as any).requestService;
+    const queryService = (component as any).queryService;
+    spyOn(requestService, 'requestData').and.returnValue(of({
+      scheme: {
+        forward: '41.34,69.28 41.35,69.29',
+        backward: '41.35,69.29 41.34,69.28',
+      },
+    }));
+    spyOn(queryService, 'activeQueryList').and.returnValue({ transports: ['101'] });
+    component.transports = [{ ri: '101', name: '67', type: 'BUS', color: TOP_COLORS[0] }];
+    component.commuteRoutes = [{
+      ri: '101',
+      name: '67',
+      type: 'BUS',
+      color: TOP_COLORS[0],
+      distanceMeters: 84,
+    }];
+    component.routeTransports = ['101'];
+
+    component.__GET_BUS_ROUTE({ id: '101' }, '101');
+
+    expect(component.selectRoutes[0].title).toBe('Avtobus 67');
+    expect(component.selectRoutes[0].description).toBe('Muhim manzilgacha: 84 m');
+  });
+
+  it('scales route width with zoom and emphasizes the focused route', () => {
+    component.handleMapBoundsChange({ event: { get: () => 9 } });
+    expect(component.routeStrokeWidth('101')).toBe(1.5);
+    expect(component.routeStrokeOpacity('101')).toBe(0.72);
+
+    component.handleMapBoundsChange({ event: { get: () => 12 } });
+    expect(component.routeStrokeWidth('101')).toBe(3);
+
+    component.handleMapBoundsChange({ event: { get: () => 15 } });
+    expect(component.routeStrokeWidth('101')).toBe(5);
+
+    component.activateMapRoute('101');
+    expect(component.routeStrokeWidth('101')).toBe(7);
+    expect(component.routeStrokeOpacity('101')).toBe(1);
+    expect(component.routeStrokeOpacity('102')).toBe(0.32);
+    expect(component.routeZIndex('101')).toBe(1000);
+  });
+
+  it('opens route balloon and hint explicitly at the pointer coordinates', () => {
+    const balloonOpen = jasmine.createSpy('balloonOpen');
+    const hintOpen = jasmine.createSpy('hintOpen');
+    const hintClose = jasmine.createSpy('hintClose');
+    const stopPropagation = jasmine.createSpy('stopPropagation');
+    const event = {
+      target: {
+        balloon: { open: balloonOpen },
+        hint: { open: hintOpen, close: hintClose },
+      },
+      event: {
+        get: () => [41.34, 69.28],
+        stopPropagation,
+      },
+    };
+
+    component.showMapRoute('101', event);
+    expect(component.activeMapRouteId).toBe('101');
+    expect(stopPropagation).toHaveBeenCalled();
+    expect(balloonOpen).toHaveBeenCalledWith([41.34, 69.28]);
+
+    component.showMapRouteHint('101', event);
+    expect(component.hoveredMapRouteId).toBe('101');
+    expect(hintOpen).toHaveBeenCalledWith([41.34, 69.28]);
+
+    component.hideMapRouteHint('101', event);
+    expect(component.hoveredMapRouteId).toBeNull();
+    expect(hintClose).toHaveBeenCalled();
+    expect(component.routeHitStrokeWidth()).toBe(12);
+  });
+
+  it('keeps the map centered on the commute destination after homes load', () => {
+    const requestService = (component as any).requestService;
+    spyOn(requestService, 'getData').and.returnValue(of({
+      count: 1,
+      results: [{ id: 1, location_x: 41.3, location_y: 69.2 }],
+    }));
+    component.commuteDestination = { label: 'TATU', coordinates: [41.3412, 69.2867] };
+    component.mapCenter = [...component.commuteDestination.coordinates];
+
+    component.__GET_ANNOUNCEMENTS();
+
+    expect(component.mapCenter).toEqual([41.3412, 69.2867]);
   });
 });

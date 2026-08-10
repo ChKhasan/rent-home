@@ -14,6 +14,7 @@ export const environment = {
     POST_NUMBER: '/verification/number',
     POST_LOGIN: '/api/token/',
     GET_TRANSPORTS: '/api/transport/',
+    GET_GEOCODE: '/api/geocode/',
     GET_COMMENTS: '/api/comment/',
     POST_LOCATIONBUSES: '/api/buses/',
     POST_BUSROUTES: '/api/bus/',

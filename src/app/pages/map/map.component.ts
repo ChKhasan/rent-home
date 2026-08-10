@@ -22,15 +22,30 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { DealTypeService } from '@/core/services/deal-type/deal-type.service';
 import { DealType, DEFAULT_DEAL_TYPE, isDealType } from '@/core/constants/deal-type';
 import { DealTypeSwitcherComponent } from '@components/deal-type-switcher/deal-type-switcher.component';
-import { LucideBusFront, LucideCarTaxiFront, LucideChevronsLeft, LucideTrainFront } from '@lucide/angular';
+import { LucideBusFront, LucideCarTaxiFront, LucideChevronsLeft, LucideCrosshair, LucideMapPin, LucideSearch, LucideTrainFront, LucideX } from '@lucide/angular';
 import { resolveAnnouncementCoordinates } from '@/core/geo';
+import {
+  CommuteDestination,
+  extractCommuteDestination,
+  GeocodeSearchResponse,
+  NearbyRoutesResponse,
+  normalizeNearbyRouteIds,
+} from './commute-search.utils';
 
 type TransportToggleKey = 'showBus' | 'showSubway' | 'showMiniBus';
+
+interface CommuteRoute {
+  ri: string;
+  name: string;
+  type: string;
+  color: string;
+  distanceMeters: number | null;
+}
 
 @Component({
   selector: 'app-map',
   standalone: true,
-  imports: [NgClass, MultiSelectModule, RouterLink, DialogModule, FormsModule, SelectButtonModule, AngularYandexMapsModule, NgIf, NgForOf, ButtonModule, StyleClassModule, BadgeModule, AnnouncementsCardComponent, DealTypeSwitcherComponent, LucideBusFront, LucideCarTaxiFront, LucideChevronsLeft, LucideTrainFront],
+  imports: [NgClass, MultiSelectModule, RouterLink, DialogModule, FormsModule, SelectButtonModule, AngularYandexMapsModule, NgIf, NgForOf, ButtonModule, StyleClassModule, BadgeModule, AnnouncementsCardComponent, DealTypeSwitcherComponent, LucideBusFront, LucideCarTaxiFront, LucideChevronsLeft, LucideCrosshair, LucideMapPin, LucideSearch, LucideTrainFront, LucideX],
   templateUrl: './map.component.html',
   styleUrl: './map.component.css',
 })
@@ -80,7 +95,22 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   public currentAnnouce: any = {};
   public zoom: any = 10;
   public currentDealType: DealType = DEFAULT_DEAL_TYPE;
+  public destinationQuery = '';
+  public commuteDestination: CommuteDestination | null = null;
+  public commuteRoutes: CommuteRoute[] = [];
+  public commuteLoading = false;
+  public commuteError = '';
+  public selectingDestination = false;
+  public announcementCount = 0;
+  public activeMapRouteId: string | null = null;
+  public hoveredMapRouteId: string | null = null;
+  public readonly commuteRadiusMeters = 200;
+  public readonly mapState: ymaps.IMapState = {
+    controls: ['zoomControl', 'trafficControl', 'typeSelector', 'fullscreenControl'],
+  };
   private dealTypeSubscription?: Subscription;
+  private geocodeSubscription?: Subscription;
+  private nearbyRoutesSubscription?: Subscription;
   private deepLinkedAnnouncement: any | null = null;
 
   get transportLoading(): boolean {
@@ -95,7 +125,13 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.routeTransports.some((ri: any) => Number(ri) === Number(transport?.ri));
   }
 
-  constructor(public router: Router, private queryService: QueryService, private requestService: RequestService, public location: Location, private dealTypeService: DealTypeService) {}
+  constructor(
+    public router: Router,
+    private queryService: QueryService,
+    private requestService: RequestService,
+    public location: Location,
+    private dealTypeService: DealTypeService,
+  ) {}
 
   ngOnInit() {
     this.__GET_TRANSPORTS();
@@ -113,6 +149,143 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.dealTypeSubscription?.unsubscribe();
+    this.geocodeSubscription?.unsubscribe();
+    this.nearbyRoutesSubscription?.unsubscribe();
+  }
+
+  searchCommuteDestination(): void {
+    const query = this.destinationQuery.trim();
+    if (query.length < 3 || this.commuteLoading) {
+      if (query.length < 3) this.commuteError = 'Manzil yoki joy nomini kiriting.';
+      return;
+    }
+
+    this.commuteLoading = true;
+    this.commuteError = '';
+    this.selectingDestination = false;
+    this.geocodeSubscription?.unsubscribe();
+    this.geocodeSubscription = this.requestService.getData<GeocodeSearchResponse>(
+      environment.urls.GET_GEOCODE,
+      { q: query },
+    ).subscribe({
+      next: (result) => {
+        const destination = extractCommuteDestination(result, query);
+        if (!destination) {
+          this.commuteLoading = false;
+          this.commuteError = 'Bu manzil topilmadi. Aniqroq nom yoki manzil kiriting.';
+          return;
+        }
+        this.destinationQuery = destination.label;
+        this.loadCommuteRoutes(destination);
+      },
+      error: (error) => {
+        this.commuteLoading = false;
+        this.commuteError = error?.status === 429
+          ? 'Qidiruv juda tez yuborildi. Bir soniyadan keyin qayta urinib ko‘ring.'
+          : 'Manzilni hozir qidirib bo‘lmadi. Qayta urinib ko‘ring.';
+      },
+    });
+  }
+
+  clearCommuteSearch(): void {
+    this.geocodeSubscription?.unsubscribe();
+    this.nearbyRoutesSubscription?.unsubscribe();
+    this.destinationQuery = '';
+    this.commuteDestination = null;
+    this.commuteRoutes = [];
+    this.commuteError = '';
+    this.commuteLoading = false;
+    this.selectingDestination = false;
+    this.clearSelectedRoutes();
+    void this.queryService.updateCustomQuery({ transports: null }, this.__GET_ANNOUNCEMENTS);
+  }
+
+  toggleDestinationSelection(): void {
+    if (this.commuteLoading) return;
+    this.selectingDestination = !this.selectingDestination;
+    this.commuteError = '';
+  }
+
+  handleDestinationMapClick(event: any): void {
+    if (!this.selectingDestination || this.commuteLoading) return;
+    const rawCoordinates = event?.event?.get?.('coords');
+    const latitude = Number(rawCoordinates?.[0]);
+    const longitude = Number(rawCoordinates?.[1]);
+    if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return;
+
+    const destination: CommuteDestination = {
+      label: 'Xaritada tanlangan nuqta',
+      coordinates: [latitude, longitude],
+    };
+    this.destinationQuery = destination.label;
+    this.selectingDestination = false;
+    this.commuteLoading = true;
+    this.loadCommuteRoutes(destination);
+  }
+
+  handleMapBoundsChange(event: { target?: any; event?: any }): void {
+    const nextZoom = Number(event.event?.get?.('newZoom') ?? event.target?.getZoom?.());
+    if (Number.isFinite(nextZoom)) this.zoom = nextZoom;
+  }
+
+  activateMapRoute(routeId: any): void {
+    this.activeMapRouteId = this.routeKey(routeId);
+  }
+
+  showMapRoute(routeId: any, event: any): void {
+    this.activateMapRoute(routeId);
+    event?.event?.stopPropagation?.();
+    const coordinates = event?.event?.get?.('coords');
+    void event?.target?.balloon?.open?.(coordinates);
+  }
+
+  deactivateMapRoute(routeId: any): void {
+    if (this.activeMapRouteId === this.routeKey(routeId)) this.activeMapRouteId = null;
+  }
+
+  hoverMapRoute(routeId: any): void {
+    this.hoveredMapRouteId = this.routeKey(routeId);
+  }
+
+  showMapRouteHint(routeId: any, event: any): void {
+    this.hoverMapRoute(routeId);
+    const coordinates = event?.event?.get?.('coords');
+    void event?.target?.hint?.open?.(coordinates);
+  }
+
+  unhoverMapRoute(routeId: any): void {
+    if (this.hoveredMapRouteId === this.routeKey(routeId)) this.hoveredMapRouteId = null;
+  }
+
+  hideMapRouteHint(routeId: any, event: any): void {
+    void event?.target?.hint?.close?.();
+    this.unhoverMapRoute(routeId);
+  }
+
+  routeStrokeWidth(routeId: any): number {
+    const zoom = Number(this.zoom);
+    let width = 5;
+    if (zoom <= 9) width = 1.5;
+    else if (zoom <= 10) width = 2;
+    else if (zoom <= 11) width = 2.5;
+    else if (zoom <= 12) width = 3;
+    else if (zoom <= 13) width = 3.5;
+    else if (zoom <= 14) width = 4.25;
+    return this.isMapRouteFocused(routeId) ? width + 2 : width;
+  }
+
+  routeStrokeOpacity(routeId: any): number {
+    if (this.isMapRouteFocused(routeId)) return 1;
+    if (this.activeMapRouteId || this.hoveredMapRouteId) return 0.32;
+    return Number(this.zoom) <= 10 ? 0.72 : 0.88;
+  }
+
+  routeHitStrokeWidth(): number {
+    return 12;
+  }
+
+  routeZIndex(routeId: any): number {
+    return this.isMapRouteFocused(routeId) ? 1000 : 100;
   }
 
   filterSend = (e: any) => {
@@ -189,6 +362,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   deleteMapLine(transport: any) {
     let currentTransport = this.transports.find((elem: any) => Number(elem.ri) === Number(transport.ri));
     if (currentTransport) delete currentTransport.color;
+    this.deactivateMapRoute(transport?.ri);
+    this.unhoverMapRoute(transport?.ri);
   }
 
   filterTransport(obj: any) {
@@ -304,16 +479,26 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
             lng: elem.split(',')[1],
           };
         });
-        let color: any = TOP_COLORS.filter((elem: any) => !this.transports.map((item: any) => item.color).includes(elem))[0];
+        const currentTransport = this.transports.find((elem: any) => elem.ri == number);
+        const commuteRoute = this.commuteRoutes.find((route) => Number(route.ri) === Number(number));
+        const usedColors = this.selectRoutes.map((item: any) => item.color).filter(Boolean);
+        let color: string | undefined = currentTransport?.color || commuteRoute?.color;
+        if (!color) color = TOP_COLORS.find((candidate) => !usedColors.includes(candidate));
+        if (!color) color = TOP_COLORS[this.selectRoutes.length % TOP_COLORS.length];
+        const type = commuteRoute?.type || currentTransport?.type || 'BUS';
+        const name = commuteRoute?.name || currentTransport?.name || String(number);
         busRoutes.color = color;
         busRoutes.ri = number;
-        let currentTransport = this.transports.find((elem: any) => elem.ri == number);
+        busRoutes.title = `${this.transportTypeLabel(type)} ${name}`;
+        busRoutes.description = commuteRoute?.distanceMeters !== null && commuteRoute?.distanceMeters !== undefined
+          ? `Muhim manzilgacha: ${commuteRoute.distanceMeters} m`
+          : 'Tanlangan transport yo‘nalishi';
         if (currentTransport) currentTransport.color = color;
         this.transports = [...this.transports];
         this.selectRoutes.push(busRoutes);
         let selectedRies: any = this.routeTransports;
         this.selectRoutes = this.selectRoutes
-          .filter((elem: any) => selectedRies.includes(elem.ri))
+          .filter((elem: any) => selectedRies.some((ri: any) => Number(ri) === Number(elem.ri)))
           .map((item: any) => {
             return {
               ...item,
@@ -334,6 +519,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.requestService.getData<IAnnouncementList>(environment.urls.GET_ANNONCEMENTS, this.queryService.generatorHttpParams(params)).subscribe((response: IAnnouncementList) => {
       this.refreshRouteTransports();
       const results = Array.isArray(response?.results) ? response.results : [];
+      this.announcementCount = Number(response?.count ?? results.length);
       this.announcements = results
         .map((item: any) => this.normalizeAnnouncement(item))
         .filter(Boolean);
@@ -343,7 +529,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
           ...this.announcements.filter((item: any) => item.id !== this.deepLinkedAnnouncement.id),
         ];
         this.focusDeepLinkedAnnouncement();
-      } else if (this.announcements.length > 0) {
+      } else if (!this.commuteDestination && this.announcements.length > 0) {
         this.mapCenter = [...this.announcements[0].geometry];
       }
     });
@@ -498,5 +684,91 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private routeKey(value: any): string {
     return String(value ?? '');
+  }
+
+  private isMapRouteFocused(routeId: any): boolean {
+    const key = this.routeKey(routeId);
+    return key === this.activeMapRouteId || key === this.hoveredMapRouteId;
+  }
+
+  private transportTypeLabel(type: string): string {
+    if (type === 'METRO') return 'Metro';
+    if (type === 'MARSHUTKA') return 'Marshrutka';
+    return 'Avtobus';
+  }
+
+  private loadCommuteRoutes(destination: CommuteDestination): void {
+    this.nearbyRoutesSubscription?.unsubscribe();
+    this.nearbyRoutesSubscription = this.requestService.requestData<NearbyRoutesResponse>(
+      environment.urls.POST_LOCATIONBUSES,
+      'POST',
+      {
+        city: 'tashkent',
+        location: {
+          type: 'Point',
+          coordinates: [destination.coordinates[1], destination.coordinates[0]],
+        },
+        nearby: this.commuteRadiusMeters,
+      },
+    ).pipe(
+      finalize(() => {
+        this.commuteLoading = false;
+      }),
+    ).subscribe({
+      next: (response) => this.applyCommuteRoutes(destination, response),
+      error: () => {
+        this.commuteError = 'Yaqin transport yo‘nalishlarini topib bo‘lmadi.';
+      },
+    });
+  }
+
+  private applyCommuteRoutes(destination: CommuteDestination, response: NearbyRoutesResponse): void {
+    const routeIds = normalizeNearbyRouteIds(response);
+    this.commuteError = '';
+    this.commuteDestination = destination;
+    this.mapCenter = [...destination.coordinates];
+    this.zoom = 14;
+    this.clearSelectedRoutes();
+
+    const distances = new Map(
+      (response.route_distances || []).map((item) => [String(item.ri), Number(item.distance_m)]),
+    );
+    this.commuteRoutes = routeIds.map((ri, index) => {
+      const transport = this.transports.find((item: any) => Number(item.ri) === Number(ri));
+      const distance = distances.get(ri);
+      const color = TOP_COLORS[index % TOP_COLORS.length];
+      if (transport) transport.color = color;
+      return {
+        ri,
+        name: transport?.name || ri,
+        type: transport?.type || 'BUS',
+        color,
+        distanceMeters: Number.isFinite(distance) ? Math.round(distance as number) : null,
+      };
+    });
+    this.transports = [...this.transports];
+
+    if (routeIds.length === 0) {
+      this.announcements = [];
+      this.announcementCount = 0;
+      this.commuteError = 'Bu manzil yaqinidan to‘g‘ridan-to‘g‘ri transport topilmadi.';
+      void this.queryService.updateCustomQuery({ transports: null });
+      return;
+    }
+
+    this.routeTransports = routeIds;
+    void this.queryService.updateCustomQuery({ transports: routeIds }, this.__GET_ANNOUNCEMENTS).then(() => {
+      routeIds.forEach((routeId) => this.handleBusRoute(routeId));
+      this.selectedTransportsGenerateFirst();
+    });
+  }
+
+  private clearSelectedRoutes(): void {
+    this.routeTransports = [];
+    this.selectRoutes = [];
+    this.activeMapRouteId = null;
+    this.hoveredMapRouteId = null;
+    this.selectedTransports = { bus: [], miniBus: [], subway: [] };
+    this.transports.forEach((transport: any) => delete transport.color);
   }
 }

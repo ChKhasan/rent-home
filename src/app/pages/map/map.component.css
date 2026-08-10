@@ -52,6 +52,10 @@
   max-height: none !important;
 }
 
+:host ::ng-deep .map--selecting-destination ya-map * {
+  cursor: crosshair !important;
+}
+
 .filter-toolbar::-webkit-scrollbar {
   display: none;
 }
@@ -338,6 +342,19 @@ ul button {
     background: var(--map-panel-bg);
     box-shadow: var(--shadow-sm);
     backdrop-filter: blur(14px);
+    max-height: calc(100dvh - 168px);
+    overflow-y: auto;
+  }
+
+  .transport-panel.has-commute-result > .transport-tabs,
+  .transport-panel.has-commute-result > div {
+    display: none;
+  }
+
+  .transport-panel.has-commute-result {
+    top: auto;
+    bottom: 16px;
+    max-height: 320px;
   }
 
   .open-transport-btn {
