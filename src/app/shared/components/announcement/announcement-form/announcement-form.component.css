@@ -190,6 +190,26 @@
   resize: vertical;
 }
 
+.dictionary-error {
+  display: flex;
+  min-height: 32px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--status-danger);
+  font-size: 13px;
+}
+
+.dictionary-error button {
+  min-height: 32px;
+  flex: 0 0 auto;
+  padding: 0 8px;
+  border-radius: 6px;
+  color: var(--action-primary);
+  background: var(--action-primary-soft);
+  font-weight: 600;
+}
+
 .publisher-options {
   display: flex;
   flex-direction: column;

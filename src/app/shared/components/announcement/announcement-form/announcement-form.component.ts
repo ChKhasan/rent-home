@@ -63,7 +63,12 @@ export class AnnouncementFormComponent implements OnInit {
   public currenyTypes = currenyTypes;
   public dealTypeOptions = DEAL_TYPE_OPTIONS;
   public selectedDealType: DealType = DEFAULT_DEAL_TYPE;
+  public regionsLoading = false;
+  public districtsLoading = false;
+  public regionsLoadError = false;
+  public districtsLoadError = false;
   private readonly id: number | string | null;
+  private districtRequestId = 0;
   public agencyId: number | null = null;
   public isAgencyMode = false;
   @ViewChild(MapDialogComponent) mapDialogComponent!: MapDialogComponent;
@@ -129,6 +134,7 @@ export class AnnouncementFormComponent implements OnInit {
     this._formControl.setAgencyContext(this.agencyId);
     if (this.agencyId) this.ruleForm.patchValue({ publisher_type: 'AGENCY_AGENT' });
     this.selectedDealType = DEFAULT_DEAL_TYPE;
+    this.loadRegions();
     this.__GET_GENDERS();
     this.__GET_PUBLISHER_CAPABILITIES();
     this.fileUploaderHeaders();
@@ -142,6 +148,8 @@ export class AnnouncementFormComponent implements OnInit {
         this.agencyId = response?.agency?.id || this.agencyId;
         this.isAgencyMode = !!this.agencyId;
         this._formControl.setAgencyContext(this.agencyId);
+        const regionId = this.optionId(response.region);
+        const districtId = this.optionId(response.district);
         this.ruleForm.patchValue({
           lessee_types: response.lessee_types.map((elem: any) => elem.id),
           images: [],
@@ -161,10 +169,10 @@ export class AnnouncementFormComponent implements OnInit {
           fridge: response.fridge,
           washing_machine: response.washing_machine,
           user: response.user?.id,
-          region: response.region,
+          region: regionId,
           area: response.area,
           floor: response.floor,
-          district: response.district,
+          district: districtId,
           deal_type: response.deal_type || DEFAULT_DEAL_TYPE,
           agency: this.agencyId,
           publisher_type: response.publisher_type,
@@ -173,6 +181,7 @@ export class AnnouncementFormComponent implements OnInit {
           commission_value: response.commission_value ? Number(response.commission_value) : null,
           commission_currency: response.commission_currency,
         });
+        if (regionId) this.loadDistricts(regionId, districtId);
         this.selectedDealType = this.ruleForm.get('deal_type')?.value || DEFAULT_DEAL_TYPE;
         if (!this.status) this.ruleForm.disable();
       });
@@ -451,8 +460,73 @@ export class AnnouncementFormComponent implements OnInit {
       location_y: obj.coords[1],
     });
   };
-  onRegionChange(region: any): void {
-    this.dictionaryService.__GET_DISTRICTS({ parent: region });
+  onRegionChange(region: number | string | null): void {
+    const regionId = this.optionId(region);
+    this.ruleForm.patchValue({ district: null });
+    this.dictionaryService.districts = [];
+    this.districtsLoadError = false;
+    if (regionId) this.loadDistricts(regionId);
+  }
+
+  retryRegions(): void {
+    this.loadRegions(true);
+  }
+
+  retryDistricts(): void {
+    const regionId = this.optionId(this.ruleForm.controls.region.value);
+    if (regionId) this.loadDistricts(regionId);
+  }
+
+  private loadRegions(force = false): void {
+    this.regionsLoading = true;
+    this.regionsLoadError = false;
+    this.dictionaryService
+      .loadRegions(force)
+      .pipe(finalize(() => (this.regionsLoading = false)))
+      .subscribe({
+        next: (regions) => {
+          this.dictionaryService.regions = regions;
+          this.regionsLoadError = regions.length === 0;
+        },
+        error: () => {
+          this.dictionaryService.regions = [];
+          this.regionsLoadError = true;
+        },
+      });
+  }
+
+  private loadDistricts(regionId: number, selectedDistrictId: number | null = null): void {
+    const requestId = ++this.districtRequestId;
+    this.districtsLoading = true;
+    this.districtsLoadError = false;
+    this.dictionaryService
+      .loadDistricts(regionId)
+      .pipe(finalize(() => {
+        if (requestId === this.districtRequestId) this.districtsLoading = false;
+      }))
+      .subscribe({
+        next: (districts) => {
+          if (requestId !== this.districtRequestId) return;
+          this.dictionaryService.districts = districts;
+          this.districtsLoadError = districts.length === 0;
+          if (selectedDistrictId && districts.some((item) => item.id === selectedDistrictId)) {
+            this.ruleForm.patchValue({ district: selectedDistrictId });
+          }
+        },
+        error: () => {
+          if (requestId !== this.districtRequestId) return;
+          this.dictionaryService.districts = [];
+          this.districtsLoadError = true;
+        },
+      });
+  }
+
+  private optionId(value: unknown): number | null {
+    const candidate = typeof value === 'object' && value !== null && 'id' in value
+      ? (value as { id?: unknown }).id
+      : value;
+    const id = Number(candidate);
+    return Number.isFinite(id) && id > 0 ? id : null;
   }
 
   onDealTypeChange(type: DealType) {
