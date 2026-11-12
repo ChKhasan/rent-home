@@ -48,6 +48,44 @@
   scrollbar-gutter: stable;
 }
 
+.commute-search__location {
+  display: grid;
+  gap: 6px;
+  margin: 12px 0;
+}
+
+.commute-search__location label {
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.commute-search__location select {
+  width: 100%;
+  min-width: 0;
+  min-height: 40px;
+  margin-bottom: 4px;
+  padding: 8px 10px;
+  border: 1px solid var(--border-default);
+  border-radius: 6px;
+  color: var(--text-primary);
+  background: var(--bg-surface);
+  font: inherit;
+  font-size: 13px;
+}
+
+.commute-search__location select:focus-visible {
+  outline: 2px solid var(--action-primary);
+  outline-offset: 2px;
+}
+
+.transport-panel__empty {
+  margin-top: 16px;
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
 .transport-panel.is-choosing-destination > .transport-tabs,
 .transport-panel.is-choosing-destination > div {
   display: none;

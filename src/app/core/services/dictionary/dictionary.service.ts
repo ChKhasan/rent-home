@@ -8,6 +8,8 @@ export interface RegionOption {
   name: string;
   level: number;
   parent: number | null;
+  map_center?: [number, number] | null;
+  map_bounds?: [[number, number], [number, number]] | null;
 }
 
 type DictionaryResponse<T> = T[] | { results?: T[] };

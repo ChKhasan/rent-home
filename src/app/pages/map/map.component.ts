@@ -8,7 +8,8 @@ import { finalize, Subscription } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { StyleClassModule } from 'primeng/styleclass';
 import { BadgeModule } from 'primeng/badge';
-import { TOP_COLORS } from '@/core/constants/map';
+import { DEFAULT_MAP_CENTER, DEFAULT_MAP_DISTRICT, DEFAULT_MAP_REGION, DEFAULT_MAP_ZOOM, TOP_COLORS } from '@/core/constants/map';
+import { DictionaryService, RegionOption } from '@/core/services/dictionary/dictionary.service';
 import { BottomSheetComponent } from '@components/modals/bottom-sheet/bottom-sheet.component';
 import { RequestService } from '@services/request';
 import { environment } from '@environments';
@@ -84,8 +85,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   public showInfo: boolean = false;
   public showToolbar: boolean = false;
   public loading: boolean = false;
-  public coords: number[] = [41.31340266251607, 69.28703784942628];
-  public mapCenter: number[] = [41.31340266251607, 69.28703784942628];
+  public coords: number[] = [...DEFAULT_MAP_CENTER];
+  public mapCenter: number[] = [...DEFAULT_MAP_CENTER];
   public marshutka: any = [];
   public subways: any = [];
   public buses: any = [];
@@ -95,7 +96,16 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   public routeTransports: any = [];
   public announcements: any = [];
   public currentAnnouce: any = {};
-  public zoom: any = 10;
+  public zoom: any = DEFAULT_MAP_ZOOM;
+  public regions: RegionOption[] = [];
+  public districts: RegionOption[] = [];
+  public selectedRegion: number | null = null;
+  public selectedDistrict: number | null = null;
+  public locationLoading = true;
+  public locationError = '';
+  private locationFiltersReady = false;
+  private regionSubscription?: Subscription;
+  private districtSubscription?: Subscription;
   public currentDealType: DealType = DEFAULT_DEAL_TYPE;
   public destinationQuery = '';
   public destinationMode: 'search' | 'map' = 'search';
@@ -120,6 +130,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   private geocodeSubscription?: Subscription;
   private nearbyRoutesSubscription?: Subscription;
   private homeRoutesSubscription?: Subscription;
+  private announcementsSubscription?: Subscription;
+  private transportsSubscription?: Subscription;
+  private deepLinkSubscription?: Subscription;
   private destinationRoutes: CommuteRoute[] = [];
   private routeDisplayOverride: string[] | null = null;
   private yandexMap?: ymaps.Map;
@@ -157,10 +170,11 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     private requestService: RequestService,
     public location: Location,
     private dealTypeService: DealTypeService,
+    private dictionaryService: DictionaryService,
   ) {}
 
   ngOnInit() {
-    this.__GET_TRANSPORTS();
+    this.loadLocationFilters();
     if (typeof window !== 'undefined') {
       this.applyDealTypeFromQuery();
       this.activeTransports();
@@ -178,11 +192,137 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.geocodeSubscription?.unsubscribe();
     this.nearbyRoutesSubscription?.unsubscribe();
     this.homeRoutesSubscription?.unsubscribe();
+    this.regionSubscription?.unsubscribe();
+    this.districtSubscription?.unsubscribe();
+    this.announcementsSubscription?.unsubscribe();
+    this.transportsSubscription?.unsubscribe();
+    this.deepLinkSubscription?.unsubscribe();
+  }
+
+  get selectedSearchArea(): RegionOption | undefined {
+    return this.districts.find((area) => area.id === this.selectedDistrict)
+      ?? this.regions.find((area) => area.id === this.selectedRegion);
+  }
+
+  get searchAreaLabel(): string {
+    return this.selectedSearchArea?.name ?? DEFAULT_MAP_DISTRICT;
+  }
+
+  private loadLocationFilters(): void {
+    this.regionSubscription = this.dictionaryService.loadRegions().subscribe({
+      next: (regions) => {
+        this.regions = regions;
+        const requestedId = Number(this.queryService.activeQueryList()['region']);
+        const requestedRegion = regions.find((region) => region.id === requestedId);
+        const defaultRegion = regions.find((region) => region.name.toLowerCase() === DEFAULT_MAP_REGION.toLowerCase());
+        if (requestedRegion) {
+          this.loadDistrictFilters(requestedRegion.id);
+        } else if (Number.isInteger(requestedId) && requestedId > 0) {
+          this.districtSubscription = this.requestService.getData<RegionOption>(
+            `${environment.urls.GET_REGION_DETAIL}${requestedId}`,
+          ).subscribe({
+            next: (district) => this.loadDistrictFilters(district.parent ?? defaultRegion?.id ?? regions[0]?.id, district.id),
+            error: () => this.loadDistrictFilters(defaultRegion?.id ?? regions[0]?.id, undefined, true),
+          });
+        } else {
+          this.loadDistrictFilters(defaultRegion?.id ?? regions[0]?.id, undefined, true);
+        }
+      },
+      error: () => {
+        this.locationError = "Hududlarni yuklab bo'lmadi. Sahifani yangilang.";
+        this.locationLoading = false;
+        this.locationFiltersReady = true;
+        this.__GET_ANNOUNCEMENTS();
+      },
+    });
+  }
+
+  private loadDistrictFilters(regionId: number | undefined, districtId?: number, useDefaultCity = false): void {
+    if (!regionId) {
+      this.locationLoading = false;
+      this.locationFiltersReady = true;
+      this.__GET_ANNOUNCEMENTS();
+      return;
+    }
+    this.selectedRegion = regionId;
+    this.selectedDistrict = null;
+    this.districts = [];
+    this.locationLoading = true;
+    this.districtSubscription?.unsubscribe();
+    this.districtSubscription = this.dictionaryService.loadDistricts(regionId).subscribe({
+      next: (districts) => {
+        this.districts = districts;
+        this.selectedDistrict = districts.find((district) => district.id === districtId)?.id
+          ?? (useDefaultCity ? districts.find((district) => district.name.toLowerCase() === DEFAULT_MAP_DISTRICT.toLowerCase())?.id ?? null : null);
+        this.locationLoading = false;
+        this.locationFiltersReady = true;
+        if (!this.queryService.activeQueryList()['announcement']) this.focusSearchArea();
+        this.__GET_TRANSPORTS();
+        this.__GET_ANNOUNCEMENTS();
+      },
+      error: () => {
+        this.locationLoading = false;
+        this.locationFiltersReady = true;
+        this.locationError = "Shahar va tumanlarni yuklab bo'lmadi. Viloyatni qayta tanlang.";
+        this.__GET_TRANSPORTS();
+        this.__GET_ANNOUNCEMENTS();
+      },
+    });
+  }
+
+  handleRegionChange(): void {
+    this.resetLocationSearch();
+    this.loadDistrictFilters(this.selectedRegion ?? undefined);
+    void this.queryService.updateCustomQuery({region: this.selectedRegion, transports: null, announcement: null});
+  }
+
+  handleDistrictChange(): void {
+    this.resetLocationSearch();
+    this.focusSearchArea();
+    this.__GET_TRANSPORTS();
+    void this.queryService.updateCustomQuery(
+      {region: this.selectedDistrict ?? this.selectedRegion, transports: null, announcement: null},
+      this.__GET_ANNOUNCEMENTS,
+    );
+  }
+
+  private resetLocationSearch(): void {
+    this.resetCommuteSearch();
+    this.announcementsSubscription?.unsubscribe();
+    this.transportsSubscription?.unsubscribe();
+    this.deepLinkSubscription?.unsubscribe();
+    this.announcements = [];
+    this.announcementCount = 0;
+    this.transports = [];
+    this.buses = [];
+    this.marshutka = [];
+    this.subways = [];
+    this.locationError = '';
+    this.deepLinkedAnnouncement = null;
+    this.showInfo = false;
+  }
+
+  private focusSearchArea(): void {
+    const region = this.regions.find((area) => area.id === this.selectedRegion);
+    this.mapCenter = [...(this.selectedSearchArea?.map_center ?? region?.map_center ?? DEFAULT_MAP_CENTER)];
+    this.zoom = this.selectedDistrict ? DEFAULT_MAP_ZOOM : 9;
+  }
+
+  private searchRegionParams(): {region?: number; district?: number} {
+    return {
+      ...(this.selectedRegion ? {region: this.selectedRegion} : {}),
+      ...(this.selectedDistrict ? {district: this.selectedDistrict} : {}),
+    };
+  }
+
+  private get transportCity(): string {
+    return this.regions.find((region) => region.id === this.selectedRegion)?.name.toLowerCase().includes('toshkent')
+      ? 'tashkent' : 'namangan';
   }
 
   searchCommuteDestination(): void {
     const query = this.destinationQuery.trim();
-    if (query.length < 3 || this.commuteLoading) {
+    if (query.length < 3 || this.commuteLoading || this.locationLoading) {
       if (query.length < 3) this.commuteError = 'Manzil yoki joy nomini kiriting.';
       return;
     }
@@ -196,13 +336,13 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.geocodeSubscription?.unsubscribe();
     this.geocodeSubscription = this.requestService.getData<GeocodeSearchResponse>(
       environment.urls.GET_GEOCODE,
-      { q: query },
+      { q: query, ...this.searchRegionParams() },
     ).subscribe({
       next: (result) => {
         this.commuteLoading = false;
         const destinations = extractCommuteDestinations(result, query);
         if (destinations.length === 0) {
-          this.commuteError = 'Bu manzil topilmadi. Aniqroq nom yoki manzil kiriting.';
+          this.commuteError = `${this.searchAreaLabel} hududida bu manzil topilmadi. Nomini aniqlashtiring yoki xaritadan nuqta tanlang.`;
           return;
         }
         this.destinationSuggestions = destinations;
@@ -217,6 +357,11 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   clearCommuteSearch(): void {
+    this.resetCommuteSearch();
+    void this.queryService.updateCustomQuery({ transports: null }, this.__GET_ANNOUNCEMENTS);
+  }
+
+  private resetCommuteSearch(): void {
     this.geocodeSubscription?.unsubscribe();
     this.nearbyRoutesSubscription?.unsubscribe();
     this.homeRoutesSubscription?.unsubscribe();
@@ -234,7 +379,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selectingDestination = false;
     this.routeDisplayOverride = null;
     this.clearSelectedRoutes();
-    void this.queryService.updateCustomQuery({ transports: null }, this.__GET_ANNOUNCEMENTS);
   }
 
   toggleDestinationSelection(): void {
@@ -263,6 +407,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   selectCommuteDestination(destination: CommuteDestination): void {
     if (this.commuteLoading) return;
+    this.deepLinkSubscription?.unsubscribe();
+    this.deepLinkedAnnouncement = null;
     this.geocodeSubscription?.unsubscribe();
     this.destinationQuery = '';
     this.destinationSuggestions = [];
@@ -613,9 +759,14 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   };
   __GET_ANNOUNCEMENTS = () => {
-    const { announcement: _announcement, ...activeFilters } = this.queryService.activeQueryList();
-    const params = { ...activeFilters, deal_type: this.currentDealType };
-    this.requestService.getData<IAnnouncementList>(environment.urls.GET_ANNONCEMENTS, this.queryService.generatorHttpParams(params)).subscribe((response: IAnnouncementList) => {
+    if (!this.locationFiltersReady) return;
+    const { announcement: _announcement, region: _region, ...activeFilters } = this.queryService.activeQueryList();
+    const params = {
+      ...activeFilters, deal_type: this.currentDealType,
+      map_region: this.selectedDistrict ?? this.selectedRegion,
+    };
+    this.announcementsSubscription?.unsubscribe();
+    this.announcementsSubscription = this.requestService.getData<IAnnouncementList>(environment.urls.GET_ANNONCEMENTS, this.queryService.generatorHttpParams(params)).subscribe((response: IAnnouncementList) => {
       this.refreshRouteTransports();
       const results = Array.isArray(response?.results) ? response.results : [];
       this.announcementCount = Number(response?.count ?? results.length);
@@ -628,8 +779,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
           ...this.announcements.filter((item: any) => item.id !== this.deepLinkedAnnouncement.id),
         ];
         this.focusDeepLinkedAnnouncement();
-      } else if (!this.commuteDestination && this.announcements.length > 0) {
-        this.mapCenter = [...this.announcements[0].geometry];
       }
     });
   };
@@ -639,7 +788,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     const id = Number(Array.isArray(rawId) ? rawId[0] : rawId);
     if (!Number.isInteger(id) || id <= 0) return;
 
-    this.requestService.getData<any>(`${environment.urls.GET_ANNONCEMENTS}${id}/`).subscribe({
+    this.deepLinkSubscription = this.requestService.getData<any>(`${environment.urls.GET_ANNONCEMENTS}${id}/`).subscribe({
       next: (item) => {
         const normalized = this.normalizeAnnouncement(item);
         if (!normalized) return;
@@ -703,7 +852,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   __GET_TRANSPORTS() {
-    this.requestService.getData<any>(environment.urls.GET_TRANSPORTS).subscribe((response: any) => {
+    this.transportsSubscription?.unsubscribe();
+    this.transportsSubscription = this.requestService.getData<any>(environment.urls.GET_TRANSPORTS, this.searchRegionParams()).subscribe((response: any) => {
       const routes = this.selectRoutes || [];
       this.transports = (response || []).map((item: any) => {
         const route = routes.find((elem: any) => Number(elem.ri) === Number(item.ri));
@@ -806,7 +956,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       environment.urls.POST_LOCATIONBUSES,
       'POST',
       {
-        city: 'tashkent',
+        city: this.transportCity,
         location: {
           type: 'Point',
           coordinates: [destination.coordinates[1], destination.coordinates[0]],
@@ -857,16 +1007,21 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.transports = [...this.transports];
 
     if (routeIds.length === 0) {
+      if (this.transports.length === 0) {
+        this.commuteError = "Bu hudud uchun transport yo'nalishlari hali qo'shilmagan.";
+        void this.queryService.updateCustomQuery({ transports: null, announcement: null }, this.__GET_ANNOUNCEMENTS);
+        return;
+      }
       this.announcements = [];
       this.announcementCount = 0;
       this.destinationRoutes = [];
       this.commuteError = 'Bu manzil yaqinidan to‘g‘ridan-to‘g‘ri transport topilmadi.';
-      void this.queryService.updateCustomQuery({ transports: null });
+      void this.queryService.updateCustomQuery({ transports: null, announcement: null });
       return;
     }
 
     this.routeTransports = routeIds;
-    void this.queryService.updateCustomQuery({ transports: routeIds }, this.__GET_ANNOUNCEMENTS).then(() => {
+    void this.queryService.updateCustomQuery({ transports: routeIds, announcement: null }, this.__GET_ANNOUNCEMENTS).then(() => {
       routeIds.forEach((routeId) => this.handleBusRoute(routeId));
       this.selectedTransportsGenerateFirst();
     });
@@ -888,7 +1043,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       environment.urls.POST_LOCATIONBUSES,
       'POST',
       {
-        city: 'tashkent',
+        city: this.transportCity,
         location: {
           type: 'Point',
           coordinates: [coordinates[1], coordinates[0]],

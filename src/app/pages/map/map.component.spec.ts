@@ -1,7 +1,8 @@
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 
-import { TOP_COLORS } from '@/core/constants/map';
+import { DEFAULT_MAP_CENTER, TOP_COLORS } from '@/core/constants/map';
+import { DictionaryService } from '@/core/services/dictionary/dictionary.service';
 import { MapComponent } from './map.component';
 
 describe('MapComponent', () => {
@@ -11,6 +12,16 @@ describe('MapComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [MapComponent],
+      providers: [{
+        provide: DictionaryService,
+        useValue: {
+          loadRegions: () => of([{id: 3, name: 'Namangan viloyati', level: 1, parent: null}]),
+          loadDistricts: () => of([
+            {id: 4, name: 'Namangan shahri', level: 2, parent: 3, map_center: [...DEFAULT_MAP_CENTER]},
+            {id: 17, name: 'Pop tumani', level: 2, parent: 3, map_center: [41, 70.833333]},
+          ]),
+        },
+      }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(MapComponent);
@@ -49,7 +60,7 @@ describe('MapComponent', () => {
     });
 
     expect(requestService.requestData).toHaveBeenCalledWith('/api/buses/', 'POST', {
-      city: 'tashkent',
+      city: 'namangan',
       location: { type: 'Point', coordinates: [69.2867, 41.3412] },
       nearby: 200,
     });
@@ -73,7 +84,7 @@ describe('MapComponent', () => {
 
     component.searchCommuteDestination();
 
-    expect(requestService.getData).toHaveBeenCalledWith('/api/geocode/', { q: 'TATU' });
+    expect(requestService.getData).toHaveBeenCalledWith('/api/geocode/', { q: 'TATU', region: 3, district: 4 });
     expect(component.destinationSuggestions).toEqual([{
       label: 'TATU, Toshkent',
       coordinates: [41.3426203, 69.2860672],
@@ -83,7 +94,7 @@ describe('MapComponent', () => {
     component.selectCommuteDestination(component.destinationSuggestions[0]);
 
     expect(requestService.requestData).toHaveBeenCalledWith('/api/buses/', 'POST', {
-      city: 'tashkent',
+      city: 'namangan',
       location: { type: 'Point', coordinates: [69.2860672, 41.3426203] },
       nearby: 200,
     });
@@ -116,7 +127,7 @@ describe('MapComponent', () => {
     }]);
     expect(component.transports[0].color).toBe(TOP_COLORS[0]);
     expect(queryService.updateCustomQuery).toHaveBeenCalledWith(
-      { transports: ['101'] },
+      { transports: ['101'], announcement: null },
       component.__GET_ANNOUNCEMENTS,
     );
     expect(component.handleBusRoute).toHaveBeenCalledWith('101');
@@ -148,7 +159,7 @@ describe('MapComponent', () => {
     component.handleAnnounce(7);
 
     expect(requestService.requestData).toHaveBeenCalledWith('/api/buses/', 'POST', {
-      city: 'tashkent',
+      city: 'namangan',
       location: { type: 'Point', coordinates: [69.2752, 41.3301] },
       nearby: 500,
     });
@@ -308,5 +319,73 @@ describe('MapComponent', () => {
     component.__GET_ANNOUNCEMENTS();
 
     expect(component.mapCenter).toEqual([41.3412, 69.2867]);
+  });
+
+  it('starts in Namangan and does not jump to the first listing in another city', () => {
+    const requestService = (component as any).requestService;
+    spyOn(requestService, 'getData').and.returnValue(of({
+      count: 1, results: [{id: 1, location_x: 41.3, location_y: 69.2}],
+    }));
+
+    component.__GET_ANNOUNCEMENTS();
+
+    expect(component.selectedDistrict).toBe(4);
+    expect(component.mapCenter).toEqual(DEFAULT_MAP_CENTER);
+  });
+
+  it('clears the old destination when the search district changes', () => {
+    const queryService = (component as any).queryService;
+    spyOn(queryService, 'updateCustomQuery').and.returnValue(Promise.resolve(true));
+    component.commuteDestination = {label: 'Eski manzil', coordinates: [41, 71.6]};
+    component.destinationSuggestions = [{label: 'Eski natija', coordinates: [41, 71.6]}];
+    component.selectedDistrict = 17;
+
+    component.handleDistrictChange();
+
+    expect(component.commuteDestination).toBeNull();
+    expect(component.destinationSuggestions).toEqual([]);
+    expect(component.mapCenter).toEqual([41, 70.833333]);
+    expect(queryService.updateCustomQuery).toHaveBeenCalledWith(
+      {region: 17, transports: null, announcement: null}, component.__GET_ANNOUNCEMENTS,
+    );
+  });
+
+  it('explains that an address was not found in the selected district', () => {
+    const requestService = (component as any).requestService;
+    spyOn(requestService, 'getData').and.returnValue(of({results: []}));
+    component.destinationQuery = 'Mavjud bo‘lmagan joy';
+
+    component.searchCommuteDestination();
+
+    expect(component.commuteError).toContain('Namangan shahri');
+    expect(component.commuteError).toContain('topilmadi');
+  });
+
+  it('ignores a late listing response after the search area changes', () => {
+    const requestService = (component as any).requestService;
+    const oldResponse = new Subject<any>();
+    const currentResponse = new Subject<any>();
+    spyOn(requestService, 'getData').and.returnValues(oldResponse, currentResponse);
+
+    component.__GET_ANNOUNCEMENTS();
+    component.selectedDistrict = 17;
+    component.__GET_ANNOUNCEMENTS();
+    currentResponse.next({count: 1, results: [{id: 2, location_x: 41, location_y: 70.833333}]});
+    oldResponse.next({count: 1, results: [{id: 1, location_x: 41.3, location_y: 69.2}]});
+
+    expect(component.announcements.map((item: any) => item.id)).toEqual([2]);
+  });
+
+  it('uses the parent region center when a district has no map coordinates', () => {
+    const queryService = (component as any).queryService;
+    spyOn(queryService, 'updateCustomQuery').and.returnValue(Promise.resolve(true));
+    component.regions = [{id: 1, name: 'Toshkent shahri', level: 1, parent: null, map_center: [41.3134, 69.287]}];
+    component.districts = [{id: 2, name: "Mirzo Ulug'bek", level: 2, parent: 1}];
+    component.selectedRegion = 1;
+    component.selectedDistrict = 2;
+
+    component.handleDistrictChange();
+
+    expect(component.mapCenter).toEqual([41.3134, 69.287]);
   });
 });
