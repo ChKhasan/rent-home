@@ -8,4 +8,21 @@
 .app-shell__content {
   min-width: 0;
   flex: 1 0 auto;
+  scroll-margin-top: 72px;
+}
+
+.app-shell__skip {
+  position: fixed;
+  z-index: 1100;
+  top: 8px;
+  left: var(--page-gutter);
+  padding: 10px 14px;
+  border-radius: 8px;
+  color: var(--text-inverse);
+  background: var(--action-primary);
+  transform: translateY(-150%);
+}
+
+.app-shell__skip:focus {
+  transform: translateY(0);
 }

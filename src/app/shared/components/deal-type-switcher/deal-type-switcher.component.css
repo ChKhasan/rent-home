@@ -8,6 +8,7 @@
 }
 
 .deal-type-switcher__btn {
+  min-height: 44px;
   border: none;
   background: transparent;
   font-weight: 600;
@@ -25,7 +26,7 @@
   box-shadow: none;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 520px) {
   :host {
     width: 100%;
     display: block;

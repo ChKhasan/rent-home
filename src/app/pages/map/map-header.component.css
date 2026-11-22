@@ -1,0 +1,66 @@
+.map-page__header, .map-page__title, .map-page__list-link {
+  display: flex;
+  align-items: center;
+}
+
+.map-page__header { gap: 10px; margin-bottom: 14px; }
+.map-page__title { flex: 1; flex-wrap: wrap; gap: 4px 14px; min-width: 0; }
+.map-page__title h1 { margin: 0; font-size: clamp(1.45rem, 2.6vw, 2rem); line-height: 1.13; font-weight: 700; }
+.listing-count { color: var(--text-secondary); font-size: .875rem; font-variant-numeric: tabular-nums; }
+.listing-count { padding-inline-start: 14px; border-inline-start: 1px solid var(--border-strong); }
+.map-page__deal { flex: 0 0 auto; }
+.map-page__list-link {
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding-inline: 13px;
+  border: 1px solid var(--border-default);
+  border-radius: 10px;
+  background: var(--bg-surface);
+  font-size: .9375rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.map-page__list-link:hover, .map-area[open] > summary { border-color: var(--border-strong); background: var(--bg-subtle); }
+.map-area { position: relative; }
+.map-area summary { list-style: none; }
+.map-area summary::-webkit-details-marker { display: none; }
+.map-area__fields {
+  position: absolute;
+  inset-block-start: calc(100% + 8px);
+  inset-inline-end: 0;
+  z-index: 9;
+  width: min(280px, calc(100vw - 54px));
+  display: grid;
+  gap: 6px;
+  padding: 16px;
+  border: 1px solid var(--border-default);
+  border-radius: 12px;
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-overlay);
+}
+.map-area__fields label { font-size: .875rem; font-weight: 650; }
+.map-area__fields select {
+  width: 100%; min-height: 44px; margin-bottom: 4px; padding-inline: 10px;
+  border: 1px solid var(--border-default); border-radius: 8px; background: var(--field-bg); color: var(--text-primary);
+}
+
+.map-text-action {
+  min-height: 44px; color: var(--action-primary); font-size: .875rem; font-weight: 650;
+}
+@media (max-width: 799px) {
+  .map-page__header { gap: 6px; margin-bottom: 8px; }
+  .listing-count { display: none; }
+  .map-page__list-link { width: 44px; padding: 0; }
+  .map-page__list-link span { display: none; }
+  .map-page__title h1 { font-size: clamp(1.1rem, 4.3vw, 1.5rem); }
+  :host ::ng-deep .map-page__deal .deal-type-switcher { width: auto; gap: 1px; padding: 2px; }
+  :host ::ng-deep .map-page__deal .deal-type-switcher__btn { flex: auto; min-height: 40px; padding: 5px 9px; font-size: .875rem; }
+  .map-page__deal { width: auto; }
+}
+@media (max-width: 359px) {
+  .map-page__title h1 { max-width: 80px; }
+  .map-page__header { gap: 3px; }
+  .map-area__fields { inset-inline-end: -38px; }
+}

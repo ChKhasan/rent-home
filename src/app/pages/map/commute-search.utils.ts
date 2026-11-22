@@ -1,4 +1,18 @@
 export type MapCoordinate = [number, number];
+export type MapBounds = [MapCoordinate, MapCoordinate];
+
+export function coordinatesBounds(paths: ReadonlyArray<ReadonlyArray<MapCoordinate>>): MapBounds | null {
+  let south = Infinity, west = Infinity, north = -Infinity, east = -Infinity;
+  for (const path of paths) {
+    for (const [latitude, longitude] of path) {
+      south = Math.min(south, latitude);
+      north = Math.max(north, latitude);
+      west = Math.min(west, longitude);
+      east = Math.max(east, longitude);
+    }
+  }
+  return south === Infinity ? null : [[south, west], [north, east]];
+}
 
 export interface CommuteDestination {
   label: string;
@@ -25,6 +39,7 @@ export interface NearbyRouteDistance {
 export interface NearbyRoutesResponse {
   routes?: Array<string | number>;
   route_distances?: NearbyRouteDistance[];
+  geometry_available?: boolean;
 }
 
 export function extractCommuteDestinations(

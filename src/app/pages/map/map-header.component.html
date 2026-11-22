@@ -1,0 +1,29 @@
+<header class="map-page__header">
+    <div class="map-page__title">
+      <h1>Uylar xaritasi</h1>
+      <span *ngIf="listingsLoaded" class="listing-count">{{ announcementCount }} ta e’lon</span>
+      <button *ngIf="listingsError" type="button" class="map-text-action" (click)="retryListings.emit()">E’lonlarni qayta yuklash</button>
+    </div>
+    <app-deal-type-switcher class="map-page__deal"></app-deal-type-switcher>
+    <details #areaMenu class="map-area" (focusout)="closeOnFocusOut($event)" (keydown.escape)="areaMenu.open = false; areaTrigger.focus(); $event.stopPropagation()">
+      <summary #areaTrigger class="map-page__list-link" aria-label="Qidiruv hududini tanlash" title="Hududni tanlash">
+        <svg lucideSlidersHorizontal [size]="17" aria-hidden="true"></svg><span>Hudud</span>
+      </summary>
+      <div class="map-area__fields">
+        <label for="map-region">Viloyat</label>
+        <select id="map-region" [ngModel]="selectedRegion" (ngModelChange)="regionChange.emit($event)" [disabled]="locationLoading || !regions.length">
+          <option *ngFor="let region of regions" [ngValue]="region.id">{{ region.name }}</option>
+        </select>
+        <label for="map-district">Shahar yoki tuman</label>
+        <select id="map-district" [ngModel]="selectedDistrict" (ngModelChange)="districtChange.emit($event)" [disabled]="locationLoading || !districts.length">
+          <option [ngValue]="null">Viloyat bo‘yicha</option>
+          <option *ngFor="let district of districts" [ngValue]="district.id">{{ district.name }}</option>
+        </select>
+        <button class="map-text-action" type="button" (click)="areaMenu.open = false; areaTrigger.focus()">Yopish</button>
+      </div>
+    </details>
+    <a routerLink="/announcements" [queryParams]="listQueryParams" class="map-page__list-link"
+      aria-label="E’lonlar ro‘yxatini ochish" title="E’lonlar ro‘yxati">
+      <svg lucideList [size]="18" aria-hidden="true"></svg><span>E’lonlar ro‘yxati</span>
+    </a>
+</header>

@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QueryService } from '@services/query';
-import { log } from '@angular-devkit/build-angular/src/builders/ssr-dev-server';
 import { NgIf } from '@angular/common';
 
 @Component({
@@ -23,7 +23,9 @@ export class PaginationComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private queryService: QueryService,
-  ) {}
+  ) {
+    this.route.queryParamMap.pipe(takeUntilDestroyed()).subscribe(() => this.generateParametries());
+  }
 
   ngOnInit() {
     if (typeof window !== 'undefined') this.firstPaginationQuery().then(() => {});
@@ -44,9 +46,10 @@ export class PaginationComponent implements OnInit {
   }
 
   generateParametries() {
-    this.first = this.route.snapshot.queryParams['page'] * this.route.snapshot.queryParams['page_size'] - this.route.snapshot.queryParams['page_size'] || this.first;
-    this.page = this.route.snapshot.queryParams['page'] * 1 || this.page;
-    this.rows = this.route.snapshot.queryParams['page_size'];
+    const { page, page_size } = this.route.snapshot.queryParams;
+    this.page = Math.max((Number(page) || 1) - 1, 0);
+    this.rows = Number(page_size) || this.queryService.defaultQuery.page_size;
+    this.first = this.page * this.rows;
   }
 
   changePaginationQuery() {
@@ -54,6 +57,7 @@ export class PaginationComponent implements OnInit {
       .navigate([], {
         relativeTo: this.route,
         queryParams: { page: this.page + 1, page_size: this.rows },
+        queryParamsHandling: 'merge',
       })
       .then(() => {
         this.invokeFunction();

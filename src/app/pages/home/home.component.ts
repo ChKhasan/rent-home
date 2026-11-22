@@ -11,6 +11,7 @@ import { ListingCardSkeletonComponent } from '@components/cards/listing-card-ske
 import { AuthService } from '@/core/services/auth/auth.service';
 import { DealTypeService } from '@/core/services/deal-type/deal-type.service';
 import { DealType, DEFAULT_DEAL_TYPE, isDealType } from '@/core/constants/deal-type';
+import { MAP_CITY } from '@/core/constants/map';
 import { IAnnouncementListItem } from '@services/interfaces';
 
 @Component({
@@ -100,7 +101,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private buildParams() {
     const query = { ...this.queryConfig.activeQueryWithDefaut(), deal_type: this.currentDealType };
-    return this.queryConfig.generatorHttpParams(query);
+    return this.queryConfig.generatorHttpParams({ ...query, city: MAP_CITY });
   }
 
   __GET__REC_ANNOUNCEMENTS = () => {

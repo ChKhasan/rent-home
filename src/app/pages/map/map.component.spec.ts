@@ -1,7 +1,8 @@
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { HttpTestingController } from '@angular/common/http/testing';
 import { of } from 'rxjs';
 
-import { TOP_COLORS } from '@/core/constants/map';
+import { DEFAULT_MAP_CENTER, MAP_CITY, TOP_COLORS } from '@/core/constants/map';
 import { MapComponent } from './map.component';
 
 describe('MapComponent', () => {
@@ -18,8 +19,44 @@ describe('MapComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('starts in Namangan', () => {
+    expect(component.mapCenter).toEqual(DEFAULT_MAP_CENTER);
+  });
+
+  it('uses the district returned by the API to scope the default catalogue and map listings', () => {
+    const http = TestBed.inject(HttpTestingController);
+    http.expectOne((request) => request.url === '/api/regions/' && request.params.get('level') === '1')
+      .flush({ results: [{ id: 46, level: 1, name: 'Namangan viloyati', parent: null }] });
+    http.expectOne((request) => request.url === '/api/regions/' && request.params.get('parent') === '46')
+      .flush({ results: [{ id: 99, level: 2, name: 'Namangan shahri', parent: 46 }] });
+
+    const request = http.expectOne((req) => req.url === '/api/transport/');
+    expect(request.request.params.get('city')).toBe('namangan');
+    expect(request.request.params.get('region')).toBe('46');
+    expect(request.request.params.get('district')).toBe('99');
+    request.flush([{ ri: '1810', name: '181A · Namangan — Guldirov', type: 'BUS' }]);
+    expect(component.transports[0].number).toBe('181A');
+    expect(component.transports[0].stops).toBe('Guldirov');
+    expect(component.listQueryParams['region']).toBe(99);
+    http.expectOne((req) => req.url === '/api/announcement/' && req.params.get('map_region') === '99')
+      .flush({ count: 0, results: [] });
+    expect(component.listingsLoaded).toBeTrue();
+  });
+
+  it('draws a manually selected route while the listing query is still navigating', () => {
+    const query = (component as any).queryService;
+    spyOn(query, 'updateCustomQuery').and.returnValue(new Promise(() => {}));
+    const detail = spyOn((component as any).requestService, 'requestData').and.returnValue(of({
+      scheme: { forward: '41,71 41.01,71.02', backward: '41.02,71.03 40.99,71' },
+    }));
+    component.filterTransport({ ri: '101', name: '1', type: 'BUS' });
+    expect(detail).toHaveBeenCalledTimes(1);
+    expect(component.selectRoutes[0].bounds).toEqual([[40.99, 71], [41.02, 71.03]]);
+    component.filterTransport({ ri: '101', name: '1', type: 'BUS' });
+    expect(component.selectRoutes).toEqual([]);
+    component.filterTransport({ ri: '101', name: '1', type: 'BUS' });
+    expect(detail).toHaveBeenCalledTimes(1);
+    expect(component.selectRoutes[0].lengthLabel).toContain('Qaytish');
   });
 
   it('shows loading only for the route being fetched', () => {
@@ -37,6 +74,19 @@ describe('MapComponent', () => {
     expect(component.isTransportSelected({ ri: 6 })).toBeFalse();
   });
 
+  it('keeps the route number when shortening and searching map labels', () => {
+    const requestService = (component as any).requestService;
+    spyOn(requestService, 'getData').and.returnValue(of([
+      { ri: '1710001810', name: '181 · Namangan — O‘lmas', type: 'BUS' },
+      { ri: '1710001811', name: '181A · Namangan — Guldirov', type: 'BUS' },
+    ]));
+    component.__GET_TRANSPORTS();
+    component.transportSearch = '181a';
+    expect(component.visibleTransports.map((route) => route.name)).toEqual(['181A · Guldirov']);
+    component.transportSearch = "O'lmas";
+    expect(component.visibleTransports.map((route) => route.ri)).toEqual(['1710001810']);
+  });
+
   it('uses a selected map point to request nearby routes', () => {
     const requestService = (component as any).requestService;
     const queryService = (component as any).queryService;
@@ -49,7 +99,7 @@ describe('MapComponent', () => {
     });
 
     expect(requestService.requestData).toHaveBeenCalledWith('/api/buses/', 'POST', {
-      city: 'tashkent',
+      city: MAP_CITY,
       location: { type: 'Point', coordinates: [69.2867, 41.3412] },
       nearby: 200,
     });
@@ -62,20 +112,20 @@ describe('MapComponent', () => {
     const queryService = (component as any).queryService;
     spyOn(requestService, 'getData').and.returnValue(of({
       results: [{
-        label: 'TATU, Toshkent',
+        label: 'Bobur bog‘i, Marg‘ilon mahallasi, Namangan shahri, Namangan viloyati',
         latitude: 41.3426203,
         longitude: 69.2860672,
       }],
     }));
     spyOn(requestService, 'requestData').and.returnValue(of({ routes: [] }));
     spyOn(queryService, 'updateCustomQuery').and.returnValue(Promise.resolve(true));
-    component.destinationQuery = 'TATU';
+    component.destinationQuery = 'Bobur';
 
     component.searchCommuteDestination();
 
-    expect(requestService.getData).toHaveBeenCalledWith('/api/geocode/', { q: 'TATU' });
+    expect(requestService.getData).toHaveBeenCalledWith('/api/geocode/', { q: 'Bobur', city: MAP_CITY });
     expect(component.destinationSuggestions).toEqual([{
-      label: 'TATU, Toshkent',
+      label: 'Bobur bog‘i, Marg‘ilon mahallasi',
       coordinates: [41.3426203, 69.2860672],
     }]);
     expect(requestService.requestData).not.toHaveBeenCalled();
@@ -83,12 +133,12 @@ describe('MapComponent', () => {
     component.selectCommuteDestination(component.destinationSuggestions[0]);
 
     expect(requestService.requestData).toHaveBeenCalledWith('/api/buses/', 'POST', {
-      city: 'tashkent',
+      city: MAP_CITY,
       location: { type: 'Point', coordinates: [69.2860672, 41.3426203] },
       nearby: 200,
     });
     expect(component.commuteDestination).toEqual({
-      label: 'TATU, Toshkent',
+      label: 'Bobur bog‘i, Marg‘ilon mahallasi',
       coordinates: [41.3426203, 69.2860672],
     });
     expect(component.destinationSuggestions).toEqual([]);
@@ -148,7 +198,7 @@ describe('MapComponent', () => {
     component.handleAnnounce(7);
 
     expect(requestService.requestData).toHaveBeenCalledWith('/api/buses/', 'POST', {
-      city: 'tashkent',
+      city: MAP_CITY,
       location: { type: 'Point', coordinates: [69.2752, 41.3301] },
       nearby: 500,
     });
@@ -214,10 +264,10 @@ describe('MapComponent', () => {
     }];
     component.routeTransports = ['101'];
 
-    component.__GET_BUS_ROUTE({ id: '101' }, '101');
+    component.handleBusRoute('101');
 
     expect(component.selectRoutes[0].title).toBe('Avtobus 67');
-    expect(component.selectRoutes[0].description).toBe('Muhim manzilgacha: 84 m');
+    expect(component.selectRoutes[0].description).toBe('Muhim manzilgacha 84 m');
   });
 
   it('adds both home and destination distances to a matched route balloon', () => {
@@ -242,9 +292,9 @@ describe('MapComponent', () => {
     component.routeTransports = ['101'];
     (component as any).routeDisplayOverride = ['101'];
 
-    component.__GET_BUS_ROUTE({ id: '101' }, '101');
+    component.handleBusRoute('101');
 
-    expect(component.selectRoutes[0].description).toBe('Uygacha: 319 m · Muhim manzilgacha: 84 m');
+    expect(component.selectRoutes[0].description).toBe('Uygacha 319 m · Muhim manzilgacha 84 m');
   });
 
   it('scales route width with zoom and emphasizes the focused route', () => {
@@ -305,7 +355,9 @@ describe('MapComponent', () => {
     component.commuteDestination = { label: 'TATU', coordinates: [41.3412, 69.2867] };
     component.mapCenter = [...component.commuteDestination.coordinates];
 
+    component.locationLoading = false;
     component.__GET_ANNOUNCEMENTS();
+    expect(requestService.getData).toHaveBeenCalled();
 
     expect(component.mapCenter).toEqual([41.3412, 69.2867]);
   });

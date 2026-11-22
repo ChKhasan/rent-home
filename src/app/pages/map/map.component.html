@@ -1,223 +1,62 @@
-<div class="map-page">
-  <div class="flex flex-col gap-4">
+<div class="map-page page-width" (keydown.escape)="dismissMapTool($event)">
+  <app-map-header [announcementCount]="announcementCount" [listingsLoaded]="listingsLoaded"
+    [listingsError]="listingsError" [listQueryParams]="listQueryParams" [regions]="regions" [districts]="districts"
+    [selectedRegion]="selectedRegion" [selectedDistrict]="selectedDistrict" [locationLoading]="locationLoading"
+    (regionChange)="handleRegionChange($event)" (districtChange)="handleDistrictChange($event)"
+    (retryListings)="__GET_ANNOUNCEMENTS()"></app-map-header>
+  <div *ngIf="locationError" class="area-feedback" role="alert">{{ locationError }}
+    <button type="button" class="map-text-action" (click)="loadLocationFilters()">Qayta urinish</button>
+  </div>
 
-    <div class="flex justify-between items-end">
-      <div class="flex flex-col gap-3">
-        <h1>Xaritadan uy toping</h1>
-        <p class="map-page__copy">Hudud va transport yo‘nalishlari bo‘yicha qidiring</p>
-      </div>
-      <a [routerLink]="'/announcements'"
-        class="btn px-[20px] md:hidden cursor-pointer bg-transparent whitespace-nowrap py-[10px] rounded-[12px] text-black border border-solid border-[--grey-300] text-[16px] font-500 flex items-center gap-[10px]">
-        <svg class="rotate-180" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          xmlns="http://www.w3.org/2000/svg">
-          <path _ngcontent-ng-c4129422631=""
-            d="M16.0832 13.3707C16.808 12.6006 16.808 11.3994 16.0832 10.6293L8.7282 2.81464C8.34969 2.41246 7.71681 2.39329 7.31464 2.7718C6.91246 3.15032 6.89329 3.78319 7.2718 4.18537L14.6268 12L7.2718 19.8146C6.89329 20.2168 6.91247 20.8497 7.31464 21.2282C7.71681 21.6067 8.34969 21.5875 8.7282 21.1854L16.0832 13.3707Z"
-            fill="currentColor"></path>
-        </svg>
-        Ortga
-      </a>
-    </div>
-
-    <div class="flex justify-end md:justify-start">
-      <app-deal-type-switcher></app-deal-type-switcher>
-    </div>
-
-
-    <div class="map-workspace map-grid">
-      <div class="map relative border border-solid" [class.map--selecting-destination]="selectingDestination">
-        <div class="map-selection-prompt" *ngIf="selectingDestination" role="status" aria-live="polite">
-          <svg lucideCrosshair [size]="18" aria-hidden="true"></svg>
-          <span>Nuqta tanlash faol</span>
-        </div>
-        <div class="map-route-status" *ngIf="transportLoading" role="status" aria-live="polite">
-          <span class="route-spinner" aria-hidden="true"></span>
-          <span>Yo'nalish chizilmoqda</span>
-        </div>
-        <ya-map [center]="mapCenter" [zoom]="zoom" [state]="mapState"
-          style="width: 100%; height: 400px; max-height: 400px"
-          class="md:w-[481px]" (yaclick)="handleDestinationMapClick($event)"
-          (ready)="handleMapReady($event)"
-          (boundschange)="handleMapBoundsChange($event)">
-          <ya-clusterer [options]="{
-                minClusterSize: 2,
-              
-                hasBalloon: false,
-              }" (click)="handleClusterClick($event)">
-            <ng-container *ngFor="let announcement of announcements">
-              <ya-placemark *ngIf="isAnnouncementMarkerVisible(announcement)" [geometry]="announcement.geometry"
-                (yaclick)="handleAnnounce(announcement?.id)" [options]="{
-                    preset: 'islands#blueHomeIcon',
-                    iconColor: '#00a000',
-                  }"></ya-placemark>
-            </ng-container>
-          </ya-clusterer>
-          <ya-geoobject *ngIf="commuteDestination as destination" [feature]="{
-              geometry: {
-                type: 'Circle',
-                coordinates: destination.coordinates,
-                radius: commuteRadiusMeters
-              },
-              properties: { hintContent: 'Muhim manzil atrofida 200 m' }
-            }" [options]="{
-              fillColor: '#dc26261a',
-              strokeColor: '#dc2626',
-              strokeWidth: 2,
-              interactivityModel: 'default#silent',
-              zIndex: 40
-            }"></ya-geoobject>
-          <ya-geoobject *ngIf="showInfo && currentAnnouce?.geometry" [feature]="{
-              geometry: {
-                type: 'Circle',
-                coordinates: currentAnnouce.geometry,
-                radius: homeRadiusMeters
-              },
-              properties: { hintContent: 'Tanlangan uy atrofida 500 m' }
-            }" [options]="{
-              fillColor: '#15803d14',
-              strokeColor: '#15803d',
-              strokeWidth: 2,
-              interactivityModel: 'default#silent',
-              zIndex: 35
-            }"></ya-geoobject>
-          <ya-geoobject *ngFor="let route of selectRoutes; let index = index"
-            [feature]="{
-              geometry: { type: 'LineString', coordinates: route.x },
-              properties: {
-                hintContent: route.title,
-                balloonContentHeader: route.title,
-                balloonContentBody: route.description
-              }
-            }" (yaclick)="showMapRoute(route.ri, $event)" (balloonclose)="deactivateMapRoute(route.ri)"
-            (yamouseenter)="showMapRouteHint(route.ri, $event)" (yamouseleave)="hideMapRouteHint(route.ri, $event)"
-            [options]="{
-                strokeColor: ['#000000', route.color],
-                strokeWidth: [routeHitStrokeWidth(), routeStrokeWidth(route.ri)],
-                strokeOpacity: [0.001, routeStrokeOpacity(route.ri)],
-                draggable: false,
-                cursor: 'pointer',
-                hasBalloon: true,
-                hasHint: true,
-                openBalloonOnClick: false,
-                openHintOnHover: false,
-                zIndex: routeZIndex(route.ri),
-                zIndexActive: 1100,
-                zIndexHover: 1050
-              }"></ya-geoobject>
-          <ya-geoobject *ngFor="let route of selectRoutes; let index = index"
-            [feature]="{
-              geometry: { type: 'LineString', coordinates: route.y },
-              properties: {
-                hintContent: route.title,
-                balloonContentHeader: route.title,
-                balloonContentBody: route.description
-              }
-            }" (yaclick)="showMapRoute(route.ri, $event)" (balloonclose)="deactivateMapRoute(route.ri)"
-            (yamouseenter)="showMapRouteHint(route.ri, $event)" (yamouseleave)="hideMapRouteHint(route.ri, $event)"
-            [options]="{
-                strokeColor: ['#000000', route.color],
-                strokeWidth: [routeHitStrokeWidth(), routeStrokeWidth(route.ri)],
-                strokeOpacity: [0.001, routeStrokeOpacity(route.ri)],
-                draggable: false,
-                cursor: 'pointer',
-                hasBalloon: true,
-                hasHint: true,
-                openBalloonOnClick: false,
-                openHintOnHover: false,
-                zIndex: routeZIndex(route.ri),
-                zIndexActive: 1100,
-                zIndexHover: 1050
-              }"></ya-geoobject>
-          <ya-placemark *ngIf="commuteDestination as destination" [geometry]="destination.coordinates"
-            [properties]="{
-              hintContent: destination.label,
-              balloonContentHeader: 'Muhim manzil',
-              balloonContentBody: destination.label
-            }" [options]="{
-              preset: 'islands#redCircleDotIcon',
-              iconColor: '#dc2626',
-              zIndex: 2000
-            }"></ya-placemark>
-          <ya-placemark *ngIf="showInfo && currentAnnouce?.geometry" [geometry]="currentAnnouce.geometry"
-            [properties]="{
-              hintContent: 'Tanlangan uy',
-              balloonContentHeader: currentAnnouce.title,
-              balloonContentBody: currentAnnouce.address
-            }" [options]="{
-              preset: 'islands#greenHomeCircleIcon',
-              iconColor: '#15803d',
-              zIndex: 2100
-            }"></ya-placemark>
-        </ya-map>
-      </div>
-      <aside class="transport-panel border border-solid"
-        [class.has-commute-result]="displayedCommuteDestination"
-        [class.is-choosing-destination]="destinationChoiceActive">
-        <section class="commute-search" aria-labelledby="commute-search-title">
-          <div class="commute-search__heading">
-            <div>
-              <h2 id="commute-search-title">Qayerga qatnaysiz?</h2>
-              <p>Ishxona, universitet yoki muhim joy</p>
-            </div>
-            <span class="commute-search__radius" title="Transport yo‘nalishlari uchun masofa">
-              {{ commuteRadiusMeters }} m
-            </span>
-          </div>
-
-          <div class="commute-search__modes" role="group" aria-label="Muhim manzilni tanlash usuli">
-            <button type="button" [class.active]="destinationMode === 'search'"
-              [attr.aria-pressed]="destinationMode === 'search'" [disabled]="commuteLoading"
-              (click)="setDestinationMode('search')">
-              <svg lucideSearch [size]="16" aria-hidden="true"></svg>
-              <span>Nom bilan</span>
-            </button>
-            <button type="button" [class.active]="destinationMode === 'map'"
-              [attr.aria-pressed]="destinationMode === 'map'" [disabled]="commuteLoading"
-              (click)="setDestinationMode('map')">
-              <svg lucideCrosshair [size]="16" aria-hidden="true"></svg>
-              <span>Xaritadan</span>
-            </button>
-          </div>
-
-          <form *ngIf="destinationMode === 'search'" class="commute-search__form"
-            (ngSubmit)="searchCommuteDestination()">
+  <div class="map-workspace" [class.map-workspace--sheet]="sheetOpen">
+    <aside class="map-panel" aria-label="Xarita vositalari" [class.map-panel--routes]="panel === 'routes'">
+      <nav class="map-sheet-bar" aria-label="Xarita vositasini tanlash">
+        <button type="button" #placeTab (click)="toggleSheet('destination', placeTab)"
+          aria-controls="place-tools" [attr.aria-expanded]="sheetOpen && panel === 'destination'">
+          <svg lucideMapPin [size]="18" aria-hidden="true"></svg>Manzil
+        </button>
+        <button type="button" #routeTab (click)="toggleSheet('routes', routeTab)"
+          aria-controls="route-tools" [attr.aria-expanded]="sheetOpen && panel === 'routes'">
+          <svg lucideBusFront [size]="18" aria-hidden="true"></svg>Yo‘nalishlar
+          <span *ngIf="routeTransports.length || (transports.length && !(sheetOpen && panel === 'routes'))" class="sheet-count">{{ routeTransports.length || transports.length }}</span>
+        </button>
+        <button *ngIf="sheetOpen" type="button" class="sheet-close" aria-label="Panelni yopish" (click)="closeSheet()">
+          <svg lucideX [size]="18" aria-hidden="true"></svg>
+        </button>
+      </nav>
+      <div class="map-panel__content">
+        <section id="place-tools" class="place-tools" aria-labelledby="commute-search-title">
+          <h2 id="commute-search-title">Qatnov manzili</h2>
+          <p class="place-help">Manzildan {{ commuteRadiusMeters }} m ichida o‘tadigan yo‘nalishlar.</p>
+          <form class="place-form" (ngSubmit)="searchCommuteDestination()">
             <label class="sr-only" for="commute-destination">Manzil yoki joy nomi</label>
-            <div class="commute-search__input-wrap" [class.has-value]="destinationQuery.length">
-              <svg lucideMapPin [size]="17" aria-hidden="true"></svg>
-              <input id="commute-destination" name="commuteDestination" type="search"
+            <div class="map-field">
+              <svg lucideMapPin [size]="18" aria-hidden="true"></svg>
+              <input #placeInput id="commute-destination" name="commuteDestination" type="search"
                 [(ngModel)]="destinationQuery" (ngModelChange)="handleDestinationQueryChange()"
-                [disabled]="commuteLoading" placeholder="Masalan, TATU yoki Minor" autocomplete="off"
-                role="combobox" aria-autocomplete="list" aria-controls="commute-destination-options"
-                [attr.aria-expanded]="destinationSuggestions.length > 0" />
-              <button *ngIf="destinationQuery && !commuteLoading" type="button" class="commute-search__query-clear"
-                aria-label="Kiritilgan manzilni tozalash" title="Tozalash" (click)="clearDestinationQuery()">
-                <svg lucideX [size]="15" aria-hidden="true"></svg>
+                [disabled]="commuteLoading || locationLoading" placeholder="Ko‘cha yoki joy nomi" autocomplete="off"
+                [attr.aria-controls]="destinationSuggestions.length ? 'commute-destination-options' : null" />
+              <button *ngIf="destinationQuery && !commuteLoading" type="button" class="field-clear"
+                aria-label="Kiritilgan manzilni tozalash" (click)="clearDestinationQuery(); placeInput.focus()">
+                <svg lucideX [size]="16" aria-hidden="true"></svg>
               </button>
-              <button type="submit" class="commute-search__submit" [disabled]="commuteLoading"
+              <button type="submit" class="place-submit" [disabled]="commuteLoading || locationLoading"
                 aria-label="Manzilni qidirish" title="Qidirish">
-                <span *ngIf="commuteLoading && !pendingDestination" class="route-spinner" aria-hidden="true"></span>
-                <svg *ngIf="!commuteLoading || pendingDestination" lucideSearch [size]="18" aria-hidden="true"></svg>
+                <span *ngIf="commuteLoading && !pendingDestination; else searchIcon" class="route-spinner" aria-hidden="true"></span>
+                <ng-template #searchIcon><svg lucideSearch [size]="18" aria-hidden="true"></svg></ng-template>
               </button>
             </div>
           </form>
-
-          <div *ngIf="destinationMode === 'map'" class="commute-search__map-mode" aria-live="polite">
-            <span class="commute-search__map-mode-icon" aria-hidden="true">
-              <svg lucideCrosshair [size]="18"></svg>
-            </span>
-            <div>
-              <strong>Xaritadan tanlash faol</strong>
-            </div>
+          <div class="place-actions">
+            <button type="button" class="map-text-action pick-point" [attr.aria-pressed]="selectingDestination"
+              [disabled]="!mapReady || commuteLoading || locationLoading" (click)="setDestinationMode(selectingDestination ? 'search' : 'map')">
+              <svg lucideCrosshair [size]="16" aria-hidden="true"></svg>Xaritadan tanlash
+            </button>
+            <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">© OpenStreetMap</a>
           </div>
-
-          <div *ngIf="destinationMode === 'search'" class="commute-search__provider">
-            <span>Manzil qidiruvi</span>
-            <a href="https://www.openstreetmap.org/copyright" target="_blank"
-              rel="noopener noreferrer">OpenStreetMap</a>
-          </div>
-
           <ul *ngIf="destinationSuggestions.length" id="commute-destination-options"
-            class="commute-search__suggestions" role="listbox" aria-label="Topilgan manzillar">
-            <li *ngFor="let destination of destinationSuggestions" role="option">
+            class="commute-search__suggestions" aria-label="Topilgan manzillar">
+            <li *ngFor="let destination of destinationSuggestions">
               <button type="button" [title]="destination.label" (click)="selectCommuteDestination(destination)">
                 <span class="commute-search__suggestion-icon" aria-hidden="true">
                   <svg lucideMapPin [size]="16"></svg>
@@ -265,6 +104,9 @@
               <p *ngIf="homeConnectionActive">
                 <strong>{{ commuteRoutes.length }}</strong> ta ikki nuqtaga mos yo‘nalish
               </p>
+              <button *ngIf="selectRoutes.length" type="button" class="map-text-action" (click)="showRoutesOnMap()">
+                Xaritada ko‘rish
+              </button>
             </div>
             <ul class="commute-search__routes" aria-label="Xaritadagi transport yo‘nalishlari">
               <li *ngFor="let route of commuteRoutes">
@@ -285,202 +127,239 @@
           </div>
         </section>
 
-        <div class="transport-tabs md:hidden">
-          <span id="map-transport-tabs-label" class="sr-only">Transport turini tanlang</span>
-          <p-selectButton [options]="stateOptions" [(ngModel)]="tab" optionLabel="label" optionValue="value"
-            ariaLabelledBy="map-transport-tabs-label">
-            <ng-template #item let-item>
-              <span class="transport-tab__content">
-                <svg *ngIf="item.value === 'bus'" lucideBusFront [size]="17" aria-hidden="true"></svg>
-                <svg *ngIf="item.value === 'mashrutka'" lucideCarTaxiFront [size]="17" aria-hidden="true"></svg>
-                <svg *ngIf="item.value === 'metro'" lucideTrainFront [size]="17" aria-hidden="true"></svg>
-                <span>{{ item.label }}</span>
-              </span>
-            </ng-template>
-          </p-selectButton>
-        </div>
-        <div>
-          <div class="max-h-[100vh]">
-            <div *ngIf="transports.length > 0" class="bg-white py-4 md:py-0 rounded-xl min-h-[200px] md:min-h-0">
-
-              <h4 class="text-black font-semibold mb-4 text-[16]" *ngIf="['bus'].includes(tab)">
-                <span class="md:hidden block"> Yaqin atrofdagi avtobuslar </span><span class="md:block hidden">Transportni
-                  tanlang</span>
-              </h4>
-              <h4 class="text-black font-semibold mb-4 text-[16]" *ngIf="['mashrutka'].includes(tab)">Yaqin atrofdagi
-                yo‘nalishlar</h4>
-              <h4 class="text-black font-semibold mb-4 text-[16]" *ngIf="['metro'].includes(tab)">Yaqin atrofdagi metro
-                liniyalari
-              </h4>
-              <p-multiSelect styleClass="w-full border-solid border border-[--grey-300] rounded-[8px] flex items-center"
-                [maxSelectedLabels]="100" (onClear)="onClear()" [showClear]="false" optionValue="ri"
-                (onChange)="onChange($event)" class="w-full" placeholder="Transportni tanlang" inputId="float-label"
-                display="chip" [options]="transports" [(ngModel)]="routeTransports" optionLabel="name">
-                <ng-template let-option pTemplate="selectedItem">
-                  <div class="custom-chip" [ngClass]="{'background-color': 'red'}">
-                    {{ option.name }}
-                  </div>
-                </ng-template>
-              </p-multiSelect>
-              <p-button (click)="showTransports = true"
-                styleClass="py-3 bg-[color:var(--green)] mt-4 rounded-[8px] text-sm text-white font-600 flex justify-center gap-2 px-0 w-full"
-                class="px-0 hidden md:flex py-0 w-full rounded-[8px] bg-[transparent] border-0">
-                Transportlar ro'yxatini ko'rish
-              </p-button>
-              <ul class="bus-list flex flex-col gap-2 overflow-y-scroll max-h-[700px] mt-4 md:hidden">
-                <span *ngIf="['mashrutka'].includes(tab)">
-                  <li *ngFor="let transport of marshutka" class="rounded-[5px] block" [class]="{
-                      active: isTransportSelected(transport),
-                      'route-loading': isTransportLoading(transport),
-                      'pointer-events-none opacity-50': loading,
-                    }">
-                    <p-button [loading]="isTransportLoading(transport)" [disabled]="isTransportLoading(transport)"
-                      (click)="filterTransport(transport)" class="px-0"
-                      styleClass="w-full px-2 gap-2 bg-[transparent] border border-solid border-[var(--grey-1)] py-[10px] flex font-medium items-center justify-start buses cursor-pointer text-base">
-                      <span class="w-3 h-3 rounded-full" [style.background]="transport?.color"></span>
-                      <span [class]="{
-                        active: isTransportSelected(transport),
-                      }">
-                        Mashrutka - {{ transport?.name }}
-                      </span>
-                    </p-button>
-                  </li>
-                </span>
-                <span *ngIf="['metro'].includes(tab)">
-                  <li *ngFor="let transport of subways" class="rounded-[5px]" [class]="{
-                      active: isTransportSelected(transport),
-                      'route-loading': isTransportLoading(transport),
-                      'pointer-events-none opacity-50': loading,
-                    }">
-                    <p-button [loading]="isTransportLoading(transport)" [disabled]="isTransportLoading(transport)"
-                      (click)="filterTransport(transport)" class="px-0"
-                      styleClass="w-full px-2 gap-2 bg-[transparent] border border-solid border-[var(--grey-1)] py-[10px] flex font-medium items-center justify-start buses cursor-pointer text-base">
-                      <span class="w-3 h-3 rounded-full" [style.background]="transport?.color"></span>
-                      <span [class]="{
-                        active: isTransportSelected(transport),
-                      }">
-                        Metro - {{ transport?.name }}
-                      </span>
-                    </p-button>
-                  </li>
-                </span>
-                <span *ngIf="['bus'].includes(tab)">
-                  <li *ngFor="let transport of buses" class="rounded-[5px]" [class]="{
-                        active: isTransportSelected(transport),
-                        'route-loading': isTransportLoading(transport),
-                        'pointer-events-none opacity-50': loading,
-                      }">
-                    <p-button [loading]="isTransportLoading(transport)" [disabled]="isTransportLoading(transport)"
-                      (click)="filterTransport(transport)" class="px-0"
-                      styleClass="w-full px-2 gap-2 bg-[transparent] border border-solid border-[var(--grey-1)] py-[10px] flex font-medium items-center justify-start buses cursor-pointer text-base">
-                      <span class="w-3 h-3 rounded-full" [style.background]="transport?.color"></span>
-                      <span [class]="{
-                            active: isTransportSelected(transport),
-                          }">
-                        Avtobus - {{ transport?.name }}
-                      </span>
-                    </p-button>
-                  </li>
-                </span>
-              </ul>
-            </div>
-          </div>
-
-        </div>
-      </aside>
-    </div>
-  </div>
-  <p-dialog class="hidden md:block top-0" [draggable]="true" position="topright" [showHeader]="false"
-    [(visible)]="showTransports" [style]="{top: '0', width: '25rem',height: '100vh',maxHeight: '100%'}" ariaLabelledBy="mobile-transport-title">
-    <div class="flex justify-between items-center mb-4">
-      <h4 id="mobile-transport-title" class="text-black font-semibold text-[16]">
-        Transportni tanlang
-      </h4>
-
-      <p-button (onClick)="showTransports = false" icon="pi pi-times" ariaLabel="Transport oynasini yopish" [rounded]="true" [text]="true" [raised]="true"
-        severity="danger" />
-    </div>
-    <div class="border  rounded-2xl p-3">
-      <div class="transport-tabs">
-        <span id="dialog-transport-tabs-label" class="sr-only">Transport turini tanlang</span>
-        <p-selectButton [options]="stateOptions" [(ngModel)]="tab" optionLabel="label" optionValue="value"
-          ariaLabelledBy="dialog-transport-tabs-label">
-          <ng-template #item let-item>
-            <span class="transport-tab__content">
-              <svg *ngIf="item.value === 'bus'" lucideBusFront [size]="17" aria-hidden="true"></svg>
-              <svg *ngIf="item.value === 'mashrutka'" lucideCarTaxiFront [size]="17" aria-hidden="true"></svg>
-              <svg *ngIf="item.value === 'metro'" lucideTrainFront [size]="17" aria-hidden="true"></svg>
-              <span>{{ item.label }}</span>
+        <section id="route-tools" class="route-picker" aria-labelledby="map-routes-title">
+          <div class="section-heading">
+            <h2 id="map-routes-title">Yo‘nalishlar</h2>
+            <span *ngIf="transports.length" class="route-total" aria-live="polite">
+              {{ transportSearch ? visibleTransports.length : transports.length }} ta
             </span>
-          </ng-template>
-        </p-selectButton>
-      </div>
-      <div>
-        <div class="max-h-[100vh]">
-          <div *ngIf="transports.length > 0" class="bg-white py-4 md:py-0 rounded-xl min-h-[200px] md:min-h-0">
-
-            <ul class="bus-list flex flex-col gap-2 overflow-y-scroll max-h-[700px] mt-4 ">
-              <span *ngIf="['mashrutka'].includes(tab)">
-                <li *ngFor="let transport of marshutka" class="rounded-[5px] block" [class]="{
-                    active: isTransportSelected(transport),
-                    'route-loading': isTransportLoading(transport),
-                    'pointer-events-none opacity-50': loading,
-                  }">
-                  <p-button [loading]="isTransportLoading(transport)" [disabled]="isTransportLoading(transport)"
-                    (click)="filterTransport(transport)" class="px-0"
-                    styleClass="w-full px-2 gap-2 bg-[transparent] border border-solid border-[var(--grey-1)] py-[10px] flex font-medium items-center justify-start buses cursor-pointer text-base">
-                    <span class="w-3 h-3 rounded-full" [style.background]="transport?.color"></span>
-                    <span [class]="{
-                      active: isTransportSelected(transport),
-                    }">
-                      Mashrutka - {{ transport?.name }}
-                    </span>
-                  </p-button>
-                </li>
-              </span>
-              <span *ngIf="['metro'].includes(tab)">
-                <li *ngFor="let transport of subways" class="rounded-[5px]" [class]="{
-                    active: isTransportSelected(transport),
-                    'route-loading': isTransportLoading(transport),
-                    'pointer-events-none opacity-50': loading,
-                  }">
-                  <p-button [loading]="isTransportLoading(transport)" [disabled]="isTransportLoading(transport)"
-                    (click)="filterTransport(transport)" class="px-0"
-                    styleClass="w-full px-2 gap-2 bg-[transparent] border border-solid border-[var(--grey-1)] py-[10px] flex font-medium items-center justify-start buses cursor-pointer text-base">
-                    <span class="w-3 h-3 rounded-full" [style.background]="transport?.color"></span>
-                    <span [class]="{
-                      active: isTransportSelected(transport),
-                    }">
-                      Metro - {{ transport?.name }}
-                    </span>
-                  </p-button>
-                </li>
-              </span>
-              <span *ngIf="['bus'].includes(tab)">
-                <li *ngFor="let transport of buses" class="rounded-[5px]" [class]="{
-                      active: isTransportSelected(transport),
-                      'route-loading': isTransportLoading(transport),
-                      'pointer-events-none opacity-50': loading,
-                    }">
-                  <p-button [loading]="isTransportLoading(transport)" [disabled]="isTransportLoading(transport)"
-                    (click)="filterTransport(transport)" class="px-0"
-                    styleClass="w-full px-2 gap-2 bg-[transparent] border border-solid border-[var(--grey-1)] py-[10px] flex font-medium items-center justify-start buses cursor-pointer text-base">
-                    <span class="w-3 h-3 rounded-full" [style.background]="transport?.color"></span>
-                    <span [class]="{
-                          active: isTransportSelected(transport),
-                        }">
-                      Avtobus - {{ transport?.name }}
-                    </span>
-                  </p-button>
-                </li>
-              </span>
-            </ul>
           </div>
-        </div>
+          <p *ngIf="transportCatalogLoading" class="map-panel__feedback" role="status">Yo‘nalishlar yuklanmoqda…</p>
+          <div *ngIf="transportLoadError" class="map-panel__feedback" role="status">
+            <p>Yo‘nalishlar yuklanmadi.</p>
+            <button type="button" class="map-text-action" (click)="__GET_TRANSPORTS()">Qayta urinish</button>
+          </div>
 
+          <div *ngIf="transports.length" class="route-picker__controls">
+            <div class="map-field route-search">
+              <svg lucideSearch [size]="17" aria-hidden="true"></svg>
+              <label class="sr-only" for="transport-search">Yo‘nalishni qidirish</label>
+              <input #routeSearch id="transport-search" type="search" [(ngModel)]="transportSearch" autocomplete="off"
+                placeholder="Raqam yoki yo‘nalish nomi" aria-controls="map-route-options" />
+              <button *ngIf="transportSearch" type="button" class="field-clear" aria-label="Yo‘nalish qidiruvini tozalash"
+                (click)="transportSearch = ''; routeSearch.focus()"><svg lucideX [size]="16" aria-hidden="true"></svg></button>
+            </div>
+            <div *ngIf="transportTypes.length > 1" class="route-picker__types" role="group" aria-label="Transport turi">
+              <button *ngFor="let option of transportTypes" type="button"
+                [attr.aria-pressed]="transportType === option.type" (click)="transportType = option.type">{{ option.label }}</button>
+            </div>
+            <div *ngIf="routeTransports.length" class="route-picker__actions">
+              <button *ngIf="selectRoutes.length" type="button" class="map-text-action" (click)="showRoutesOnMap()">
+                Xaritada ko‘rish
+              </button>
+              <button *ngIf="!homeConnectionActive" type="button" class="map-text-action map-text-action--secondary"
+                (click)="clearManualRoutes()">Tanlovni tozalash</button>
+            </div>
+            <p *ngIf="homeConnectionActive" class="map-panel__feedback">Uy va manzilga mos yo‘nalishlar tanlangan.</p>
+            <div *ngIf="routeError" class="map-panel__feedback map-panel__feedback--error" role="alert">
+              {{ routeError }}
+              <button type="button" class="map-text-action" (click)="retryRouteShapes()">Qayta urinish</button>
+            </div>
+            <ul id="map-route-options" class="route-picker__options" aria-label="Chiziladigan yo‘nalishlar">
+              <li *ngFor="let transport of visibleTransports; trackBy: trackRoute">
+                <button type="button" class="route-picker__option" [attr.aria-label]="transport.name" [attr.aria-pressed]="isTransportSelected(transport)"
+                  [attr.aria-busy]="isTransportLoading(transport)"
+                  [attr.aria-describedby]="isTransportSelected(transport) && transport.lengthLabel ? 'length-' + transport.ri : null"
+                  [disabled]="isTransportLoading(transport) || homeConnectionActive"
+                  (click)="filterTransport(transport)">
+                  <span class="route-number" [style.--route-color]="transport.color" aria-hidden="true">
+                    <ng-container *ngIf="transport.number; else genericRoute">{{ transport.number }}</ng-container>
+                    <ng-template #genericRoute><svg lucideBusFront [size]="18"></svg></ng-template>
+                  </span>
+                  <span class="route-picker__name">
+                    {{ transport.stops || transport.name }}
+                    <small *ngIf="isTransportSelected(transport) && transport.lengthLabel"
+                      [id]="'length-' + transport.ri">{{ transport.lengthLabel }}</small>
+                  </span>
+                  <span *ngIf="isTransportLoading(transport); else routeCheck" class="route-spinner" aria-hidden="true"></span>
+                  <ng-template #routeCheck>
+                    <span class="route-picker__check" aria-hidden="true">
+                      <svg *ngIf="isTransportSelected(transport); else addRoute" lucideCheck [size]="16"></svg>
+                      <ng-template #addRoute><svg lucidePlus [size]="16"></svg></ng-template>
+                    </span>
+                  </ng-template>
+                </button>
+              </li>
+            </ul>
+            <p *ngIf="!visibleTransports.length" class="map-panel__feedback" role="status">Mos yo‘nalish topilmadi.</p>
+          </div>
+
+          <p *ngIf="!transports.length && !transportCatalogLoading && !transportLoadError && !locationError" class="map-panel__feedback">
+            Xaritada ko‘rsatish uchun yo‘nalish topilmadi.
+          </p>
+          <details *ngIf="transportLinks.length" class="route-picker__links">
+            <summary>Rasmiy chizmalar va pasportlar</summary>
+            <ul>
+              <li *ngFor="let transport of transportLinks">
+                <a [href]="transport.href" target="_blank" rel="noopener noreferrer">{{ transport.name }}</a>
+              </li>
+            </ul>
+          </details>
+        </section>
       </div>
-    </div>
-  </p-dialog>
+      <p *ngIf="usesDigitizedRoutes" class="map-panel__attribution">
+        Chiziqqacha masofa taxminiy.
+        <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">© OpenStreetMap</a>
+      </p>
+    </aside>
+    <section #mapViewport class="map-canvas" tabindex="-1" aria-label="Uylar va transport xaritasi"
+      [class.map-canvas--selecting]="selectingDestination">
+      <div *ngIf="!mapReady" class="map-canvas__loading" role="status">
+        <ng-container *ngIf="!mapLoadSlow; else retryMap">
+          <span class="route-spinner" aria-hidden="true"></span>
+          Xarita yuklanmoqda…
+        </ng-container>
+        <ng-template #retryMap>
+          <div class="map-canvas__retry">
+            <p>Xarita vaqtida yuklanmadi.</p>
+            <button type="button" class="map-text-action" (click)="reloadMap()">Qayta urinish</button>
+          </div>
+        </ng-template>
+      </div>
+      <div class="map-selection-prompt" *ngIf="selectingDestination" aria-label="Nuqtani tanlash">
+        <svg lucideCrosshair [size]="18" aria-hidden="true"></svg>
+        <span role="status">Xaritada nuqtani bosing</span>
+        <button type="button" (click)="selectMapCenter()">Markazni tanlash</button>
+        <button type="button" class="map-icon-button" aria-label="Nuqta tanlashni bekor qilish"
+          (click)="setDestinationMode('search')"><svg lucideX [size]="17" aria-hidden="true"></svg></button>
+      </div>
+      <div class="map-route-status" *ngIf="mapReady && transportLoading" role="status" aria-live="polite">
+        <span class="route-spinner" aria-hidden="true"></span>
+        <span>Yo‘nalish chizilmoqda</span>
+      </div>
+      <ya-map [center]="mapCenter" [zoom]="zoom" [state]="mapState"
+        (yaclick)="handleDestinationMapClick($event)"
+        (ready)="handleMapReady($event)"
+        (boundschange)="handleMapBoundsChange($event)">
+        <ya-clusterer [options]="{ minClusterSize: 2, hasBalloon: false }">
+          <ng-container *ngFor="let announcement of announcements; trackBy: trackAnnouncement">
+            <ya-placemark *ngIf="isAnnouncementMarkerVisible(announcement)" [geometry]="announcement.geometry"
+                (yaclick)="selectingDestination ? handleDestinationMapClick($event) : handleAnnounce(announcement.id)" [options]="{
+                  preset: 'islands#blueHomeIcon',
+                  iconColor: '#00a000',
+                }"></ya-placemark>
+          </ng-container>
+        </ya-clusterer>
+        <ya-geoobject *ngIf="commuteDestination as destination" [feature]="{
+            geometry: {
+              type: 'Circle',
+              coordinates: destination.coordinates,
+              radius: commuteRadiusMeters
+            },
+            properties: { hintContent: 'Muhim manzil atrofida 200 m' }
+          }" [options]="{
+            fillColor: '#dc26261a',
+            strokeColor: '#dc2626',
+            strokeWidth: 2,
+            interactivityModel: 'default#silent',
+            zIndex: 40
+          }"></ya-geoobject>
+        <ya-geoobject *ngIf="showInfo && currentAnnouce?.geometry" [feature]="{
+            geometry: {
+              type: 'Circle',
+              coordinates: currentAnnouce.geometry,
+              radius: homeRadiusMeters
+            },
+            properties: { hintContent: 'Tanlangan uy atrofida 500 m' }
+          }" [options]="{
+            fillColor: '#15803d14',
+            strokeColor: '#15803d',
+            strokeWidth: 2,
+            interactivityModel: 'default#silent',
+            zIndex: 35
+          }"></ya-geoobject>
+        <ng-container *ngFor="let route of selectRoutes; trackBy: trackRoute">
+        <ya-geoobject *ngIf="route.x.length >= 2"
+          [feature]="{
+            geometry: { type: 'LineString', coordinates: route.x },
+            properties: {
+              hintContent: route.title,
+              balloonContentHeader: route.title,
+              balloonContentBody: route.description
+            }
+          }" (yaclick)="showMapRoute(route.ri, $event)" (balloonclose)="deactivateMapRoute(route.ri)"
+          (yamouseenter)="showMapRouteHint(route.ri, $event)" (yamouseleave)="hideMapRouteHint(route.ri, $event)"
+          [options]="{
+              strokeColor: ['#000000', route.color],
+              strokeWidth: [routeHitStrokeWidth(), routeStrokeWidth(route.ri)],
+              strokeOpacity: [0.001, routeStrokeOpacity(route.ri)],
+              draggable: false,
+              cursor: 'pointer',
+              hasBalloon: true,
+              hasHint: true,
+              openBalloonOnClick: false,
+              openHintOnHover: false,
+              zIndex: routeZIndex(route.ri),
+              zIndexActive: 1100,
+              zIndexHover: 1050
+            }"></ya-geoobject>
+        <ya-geoobject *ngIf="route.y.length >= 2"
+          [feature]="{
+            geometry: { type: 'LineString', coordinates: route.y },
+            properties: {
+              hintContent: route.title,
+              balloonContentHeader: route.title,
+              balloonContentBody: route.description
+            }
+          }" (yaclick)="showMapRoute(route.ri, $event)" (balloonclose)="deactivateMapRoute(route.ri)"
+          (yamouseenter)="showMapRouteHint(route.ri, $event)" (yamouseleave)="hideMapRouteHint(route.ri, $event)"
+          [options]="{
+              strokeColor: ['#000000', route.color],
+              strokeWidth: [routeHitStrokeWidth(), routeStrokeWidth(route.ri)],
+              strokeOpacity: [0.001, routeStrokeOpacity(route.ri)],
+              draggable: false,
+              cursor: 'pointer',
+              hasBalloon: true,
+              hasHint: true,
+              openBalloonOnClick: false,
+              openHintOnHover: false,
+              zIndex: routeZIndex(route.ri),
+              zIndexActive: 1100,
+              zIndexHover: 1050
+            }"></ya-geoobject>
+        </ng-container>
+        <ya-placemark *ngIf="commuteDestination as destination" [geometry]="destination.coordinates"
+          [properties]="{
+            hintContent: destination.label,
+            balloonContentHeader: 'Muhim manzil',
+            balloonContentBody: destination.label
+          }" [options]="{
+            preset: 'islands#redCircleDotIcon',
+            iconColor: '#dc2626',
+            zIndex: 2000
+          }"></ya-placemark>
+        <ya-placemark *ngIf="showInfo && currentAnnouce?.geometry" [geometry]="currentAnnouce.geometry"
+          [properties]="{
+            hintContent: 'Tanlangan uy',
+            balloonContentHeader: currentAnnouce.title,
+            balloonContentBody: currentAnnouce.address
+          }" [options]="{
+            preset: 'islands#greenHomeCircleIcon',
+            iconColor: '#15803d',
+            zIndex: 2100
+          }"></ya-placemark>
+      </ya-map>
+      <div *ngIf="mapReady" class="map-navigation" role="group" aria-label="Xaritani boshqarish">
+        <button type="button" aria-label="Xaritani yaqinlashtirish" title="Yaqinlashtirish"
+          (click)="adjustZoom(1)"><svg lucidePlus [size]="19" aria-hidden="true"></svg></button>
+        <button type="button" aria-label="Xaritani uzoqlashtirish" title="Uzoqlashtirish"
+          (click)="adjustZoom(-1)"><svg lucideMinus [size]="19" aria-hidden="true"></svg></button>
+        <button type="button" aria-label="Tanlangan hudud yoki yo‘nalishni ko‘rsatish" title="Markazga qaytish"
+          (click)="fitMapView()"><svg lucideLocateFixed [size]="19" aria-hidden="true"></svg></button>
+      </div>
+    </section>
+
+  </div>
   <p-dialog position="left" [draggable]="false" [resizable]="false" [modal]="false" [showHeader]="false"
     [(visible)]="showInfo" [style]="{ width: '360px' }"
     [breakpoints]="{ '768px': 'calc(100vw - 24px)' }" styleClass="map-announcement-dialog"
@@ -491,7 +370,6 @@
         <div>
           <h2 id="map-announcement-title">Tanlangan uy</h2>
           <p *ngIf="commuteDestination">Uy {{ homeRadiusMeters }} m · manzil {{ commuteRadiusMeters }} m</p>
-          <p *ngIf="!commuteDestination">E’lon ma’lumotlari</p>
         </div>
         <button type="button" aria-label="E'lon ma'lumotini yopish" title="Yopish"
           (click)="closeAnnouncementInfo()">

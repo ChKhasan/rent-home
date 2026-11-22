@@ -11,14 +11,14 @@
     [breakpoints]="{ '920px': { width: 'calc(100vw - 32px)', right: '16px', left: '16px' } }">
   </p-toast>
 
-  <div class="header__inner">
+  <div class="header__inner page-width">
     <a routerLink="/" class="brand" aria-label="Nexthome bosh sahifa">
       <img class="brand__logo" src="assets/images/brand-wordmark.png" alt="" width="900" height="173" />
     </a>
 
     <nav class="header__nav" aria-label="Asosiy navigatsiya">
-      <a routerLink="/announcements" routerLinkActive="is-active">E'lonlar</a>
-      <a routerLink="/map" routerLinkActive="is-active">Xarita</a>
+      <a routerLink="/announcements" routerLinkActive="is-active" ariaCurrentWhenActive="page">E’lonlar</a>
+      <a routerLink="/map" routerLinkActive="is-active" ariaCurrentWhenActive="page">Xarita</a>
     </nav>
 
     <div class="header__actions">
@@ -59,15 +59,16 @@
         <ng-template #profileIcon><i class="pi pi-user"></i></ng-template>
         <span class="profile-button__label">{{ authService.auth ? (authService.user?.name || 'Profil') : 'Kirish' }}</span>
       </button>
-      <button type="button" class="icon-button menu-button" aria-label="Menyuni ochish" [attr.aria-expanded]="mobileMenuOpen" (click)="mobileMenuOpen = !mobileMenuOpen">
+      <button type="button" class="icon-button menu-button" [attr.aria-label]="mobileMenuOpen ? 'Menyuni yopish' : 'Menyuni ochish'"
+        [attr.aria-expanded]="mobileMenuOpen" aria-controls="mobile-nav" (click)="mobileMenuOpen = !mobileMenuOpen">
         <i class="pi" [class.pi-bars]="!mobileMenuOpen" [class.pi-times]="mobileMenuOpen"></i>
       </button>
     </div>
   </div>
 
-  <nav *ngIf="mobileMenuOpen" class="mobile-menu" aria-label="Mobil navigatsiya">
-    <a routerLink="/announcements" (click)="mobileMenuOpen = false"><i class="pi pi-list"></i>E'lonlar</a>
-    <a routerLink="/map" (click)="mobileMenuOpen = false"><i class="pi pi-map"></i>Xarita</a>
+  <nav *ngIf="mobileMenuOpen" id="mobile-nav" class="mobile-menu" aria-label="Mobil navigatsiya">
+    <a routerLink="/announcements" routerLinkActive="is-active" ariaCurrentWhenActive="page" (click)="mobileMenuOpen = false"><i class="pi pi-list" aria-hidden="true"></i>E’lonlar</a>
+    <a routerLink="/map" routerLinkActive="is-active" ariaCurrentWhenActive="page" (click)="mobileMenuOpen = false"><i class="pi pi-map" aria-hidden="true"></i>Xarita</a>
     <a *ngIf="authService.auth" routerLink="/likes" (click)="mobileMenuOpen = false"><i class="pi pi-heart"></i>Saqlanganlar</a>
     <a *ngIf="authService.auth" routerLink="/profile/chat" (click)="mobileMenuOpen = false"><i class="pi pi-comments"></i>Chat</a>
     <button type="button" class="primary-action" (click)="createAnnouncement(); mobileMenuOpen = false"><i class="pi pi-plus"></i>E'lon berish</button>

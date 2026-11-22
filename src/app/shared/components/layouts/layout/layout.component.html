@@ -1,6 +1,9 @@
 <div class="app-shell">
+  <button type="button" class="app-shell__skip" (click)="content.focus({ preventScroll: true }); content.scrollIntoView()">
+    Asosiy mazmunga o‘tish
+  </button>
   <app-header></app-header>
-  <main class="app-shell__content">
+  <main #content class="app-shell__content" tabindex="-1">
     <router-outlet></router-outlet>
   </main>
   <app-footer></app-footer>

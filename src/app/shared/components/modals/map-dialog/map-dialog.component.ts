@@ -3,6 +3,7 @@ import { DialogModule } from 'primeng/dialog';
 import { AngularYandexMapsModule } from 'angular8-yandex-maps';
 import { NgIf } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
+import { DEFAULT_MAP_CENTER } from '@/core/constants/map';
 
 @Component({
   selector: 'app-map-dialog',
@@ -13,8 +14,8 @@ import { ButtonModule } from 'primeng/button';
 })
 export class MapDialogComponent {
   public visible: boolean = false;
-  public coords: number[] = [41.31340266251607, 69.28703784942628];
-  public mapCenter: number[] = [41.31340266251607, 69.28703784942628];
+  public coords: number[] = [...DEFAULT_MAP_CENTER];
+  public mapCenter: number[] = [...DEFAULT_MAP_CENTER];
   @Input() formHandle!: Function;
 
   showDialog() {

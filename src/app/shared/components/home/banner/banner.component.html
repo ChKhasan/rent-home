@@ -1,18 +1,20 @@
-<section class="banner" aria-labelledby="home-search-title">
+<section class="banner page-width" aria-labelledby="home-search-title">
   <img
     class="banner__image"
-    src="../../../../../assets/images/home-banner.jpg"
-    alt="Zamonaviy ijaraga beriladigan uy interyeri"
+    src="assets/images/home-banner.jpg"
+    alt=""
     width="1600"
     height="900"
     fetchpriority="high"
   />
   <div class="banner__scrim" aria-hidden="true"></div>
   <div class="banner__content">
-    <div class="banner__copy">
-      <p>Nexthome</p>
-      <h1 id="home-search-title">O'zingizga mos uyni toping</h1>
-      <span>Tekshirilgan e'lonlar, aniq manzil va qulay aloqa.</span>
+    <div class="banner__heading">
+      <h1 id="home-search-title">O‘zingizga mos uy toping</h1>
+      <a class="banner__map-link" routerLink="/map">
+        <svg lucideMap [size]="18" aria-hidden="true"></svg>
+        <span>Xaritada qidirish</span>
+      </a>
     </div>
     <app-banner-filter></app-banner-filter>
   </div>

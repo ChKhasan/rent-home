@@ -1,10 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { FormsModule } from '@angular/forms';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { ButtonModule } from 'primeng/button';
 import { SliderModule } from 'primeng/slider';
 import { FilterForm, PublisherType } from '@services/interfaces';
 import { QueryService } from '@services/query';
@@ -15,13 +13,14 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { DictionaryService } from '@/core/services/dictionary/dictionary.service';
 import { currenyTypes } from '@/core/constants/currency';
 import { NgFor, NgIf } from '@angular/common';
+import { MAP_CITY } from '@/core/constants/map';
 import { ValidationErrorAnimation } from '@/core/common/animations';
-import { LucideMap, LucideSearch } from '@lucide/angular';
+import { LucideSearch } from '@lucide/angular';
 @Component({
   selector: 'app-filter',
   standalone: true,
   animations: [ValidationErrorAnimation],
-  imports: [ToggleSwitchModule, FormsModule, CheckboxModule, InputNumberModule, ButtonModule, SliderModule, SelectModule, MultiSelectModule, NgFor, NgIf, RouterLink, LucideMap, LucideSearch],
+  imports: [ToggleSwitchModule, FormsModule, CheckboxModule, InputNumberModule, SliderModule, SelectModule, MultiSelectModule, NgFor, NgIf, LucideSearch],
   templateUrl: './filter.component.html',
   styleUrl: './filter.component.css',
 })
@@ -79,6 +78,7 @@ export class FilterComponent implements OnInit {
   @Input() clearFilterAction!: Function;
   @Input() loading!: boolean;
   @Input() close: Function | undefined;
+  @Input() idPrefix = 'listing-filter';
 
   constructor(private requestService: RequestService, public queryService: QueryService, public dictionaryService: DictionaryService) {}
 
@@ -86,8 +86,8 @@ export class FilterComponent implements OnInit {
 
   ngOnInit() {
     if (typeof window !== 'undefined') {
-      this.requestService.getData(environment.urls.GET_TRANSPORTS).subscribe((response: any) => {
-        this.transports = response;
+      this.requestService.getData<any[]>(environment.urls.GET_TRANSPORTS, { city: MAP_CITY }).subscribe((response) => {
+        this.transports = response.filter((transport) => transport.has_geometry !== false);
         let query: any = { ...this.queryService.activeQueryList() };
         if (query?.transports) {
           const transports = Array.isArray(query.transports) ? query.transports : [query.transports];
@@ -199,8 +199,7 @@ export class FilterComponent implements OnInit {
     });
   }
 
-  clearFilter() {
-    this.clearFilterAction();
+  resetForm(): void {
     this.filterForm = {
       conditioner: false,
       partnership: false,
@@ -219,19 +218,10 @@ export class FilterComponent implements OnInit {
       verified_only: false,
       commission_free: false,
     };
+    this.selectedCities = [];
     this.priceFilterDirty = false;
     this.publisherTypeError = false;
     this.__GET_MIN_MAX_PRICE();
-  }
-  async onClear() {
-    let query: any = { ...this.queryService.activeQueryList() };
-    if (query['transports']) query.transports = [];
-    // this.queryService.updateCustomQuery(query, this.getData).then(() => {});
-  }
-  onChange(event: any) {
-    let query: any = { ...this.queryService.activeQueryList() };
-    if (query['transports']) this.filterForm.transports = query.transports.filter((elem: string) => elem !== event.itemValue.ri);
-    // this.queryService.updateCustomQuery(query, this.getData).then(() => {});
   }
   __GET_MIN_MAX_PRICE() {
     this.requestService.getData(environment.urls.GET_MIN_MAX_PRICE, { currency: this.filterForm.currency }).subscribe((response: any) => {

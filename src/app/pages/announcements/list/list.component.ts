@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { finalize, Subscription } from 'rxjs';
 import { RouterLink } from '@angular/router';
 import { PaginationComponent } from '@components/pagination/pagination.component';
@@ -6,8 +6,6 @@ import { NgForOf, NgIf } from '@angular/common';
 import { QueryService } from '@services/query';
 import { FilterComponent } from '@components/announcement/filter/filter.component';
 import { BottomSheetComponent } from '@components/modals/bottom-sheet/bottom-sheet.component';
-import { EmptyFoundComponent } from '@components/empty-found/empty-found.component';
-import { SORT_OPTIONS } from '@/core/constants/filter';
 import { RequestService } from '@services/request';
 import { environment } from '@environments';
 import { IAnnouncementList, IAnnouncementListItem, PublisherType } from '@services/interfaces';
@@ -15,8 +13,9 @@ import { AnnouncementsCardComponent } from '@components/cards/announcements-card
 import { ListingCardSkeletonComponent } from '@components/cards/listing-card-skeleton/listing-card-skeleton.component';
 import { DealTypeService } from '@/core/services/deal-type/deal-type.service';
 import { DealType, DEFAULT_DEAL_TYPE, isDealType } from '@/core/constants/deal-type';
+import { MAP_CITY } from '@/core/constants/map';
 import { DealTypeSwitcherComponent } from '@components/deal-type-switcher/deal-type-switcher.component';
-import { LucideArrowUpDown, LucideMap, LucideSlidersHorizontal, LucideX } from '@lucide/angular';
+import { LucideArrowUpDown, LucideMap, LucideSearchX, LucideSlidersHorizontal, LucideX } from '@lucide/angular';
 @Component({
   selector: 'app-list',
   standalone: true,
@@ -27,12 +26,12 @@ import { LucideArrowUpDown, LucideMap, LucideSlidersHorizontal, LucideX } from '
     RouterLink,
     FilterComponent,
     BottomSheetComponent,
-    EmptyFoundComponent,
     AnnouncementsCardComponent,
     ListingCardSkeletonComponent,
     DealTypeSwitcherComponent,
     LucideArrowUpDown,
     LucideMap,
+    LucideSearchX,
     LucideSlidersHorizontal,
     LucideX,
   ],
@@ -46,20 +45,22 @@ export class ListComponent implements OnInit, OnDestroy {
     AGENCY_AGENT: 'Agentlik',
   };
   public loading: boolean = true;
+  public loadError = false;
   public skeletonList = [1, 2, 3, 4, 5, 6];
   public announcements: IAnnouncementListItem[] = [];
   public totalPage: number = 0;
-  public sortOptions = SORT_OPTIONS;
-  public readonly mobileSortOptions = [
+  public readonly sortOptions = [
     { label: 'Eng yangilari', value: 'created' },
     { label: 'Eng eskilari', value: 'created_reverse' },
-    { label: 'Narx: arzon', value: 'total_price' },
-    { label: 'Narx: qimmat', value: 'total_price_reverse' },
+    { label: 'Avval arzonlari', value: 'total_price' },
+    { label: 'Avval qimmatlari', value: 'total_price_reverse' },
   ];
   public currentSort: string = '';
   public currentDealType: DealType = DEFAULT_DEAL_TYPE;
   private dealTypeSubscription?: Subscription;
+  private listingRequest?: Subscription;
   @ViewChild(BottomSheetComponent) bottomSheetComponent!: BottomSheetComponent;
+  @ViewChildren(FilterComponent) private filters?: QueryList<FilterComponent>;
   constructor(private queryConfig: QueryService, private requestService: RequestService, private dealTypeService: DealTypeService) {}
   ngOnInit(): void {
     if (typeof window !== 'undefined') {
@@ -73,10 +74,15 @@ export class ListComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.dealTypeSubscription?.unsubscribe();
+    this.listingRequest?.unsubscribe();
   }
   private buildParams() {
-    const query = { ...this.queryConfig.activeQueryWithDefaut(), deal_type: this.currentDealType };
-    return this.queryConfig.generatorHttpParams(query);
+    const region = this.queryConfig.activeQueryList()['region'];
+    return this.queryConfig.generatorHttpParams({
+      ...this.queryConfig.activeQueryWithDefaut(),
+      city: region ? null : MAP_CITY,
+      deal_type: this.currentDealType,
+    });
   }
   private applyDealTypeFromQuery() {
     const urlDealType = this.readDealTypeFromQuery();
@@ -102,13 +108,18 @@ export class ListComponent implements OnInit, OnDestroy {
     this.queryConfig.updateCustomQuery(payload, this.__GET_ANNOUNCEMENTS);
   }
   __GET_ANNOUNCEMENTS = () => {
+    this.listingRequest?.unsubscribe();
     this.loading = true;
-    this.requestService
+    this.loadError = false;
+    this.listingRequest = this.requestService
       .getData<IAnnouncementList>(environment.urls.GET_ANNONCEMENTS, this.buildParams())
       .pipe(finalize(() => (this.loading = false)))
-      .subscribe((response: IAnnouncementList) => {
-        this.announcements = response?.results;
-        this.totalPage = response.count;
+      .subscribe({
+        next: (response) => {
+          this.announcements = response?.results ?? [];
+          this.totalPage = response?.count ?? this.announcements.length;
+        },
+        error: () => { this.loadError = true; },
       });
   };
   filterSend = async (e: any) => {
@@ -116,14 +127,15 @@ export class ListComponent implements OnInit, OnDestroy {
     this.closeBottomSheet();
   };
   clearFilter = async () => {
-    await this.queryConfig.clearFilter(this.__GET_ANNOUNCEMENTS);
     this.currentSort = '';
+    this.filters?.forEach((filter) => filter.resetForm());
+    const cleared = Object.fromEntries(Object.keys(this.queryConfig.activeQueryList()).map((key) => [key, null]));
+    await this.queryConfig.updateCustomQuery({
+      ...cleared,
+      deal_type: this.currentDealType === DEFAULT_DEAL_TYPE ? null : this.currentDealType,
+    }, this.__GET_ANNOUNCEMENTS);
     this.closeBottomSheet();
   };
-  sortHandle(option: any) {
-    this.currentSort == option[0] ? (this.currentSort = option[1]) : (this.currentSort = option[0]);
-    this.filterSend({ ordering: this.currentSort });
-  }
   openBottomSheet() {
     this.bottomSheetComponent.open();
   }
@@ -131,7 +143,7 @@ export class ListComponent implements OnInit, OnDestroy {
     this.bottomSheetComponent.close();
   };
 
-  selectMobileSort(event: Event): void {
+  selectSort(event: Event): void {
     const ordering = (event.target as HTMLSelectElement).value;
     this.currentSort = ordering;
     void this.filterSend({ ordering: ordering || null });
@@ -139,6 +151,11 @@ export class ListComponent implements OnInit, OnDestroy {
 
   get mapQueryParams(): Record<string, unknown> {
     return this.queryConfig.activeQueryListWithoutDefault();
+  }
+
+  get hasMorePages(): boolean {
+    const size = Number(this.queryConfig.activeQueryList()['page_size']) || this.queryConfig.defaultQuery.page_size;
+    return this.totalPage > size;
   }
 
   get activePublisherChips(): Array<{ type: PublisherType; label: string }> {

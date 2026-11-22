@@ -6,6 +6,8 @@ import { QueryService } from '@services/query';
 import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { HttpParams } from '@angular/common/http';
+import { NgIf } from '@angular/common';
+import { MAP_CITY } from '@/core/constants/map';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { RequestService } from '@services/request';
 import { environment } from '@environments';
@@ -18,7 +20,7 @@ interface AutoCompleteCompleteEvent {
 @Component({
   selector: 'app-search',
   standalone: true,
-  imports: [CheckboxModule, AutoCompleteModule, FormsModule, ButtonModule, MultiSelectModule],
+  imports: [CheckboxModule, AutoCompleteModule, FormsModule, ButtonModule, MultiSelectModule, NgIf],
   templateUrl: './search.component.html',
   styleUrl: './search.component.css',
 })
@@ -49,8 +51,8 @@ export class SearchComponent implements OnInit {
 
   ngOnInit() {
     if (typeof window !== 'undefined')
-      this.requestService.getData(environment.urls.GET_TRANSPORTS).subscribe((response: any) => {
-        this.transports = response;
+      this.requestService.getData<any[]>(environment.urls.GET_TRANSPORTS, { city: MAP_CITY }).subscribe((response) => {
+        this.transports = response.filter((transport) => transport.has_geometry !== false);
         let query: any = { ...this.queryService.activeQueryList() };
         if (query?.transports) {
           query?.transports.forEach((elem: string) => {

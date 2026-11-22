@@ -5,6 +5,7 @@ import {
   findNearestRouteStop,
   formatRouteDistance,
   parseRoutePath,
+  routeLengthMeters,
   parseRouteStops,
 } from './transport-route.utils';
 
@@ -21,6 +22,12 @@ describe('PriceBlockComponent', () => {
       requestService,
       { run: (callback: () => void) => callback() } as any,
     );
+  });
+
+  it('measures every segment of a route including a return over the same road', () => {
+    expect(routeLengthMeters([])).toBeNull();
+    expect(routeLengthMeters([[0, 0]])).toBeNull();
+    expect(routeLengthMeters([[0, 0], [0, 0.01], [0, 0]])!).toBeCloseTo(2223.9, 0);
   });
 
   it('should create', () => {

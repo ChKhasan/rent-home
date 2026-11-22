@@ -1,66 +1,52 @@
-<div
-  class="filter rounded-2xl flex flex-col gap-[24px] bg-white px-4 py-6 border-[1px] border-[--grey-300] border-solid">
-  <!-- <div class="flex justify-between">
-    <h5 class="font-600 text-[24px]">Filter</h5>
-    <button *ngIf="close" (click)="closeBottomSheet()" class="p-2 bg-[transparent]">
-      <i class="pi pi-times" style="font-size: 1.2rem"></i>
-    </button>
-  </div> -->
-
+<div class="filter flex flex-col gap-4">
+  <h2 *ngIf="!close" class="filter-title">Filtrlar</h2>
   <div class="flex flex-col gap-3 rounded-lg">
     <div class="flex flex-col gap-1 relative">
-      <label class="font-medium text-[14px]" for="name">Shahar</label>
+      <label class="font-medium text-[14px]" [for]="idPrefix + '-region'">Hudud</label>
       <div class="relative w-full flex items-center form-input">
-        <p-select class="w-full" [options]="dictionaryService.regions" (onChange)="onRegionChange($event.value)"
-          [(ngModel)]="filterForm.region" optionValue="id" optionLabel="name" placeholder="Shahar" />
+        <p-select class="w-full" [inputId]="idPrefix + '-region'" appendTo="body" [options]="dictionaryService.regions" (onChange)="onRegionChange($event.value)"
+          [(ngModel)]="filterForm.region" optionValue="id" optionLabel="name" placeholder="Hududni tanlang" />
       </div>
     </div>
     <div class="flex flex-col gap-1 relative">
-      <label class="font-medium text-[14px]" for="name">Tuman</label>
+      <label class="font-medium text-[14px]" [for]="idPrefix + '-district'">Tuman</label>
       <div class="relative w-full flex items-center form-input">
-        <p-select class="w-full" [disabled]="!filterForm.region" [options]="dictionaryService.districts" [(ngModel)]="filterForm.district"
-          optionValue="id" optionLabel="name" placeholder="Tuman" />
+        <p-select class="w-full" [inputId]="idPrefix + '-district'" appendTo="body" [disabled]="!filterForm.region" [options]="dictionaryService.districts" [(ngModel)]="filterForm.district"
+          optionValue="id" optionLabel="name" placeholder="Tumanni tanlang" />
       </div>
     </div>
     <div class="grid gap-4 grid-cols-2">
       <div class="flex flex-col gap-1 relative">
-        <label class="font-medium text-[14px]" for="name">Xonalar soni</label>
+        <label class="font-medium text-[14px]" [for]="idPrefix + '-rooms'">Xonalar soni</label>
         <div class="relative w-full flex items-center form-input">
           <p-inputNumber class="count-input w-full" [(ngModel)]="filterForm.room_count" mode="decimal"
-            inputId="withoutgrouping" [min]="1" [max]="10" [useGrouping]="false"></p-inputNumber>
+            [inputId]="idPrefix + '-rooms'" [min]="1" [max]="10" [useGrouping]="false"></p-inputNumber>
         </div>
       </div>
       <div class="flex flex-col gap-1 relative">
-        <label class="font-medium text-[14px]" for="name">Qavat</label>
+        <label class="font-medium text-[14px]" [for]="idPrefix + '-floor'">Qavat</label>
         <div class="relative w-full flex items-center form-input">
           <p-inputNumber class="count-input w-full" [(ngModel)]="filterForm.floor" mode="decimal"
-            inputId="withoutgrouping" [min]="1" [max]="10" [useGrouping]="false"></p-inputNumber>
+            [inputId]="idPrefix + '-floor'" [min]="1" [max]="10" [useGrouping]="false"></p-inputNumber>
         </div>
       </div>
     </div>
-    <!-- <div class="flex flex-col gap-1 relative">
-      <label class="font-medium text-[14px]" for="name">Xonalar soni</label>
-      <div class="relative w-full flex items-center form-input">
-        <p-inputNumber class="count-input w-full" [(ngModel)]="filterForm.room_count" mode="decimal"
-          inputId="withoutgrouping" [min]="1" [max]="10" [useGrouping]="false"></p-inputNumber>
-      </div>
-    </div> -->
-    <div class="flex flex-col gap-1 relative">
-      <label class="font-medium text-[14px]" for="name">Avtobus</label>
+    <div *ngIf="transports?.length" class="flex flex-col gap-1 relative">
+      <label class="font-medium text-[14px]" [for]="idPrefix + '-transport'">Transport</label>
       <div class="relative w-full flex items-center form-input">
         <p-multiSelect styleClass="w-full border-solid border border-[--grey-300] rounded-[8px] h-11 flex items-center"
-          (onClear)="onClear()" [showClear]="true" (onRemove)="onChange($event)" class="w-full"
-          placeholder="Transportni tanlang" inputId="float-label" [options]="transports" [(ngModel)]="selectedCities"
+          appendTo="body" [showClear]="true" class="w-full"
+          placeholder="Transportni tanlang" [inputId]="idPrefix + '-transport'" [options]="transports" [(ngModel)]="selectedCities"
           optionLabel="name"></p-multiSelect>
       </div>
     </div>
     <div class="flex flex-col gap-1 relative">
-      <label class="font-medium text-[14px]" for="name"> Pul birligi (Valyuta)</label>
-      <p-select [(ngModel)]="filterForm.currency" (onChange)="onCurrencySelectionChange()" [options]="currenyTypes"
-        optionLabel="label" optionValue="value" placeholder="Tuman" />
+      <label class="font-medium text-[14px]" [for]="idPrefix + '-currency'">Pul birligi</label>
+      <p-select [inputId]="idPrefix + '-currency'" appendTo="body" [(ngModel)]="filterForm.currency" (onChange)="onCurrencySelectionChange()" [options]="currenyTypes"
+        optionLabel="label" optionValue="value" placeholder="Pul birligini tanlang" />
     </div>
-    <section class="publisher-filter flex flex-col gap-3" aria-labelledby="publisher-filter-title">
-      <h6 id="publisher-filter-title" class="font-semibold text-base">E'lon beruvchi</h6>
+    <section class="publisher-filter flex flex-col gap-3" [attr.aria-labelledby]="idPrefix + '-publishers'">
+      <h3 [id]="idPrefix + '-publishers'" class="font-semibold text-base">E’lon beruvchi</h3>
       <label *ngFor="let option of publisherTypes" class="publisher-filter__row">
         <span>{{ option.label }}</span>
         <p-checkbox
@@ -87,34 +73,33 @@
     <div class="price-filter">
       <div class="grid grid-cols-2 gap-3">
         <div class="flex flex-col gap-1 relative">
-          <label class="font-medium text-[14px]" for="name">Dan</label>
-          <p-inputNumber class="slider-input" [(ngModel)]="sliderValue[0]" (onInput)="markPriceChanged()" mode="decimal" inputId="withoutgrouping"
-            [min]="1" [max]="10" [useGrouping]="false"></p-inputNumber>
+          <label class="font-medium text-[14px]" [for]="idPrefix + '-price-min'">Minimal narx</label>
+          <p-inputNumber class="slider-input" [(ngModel)]="sliderValue[0]" (onInput)="markPriceChanged()" mode="decimal" [inputId]="idPrefix + '-price-min'"
+            [min]="sliderMin" [max]="sliderMax || undefined" [useGrouping]="false"></p-inputNumber>
         </div>
         <div class="flex flex-col gap-1 relative">
-          <label class="font-medium text-[14px]" for="name">Gacha</label>
-          <p-inputNumber class="slider-input" [(ngModel)]="sliderValue[1]" (onInput)="markPriceChanged()" mode="decimal" inputId="withoutgrouping"
-            [min]="sliderMin" [max]="sliderMax" [useGrouping]="false"></p-inputNumber>
+          <label class="font-medium text-[14px]" [for]="idPrefix + '-price-max'">Maksimal narx</label>
+          <p-inputNumber class="slider-input" [(ngModel)]="sliderValue[1]" (onInput)="markPriceChanged()" mode="decimal" [inputId]="idPrefix + '-price-max'"
+            [min]="sliderMin" [max]="sliderMax || undefined" [useGrouping]="false"></p-inputNumber>
         </div>
       </div>
-      <div class="range mt-4">
-        <p-slider [(ngModel)]="sliderValue" (onChange)="markPriceChanged()" [step]="step" [max]="sliderMax"
+      <div *ngIf="sliderMax > sliderMin" class="range mt-4">
+        <p-slider [(ngModel)]="sliderValue" (onChange)="markPriceChanged()" [step]="step" [min]="sliderMin" [max]="sliderMax"
           [range]="true"></p-slider>
       </div>
     </div>
     <div class="border-b-[15px] border-[0] border-[color:var(--gray-1)] border-solid flex flex-col">
       <div
         class="card border-b border-[0] border-[color:#E9EDEE] border-solid pb-[12px] flex justify-between items-center">
-        <p class="flex text-[color:var(--dark-4)] text-[16px] gap-[8px] items-center">Sheriklikga</p>
-        <p-checkbox [(ngModel)]="filterForm.partnership" [binary]="true" inputId="binary"
+        <label [for]="idPrefix + '-partnership'" class="text-base">Sheriklik</label>
+        <p-checkbox [(ngModel)]="filterForm.partnership" [binary]="true" [inputId]="idPrefix + '-partnership'"
           (onChange)="onPartnershipChange()"></p-checkbox>
       </div>
-      <div class="max-h-0 overflow-hidden count-block" *ngIf="filterForm.partnership" [@errorAnimation] :class="{ 'showBlock ': filterForm.partnership }">
+      <div *ngIf="filterForm.partnership" [@errorAnimation]>
         <div class="flex justify-between items-center mt-[12px] pb-[12px]">
-          <p class="flex text-[color:var(--dark-4)] text-[16px] gap-[8px] items-center">Sheriklar soni</p>
+          <label [for]="idPrefix + '-roommates'" class="text-base">Sheriklar soni</label>
           <p-inputNumber class="count-input" [(ngModel)]="filterForm.need_people_count" mode="decimal"
-            inputId="withoutgrouping" [min]="1" [max]="10" [useGrouping]="false"></p-inputNumber>
-          <!--          <el-input-number v-model="filterForm.need_people_count" :min="1" :max="10" />-->
+            [inputId]="idPrefix + '-roommates'" [min]="1" [max]="10" [useGrouping]="false"></p-inputNumber>
         </div>
       </div>
       <div></div>
@@ -168,21 +153,13 @@
         </div>
       </div>
     </div>
-    <div class="btns flex flex-col gap-3 justify-between">
-      <button class="text-[color:var(--red)] font-500 text-[17px] bg-[transparent]"
-        (click)="clearFilter()">Tozalash</button>
-
-      <p-button (click)="filterSend()"
-        styleClass="btn py-[14px] w-full  bg-[color:var(--green)] rounded-[8px] text-base text-white font-600 flex justify-center gap-2 px-0"
-        class="px-0 py-0 rounded-[8px] bg-[transparent] border-0">
-        <svg lucideSearch [size]="21" aria-hidden="true"></svg>
-        Qidirish
-      </p-button>
-      <a [routerLink]="['/map']" [queryParams]="queryService.activeQueryListWithoutDefault()"
-        class="map-action btn cursor-pointer py-[14px] w-full text-base border border-solid font-600 flex justify-center gap-2 px-0 rounded-lg">
-        <svg lucideMap [size]="21" aria-hidden="true"></svg>
-        Xaritada ko‘rish
-      </a>
-    </div>
+  </div>
+  <div class="filter-actions">
+    <button type="button" class="filter-actions__clear" [disabled]="loading"
+      (click)="clearFilterAction()">Tozalash</button>
+    <button type="button" class="filter-actions__apply primary-action" [disabled]="loading" (click)="filterSend()">
+      <svg lucideSearch [size]="18" aria-hidden="true"></svg>
+      Qidirish
+    </button>
   </div>
 </div>

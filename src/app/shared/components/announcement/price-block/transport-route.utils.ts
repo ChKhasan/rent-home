@@ -166,3 +166,12 @@ const coordinateDistanceMeters = (first: MapCoordinate, second: MapCoordinate) =
     Math.sqrt(Math.max(0, 1 - haversine)),
   );
 };
+
+export function routeLengthMeters(path: readonly MapCoordinate[]): number | null {
+  if (path.length < 2) return null;
+  let length = 0;
+  for (let index = 1; index < path.length; index++) {
+    length += coordinateDistanceMeters(path[index - 1], path[index]);
+  }
+  return length;
+}
