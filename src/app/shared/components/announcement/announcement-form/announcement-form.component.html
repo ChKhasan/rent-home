@@ -143,14 +143,36 @@
         <section *ngIf="currentStep === 2" class="step-content form-section form-grid">
           <div class="field">
             <label for="region">Viloyat*</label>
-            <p-select inputId="region" ariaLabel="Viloyat" class="w-full" styleClass="w-full" [options]="dictionaryService.regions"
-              formControlName="region" optionLabel="name" optionValue="id" (onChange)="onRegionChange($event.value)" />
+            <p-select inputId="region" ariaLabel="Viloyat" ariaFilterLabel="Viloyatni qidirish"
+              class="w-full" styleClass="w-full location-select" panelStyleClass="location-select-panel"
+              [options]="dictionaryService.regions" formControlName="region" optionLabel="name" optionValue="id"
+              placeholder="Viloyatni tanlang" filter filterBy="name" filterPlaceholder="Viloyatni qidiring"
+              [loading]="regionsLoading" [readonly]="regionsLoadError && !dictionaryService.regions.length"
+              [checkmark]="true" [resetFilterOnHide]="true" scrollHeight="320px" [appendTo]="'body'"
+              [overlayOptions]="{ autoZIndex: true, baseZIndex: 2000, responsive: { breakpoint: '640px', direction: 'bottom' } }"
+              emptyMessage="Viloyatlar topilmadi" emptyFilterMessage="Mos viloyat topilmadi"
+              (onChange)="onRegionChange($event.value)" />
+            <div *ngIf="regionsLoadError" class="dictionary-error">
+              <span>Viloyatlarni yuklab bo'lmadi.</span>
+              <button type="button" (click)="retryRegions()">Qayta urinish</button>
+            </div>
             <p *ngIf="ruleForm.controls.region.touched && ruleForm.controls.region.invalid" class="field-error">Viloyatni tanlang.</p>
           </div>
           <div class="field">
             <label for="district">Tuman*</label>
-            <p-select inputId="district" ariaLabel="Tuman" class="w-full" styleClass="w-full" [options]="dictionaryService.districts"
-              formControlName="district" optionLabel="name" optionValue="id" [disabled]="!ruleForm.controls.region.value" />
+            <p-select inputId="district" ariaLabel="Tuman" ariaFilterLabel="Tumanni qidirish"
+              class="w-full" styleClass="w-full location-select" panelStyleClass="location-select-panel"
+              [options]="dictionaryService.districts" formControlName="district" optionLabel="name" optionValue="id"
+              placeholder="Tumanni tanlang" filter filterBy="name" filterPlaceholder="Tumanni qidiring"
+              [loading]="districtsLoading"
+              [readonly]="!ruleForm.controls.region.value || districtsLoadError"
+              [checkmark]="true" [resetFilterOnHide]="true" scrollHeight="320px" [appendTo]="'body'"
+              [overlayOptions]="{ autoZIndex: true, baseZIndex: 2000, responsive: { breakpoint: '640px', direction: 'bottom' } }"
+              emptyMessage="Tumanlar topilmadi" emptyFilterMessage="Mos tuman topilmadi" />
+            <div *ngIf="districtsLoadError" class="dictionary-error">
+              <span>Tumanlarni yuklab bo'lmadi.</span>
+              <button type="button" (click)="retryDistricts()">Qayta urinish</button>
+            </div>
             <p *ngIf="ruleForm.controls.district.touched && ruleForm.controls.district.invalid" class="field-error">Tumanni tanlang.</p>
           </div>
           <div class="field form-span-2">

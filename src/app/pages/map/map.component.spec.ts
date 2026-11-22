@@ -1,6 +1,6 @@
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { HttpTestingController } from '@angular/common/http/testing';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 
 import { DEFAULT_MAP_CENTER, MAP_CITY, TOP_COLORS } from '@/core/constants/map';
 import { MapComponent } from './map.component';
@@ -39,8 +39,9 @@ describe('MapComponent', () => {
     expect(component.transports[0].stops).toBe('Guldirov');
     expect(component.listQueryParams['region']).toBe(99);
     http.expectOne((req) => req.url === '/api/announcement/' && req.params.get('map_region') === '99')
-      .flush({ count: 0, results: [] });
+      .flush({ count: 1, results: [{ id: 1, location_x: 41.3, location_y: 69.2 }] });
     expect(component.listingsLoaded).toBeTrue();
+    expect(component.mapCenter).toEqual(DEFAULT_MAP_CENTER);
   });
 
   it('draws a manually selected route while the listing query is still navigating', () => {
@@ -119,11 +120,14 @@ describe('MapComponent', () => {
     }));
     spyOn(requestService, 'requestData').and.returnValue(of({ routes: [] }));
     spyOn(queryService, 'updateCustomQuery').and.returnValue(Promise.resolve(true));
+    component.locationLoading = false;
+    component.selectedRegion = 3;
+    component.selectedDistrict = 4;
     component.destinationQuery = 'Bobur';
 
     component.searchCommuteDestination();
 
-    expect(requestService.getData).toHaveBeenCalledWith('/api/geocode/', { q: 'Bobur', city: MAP_CITY });
+    expect(requestService.getData).toHaveBeenCalledWith('/api/geocode/', { q: 'Bobur', city: MAP_CITY, region: 3, district: 4 });
     expect(component.destinationSuggestions).toEqual([{
       label: 'Bobur bog‘i, Marg‘ilon mahallasi',
       coordinates: [41.3426203, 69.2860672],
@@ -166,7 +170,7 @@ describe('MapComponent', () => {
     }]);
     expect(component.transports[0].color).toBe(TOP_COLORS[0]);
     expect(queryService.updateCustomQuery).toHaveBeenCalledWith(
-      { transports: ['101'] },
+      { transports: ['101'], announcement: null },
       component.__GET_ANNOUNCEMENTS,
     );
     expect(component.handleBusRoute).toHaveBeenCalledWith('101');
@@ -360,5 +364,60 @@ describe('MapComponent', () => {
     expect(requestService.getData).toHaveBeenCalled();
 
     expect(component.mapCenter).toEqual([41.3412, 69.2867]);
+  });
+
+  it('clears the old destination when the search district changes', () => {
+    const queryService = (component as any).queryService;
+    spyOn(queryService, 'updateCustomQuery').and.returnValue(Promise.resolve(true));
+    component.commuteDestination = {label: 'Eski manzil', coordinates: [41, 71.6]};
+    component.destinationSuggestions = [{label: 'Eski natija', coordinates: [41, 71.6]}];
+    component.districts = [{id: 17, name: 'Pop tumani', level: 2, parent: 3, map_center: [41, 70.833333]}];
+    component.handleDistrictChange(17);
+
+    expect(component.commuteDestination).toBeNull();
+    expect(component.destinationSuggestions).toEqual([]);
+    expect(component.mapCenter).toEqual([41, 70.833333]);
+    expect(queryService.updateCustomQuery).toHaveBeenCalledWith(
+      {region: 17, district: null, transports: null, announcement: null}, component.__GET_ANNOUNCEMENTS,
+    );
+  });
+
+  it('explains that an address was not found in the selected district', () => {
+    const requestService = (component as any).requestService;
+    spyOn(requestService, 'getData').and.returnValue(of({results: []}));
+    component.locationLoading = false;
+    component.destinationQuery = 'Mavjud bo‘lmagan joy';
+
+    component.searchCommuteDestination();
+
+    expect(component.commuteError).toContain('Tanlangan hududda');
+    expect(component.commuteError).toContain('topilmadi');
+  });
+
+  it('ignores a late listing response after the search area changes', () => {
+    const requestService = (component as any).requestService;
+    const oldResponse = new Subject<any>();
+    const currentResponse = new Subject<any>();
+    spyOn(requestService, 'getData').and.returnValues(oldResponse, currentResponse);
+
+    component.locationLoading = false;
+    component.__GET_ANNOUNCEMENTS();
+    component.selectedDistrict = 17;
+    component.__GET_ANNOUNCEMENTS();
+    currentResponse.next({count: 1, results: [{id: 2, location_x: 41, location_y: 70.833333}]});
+    oldResponse.next({count: 1, results: [{id: 1, location_x: 41.3, location_y: 69.2}]});
+
+    expect(component.announcements.map((item: any) => item.id)).toEqual([2]);
+  });
+
+  it('uses the parent region center when a district has no map coordinates', () => {
+    const queryService = (component as any).queryService;
+    spyOn(queryService, 'updateCustomQuery').and.returnValue(Promise.resolve(true));
+    component.regions = [{id: 1, name: 'Toshkent shahri', level: 1, parent: null, map_center: [41.3134, 69.287]}];
+    component.districts = [{id: 2, name: "Mirzo Ulug'bek", level: 2, parent: 1}];
+    component.selectedRegion = 1;
+    component.handleDistrictChange(2);
+
+    expect(component.mapCenter).toEqual([41.3134, 69.287]);
   });
 });

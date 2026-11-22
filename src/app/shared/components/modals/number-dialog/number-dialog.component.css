@@ -3,33 +3,77 @@
     0px 15px 24px 0px rgba(0, 0, 0, 0.08),
     0px -12px 14px 0px rgba(0, 0, 0, 0.14) inset;
 }
-:host ::ng-deep .p-dialog {
+:host ::ng-deep .number-dialog {
+  max-height: calc(100dvh - 24px);
   box-shadow: none;
 }
-:host ::ng-deep .p-dialog-content {
+:host ::ng-deep .number-dialog .p-dialog-content {
   padding: 40px;
+  overflow-y: auto;
 }
-:host ::ng-deep .p-inputmask {
-  border-radius: 8px;
-  border: 2px solid var(--input-stroke);
-  background: var(--gray-1);
+
+.phone-field {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+}
+
+.phone-control {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+:host ::ng-deep .number-dialog .phone-input {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
   height: 48px;
+  padding: 0 16px 0 68px;
+  border-radius: 8px;
+  border: 1px solid var(--border-strong);
+  background: var(--field-bg);
   font-family: var(--medium);
-  color: var(--dark-5);
-  width: 100%;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--text-primary);
 }
 
-:host ::ng-deep .mask-input .p-inputmask {
-  padding-left: 57px;
-}
-.number-style {
-  font-family: var(--medium);
-  color: var(--dark-5);
+:host ::ng-deep .number-dialog .phone-input:enabled:hover {
+  border-color: var(--text-muted);
 }
 
-.mask-input,
-.password-input {
-  border: none;
-  padding: 0;
-  width: 100%;
+:host ::ng-deep .number-dialog .phone-input:enabled:focus {
+  border-color: var(--action-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus-ring) 28%, transparent);
+}
+
+:host ::ng-deep .number-dialog .phone-control.ng-invalid.ng-dirty .phone-input {
+  border-color: var(--status-danger);
+}
+
+.phone-prefix {
+  position: absolute;
+  left: 16px;
+  top: 0;
+  z-index: 1;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  font-family: var(--medium);
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--text-primary);
+}
+
+@media (max-width: 575px) {
+  :host ::ng-deep .number-dialog .p-dialog-content {
+    padding: 24px;
+  }
+
+  .number-dialog-title {
+    font-size: 26px;
+  }
 }

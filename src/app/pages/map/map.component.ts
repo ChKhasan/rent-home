@@ -372,7 +372,7 @@ export class MapComponent implements OnInit, OnDestroy {
 
   searchCommuteDestination(): void {
     const query = this.destinationQuery.trim();
-    if (query.length < 3 || this.commuteLoading) {
+    if (query.length < 3 || this.commuteLoading || this.locationLoading) {
       if (query.length < 3) this.commuteError = 'Manzil yoki joy nomini kiriting.';
       return;
     }
@@ -392,7 +392,7 @@ export class MapComponent implements OnInit, OnDestroy {
         this.commuteLoading = false;
         const destinations = extractCommuteDestinations(result, query);
         if (destinations.length === 0) {
-          this.commuteError = 'Bu manzil topilmadi. Aniqroq nom yoki manzil kiriting.';
+          this.commuteError = 'Tanlangan hududda bu manzil topilmadi. Aniqroq nom yoki manzil kiriting.';
           return;
         }
         this.destinationSuggestions = destinations.map((destination) => {
@@ -538,6 +538,8 @@ export class MapComponent implements OnInit, OnDestroy {
 
   selectCommuteDestination(destination: CommuteDestination): void {
     if (this.commuteLoading) return;
+    this.deepLinkSubscription?.unsubscribe();
+    this.deepLinkedAnnouncement = null;
     this.panel = 'destination';
     this.sheetOpen = true;
     this.deepLinkSubscription?.unsubscribe();
@@ -1028,18 +1030,23 @@ export class MapComponent implements OnInit, OnDestroy {
     this.transports = [...this.transports];
 
     if (routeIds.length === 0) {
+      if (!this.transports.length) {
+        this.commuteError = 'Bu hudud uchun transport yo‘nalishlari hozircha mavjud emas.';
+        void this.queryService.updateCustomQuery({ transports: null, announcement: null }, this.__GET_ANNOUNCEMENTS);
+        return;
+      }
       this.announcements = [];
       this.announcementCount = 0;
       this.destinationRoutes = [];
       this.commuteError = response.geometry_available === false
         ? 'Yo‘nalish chiziqlari hozircha mavjud emas.'
         : 'Bu manzil yaqinidan to‘g‘ridan-to‘g‘ri transport topilmadi.';
-      void this.queryService.updateCustomQuery({ transports: null });
+      void this.queryService.updateCustomQuery({ transports: null, announcement: null });
       return;
     }
 
     this.routeTransports = routeIds;
-    void this.queryService.updateCustomQuery({ transports: routeIds }, this.__GET_ANNOUNCEMENTS).then(() => {
+    void this.queryService.updateCustomQuery({ transports: routeIds, announcement: null }, this.__GET_ANNOUNCEMENTS).then(() => {
       routeIds.forEach((routeId) => this.handleBusRoute(routeId));
     });
   }
