@@ -27,7 +27,7 @@
       <div class="map-panel__content">
         <section id="place-tools" class="place-tools" aria-labelledby="commute-search-title">
           <h2 id="commute-search-title">Qatnov manzili</h2>
-          <p class="place-help">Manzildan {{ commuteRadiusMeters }} m ichida o‘tadigan yo‘nalishlar.</p>
+          <p class="place-help">Manzildan {{ routeSearchRadiusMeters }} m ichida o‘tadigan yo‘nalishlar.</p>
           <form class="place-form" (ngSubmit)="searchCommuteDestination()">
             <label class="sr-only" for="commute-destination">Manzil yoki joy nomi</label>
             <div class="map-field">
@@ -254,9 +254,9 @@
             geometry: {
               type: 'Circle',
               coordinates: destination.coordinates,
-              radius: commuteRadiusMeters
+              radius: routeSearchRadiusMeters
             },
-            properties: { hintContent: 'Muhim manzil atrofida 200 m' }
+            properties: { hintContent: 'Muhim manzil atrofida ' + routeSearchRadiusMeters + ' m' }
           }" [options]="{
             fillColor: '#dc26261a',
             strokeColor: '#dc2626',
@@ -268,9 +268,9 @@
             geometry: {
               type: 'Circle',
               coordinates: currentAnnouce.geometry,
-              radius: homeRadiusMeters
+              radius: routeSearchRadiusMeters
             },
-            properties: { hintContent: 'Tanlangan uy atrofida 500 m' }
+            properties: { hintContent: 'Tanlangan uy atrofida ' + routeSearchRadiusMeters + ' m' }
           }" [options]="{
             fillColor: '#15803d14',
             strokeColor: '#15803d',
@@ -369,7 +369,7 @@
       <div class="home-connection-summary__heading">
         <div>
           <h2 id="map-announcement-title">Tanlangan uy</h2>
-          <p *ngIf="commuteDestination">Uy {{ homeRadiusMeters }} m · manzil {{ commuteRadiusMeters }} m</p>
+          <p *ngIf="commuteDestination">Uy va manzil atrofida {{ routeSearchRadiusMeters }} m</p>
         </div>
         <button type="button" aria-label="E'lon ma'lumotini yopish" title="Yopish"
           (click)="closeAnnouncementInfo()">

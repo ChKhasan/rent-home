@@ -149,8 +149,7 @@ export class MapComponent implements OnInit, OnDestroy {
   public announcementCount = 0;
   public activeMapRouteId: string | null = null;
   public hoveredMapRouteId: string | null = null;
-  public readonly commuteRadiusMeters = 200;
-  public readonly homeRadiusMeters = 500;
+  public readonly routeSearchRadiusMeters = 500;
   public readonly mapState: ymaps.IMapState = {
     controls: ['trafficControl', 'typeSelector', 'fullscreenControl'],
   };
@@ -984,7 +983,7 @@ export class MapComponent implements OnInit, OnDestroy {
           type: 'Point',
           coordinates: [destination.coordinates[1], destination.coordinates[0]],
         },
-        nearby: this.commuteRadiusMeters,
+        nearby: this.routeSearchRadiusMeters,
       },
     ).pipe(
       finalize(() => {
@@ -1072,7 +1071,7 @@ export class MapComponent implements OnInit, OnDestroy {
           type: 'Point',
           coordinates: [coordinates[1], coordinates[0]],
         },
-        nearby: this.homeRadiusMeters,
+        nearby: this.routeSearchRadiusMeters,
       },
     ).pipe(
       finalize(() => {

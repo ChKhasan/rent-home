@@ -102,7 +102,7 @@ describe('MapComponent', () => {
     expect(requestService.requestData).toHaveBeenCalledWith('/api/buses/', 'POST', {
       city: MAP_CITY,
       location: { type: 'Point', coordinates: [69.2867, 41.3412] },
-      nearby: 200,
+      nearby: 500,
     });
     expect(component.commuteDestination?.coordinates).toEqual([41.3412, 69.2867]);
     expect(component.selectingDestination).toBeFalse();
@@ -139,7 +139,7 @@ describe('MapComponent', () => {
     expect(requestService.requestData).toHaveBeenCalledWith('/api/buses/', 'POST', {
       city: MAP_CITY,
       location: { type: 'Point', coordinates: [69.2860672, 41.3426203] },
-      nearby: 200,
+      nearby: 500,
     });
     expect(component.commuteDestination).toEqual({
       label: 'Bobur bog‘i, Marg‘ilon mahallasi',
